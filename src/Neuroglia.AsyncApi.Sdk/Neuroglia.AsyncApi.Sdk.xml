@@ -1,0 +1,566 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Neuroglia.AsyncApi.Sdk</name>
+    </assembly>
+    <members>
+        <member name="T:Neuroglia.AsyncApi.Sdk.AmqpChannelType">
+            <summary>
+            Enumerates all supported AMQP channel types
+            </summary>
+        </member>
+        <member name="F:Neuroglia.AsyncApi.Sdk.AmqpChannelType.RoutingKey">
+            <summary>
+            Indicates a routing key based AMQP channel
+            </summary>
+        </member>
+        <member name="F:Neuroglia.AsyncApi.Sdk.AmqpChannelType.Queue">
+            <summary>
+            Indicates a queue based AMQP channel
+            </summary>
+        </member>
+        <member name="T:Neuroglia.AsyncApi.Sdk.AmqpExchangeType">
+            <summary>
+            Enumerates all supported AMQP exchange types
+            </summary>
+        </member>
+        <member name="F:Neuroglia.AsyncApi.Sdk.AmqpExchangeType.Topic">
+            <summary>
+            Indicates a topic AMQP exchange
+            </summary>
+        </member>
+        <member name="F:Neuroglia.AsyncApi.Sdk.AmqpExchangeType.Direct">
+            <summary>
+            Indicates a direct AMQP exchange
+            </summary>
+        </member>
+        <member name="F:Neuroglia.AsyncApi.Sdk.AmqpExchangeType.Fanout">
+            <summary>
+            Indicates a fanout AMQP exchange
+            </summary>
+        </member>
+        <member name="F:Neuroglia.AsyncApi.Sdk.AmqpExchangeType.Default">
+            <summary>
+            Indicates a default AMQP exchange
+            </summary>
+        </member>
+        <member name="F:Neuroglia.AsyncApi.Sdk.AmqpExchangeType.Headers">
+            <summary>
+            Indicates a headers AMQP exchange
+            </summary>
+        </member>
+        <member name="T:Neuroglia.AsyncApi.Sdk.HttpBindingOperationType">
+            <summary>
+            Enumerates all types of http binding operation types
+            </summary>
+        </member>
+        <member name="F:Neuroglia.AsyncApi.Sdk.HttpBindingOperationType.Request">
+            <summary>
+            Indicates a request
+            </summary>
+        </member>
+        <member name="F:Neuroglia.AsyncApi.Sdk.HttpBindingOperationType.Response">
+            <summary>
+            Indicates a response
+            </summary>
+        </member>
+        <member name="T:Neuroglia.AsyncApi.Sdk.HttpMethod">
+            <summary>
+            Enumerates all supported HTTP methods
+            </summary>
+        </member>
+        <member name="F:Neuroglia.AsyncApi.Sdk.HttpMethod.GET">
+            <summary>
+            Indicates the GET http method
+            </summary>
+        </member>
+        <member name="F:Neuroglia.AsyncApi.Sdk.HttpMethod.POST">
+            <summary>
+            Indicates the POST http method
+            </summary>
+        </member>
+        <member name="F:Neuroglia.AsyncApi.Sdk.HttpMethod.PUT">
+            <summary>
+            Indicates the PUT http method
+            </summary>
+        </member>
+        <member name="F:Neuroglia.AsyncApi.Sdk.HttpMethod.PATCH">
+            <summary>
+            Indicates the PATCH http method
+            </summary>
+        </member>
+        <member name="F:Neuroglia.AsyncApi.Sdk.HttpMethod.DELETE">
+            <summary>
+            Indicates the DELETE http method
+            </summary>
+        </member>
+        <member name="F:Neuroglia.AsyncApi.Sdk.HttpMethod.HEAD">
+            <summary>
+            Indicates the HEAD http method
+            </summary>
+        </member>
+        <member name="F:Neuroglia.AsyncApi.Sdk.HttpMethod.OPTIONS">
+            <summary>
+            Indicates the OPTIONS http method
+            </summary>
+        </member>
+        <member name="F:Neuroglia.AsyncApi.Sdk.HttpMethod.CONNECT">
+            <summary>
+            Indicates the CONNECT http method
+            </summary>
+        </member>
+        <member name="F:Neuroglia.AsyncApi.Sdk.HttpMethod.TRACE">
+            <summary>
+            Indicates the TRACE http method
+            </summary>
+        </member>
+        <member name="T:Neuroglia.AsyncApi.Sdk.Models.ApiInfo">
+            <summary>
+            Represents an object that provides metadata about the API. The metadata can be used by the clients if needed
+            </summary>
+        </member>
+        <member name="P:Neuroglia.AsyncApi.Sdk.Models.ApiInfo.Title">
+            <summary>
+            Gets/sets the title of the application
+            </summary>
+        </member>
+        <member name="P:Neuroglia.AsyncApi.Sdk.Models.ApiInfo.Version">
+            <summary>
+            Gets/sets the version of the application API (not to be confused with the specification version)
+            </summary>
+        </member>
+        <member name="P:Neuroglia.AsyncApi.Sdk.Models.ApiInfo.Description">
+            <summary>
+            Gets/sets a short description of the application. <see href="https://spec.commonmark.org/">CommonMark</see> syntax can be used for rich text representation.
+            </summary>
+        </member>
+        <member name="P:Neuroglia.AsyncApi.Sdk.Models.ApiInfo.TermsOfService">
+            <summary>
+            Gets/sets a <see cref="T:System.Uri"/> to the Terms of Service for the API.
+            </summary>
+        </member>
+        <member name="P:Neuroglia.AsyncApi.Sdk.Models.ApiInfo.Contact">
+            <summary>
+            Gets/sets the contact information for the exposed API.
+            </summary>
+        </member>
+        <member name="P:Neuroglia.AsyncApi.Sdk.Models.ApiInfo.License">
+            <summary>
+            Gets/sets the license information for the exposed API.
+            </summary>
+        </member>
+        <member name="M:Neuroglia.AsyncApi.Sdk.Models.ApiInfo.ToString">
+            <inheritdoc/>
+        </member>
+        <member name="T:Neuroglia.AsyncApi.Sdk.Models.AsyncApiDocument">
+            <summary>
+            Represents an <see href="https://www.asyncapi.com">Async API</see> document
+            </summary>
+        </member>
+        <member name="P:Neuroglia.AsyncApi.Sdk.Models.AsyncApiDocument.AsyncApi">
+            <summary>
+            Gets/sets the the AsyncAPI Specification version being used. It can be used by tooling Specifications and clients to interpret the version. 
+            </summary>
+            <remarks>
+            The structure shall be major.minor.patch, where patch versions must be compatible with the existing major.minor tooling. 
+            Typically patch versions will be introduced to address errors in the documentation, and tooling should typically be compatible with the corresponding major.minor (1.0.*). 
+            Patch versions will correspond to patches of this document.
+            </remarks>
+        </member>
+        <member name="P:Neuroglia.AsyncApi.Sdk.Models.AsyncApiDocument.Id">
+            <summary>
+            Gets/sets the identifier of the application the AsyncAPI document is defining.
+            </summary>
+        </member>
+        <member name="P:Neuroglia.AsyncApi.Sdk.Models.AsyncApiDocument.Info">
+            <summary>
+            Gets/sets the object that provides metadata about the API. The metadata can be used by the clients if needed. 
+            </summary>
+        </member>
+        <member name="M:Neuroglia.AsyncApi.Sdk.Models.AsyncApiDocument.ToString">
+            <inheritdoc/>
+        </member>
+        <member name="T:Neuroglia.AsyncApi.Sdk.Models.Bindings.Amqp.AmqpChannelBinding">
+            <summary>
+            Represents the object used to configure an AMQP channel binding
+            </summary>
+        </member>
+        <member name="P:Neuroglia.AsyncApi.Sdk.Models.Bindings.Amqp.AmqpChannelBinding.Type">
+            <summary>
+            Gets/sets AMQP channel's type
+            </summary>
+        </member>
+        <member name="P:Neuroglia.AsyncApi.Sdk.Models.Bindings.Amqp.AmqpChannelBinding.Exchange">
+            <summary>
+            Gets/sets the object used to configure the AMQP exchange, when <see cref="P:Neuroglia.AsyncApi.Sdk.Models.Bindings.Amqp.AmqpChannelBinding.Type"/> is set to <see cref="F:Neuroglia.AsyncApi.Sdk.AmqpChannelType.RoutingKey"/>
+            </summary>
+        </member>
+        <member name="P:Neuroglia.AsyncApi.Sdk.Models.Bindings.Amqp.AmqpChannelBinding.Queue">
+            <summary>
+            Gets/sets the object used to configure the AMQP queue, when <see cref="P:Neuroglia.AsyncApi.Sdk.Models.Bindings.Amqp.AmqpChannelBinding.Type"/> is set to <see cref="F:Neuroglia.AsyncApi.Sdk.AmqpChannelType.Queue"/>
+            </summary>
+        </member>
+        <member name="P:Neuroglia.AsyncApi.Sdk.Models.Bindings.Amqp.AmqpChannelBinding.BindingVersion">
+            <summary>
+            Gets/sets the version of this binding. Defaults to 'latest'.
+            </summary>
+        </member>
+        <member name="T:Neuroglia.AsyncApi.Sdk.Models.Bindings.Amqp.AmqpExchange">
+            <summary>
+            Represents the object used to configure an AMQP routing key based channel
+            </summary>
+        </member>
+        <member name="P:Neuroglia.AsyncApi.Sdk.Models.Bindings.Amqp.AmqpExchange.Name">
+            <summary>
+            Gets/sets the name of the exchange. It MUST NOT exceed 255 characters long.
+            </summary>
+        </member>
+        <member name="P:Neuroglia.AsyncApi.Sdk.Models.Bindings.Amqp.AmqpExchange.Type">
+            <summary>
+            Gets/sets the <see cref="T:Neuroglia.AsyncApi.Sdk.Models.Bindings.Amqp.AmqpExchange"/>'s type
+            </summary>
+        </member>
+        <member name="P:Neuroglia.AsyncApi.Sdk.Models.Bindings.Amqp.AmqpExchange.Durable">
+            <summary>
+            Gets/sets a boolean indicating whether the exchange should survive broker restarts or not.
+            </summary>
+        </member>
+        <member name="P:Neuroglia.AsyncApi.Sdk.Models.Bindings.Amqp.AmqpExchange.AutoDelete">
+            <summary>
+            Gets/sets a boolean indicating whether the exchange should be deleted when the last queue is unbound from it.
+            </summary>
+        </member>
+        <member name="P:Neuroglia.AsyncApi.Sdk.Models.Bindings.Amqp.AmqpExchange.VirtualHost">
+            <summary>
+            Gets/sets the virtual host of the exchange. Defaults to '/'.
+            </summary>
+        </member>
+        <member name="T:Neuroglia.AsyncApi.Sdk.Models.Bindings.Amqp.AmqpQueue">
+            <summary>
+            Represents the object used to configure an AMQP queue based channel
+            </summary>
+        </member>
+        <member name="P:Neuroglia.AsyncApi.Sdk.Models.Bindings.Amqp.AmqpQueue.Name">
+            <summary>
+            Gets/sets the name of the queue. It MUST NOT exceed 255 characters long.
+            </summary>
+        </member>
+        <member name="P:Neuroglia.AsyncApi.Sdk.Models.Bindings.Amqp.AmqpQueue.Durable">
+            <summary>
+            Gets/sets a boolean indicating whether the queue should survive broker restarts or not.
+            </summary>
+        </member>
+        <member name="P:Neuroglia.AsyncApi.Sdk.Models.Bindings.Amqp.AmqpQueue.Exclusive">
+            <summary>
+            Gets/sets a boolean indicating whether the queue should be used only by one connection or not.
+            </summary>
+        </member>
+        <member name="P:Neuroglia.AsyncApi.Sdk.Models.Bindings.Amqp.AmqpQueue.AutoDelete">
+            <summary>
+            Gets/sets a boolean indicating whether the queue should be deleted when the last queue is unbound from it.
+            </summary>
+        </member>
+        <member name="P:Neuroglia.AsyncApi.Sdk.Models.Bindings.Amqp.AmqpQueue.VirtualHost">
+            <summary>
+            Gets/sets the virtual host of the queue. Defaults to '/'.
+            </summary>
+        </member>
+        <member name="T:Neuroglia.AsyncApi.Sdk.Models.Bindings.Amqp.AmqpServerBinding">
+            <summary>
+            Represents the object used to configure an AMQP server binding
+            </summary>
+        </member>
+        <member name="T:Neuroglia.AsyncApi.Sdk.Models.Bindings.Http.HttpChannelBinding">
+            <summary>
+            Represents the object used to configure an http channel binding
+            </summary>
+        </member>
+        <member name="T:Neuroglia.AsyncApi.Sdk.Models.Bindings.Http.HttpMessageBinding">
+            <summary>
+            Represents the object used to configure an http message binding
+            </summary>
+        </member>
+        <member name="P:Neuroglia.AsyncApi.Sdk.Models.Bindings.Http.HttpMessageBinding.Headers">
+            <summary>
+            Gets/sets a <see cref="T:Newtonsoft.Json.Schema.JSchema"/> containing the definitions for HTTP-specific headers. This schema MUST be of type object and have a properties key.
+            </summary>
+        </member>
+        <member name="P:Neuroglia.AsyncApi.Sdk.Models.Bindings.Http.HttpMessageBinding.BindingVersion">
+            <summary>
+            Gets/sets the version of this binding. Defaults to 'latest'.
+            </summary>
+        </member>
+        <member name="T:Neuroglia.AsyncApi.Sdk.Models.Bindings.Http.HttpOperationBinding">
+            <summary>
+            Represents the object used to configure an http operation binding
+            </summary>
+        </member>
+        <member name="P:Neuroglia.AsyncApi.Sdk.Models.Bindings.Http.HttpOperationBinding.Type">
+            <summary>
+            Gets/sets the binding's operation type
+            </summary>
+        </member>
+        <member name="P:Neuroglia.AsyncApi.Sdk.Models.Bindings.Http.HttpOperationBinding.Method">
+            <summary>
+            Gets/sets the binding's method
+            </summary>
+        </member>
+        <member name="P:Neuroglia.AsyncApi.Sdk.Models.Bindings.Http.HttpOperationBinding.Query">
+            <summary>
+            Gets/sets a <see cref="T:Newtonsoft.Json.Schema.JSchema"/> containing the definitions for each query parameter. This schema MUST be of type object and have a properties key.
+            </summary>
+        </member>
+        <member name="P:Neuroglia.AsyncApi.Sdk.Models.Bindings.Http.HttpOperationBinding.BindingVersion">
+            <summary>
+            Gets/sets the version of this binding. Defaults to 'latest'.
+            </summary>
+        </member>
+        <member name="T:Neuroglia.AsyncApi.Sdk.Models.Bindings.Http.HttpServerBinding">
+            <summary>
+            Represents the object used to configure an http server binding
+            </summary>
+        </member>
+        <member name="T:Neuroglia.AsyncApi.Sdk.Models.Bindings.IChannelBinding">
+            <summary>
+            Defines the fundamentals of a channel binding
+            </summary>
+        </member>
+        <member name="T:Neuroglia.AsyncApi.Sdk.Models.Bindings.IMessageBinding">
+            <summary>
+            Defines the fundamentals of a message binding
+            </summary>
+        </member>
+        <member name="T:Neuroglia.AsyncApi.Sdk.Models.Bindings.IOperationBinding">
+            <summary>
+            Defines the fundamentals of an operation binding
+            </summary>
+        </member>
+        <member name="T:Neuroglia.AsyncApi.Sdk.Models.Bindings.IServerBinding">
+            <summary>
+            Defines the fundamentals of a server binding
+            </summary>
+        </member>
+        <member name="T:Neuroglia.AsyncApi.Sdk.Models.Bindings.Kafka.KafkaChannelBinding">
+            <summary>
+            Represents the object used to configure a Kafka channel binding
+            </summary>
+        </member>
+        <member name="T:Neuroglia.AsyncApi.Sdk.Models.Bindings.Kafka.KafkaMessageBinding">
+            <summary>
+            Represents the object used to configure a Kafka message binding
+            </summary>
+        </member>
+        <member name="P:Neuroglia.AsyncApi.Sdk.Models.Bindings.Kafka.KafkaMessageBinding.Key">
+            <summary>
+            Gets/sets a <see cref="T:Newtonsoft.Json.Schema.JSchema"/> that defines the message key.
+            </summary>
+        </member>
+        <member name="P:Neuroglia.AsyncApi.Sdk.Models.Bindings.Kafka.KafkaMessageBinding.BindingVersion">
+            <summary>
+            Gets/sets the version of this binding. Defaults to 'latest'.
+            </summary>
+        </member>
+        <member name="T:Neuroglia.AsyncApi.Sdk.Models.Bindings.Kafka.KafkaOperationBinding">
+            <summary>
+            Represents the object used to configure a Kafka operation binding
+            </summary>
+        </member>
+        <member name="P:Neuroglia.AsyncApi.Sdk.Models.Bindings.Kafka.KafkaOperationBinding.GroupId">
+            <summary>
+            Gets/sets the <see cref="T:Newtonsoft.Json.Schema.JSchema"/> of the consumer group.
+            </summary>
+        </member>
+        <member name="P:Neuroglia.AsyncApi.Sdk.Models.Bindings.Kafka.KafkaOperationBinding.ClientId">
+            <summary>
+            Gets/sets the <see cref="T:Newtonsoft.Json.Schema.JSchema"/> of the consumer inside a consumer group.
+            </summary>
+        </member>
+        <member name="P:Neuroglia.AsyncApi.Sdk.Models.Bindings.Kafka.KafkaOperationBinding.BindingVersion">
+            <summary>
+            Gets/sets the version of this binding. Defaults to 'latest'.
+            </summary>
+        </member>
+        <member name="T:Neuroglia.AsyncApi.Sdk.Models.Bindings.Kafka.KafkaServerBinding">
+            <summary>
+            Represents the object used to configure a Kafka server binding
+            </summary>
+        </member>
+        <member name="T:Neuroglia.AsyncApi.Sdk.Models.Bindings.WebSockets.WsChannelBinding">
+            <summary>
+            Represents the object used to configure an WebSocket channel binding
+            </summary>
+        </member>
+        <member name="P:Neuroglia.AsyncApi.Sdk.Models.Bindings.WebSockets.WsChannelBinding.Type">
+            <summary>
+            Gets/sets the <see cref="T:Neuroglia.AsyncApi.Sdk.Models.Bindings.WebSockets.WsChannelBinding"/>'s operation type
+            </summary>
+        </member>
+        <member name="P:Neuroglia.AsyncApi.Sdk.Models.Bindings.WebSockets.WsChannelBinding.Query">
+            <summary>
+            Gets/sets a <see cref="T:Newtonsoft.Json.Schema.JSchema"/> containing the definitions for each query parameter. This schema MUST be of type object and have a properties key.
+            </summary>
+        </member>
+        <member name="P:Neuroglia.AsyncApi.Sdk.Models.Bindings.WebSockets.WsChannelBinding.Headers">
+            <summary>
+            Gets/sets a <see cref="T:Newtonsoft.Json.Schema.JSchema"/> containing the definitions for HTTP-specific headers. This schema MUST be of type object and have a properties key.
+            </summary>
+        </member>
+        <member name="P:Neuroglia.AsyncApi.Sdk.Models.Bindings.WebSockets.WsChannelBinding.BindingVersion">
+            <summary>
+            Gets/sets the version of this binding. Defaults to 'latest'.
+            </summary>
+        </member>
+        <member name="T:Neuroglia.AsyncApi.Sdk.Models.Bindings.WebSockets.WsMessageBinding">
+            <summary>
+            Represents the object used to configure a WebSocket message binding
+            </summary>
+        </member>
+        <member name="T:Neuroglia.AsyncApi.Sdk.Models.Bindings.WebSockets.WsOperationBinding">
+            <summary>
+            Represents the object used to configure a WebSocket operation binding
+            </summary>
+        </member>
+        <member name="T:Neuroglia.AsyncApi.Sdk.Models.Bindings.WebSockets.WsServerBinding">
+            <summary>
+            Represents the object used to configure an WebSocket server binding
+            </summary>
+        </member>
+        <member name="T:Neuroglia.AsyncApi.Sdk.Models.Contact">
+            <summary>
+            Represents an object used to provide contact information for the exposed API
+            </summary>
+        </member>
+        <member name="P:Neuroglia.AsyncApi.Sdk.Models.Contact.Name">
+            <summary>
+            Gets/sets the identifying name of the contact person/organization.
+            </summary>
+        </member>
+        <member name="P:Neuroglia.AsyncApi.Sdk.Models.Contact.Url">
+            <summary>
+            Gets/sets the <see cref="T:System.Uri"/> pointing to the contact information.
+            </summary>
+        </member>
+        <member name="P:Neuroglia.AsyncApi.Sdk.Models.Contact.Email">
+            <summary>
+            Gets/sets the <see cref="T:System.Uri"/> pointing to the contact information.
+            </summary>
+        </member>
+        <member name="T:Neuroglia.AsyncApi.Sdk.Models.License">
+            <summary>
+            Represents an object used to provide license information for the exposed API
+            </summary>
+        </member>
+        <member name="P:Neuroglia.AsyncApi.Sdk.Models.License.Name">
+            <summary>
+            Gets/sets the license name used for the API.
+            </summary>
+        </member>
+        <member name="P:Neuroglia.AsyncApi.Sdk.Models.License.Url">
+            <summary>
+            Gets/sets the <see cref="T:System.Uri"/> to the license used for the API.
+            </summary>
+        </member>
+        <member name="T:Neuroglia.AsyncApi.Sdk.Models.Server">
+            <summary>
+            Represents an object used to describe a message broker, a server or any other kind of computer program capable of sending and/or receiving data.
+            </summary>
+            <remarks>
+            This object is used to capture details such as URIs, protocols and security configuration. 
+            Variable substitution can be used so that some details, for example usernames and passwords, can be injected by code generation tools.
+            </remarks>
+        </member>
+        <member name="P:Neuroglia.AsyncApi.Sdk.Models.Server.Url">
+            <summary>
+            Gets/sets the <see cref="T:System.Uri"/> pointing to the contact information.
+            </summary>
+        </member>
+        <member name="P:Neuroglia.AsyncApi.Sdk.Models.Server.Protocol">
+            <summary>
+            Gets/sets the protocol this URL supports for connection. 
+            Supported protocol include, but are not limited to: amqp, amqps, http, https, ibmmq, jms, kafka, kafka-secure, mqtt, secure-mqtt, stomp, stomps, ws, wss, mercure.
+            </summary>
+        </member>
+        <member name="P:Neuroglia.AsyncApi.Sdk.Models.Server.ProtocolVersion">
+            <summary>
+            Gets/sets the version of the protocol used for connection. For instance: AMQP 0.9.1, HTTP 2.0, Kafka 1.0.0, etc.
+            </summary>
+        </member>
+        <member name="P:Neuroglia.AsyncApi.Sdk.Models.Server.Description">
+            <summary>
+            Gets/sets an optional string describing the host designated by the URL. <see href="https://spec.commonmark.org/">CommonMark</see> syntax MAY be used for rich text representation.
+            </summary>
+        </member>
+        <member name="P:Neuroglia.AsyncApi.Sdk.Models.Server.Variables">
+            <summary>
+            Gets/sets an optional string describing the host designated by the URL. <see href="https://spec.commonmark.org/">CommonMark</see> syntax MAY be used for rich text representation.
+            </summary>
+        </member>
+        <member name="P:Neuroglia.AsyncApi.Sdk.Models.Server.Security">
+            <summary>
+            Gets/sets an <see cref="T:System.Collections.Generic.IList`1"/> of values that represent alternative security requirement objects that can be used. 
+            Only one of the security requirement objects need to be satisfied to authorize a connection or operation. 
+            </summary>
+        </member>
+        <member name="P:Neuroglia.AsyncApi.Sdk.Models.Server.Bindings">
+            <summary>
+            Gets/sets an object used to configure the <see cref="T:Neuroglia.AsyncApi.Sdk.Models.Server"/>'s <see cref="T:Neuroglia.AsyncApi.Sdk.Models.Bindings.IServerBinding"/>s
+            </summary>
+        </member>
+        <member name="M:Neuroglia.AsyncApi.Sdk.Models.Server.ToString">
+            <inheritdoc/>
+        </member>
+        <member name="T:Neuroglia.AsyncApi.Sdk.Models.ServerBindingCollection">
+            <summary>
+            Represents the object used to configure a <see cref="T:Neuroglia.AsyncApi.Sdk.Models.Server"/>'s <see cref="T:Neuroglia.AsyncApi.Sdk.Models.Bindings.IServerBinding"/>s
+            </summary>
+        </member>
+        <member name="P:Neuroglia.AsyncApi.Sdk.Models.ServerBindingCollection.Http">
+            <summary>
+            Gets/sets the protocol-specific information for an HTTP server.
+            </summary>
+        </member>
+        <member name="P:Neuroglia.AsyncApi.Sdk.Models.ServerBindingCollection.Ws">
+            <summary>
+            Gets/sets the protocol-specific information for an WebSockets server.
+            </summary>
+        </member>
+        <member name="P:Neuroglia.AsyncApi.Sdk.Models.ServerBindingCollection.Kafka">
+            <summary>
+            Gets/sets the protocol-specific information for a Kafka server.
+            </summary>
+        </member>
+        <member name="P:Neuroglia.AsyncApi.Sdk.Models.ServerBindingCollection.Amqp">
+            <summary>
+            Gets/sets the protocol-specific information for an AMQP 0-9-1 server.
+            </summary>
+        </member>
+        <member name="M:Neuroglia.AsyncApi.Sdk.Models.ServerBindingCollection.GetEnumerator">
+            <inheritdoc/>
+        </member>
+        <member name="T:Neuroglia.AsyncApi.Sdk.Models.Variable">
+            <summary>
+            Represents an object used to describe a Server Variable for server URL template substitution.
+            </summary>
+        </member>
+        <member name="P:Neuroglia.AsyncApi.Sdk.Models.Variable.Enum">
+            <summary>
+            Gets/sets an <see cref="T:System.Collections.Generic.IEnumerable`1"/> of values to be used if the substitution options are from a limited set.
+            </summary>
+        </member>
+        <member name="P:Neuroglia.AsyncApi.Sdk.Models.Variable.Default">
+            <summary>
+            Gets/sets the default value to use for substitution, and to send, if an alternate value is not supplied.
+            </summary>
+        </member>
+        <member name="P:Neuroglia.AsyncApi.Sdk.Models.Variable.Description">
+            <summary>
+            Gets/sets an optional string describing the server variable. <see href="https://spec.commonmark.org/">CommonMark</see> syntax MAY be used for rich text representation.
+            </summary>
+        </member>
+        <member name="P:Neuroglia.AsyncApi.Sdk.Models.Variable.Examples">
+            <summary>
+            Gets/sets an <see cref="T:System.Collections.Generic.IEnumerable`1"/> of examples of the server variable.
+            </summary>
+        </member>
+    </members>
+</doc>
