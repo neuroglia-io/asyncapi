@@ -18,11 +18,4 @@
     <PackageReference Include="YamlDotNet" Version="11.2.1" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Models\Bindings\Mqtt\" />
-    <Folder Include="Models\Bindings\Mqtt5\" />
-    <Folder Include="Models\Bindings\Nats\" />
-    <Folder Include="Models\Bindings\Redis\" />
-  </ItemGroup>
-
 </Project>

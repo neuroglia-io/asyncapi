@@ -1,8 +1,28 @@
-﻿using Neuroglia.AsyncApi.Sdk.Models.Bindings;
+﻿/*
+ * Copyright © 2021 Neuroglia SPRL. All rights reserved.
+ * <p>
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ * <p>
+ * http://www.apache.org/licenses/LICENSE-2.0
+ * <p>
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ *
+ */
+using Neuroglia.AsyncApi.Sdk.Models.Bindings;
 using Neuroglia.AsyncApi.Sdk.Models.Bindings.Amqp;
 using Neuroglia.AsyncApi.Sdk.Models.Bindings.AmqpV1;
 using Neuroglia.AsyncApi.Sdk.Models.Bindings.Http;
 using Neuroglia.AsyncApi.Sdk.Models.Bindings.Kafka;
+using Neuroglia.AsyncApi.Sdk.Models.Bindings.Mqtt;
+using Neuroglia.AsyncApi.Sdk.Models.Bindings.Mqtt5;
+using Neuroglia.AsyncApi.Sdk.Models.Bindings.Nats;
+using Neuroglia.AsyncApi.Sdk.Models.Bindings.Redis;
 using Neuroglia.AsyncApi.Sdk.Models.Bindings.WebSockets;
 using System.Collections;
 using System.Collections.Generic;
@@ -10,7 +30,7 @@ using System.Collections.Generic;
 namespace Neuroglia.AsyncApi.Sdk.Models
 {
     /// <summary>
-    /// Represents the object used to configure a <see cref="Server"/>'s <see cref="IServerBinding"/>s
+    /// Represents the object used to configure a <see cref="ServerDefinition"/>'s <see cref="IServerBinding"/>s
     /// </summary>
     public class ServerBindingCollection
         : IEnumerable<IServerBinding>
@@ -70,7 +90,7 @@ namespace Neuroglia.AsyncApi.Sdk.Models
         [Newtonsoft.Json.JsonProperty("mqtt5")]
         [YamlDotNet.Serialization.YamlMember(Alias = "mqtt5")]
         [System.Text.Json.Serialization.JsonPropertyName("mqtt5")]
-        public virtual Mqtt5ServerBinding Mqtt5 { get; set; }
+        public virtual MqttV5ServerBinding Mqtt5 { get; set; }
 
         /// <summary>
         /// Gets/sets the protocol-specific information for an information for a NATS server.

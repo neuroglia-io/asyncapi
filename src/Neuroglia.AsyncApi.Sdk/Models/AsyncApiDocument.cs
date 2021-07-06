@@ -1,4 +1,20 @@
-﻿using System.Collections.Generic;
+﻿/*
+ * Copyright © 2021 Neuroglia SPRL. All rights reserved.
+ * <p>
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ * <p>
+ * http://www.apache.org/licenses/LICENSE-2.0
+ * <p>
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ *
+ */
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
 namespace Neuroglia.AsyncApi.Sdk.Models
@@ -39,7 +55,7 @@ namespace Neuroglia.AsyncApi.Sdk.Models
         [Newtonsoft.Json.JsonProperty("info")]
         [YamlDotNet.Serialization.YamlMember(Alias = "info")]
         [System.Text.Json.Serialization.JsonPropertyName("info")]
-        public virtual ApiInfo Info { get; set; }
+        public virtual ApiDefinition Info { get; set; }
 
         /// <summary>
         /// Gets/sets a <see cref="Dictionary{TKey, TValue}"/> containing name/configuration mappings for the application's servers
@@ -47,12 +63,29 @@ namespace Neuroglia.AsyncApi.Sdk.Models
         [Newtonsoft.Json.JsonProperty("servers")]
         [YamlDotNet.Serialization.YamlMember(Alias = "servers")]
         [System.Text.Json.Serialization.JsonPropertyName("servers")]
-        public virtual Dictionary<string, Server> Servers { get; set; }
+        public virtual Dictionary<string, ServerDefinition> Servers { get; set; }
+
+        /// <summary>
+        /// Gets/sets the default content type to use when encoding/decoding a message's payload.
+        /// </summary>
+        [Newtonsoft.Json.JsonProperty("defaultContentType")]
+        [YamlDotNet.Serialization.YamlMember(Alias = "defaultContentType")]
+        [System.Text.Json.Serialization.JsonPropertyName("defaultContentType")]
+        public virtual string DefaultContentType { get; set; }
+
+        /// <summary>
+        /// Gets/sets a collection containing the available channels and messages for the API.
+        /// </summary>
+        [Required, MinLength(1)]
+        [Newtonsoft.Json.JsonProperty("channels")]
+        [YamlDotNet.Serialization.YamlMember(Alias = "channels")]
+        [System.Text.Json.Serialization.JsonPropertyName("channels")]
+        public virtual Dictionary<string, ChannelDefinition> Channels { get; set; }
 
         /// <inheritdoc/>
         public override string ToString()
         {
-            return this.Id;
+            return this.Info == null || string.IsNullOrWhiteSpace(this.Info.Title) ? this.Id : this.Info?.Title;
         }
 
     }
