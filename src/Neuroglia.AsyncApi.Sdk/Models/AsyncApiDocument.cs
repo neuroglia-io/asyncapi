@@ -38,7 +38,7 @@ namespace Neuroglia.AsyncApi.Sdk.Models
         [Newtonsoft.Json.JsonProperty("asyncapi")]
         [YamlDotNet.Serialization.YamlMember(Alias = "asyncapi")]
         [System.Text.Json.Serialization.JsonPropertyName("asyncapi")]
-        public virtual string AsyncApi { get; set; }
+        public virtual string AsyncApi { get; set; } = "2.1.0";
 
         /// <summary>
         /// Gets/sets the identifier of the application the AsyncAPI document is defining.
@@ -81,6 +81,30 @@ namespace Neuroglia.AsyncApi.Sdk.Models
         [YamlDotNet.Serialization.YamlMember(Alias = "channels")]
         [System.Text.Json.Serialization.JsonPropertyName("channels")]
         public virtual Dictionary<string, ChannelDefinition> Channels { get; set; }
+
+        /// <summary>
+        /// Gets/sets an object used to hold various schemas for the specification.
+        /// </summary>
+        [Newtonsoft.Json.JsonProperty("components")]
+        [YamlDotNet.Serialization.YamlMember(Alias = "components")]
+        [System.Text.Json.Serialization.JsonPropertyName("components")]
+        public virtual ComponentCollection Components { get; set; }
+
+        /// <summary>
+        /// Gets/sets a <see cref="List{T}"/> of tags used by the specification with additional metadata. Each tag name in the list MUST be unique.
+        /// </summary>
+        [Newtonsoft.Json.JsonProperty("tags")]
+        [YamlDotNet.Serialization.YamlMember(Alias = "tags")]
+        [System.Text.Json.Serialization.JsonPropertyName("tags")]
+        public virtual List<TagDefinition> Tags { get; set; }
+
+        /// <summary>
+        /// Gets/sets a <see cref="List{T}"/> containing additional external documentation.
+        /// </summary>
+        [Newtonsoft.Json.JsonProperty("externalDocs")]
+        [YamlDotNet.Serialization.YamlMember(Alias = "externalDocs")]
+        [System.Text.Json.Serialization.JsonPropertyName("externalDocs")]
+        public virtual List<ExternalDocumentationDefinition> ExternalDocs { get; set; }
 
         /// <inheritdoc/>
         public override string ToString()

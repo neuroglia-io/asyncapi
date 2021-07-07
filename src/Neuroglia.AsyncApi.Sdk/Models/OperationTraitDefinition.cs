@@ -23,6 +23,7 @@ namespace Neuroglia.AsyncApi.Sdk.Models
     /// Represents an object used to define a Async API operation trait
     /// </summary>
     public class OperationTraitDefinition
+        : ReferenceableComponent
     {
 
         /// <summary>
@@ -50,7 +51,7 @@ namespace Neuroglia.AsyncApi.Sdk.Models
         public virtual string Description { get; set; }
 
         /// <summary>
-        /// gets/sets a <see cref="List{T}"/> of tags for API documentation control. Tags can be used for logical grouping of operations.
+        /// Gets/sets a <see cref="List{T}"/> of tags for API documentation control. Tags can be used for logical grouping of operations.
         /// </summary>
         [Newtonsoft.Json.JsonProperty("tags")]
         [YamlDotNet.Serialization.YamlMember(Alias = "tags")]
@@ -66,12 +67,12 @@ namespace Neuroglia.AsyncApi.Sdk.Models
         public virtual List<ExternalDocumentationDefinition> ExternalDocs { get; set; }
 
         /// <summary>
-        /// Gets/sets an object used to configure the <see cref="OperationTraitDefinition"/>'s <see cref="IOperationBinding"/>s
+        /// Gets/sets an object used to configure the <see cref="OperationTraitDefinition"/>'s <see cref="IOperationBindingDefinition"/>s
         /// </summary>
         [Newtonsoft.Json.JsonProperty("bindings")]
         [YamlDotNet.Serialization.YamlMember(Alias = "bindings")]
         [System.Text.Json.Serialization.JsonPropertyName("bindings")]
-        public virtual OperationBindingCollection Bindings { get; set; }
+        public virtual OperationBindingDefinitionCollection Bindings { get; set; }
 
         /// <inheritdoc/>
         public override string ToString()

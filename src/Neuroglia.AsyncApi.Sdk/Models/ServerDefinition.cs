@@ -87,12 +87,12 @@ namespace Neuroglia.AsyncApi.Sdk.Models
         public virtual Dictionary<string, JObject> Security { get; set; }
 
         /// <summary>
-        /// Gets/sets an object used to configure the <see cref="ServerDefinition"/>'s <see cref="IServerBinding"/>s
+        /// Gets/sets an object used to configure the <see cref="ServerDefinition"/>'s <see cref="IServerBindingDefinition"/>s
         /// </summary>
         [Newtonsoft.Json.JsonProperty("bindings")]
         [YamlDotNet.Serialization.YamlMember(Alias = "bindings")]
         [System.Text.Json.Serialization.JsonPropertyName("bindings")]
-        public virtual ServerBindingCollection Bindings { get; set; }
+        public virtual ServerBindingDefinitionCollection Bindings { get; set; }
 
         /// <inheritdoc/>
         public override string ToString()

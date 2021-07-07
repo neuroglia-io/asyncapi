@@ -19,10 +19,12 @@ using System.ComponentModel.DataAnnotations;
 
 namespace Neuroglia.AsyncApi.Sdk.Models
 {
+
     /// <summary>
     /// Represents an object used to define an Async API parameter
     /// </summary>
     public class ParameterDefinition
+        : ReferenceableComponent
     {
 
         /// <summary>

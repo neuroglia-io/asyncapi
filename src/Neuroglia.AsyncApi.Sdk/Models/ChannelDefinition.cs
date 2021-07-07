@@ -24,15 +24,8 @@ namespace Neuroglia.AsyncApi.Sdk.Models
     /// Represents an object used to define an Async API channel
     /// </summary>
     public class ChannelDefinition
+        : ReferenceableComponent
     {
-
-        /// <summary>
-        /// Gets/sets an an external definition of this channel item. The referenced structure MUST be in the format of a Channel Item Object. If there are conflicts between the referenced definition and this Channel Item's definition, the behavior is undefined.
-        /// </summary>
-        [Newtonsoft.Json.JsonProperty("$ref")]
-        [YamlDotNet.Serialization.YamlMember(Alias = "$ref")]
-        [System.Text.Json.Serialization.JsonPropertyName("$ref")]
-        public virtual string Reference { get; set; }
 
         /// <summary>
         /// Gets/sets an optional description of this channel item. <see href="https://spec.commonmark.org/">CommonMark</see> syntax can be used for rich text representation.
@@ -67,12 +60,12 @@ namespace Neuroglia.AsyncApi.Sdk.Models
         public virtual Dictionary<string, ParameterDefinition> Parameters { get; set; }
 
         /// <summary>
-        /// Gets/sets an object used to configure the <see cref="ChannelDefinition"/>'s <see cref="IChannelBinding"/>s
+        /// Gets/sets an object used to configure the <see cref="ChannelDefinition"/>'s <see cref="IChannelBindingDefinition"/>s
         /// </summary>
         [Newtonsoft.Json.JsonProperty("bindings")]
         [YamlDotNet.Serialization.YamlMember(Alias = "bindings")]
         [System.Text.Json.Serialization.JsonPropertyName("bindings")]
-        public virtual MessageBindingCollection Bindings { get; set; }
+        public virtual MessageBindingDefinitionCollection Bindings { get; set; }
 
     }
 

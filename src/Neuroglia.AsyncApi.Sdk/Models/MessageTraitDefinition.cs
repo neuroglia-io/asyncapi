@@ -25,6 +25,7 @@ namespace Neuroglia.AsyncApi.Sdk.Models
     /// Represents an object used to define a Async API operation message trait
     /// </summary>
     public class MessageTraitDefinition
+        : ReferenceableComponent
     {
 
         /// <summary>
@@ -110,12 +111,12 @@ namespace Neuroglia.AsyncApi.Sdk.Models
         public virtual List<ExternalDocumentationDefinition> ExternalDocs { get; set; }
 
         /// <summary>
-        /// Gets/sets an object used to configure the <see cref="MessageTraitDefinition"/>'s <see cref="IOperationBinding"/>s
+        /// Gets/sets an object used to configure the <see cref="MessageTraitDefinition"/>'s <see cref="IOperationBindingDefinition"/>s
         /// </summary>
         [Newtonsoft.Json.JsonProperty("bindings")]
         [YamlDotNet.Serialization.YamlMember(Alias = "bindings")]
         [System.Text.Json.Serialization.JsonPropertyName("bindings")]
-        public virtual MessageBindingCollection Bindings { get; set; }
+        public virtual MessageBindingDefinitionCollection Bindings { get; set; }
 
         /// <summary>
         /// Gets/sets an <see cref="IDictionary{TKey, TValue}"/> where keys MUST be either headers and/or payload. 

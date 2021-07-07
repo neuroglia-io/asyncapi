@@ -22,6 +22,7 @@ namespace Neuroglia.AsyncApi.Sdk.Models
     /// Represents an object used to define an Async API correlation ID
     /// </summary>
     public class CorrelationIdDefinition
+        : ReferenceableComponent
     {
 
         /// <summary>
