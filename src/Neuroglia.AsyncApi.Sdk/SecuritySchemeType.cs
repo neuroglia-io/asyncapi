@@ -21,6 +21,8 @@ namespace Neuroglia.AsyncApi.Sdk
     /// <summary>
     /// Enumerates all supported security schemes
     /// </summary>
+    [Newtonsoft.Json.JsonConverter(typeof(Newtonsoft.Json.Converters.StringEnumConverter))]
+    [System.Text.Json.Serialization.JsonConverter(typeof(System.Text.Json.Serialization.Converters.StringEnumConverterFactory))]
     public enum SecuritySchemeType
     {
         [EnumMember(Value = "userPassword")]

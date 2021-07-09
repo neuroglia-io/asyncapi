@@ -20,22 +20,22 @@ namespace Neuroglia.AsyncApi.Sdk
 {
 
     /// <summary>
-    /// Enumerates all types of http binding operation types
+    /// Enumerates all Async API document formats
     /// </summary>
     [Newtonsoft.Json.JsonConverter(typeof(Newtonsoft.Json.Converters.StringEnumConverter))]
     [System.Text.Json.Serialization.JsonConverter(typeof(System.Text.Json.Serialization.Converters.StringEnumConverterFactory))]
-    public enum HttpBindingOperationType
+    public enum AsyncApiDocumentFormat
     {
         /// <summary>
-        /// Indicates a request
+        /// Indicates YAML
         /// </summary>
-        [EnumMember(Value = "request")]
-        Request,
+        [EnumMember(Value = "yaml")]
+        Yaml,
         /// <summary>
-        /// Indicates a response
+        /// Indicates JSON
         /// </summary>
-        [EnumMember(Value = "response")]
-        Response
+        [EnumMember(Value = "json")]
+        Json
     }
 
 }

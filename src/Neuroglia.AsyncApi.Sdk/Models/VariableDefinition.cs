@@ -49,12 +49,12 @@ namespace Neuroglia.AsyncApi.Sdk.Models
         public virtual string Description { get; set; }
 
         /// <summary>
-        /// Gets/sets an <see cref="IEnumerable{T}"/> of examples of the server variable.
+        /// Gets/sets an <see cref="List{T}"/> of examples of the server variable.
         /// </summary>
         [Newtonsoft.Json.JsonProperty("examples")]
         [YamlDotNet.Serialization.YamlMember(Alias = "examples")]
         [System.Text.Json.Serialization.JsonPropertyName("examples")]
-        public virtual IEnumerable<string> Examples { get; set; }
+        public virtual List<string> Examples { get; set; }
 
     }
 

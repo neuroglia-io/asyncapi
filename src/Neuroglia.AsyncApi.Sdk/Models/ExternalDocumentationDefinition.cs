@@ -27,7 +27,7 @@ namespace Neuroglia.AsyncApi.Sdk.Models
     {
 
         /// <summary>
-        /// Gets/sets an optional description of this channel item. <see href="https://spec.commonmark.org/">CommonMark</see> syntax can be used for rich text representation.
+        /// Gets/sets an optional description of this documentation. <see href="https://spec.commonmark.org/">CommonMark</see> syntax can be used for rich text representation.
         /// </summary>
         [Newtonsoft.Json.JsonProperty("description")]
         [YamlDotNet.Serialization.YamlMember(Alias = "description")]

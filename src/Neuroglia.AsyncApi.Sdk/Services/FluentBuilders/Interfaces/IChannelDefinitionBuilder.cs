@@ -14,28 +14,22 @@
  * limitations under the License.
  *
  */
-using System.Runtime.Serialization;
+using Neuroglia.AsyncApi.Sdk.Models;
 
-namespace Neuroglia.AsyncApi.Sdk
+namespace Neuroglia.AsyncApi.Sdk.Services.FluentBuilders
 {
-
     /// <summary>
-    /// Enumerates all types of http binding operation types
+    /// Defines the fundamentals of a service used to build <see cref="ChannelDefinition"/>s
     /// </summary>
-    [Newtonsoft.Json.JsonConverter(typeof(Newtonsoft.Json.Converters.StringEnumConverter))]
-    [System.Text.Json.Serialization.JsonConverter(typeof(System.Text.Json.Serialization.Converters.StringEnumConverterFactory))]
-    public enum HttpBindingOperationType
+    public interface IChannelDefinitionBuilder
     {
+
         /// <summary>
-        /// Indicates a request
+        /// Builds a new <see cref="ChannelDefinition"/>
         /// </summary>
-        [EnumMember(Value = "request")]
-        Request,
-        /// <summary>
-        /// Indicates a response
-        /// </summary>
-        [EnumMember(Value = "response")]
-        Response
+        /// <returns>A new <see cref="ChannelDefinition"/></returns>
+        ChannelDefinition Build();
+
     }
 
 }

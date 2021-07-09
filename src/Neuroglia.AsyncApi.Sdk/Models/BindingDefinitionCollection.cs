@@ -33,13 +33,35 @@ namespace Neuroglia.AsyncApi.Sdk.Models
         where TBinding : IBindingDefinition
     {
 
-        private List<PropertyInfo> _BindingProperties;
+        private List<PropertyInfo> _BindingProperties = new();
+        private List<PropertyInfo> BindingProperties
+        {
+            get
+            {
+                if (this._BindingProperties == null)
+                    this._BindingProperties = this.GetType().GetProperties().Where(p => typeof(TBinding).IsAssignableFrom(p.PropertyType)).ToList();
+                return this._BindingProperties;
+            }
+        }
+
+        /// <summary>
+        /// Adds the specified <see cref="IBindingDefinition"/> to the <see cref="BindingDefinitionCollection{TBinding}"/>
+        /// </summary>
+        /// <param name="binding">The <see cref="IBindingDefinition"/> to add</param>
+        public virtual void Add(TBinding binding)
+        {
+            if (binding == null)
+                throw new ArgumentNullException(nameof(binding));
+            PropertyInfo property = this.BindingProperties.FirstOrDefault(p => p.PropertyType.IsAssignableFrom(binding.GetType()));
+            if (property == null)
+                throw new InvalidOperationException($"Failed to find a binding property of the specified type '{typeof(TBinding).Name}'");
+            property.SetValue(this, binding);
+        }
+
         /// <inheritdoc/>
         public IEnumerator<TBinding> GetEnumerator()
         {
-            if (this._BindingProperties == null)
-                this._BindingProperties = this.GetType().GetProperties().Where(p => typeof(TBinding).IsAssignableFrom(p.PropertyType)).ToList();
-            foreach(PropertyInfo property in this._BindingProperties)
+            foreach(PropertyInfo property in this.BindingProperties)
             {
                 TBinding binding = (TBinding)property.GetValue(this, Array.Empty<object>());
                 if (binding != null)
