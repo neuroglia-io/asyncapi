@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <doc>
     <assembly>
-        <name>Neuroglia.AsyncApi</name>
+        <name>Neuroglia.AsyncApi.Core</name>
     </assembly>
     <members>
         <member name="T:Neuroglia.AsyncApi.AmqpChannelType">
