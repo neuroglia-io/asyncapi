@@ -15,6 +15,7 @@
  *
  */
 using Neuroglia.AsyncApi.Sdk.Models;
+using Newtonsoft.Json.Schema;
 using System;
 
 namespace Neuroglia.AsyncApi.Sdk.Services.FluentBuilders
@@ -57,7 +58,7 @@ namespace Neuroglia.AsyncApi.Sdk.Services.FluentBuilders
         /// <summary>
         /// Configures the <see cref="AsyncApiDocument"/> to use the specified API description
         /// </summary>
-        /// <param name="description">The version of the Async Api document to build</param>
+        /// <param name="description">The description of the Async Api document to build</param>
         /// <returns>The configured <see cref="IAsyncApiDocumentBuilder"/></returns>
         IAsyncApiDocumentBuilder WithDescription(string description);
 
@@ -97,31 +98,151 @@ namespace Neuroglia.AsyncApi.Sdk.Services.FluentBuilders
         /// </summary>
         /// <param name="setup">An <see cref="Action{T}"/> used to setup the tag to use</param>
         /// <returns>The configured <see cref="IAsyncApiDocumentBuilder"/></returns>
-        IAsyncApiDocumentBuilder TagWith(Action<ITagDefinitionBuilder> setup);
+        IAsyncApiDocumentBuilder TagWith(Action<ITagBuilder> setup);
 
         /// <summary>
         /// Adds the specified external documentation to the <see cref="AsyncApiDocument"/> to build
         /// </summary>
         /// <param name="uri">The <see cref="Uri"/> to the documentation to add</param>
         /// <param name="description">The description of the documentation to add</param>
-        /// <returns>The configured <see cref="ITagDefinitionBuilder"/></returns>
+        /// <returns>The configured <see cref="IAsyncApiDocumentBuilder"/></returns>
         IAsyncApiDocumentBuilder DocumentWith(Uri uri, string description = null);
 
         /// <summary>
-        /// Adds the specified <see cref="ServerDefinition"/> to the <see cref="AsyncApiDocument"/> to build
+        /// Adds the specified <see cref="Server"/> to the <see cref="AsyncApiDocument"/> to build
         /// </summary>
-        /// <param name="name">The name of the <see cref="ServerDefinition"/> to add</param>
-        /// <param name="setup">An <see cref="Action{T}"/> used to setup the <see cref="ServerDefinition"/> to add</param>
-        /// <returns>The configured <see cref="ITagDefinitionBuilder"/></returns>
-        IAsyncApiDocumentBuilder AddServer(string name, Action<IServerDefinitionBuilder> setup);
+        /// <param name="name">The name of the <see cref="Server"/> to add</param>
+        /// <param name="setup">An <see cref="Action{T}"/> used to setup the <see cref="Server"/> to add</param>
+        /// <returns>The configured <see cref="IAsyncApiDocumentBuilder"/></returns>
+        IAsyncApiDocumentBuilder UseServer(string name, Action<IServerBuilder> setup);
 
         /// <summary>
-        /// Adds the specified <see cref="ChannelDefinition"/> to the <see cref="AsyncApiDocument"/> to build
+        /// Adds the specified <see cref="Channel"/> to the <see cref="AsyncApiDocument"/> to build
         /// </summary>
-        /// <param name="name">The name of the <see cref="ChannelDefinition"/> to add</param>
-        /// <param name="setup">An <see cref="Action{T}"/> used to setup the <see cref="ChannelDefinition"/> to add</param>
-        /// <returns>The configured <see cref="ITagDefinitionBuilder"/></returns>
-        IAsyncApiDocumentBuilder AddChannel(string name, Action<IChannelDefinitionBuilder> setup);
+        /// <param name="name">The name of the <see cref="Channel"/> to add</param>
+        /// <param name="setup">An <see cref="Action{T}"/> used to setup the <see cref="Channel"/> to add</param>
+        /// <returns>The configured <see cref="IAsyncApiDocumentBuilder"/></returns>
+        IAsyncApiDocumentBuilder UseChannel(string name, Action<IChannelBuilder> setup);
+
+        /// <summary>
+        /// Adds the specified <see cref="JSchema"/>
+        /// </summary>
+        /// <param name="name">The name of the <see cref="JSchema"/> to add</param>
+        /// <param name="schema">The <see cref="JSchema"/> to add</param>
+        /// <returns>The configured <see cref="IAsyncApiDocumentBuilder"/></returns>
+        IAsyncApiDocumentBuilder AddSchema(string name, JSchema schema);
+
+        /// <summary>
+        /// Adds the specified <see cref="Message"/>
+        /// </summary>
+        /// <param name="name">The name of the <see cref="Message"/> to add</param>
+        /// <param name="message">The <see cref="Message"/> to add</param>
+        /// <returns>The configured <see cref="IAsyncApiDocumentBuilder"/></returns>
+        IAsyncApiDocumentBuilder AddMessage(string name, Message message);
+
+        /// <summary>
+        /// Adds the specified <see cref="Message"/>
+        /// </summary>
+        /// <param name="name">The name of the <see cref="Message"/> to add</param>
+        /// <param name="setup">An <see cref="Action{T}"/> used to setup the <see cref="Message"/> to add</param>
+        /// <returns>The configured <see cref="IAsyncApiDocumentBuilder"/></returns>
+        IAsyncApiDocumentBuilder AddMessage(string name, Action<IMessageBuilder> setup);
+
+        /// <summary>
+        /// Adds the specified <see cref="SecurityScheme"/>
+        /// </summary>
+        /// <param name="name">The name of the <see cref="SecurityScheme"/> to add</param>
+        /// <param name="scheme">The <see cref="SecurityScheme"/> to add</param>
+        /// <returns>The configured <see cref="IAsyncApiDocumentBuilder"/></returns>
+        IAsyncApiDocumentBuilder AddSecurityScheme(string name, SecurityScheme scheme);
+
+        /// <summary>
+        /// Adds the specified <see cref="Parameter"/>
+        /// </summary>
+        /// <param name="name">The name of the <see cref="Parameter"/> to add</param>
+        /// <param name="parameter">The <see cref="Parameter"/> to add</param>
+        /// <returns>The configured <see cref="IAsyncApiDocumentBuilder"/></returns>
+        IAsyncApiDocumentBuilder AddParameter(string name, Parameter parameter);
+
+        /// <summary>
+        /// Adds the specified <see cref="Parameter"/>
+        /// </summary>
+        /// <param name="name">The name of the <see cref="Parameter"/> to add</param>
+        /// <param name="setup">An <see cref="Action{T}"/> used to setup the <see cref="Parameter"/> to add</param>
+        /// <returns>The configured <see cref="IAsyncApiDocumentBuilder"/></returns>
+        IAsyncApiDocumentBuilder AddParameter(string name, Action<IParameterBuilder> setup);
+
+        /// <summary>
+        /// Adds the specified <see cref="CorrelationId"/>
+        /// </summary>
+        /// <param name="name">The name of the <see cref="CorrelationId"/> to add</param>
+        /// <param name="correlationId">The <see cref="CorrelationId"/> to add</param>
+        /// <returns>The configured <see cref="IAsyncApiDocumentBuilder"/></returns>
+        IAsyncApiDocumentBuilder AddCorrelationId(string name, CorrelationId correlationId);
+
+        /// <summary>
+        /// Adds the specified <see cref="OperationTrait"/>
+        /// </summary>
+        /// <param name="name">The name of the <see cref="OperationTrait"/> to add</param>
+        /// <param name="trait">The <see cref="OperationTrait"/> to add</param>
+        /// <returns>The configured <see cref="IAsyncApiDocumentBuilder"/></returns>
+        IAsyncApiDocumentBuilder AddOperationTrait(string name, OperationTrait trait);
+
+        /// <summary>
+        /// Adds the specified <see cref="OperationTrait"/>
+        /// </summary>
+        /// <param name="name">The name of the <see cref="OperationTrait"/> to add</param>
+        /// <param name="setup">An <see cref="Action{T}"/> used to setup the <see cref="OperationTrait"/> to add</param>
+        /// <returns>The configured <see cref="IAsyncApiDocumentBuilder"/></returns>
+        IAsyncApiDocumentBuilder AddOperationTrait(string name, Action<IOperationTraitBuilder> setup);
+
+        /// <summary>
+        /// Adds the specified <see cref="MessageTrait"/>
+        /// </summary>
+        /// <param name="name">The name of the <see cref="MessageTrait"/> to add</param>
+        /// <param name="trait">The <see cref="MessageTrait"/> to add</param>
+        /// <returns>The configured <see cref="IAsyncApiDocumentBuilder"/></returns>
+        IAsyncApiDocumentBuilder AddMessageTrait(string name, MessageTrait trait);
+
+        /// <summary>
+        /// Adds the specified <see cref="MessageTrait"/>
+        /// </summary>
+        /// <param name="name">The name of the <see cref="MessageTrait"/> to add</param>
+        /// <param name="setup">An <see cref="Action{T}"/> used to setup the <see cref="MessageTrait"/> to add</param>
+        /// <returns>The configured <see cref="IAsyncApiDocumentBuilder"/></returns>
+        IAsyncApiDocumentBuilder AddMessageTrait(string name, Action<IMessageTraitBuilder> setup);
+
+        /// <summary>
+        /// Adds the specified <see cref="ServerBindingCollection"/>
+        /// </summary>
+        /// <param name="name">The name of the <see cref="ServerBindingCollection"/> to add</param>
+        /// <param name="bindings">The <see cref="ServerBindingCollection"/> to add</param>
+        /// <returns>The configured <see cref="IAsyncApiDocumentBuilder"/></returns>
+        IAsyncApiDocumentBuilder AddServerBinding(string name, ServerBindingCollection bindings);
+
+        /// <summary>
+        /// Adds the specified <see cref="ChannelBindingCollection"/>
+        /// </summary>
+        /// <param name="name">The name of the <see cref="ChannelBindingCollection"/> to add</param>
+        /// <param name="bindings">The <see cref="ChannelBindingCollection"/> to add</param>
+        /// <returns>The configured <see cref="IAsyncApiDocumentBuilder"/></returns>
+        IAsyncApiDocumentBuilder AddChannelBinding(string name, ChannelBindingCollection bindings);
+
+        /// <summary>
+        /// Adds the specified <see cref="OperationBindingCollection"/>
+        /// </summary>
+        /// <param name="name">The name of the <see cref="OperationBindingCollection"/> to add</param>
+        /// <param name="bindings">The <see cref="OperationBindingCollection"/> to add</param>
+        /// <returns>The configured <see cref="IAsyncApiDocumentBuilder"/></returns>
+        IAsyncApiDocumentBuilder AddOperationBinding(string name, OperationBindingCollection bindings);
+
+        /// <summary>
+        /// Adds the specified <see cref="MessageBindingCollection"/>
+        /// </summary>
+        /// <param name="name">The name of the <see cref="MessageBindingCollection"/> to add</param>
+        /// <param name="bindings">The <see cref="MessageBindingCollection"/> to add</param>
+        /// <returns>The configured <see cref="IAsyncApiDocumentBuilder"/></returns>
+        IAsyncApiDocumentBuilder AddMessageBinding(string name, MessageBindingCollection bindings);
 
         /// <summary>
         /// Builds a new <see cref="AsyncApiDocument"/>

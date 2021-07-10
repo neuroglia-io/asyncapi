@@ -18,6 +18,8 @@ using FluentValidation;
 using FluentValidation.Results;
 using Microsoft.Extensions.DependencyInjection;
 using Neuroglia.AsyncApi.Sdk.Models;
+using Neuroglia.AsyncApi.Sdk.Models.Bindings;
+using Newtonsoft.Json.Schema;
 using SemVersion;
 using System;
 using System.Collections.Generic;
@@ -25,6 +27,7 @@ using System.Linq;
 
 namespace Neuroglia.AsyncApi.Sdk.Services.FluentBuilders
 {
+
     /// <summary>
     /// Represents the default implementation of the <see cref="IAsyncApiDocumentBuilder"/>
     /// </summary>
@@ -56,7 +59,7 @@ namespace Neuroglia.AsyncApi.Sdk.Services.FluentBuilders
         /// <summary>
         /// Gets the <see cref="AsyncApiDocument"/> to configure
         /// </summary>
-        protected virtual AsyncApiDocument Document => new AsyncApiDocument();
+        protected virtual AsyncApiDocument Document { get; } = new();
 
         /// <inheritdoc/>
         public virtual IAsyncApiDocumentBuilder UseAsyncApi(string version)
@@ -144,13 +147,13 @@ namespace Neuroglia.AsyncApi.Sdk.Services.FluentBuilders
         }
 
         /// <inheritdoc/>
-        public virtual IAsyncApiDocumentBuilder TagWith(Action<ITagDefinitionBuilder> setup)
+        public virtual IAsyncApiDocumentBuilder TagWith(Action<ITagBuilder> setup)
         {
             if (setup == null)
                 throw new ArgumentNullException(nameof(setup));
             if (this.Document.Tags == null)
                 this.Document.Tags = new();
-            ITagDefinitionBuilder builder = ActivatorUtilities.CreateInstance<TagDefinitionBuilder>(this.ServiceProvider);
+            ITagBuilder builder = ActivatorUtilities.CreateInstance<TagBuilder>(this.ServiceProvider);
             setup(builder);
             this.Document.Tags.Add(builder.Build());
             return this;
@@ -168,7 +171,7 @@ namespace Neuroglia.AsyncApi.Sdk.Services.FluentBuilders
         }
 
         /// <inheritdoc/>
-        public virtual IAsyncApiDocumentBuilder AddServer(string name, Action<IServerDefinitionBuilder> setup)
+        public virtual IAsyncApiDocumentBuilder UseServer(string name, Action<IServerBuilder> setup)
         {
             if (string.IsNullOrWhiteSpace(name))
                 throw new ArgumentNullException(nameof(name));
@@ -176,14 +179,14 @@ namespace Neuroglia.AsyncApi.Sdk.Services.FluentBuilders
                 throw new ArgumentNullException(nameof(setup));
             if (this.Document.Servers == null)
                 this.Document.Servers = new();
-            IServerDefinitionBuilder builder = ActivatorUtilities.CreateInstance<ServerDefinitionBuilder>(this.ServiceProvider);
+            IServerBuilder builder = ActivatorUtilities.CreateInstance<ServerBuilder>(this.ServiceProvider);
             setup(builder);
             this.Document.Servers.Add(name, builder.Build());
             return this;
         }
 
         /// <inheritdoc/>
-        public virtual IAsyncApiDocumentBuilder AddChannel(string name, Action<IChannelDefinitionBuilder> setup)
+        public virtual IAsyncApiDocumentBuilder UseChannel(string name, Action<IChannelBuilder> setup)
         {
             if (string.IsNullOrWhiteSpace(name))
                 throw new ArgumentNullException(nameof(name));
@@ -191,9 +194,218 @@ namespace Neuroglia.AsyncApi.Sdk.Services.FluentBuilders
                 throw new ArgumentNullException(nameof(setup));
             if (this.Document.Channels == null)
                 this.Document.Channels = new();
-            IChannelDefinitionBuilder builder = ActivatorUtilities.CreateInstance<ChannelDefinitionBuilder>(this.ServiceProvider);
+            IChannelBuilder builder = ActivatorUtilities.CreateInstance<ChannelBuilder>(this.ServiceProvider);
             setup(builder);
             this.Document.Channels.Add(name, builder.Build());
+            return this;
+        }
+
+        /// <inheritdoc/>
+        public virtual IAsyncApiDocumentBuilder AddSchema(string name, JSchema schema)
+        {
+            if (string.IsNullOrWhiteSpace(name))
+                throw new ArgumentNullException(nameof(name));
+            if (schema == null)
+                throw new ArgumentNullException(nameof(schema));
+
+            return this;
+        }
+
+        /// <inheritdoc/>
+        public virtual IAsyncApiDocumentBuilder AddMessage(string name, Message message)
+        {
+            if (string.IsNullOrWhiteSpace(name))
+                throw new ArgumentNullException(nameof(name));
+            if(message == null)
+                throw new ArgumentNullException(nameof(message));
+            if (this.Document.Components == null)
+                this.Document.Components = new();
+            if (this.Document.Components.Messages == null)
+                this.Document.Components.Messages = new();
+            this.Document.Components.Messages.Add(name, message);
+            return this;
+        }
+
+        /// <inheritdoc/>
+        public virtual IAsyncApiDocumentBuilder AddMessage(string name, Action<IMessageBuilder> setup)
+        {
+            if (string.IsNullOrWhiteSpace(name))
+                throw new ArgumentNullException(nameof(name));
+            if (setup == null)
+                throw new ArgumentNullException(nameof(setup));
+            IMessageBuilder builder = ActivatorUtilities.CreateInstance<MessageBuilder>(this.ServiceProvider);
+            setup(builder);
+            return this.AddMessage(name, builder.Build());
+        }
+
+        /// <inheritdoc/>
+        public virtual IAsyncApiDocumentBuilder AddSecurityScheme(string name, SecurityScheme scheme)
+        {
+            if (string.IsNullOrWhiteSpace(name))
+                throw new ArgumentNullException(nameof(name));
+            if (scheme == null)
+                throw new ArgumentNullException(nameof(scheme));
+            if (this.Document.Components == null)
+                this.Document.Components = new();
+            if (this.Document.Components.SecuritySchemes == null)
+                this.Document.Components.SecuritySchemes = new();
+            this.Document.Components.SecuritySchemes.Add(name, scheme);
+            return this;
+        }
+
+        /// <inheritdoc/>
+        public virtual IAsyncApiDocumentBuilder AddParameter(string name, Parameter parameter)
+        {
+            if (string.IsNullOrWhiteSpace(name))
+                throw new ArgumentNullException(nameof(name));
+            if (parameter == null)
+                throw new ArgumentNullException(nameof(parameter));
+            if (this.Document.Components == null)
+                this.Document.Components = new();
+            if (this.Document.Components.Parameters == null)
+                this.Document.Components.Parameters = new();
+            this.Document.Components.Parameters.Add(name, parameter);
+            return this;
+        }
+
+        /// <inheritdoc/>
+        public virtual IAsyncApiDocumentBuilder AddParameter(string name, Action<IParameterBuilder> setup)
+        {
+            if (string.IsNullOrWhiteSpace(name))
+                throw new ArgumentNullException(nameof(name));
+            if (setup == null)
+                throw new ArgumentNullException(nameof(setup));
+            IParameterBuilder builder = ActivatorUtilities.CreateInstance<ParameterBuilder>(this.ServiceProvider);
+            setup(builder);
+            return this.AddParameter(name, builder.Build());
+        }
+
+        /// <inheritdoc/>
+        public virtual IAsyncApiDocumentBuilder AddCorrelationId(string name, CorrelationId correlationId)
+        {
+            if (string.IsNullOrWhiteSpace(name))
+                throw new ArgumentNullException(nameof(name));
+            if (correlationId == null)
+                throw new ArgumentNullException(nameof(correlationId));
+            if (this.Document.Components == null)
+                this.Document.Components = new();
+            if (this.Document.Components.CorrelationIds == null)
+                this.Document.Components.CorrelationIds = new();
+            this.Document.Components.CorrelationIds.Add(name, correlationId);
+            return this;
+        }
+
+        /// <inheritdoc/>
+        public virtual IAsyncApiDocumentBuilder AddOperationTrait(string name, OperationTrait trait)
+        {
+            if (string.IsNullOrWhiteSpace(name))
+                throw new ArgumentNullException(nameof(name));
+            if (trait == null)
+                throw new ArgumentNullException(nameof(trait));
+            if (this.Document.Components == null)
+                this.Document.Components = new();
+            if (this.Document.Components.OperationTraits == null)
+                this.Document.Components.OperationTraits = new();
+            this.Document.Components.OperationTraits.Add(name, trait);
+            return this;
+        }
+
+        /// <inheritdoc/>
+        public virtual IAsyncApiDocumentBuilder AddOperationTrait(string name, Action<IOperationTraitBuilder> setup)
+        {
+            if (string.IsNullOrWhiteSpace(name))
+                throw new ArgumentNullException(nameof(name));
+            if (setup == null)
+                throw new ArgumentNullException(nameof(setup));
+            IOperationTraitBuilder builder = ActivatorUtilities.CreateInstance<OperationTraitBuilder>(this.ServiceProvider);
+            setup(builder);
+            return this.AddOperationTrait(name, builder.Build());
+        }
+
+        /// <inheritdoc/>
+        public virtual IAsyncApiDocumentBuilder AddMessageTrait(string name, MessageTrait trait)
+        {
+            if (string.IsNullOrWhiteSpace(name))
+                throw new ArgumentNullException(nameof(name));
+            if (trait == null)
+                throw new ArgumentNullException(nameof(trait));
+            if (this.Document.Components == null)
+                this.Document.Components = new();
+            if (this.Document.Components.MessageTraits == null)
+                this.Document.Components.MessageTraits = new();
+            this.Document.Components.MessageTraits.Add(name, trait);
+            return this;
+        }
+
+        /// <inheritdoc/>
+        public virtual IAsyncApiDocumentBuilder AddMessageTrait(string name, Action<IMessageTraitBuilder> setup)
+        {
+            if (string.IsNullOrWhiteSpace(name))
+                throw new ArgumentNullException(nameof(name));
+            if (setup == null)
+                throw new ArgumentNullException(nameof(setup));
+            IMessageTraitBuilder builder = ActivatorUtilities.CreateInstance<MessageTraitBuilder>(this.ServiceProvider);
+            setup(builder);
+            return this.AddMessageTrait(name, builder.Build());
+        }
+
+        /// <inheritdoc/>
+        public virtual IAsyncApiDocumentBuilder AddServerBinding(string name, ServerBindingCollection bindings)
+        {
+            if (string.IsNullOrWhiteSpace(name))
+                throw new ArgumentNullException(nameof(name));
+            if (bindings == null)
+                throw new ArgumentNullException(nameof(bindings));
+            if (this.Document.Components == null)
+                this.Document.Components = new();
+            if (this.Document.Components.ServerBindings == null)
+                this.Document.Components.ServerBindings = new();
+            this.Document.Components.ServerBindings.Add(name, bindings);
+            return this;
+        }
+
+        /// <inheritdoc/>
+        public virtual IAsyncApiDocumentBuilder AddChannelBinding(string name, ChannelBindingCollection bindings)
+        {
+            if (string.IsNullOrWhiteSpace(name))
+                throw new ArgumentNullException(nameof(name));
+            if (bindings == null)
+                throw new ArgumentNullException(nameof(bindings));
+            if (this.Document.Components == null)
+                this.Document.Components = new();
+            if (this.Document.Components.ChannelBindings == null)
+                this.Document.Components.ChannelBindings = new();
+            this.Document.Components.ChannelBindings.Add(name, bindings);
+            return this;
+        }
+
+        /// <inheritdoc/>
+        public virtual IAsyncApiDocumentBuilder AddOperationBinding(string name, OperationBindingCollection bindings)
+        {
+            if (string.IsNullOrWhiteSpace(name))
+                throw new ArgumentNullException(nameof(name));
+            if (bindings == null)
+                throw new ArgumentNullException(nameof(bindings));
+            if (this.Document.Components == null)
+                this.Document.Components = new();
+            if (this.Document.Components.OperationBindings == null)
+                this.Document.Components.OperationBindings = new();
+            this.Document.Components.OperationBindings.Add(name, bindings);
+            return this;
+        }
+
+        /// <inheritdoc/>
+        public virtual IAsyncApiDocumentBuilder AddMessageBinding(string name, MessageBindingCollection bindings)
+        {
+            if (string.IsNullOrWhiteSpace(name))
+                throw new ArgumentNullException(nameof(name));
+            if (bindings == null)
+                throw new ArgumentNullException(nameof(bindings));
+            if (this.Document.Components == null)
+                this.Document.Components = new();
+            if (this.Document.Components.MessageBindings == null)
+                this.Document.Components.MessageBindings = new();
+            this.Document.Components.MessageBindings.Add(name, bindings);
             return this;
         }
 

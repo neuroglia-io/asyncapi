@@ -23,7 +23,7 @@ namespace Neuroglia.AsyncApi.Sdk
     /// Enumerates all types of http binding operation types
     /// </summary>
     [Newtonsoft.Json.JsonConverter(typeof(Newtonsoft.Json.Converters.StringEnumConverter))]
-    [System.Text.Json.Serialization.JsonConverter(typeof(System.Text.Json.Serialization.Converters.StringEnumConverterFactory))]
+    [System.Text.Json.Serialization.JsonConverter(typeof(System.Text.Json.Serialization.StringEnumConverterFactory))]
     public enum HttpBindingOperationType
     {
         /// <summary>

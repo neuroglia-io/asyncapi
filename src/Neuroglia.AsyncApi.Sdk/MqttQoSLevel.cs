@@ -23,7 +23,7 @@ namespace Neuroglia.AsyncApi.Sdk
     /// Enumerates all supported MQTT Quality of Service types
     /// </summary>
     [Newtonsoft.Json.JsonConverter(typeof(Newtonsoft.Json.Converters.StringEnumConverter))]
-    [System.Text.Json.Serialization.JsonConverter(typeof(System.Text.Json.Serialization.Converters.StringEnumConverterFactory))]
+    [System.Text.Json.Serialization.JsonConverter(typeof(System.Text.Json.Serialization.StringEnumConverterFactory))]
     public enum MqttQoSLevel
     {
         /// <summary>

@@ -13,9 +13,10 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="FluentValidation" Version="10.3.0" />
+    <PackageReference Include="FluentValidation.DependencyInjectionExtensions" Version="10.3.0" />
     <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="5.0.0" />
     <PackageReference Include="Microsoft.Extensions.Http" Version="5.0.0" />
+    <PackageReference Include="Neuroglia.Core" Version="2.0.0.3" />
     <PackageReference Include="Neuroglia.Serialization.Json" Version="2.0.0" />
     <PackageReference Include="Neuroglia.Serialization.NewtonsoftJson" Version="2.0.0" />
     <PackageReference Include="Neuroglia.Serialization.YamlDotNet" Version="2.0.0.2" />
@@ -23,10 +24,6 @@
     <PackageReference Include="Newtonsoft.Json.Schema" Version="3.0.14" />
     <PackageReference Include="SemanticVersion" Version="2.1.0" />
     <PackageReference Include="YamlDotNet" Version="11.2.1" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Services\Validation\" />
   </ItemGroup>
 
 </Project>

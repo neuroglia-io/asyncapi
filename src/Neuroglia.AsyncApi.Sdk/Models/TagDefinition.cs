@@ -48,7 +48,7 @@ namespace Neuroglia.AsyncApi.Sdk.Models
         [Newtonsoft.Json.JsonProperty("externalDocs")]
         [YamlDotNet.Serialization.YamlMember(Alias = "externalDocs")]
         [System.Text.Json.Serialization.JsonPropertyName("externalDocs")]
-        public virtual List<ExternalDocumentationDefinition> ExternalDocs { get; set; }
+        public virtual List<ExternalDocumentation> ExternalDocs { get; set; }
 
         /// <inheritdoc/>
         public override string ToString()

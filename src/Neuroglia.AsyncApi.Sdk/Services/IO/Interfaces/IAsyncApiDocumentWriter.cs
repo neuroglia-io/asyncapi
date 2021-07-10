@@ -16,6 +16,8 @@
  */
 using Neuroglia.AsyncApi.Sdk.Models;
 using System.IO;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace Neuroglia.AsyncApi.Sdk.Services.IO
 {
@@ -31,8 +33,9 @@ namespace Neuroglia.AsyncApi.Sdk.Services.IO
         /// <param name="document">The <see cref="AsyncApiDocument"/> to write</param>
         /// <param name="stream">The <see cref="Stream"/> to read the <see cref="AsyncApiDocument"/> from</param>
         /// <param name="format">The format of the <see cref="AsyncApiDocument"/> to read. Defaults to '<see cref="AsyncApiDocumentFormat.Yaml"/>'</param>
+        /// <param name="cancellationToken">A <see cref="CancellationToken"/></param>
         /// <returns>A new <see cref="AsyncApiDocument"/></returns>
-        void Write(AsyncApiDocument document, Stream stream, AsyncApiDocumentFormat format = AsyncApiDocumentFormat.Yaml);
+        Task WriteAsync(AsyncApiDocument document, Stream stream, AsyncApiDocumentFormat format = AsyncApiDocumentFormat.Yaml, CancellationToken cancellationToken = default);
 
     }
 

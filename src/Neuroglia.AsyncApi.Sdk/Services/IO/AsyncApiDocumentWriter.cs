@@ -20,6 +20,8 @@ using Neuroglia.Serialization;
 using System;
 using System.IO;
 using System.Net.Http;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace Neuroglia.AsyncApi.Sdk.Services.IO
 {
@@ -64,7 +66,7 @@ namespace Neuroglia.AsyncApi.Sdk.Services.IO
         protected HttpClient HttpClient { get; }
 
         /// <inheritdoc/>
-        public virtual void Write(AsyncApiDocument document, Stream stream, AsyncApiDocumentFormat format = AsyncApiDocumentFormat.Yaml)
+        public virtual async Task WriteAsync(AsyncApiDocument document, Stream stream, AsyncApiDocumentFormat format = AsyncApiDocumentFormat.Yaml, CancellationToken cancellationToken = default)
         {
             if (document == null)
                 throw new ArgumentNullException(nameof(document));
@@ -73,10 +75,10 @@ namespace Neuroglia.AsyncApi.Sdk.Services.IO
             switch (format)
             {
                 case AsyncApiDocumentFormat.Json:
-                    this.JsonSerializer.Serialize(document, stream);
+                    await this.JsonSerializer.SerializeAsync(document, stream, cancellationToken);
                     break;
                 case AsyncApiDocumentFormat.Yaml:
-                    this.YamlSerializer.Serialize(document, stream);
+                    await this.YamlSerializer.SerializeAsync(document, stream, cancellationToken);
                     break;
                 default:
                     throw new NotSupportedException($"The specified async api document format '{format}' is not supported");

@@ -1,5 +1,6 @@
-﻿using Neuroglia.AsyncApi.Sdk.Models;
-using Newtonsoft.Json;
+﻿using FluentAssertions;
+using Microsoft.Extensions.DependencyInjection;
+using Neuroglia.AsyncApi.Sdk.Services.IO;
 using System.IO;
 using System.Threading.Tasks;
 using Xunit;
@@ -10,10 +11,33 @@ namespace Neuroglia.AsyncApi.Sdk.UnitTests.Cases.IO
     public class AsyncApiDocumentReaderTests
     {
 
+        public AsyncApiDocumentReaderTests()
+        {
+            ServiceCollection services = new();
+            services.AddAsyncApi();
+            this.Reader = services.BuildServiceProvider().GetRequiredService<IAsyncApiDocumentReader>();
+        }
+
+        IAsyncApiDocumentReader Reader { get; }
+
         [Fact]
         public async Task Read_Json_ShouldWork()
         {
-            var document = JsonConvert.DeserializeObject<AsyncApiDocument>(await File.ReadAllTextAsync(Path.Combine("Resources", "streetlights.json")));
+            //act
+            var document = await this.Reader.ReadAsync(File.OpenRead(Path.Combine("Resources", "streetlights.json")));
+
+            //assert
+            document.Should().NotBeNull();
+        }
+
+        [Fact]
+        public async Task Read_Yaml_ShouldWork()
+        {
+            //act
+            var document = await this.Reader.ReadAsync(File.OpenRead(Path.Combine("Resources", "streetlights.yaml")));
+
+            //assert
+            document.Should().NotBeNull();
         }
 
     }

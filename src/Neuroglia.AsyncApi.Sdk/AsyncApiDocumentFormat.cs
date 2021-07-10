@@ -23,7 +23,7 @@ namespace Neuroglia.AsyncApi.Sdk
     /// Enumerates all Async API document formats
     /// </summary>
     [Newtonsoft.Json.JsonConverter(typeof(Newtonsoft.Json.Converters.StringEnumConverter))]
-    [System.Text.Json.Serialization.JsonConverter(typeof(System.Text.Json.Serialization.Converters.StringEnumConverterFactory))]
+    [System.Text.Json.Serialization.JsonConverter(typeof(System.Text.Json.Serialization.StringEnumConverterFactory))]
     public enum AsyncApiDocumentFormat
     {
         /// <summary>

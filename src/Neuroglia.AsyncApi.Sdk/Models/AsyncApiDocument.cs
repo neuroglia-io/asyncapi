@@ -55,7 +55,7 @@ namespace Neuroglia.AsyncApi.Sdk.Models
         [Newtonsoft.Json.JsonProperty("info")]
         [YamlDotNet.Serialization.YamlMember(Alias = "info")]
         [System.Text.Json.Serialization.JsonPropertyName("info")]
-        public virtual ApiDefinition Info { get; set; }
+        public virtual ApiInfo Info { get; set; }
 
         /// <summary>
         /// Gets/sets a <see cref="Dictionary{TKey, TValue}"/> containing name/configuration mappings for the application's servers
@@ -63,7 +63,7 @@ namespace Neuroglia.AsyncApi.Sdk.Models
         [Newtonsoft.Json.JsonProperty("servers")]
         [YamlDotNet.Serialization.YamlMember(Alias = "servers")]
         [System.Text.Json.Serialization.JsonPropertyName("servers")]
-        public virtual Dictionary<string, ServerDefinition> Servers { get; set; }
+        public virtual Dictionary<string, Server> Servers { get; set; }
 
         /// <summary>
         /// Gets/sets the default content type to use when encoding/decoding a message's payload.
@@ -80,7 +80,7 @@ namespace Neuroglia.AsyncApi.Sdk.Models
         [Newtonsoft.Json.JsonProperty("channels")]
         [YamlDotNet.Serialization.YamlMember(Alias = "channels")]
         [System.Text.Json.Serialization.JsonPropertyName("channels")]
-        public virtual Dictionary<string, ChannelDefinition> Channels { get; set; }
+        public virtual Dictionary<string, Channel> Channels { get; set; }
 
         /// <summary>
         /// Gets/sets an object used to hold various schemas for the specification.
@@ -104,7 +104,7 @@ namespace Neuroglia.AsyncApi.Sdk.Models
         [Newtonsoft.Json.JsonProperty("externalDocs")]
         [YamlDotNet.Serialization.YamlMember(Alias = "externalDocs")]
         [System.Text.Json.Serialization.JsonPropertyName("externalDocs")]
-        public virtual List<ExternalDocumentationDefinition> ExternalDocs { get; set; }
+        public virtual List<ExternalDocumentation> ExternalDocs { get; set; }
 
         /// <inheritdoc/>
         public override string ToString()

@@ -14,12 +14,15 @@
  * limitations under the License.
  *
  */
+using FluentValidation;
 using Microsoft.Extensions.DependencyInjection;
 using Neuroglia.AsyncApi.Sdk.Services.FluentBuilders;
 using Neuroglia.AsyncApi.Sdk.Services.IO;
+using Neuroglia.AsyncApi.Sdk.Services.Validation;
 using Neuroglia.Serialization;
+using YamlDotNet.Serialization;
 
-namespace Neuroglia.AsyncApi.Sdk.Extensions
+namespace Neuroglia.AsyncApi.Sdk
 {
 
     /// <summary>
@@ -29,11 +32,11 @@ namespace Neuroglia.AsyncApi.Sdk.Extensions
     {
 
         /// <summary>
-        /// Adds and configures Serverless Workflow services (<see cref="ISerializer"/>s, <see cref="IAsyncApiDocumentReader"/>, <see cref="IAsyncApiDocumentWriter"/>, ...)
+        /// Adds and configures Async API services (<see cref="Serialization.ISerializer"/>s, <see cref="IAsyncApiDocumentReader"/>, <see cref="IAsyncApiDocumentWriter"/>, ...)
         /// </summary>
         /// <param name="services">The <see cref="IServiceCollection"/> to configure</param>
         /// <returns>The configured <see cref="IServiceCollection"/></returns>
-        public static IServiceCollection AddServerlessWorkflow(this IServiceCollection services)
+        public static IServiceCollection AddAsyncApi(this IServiceCollection services)
         {
             services.AddNewtonsoftJsonSerializer();
             services.AddYamlDotNetSerializer(
@@ -46,9 +49,8 @@ namespace Neuroglia.AsyncApi.Sdk.Extensions
             services.AddHttpClient();
             services.AddSingleton<IAsyncApiDocumentReader, AsyncApiDocumentReader>();
             services.AddSingleton<IAsyncApiDocumentWriter, AsyncApiDocumentWriter>();
-            //TODO: services.AddSingleton<IAsyncApiDocumentValidator, AsyncApiDocumentValidator>();
             services.AddTransient<IAsyncApiDocumentBuilder, AsyncApiDocumentBuilder>();
-            //TODO: services.AddValidatorsFromAssemblyContaining<AsyncApiDocumentValidator>();
+            services.AddValidatorsFromAssemblyContaining<AsyncApiDocumentValidator>();
             return services;
         }
 
