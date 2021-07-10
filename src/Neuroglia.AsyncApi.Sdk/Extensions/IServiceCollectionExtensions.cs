@@ -16,10 +16,13 @@
  */
 using FluentValidation;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.DependencyInjection.Extensions;
 using Neuroglia.AsyncApi.Services.FluentBuilders;
+using Neuroglia.AsyncApi.Services.Generators;
 using Neuroglia.AsyncApi.Services.IO;
 using Neuroglia.AsyncApi.Services.Validation;
 using Neuroglia.Serialization;
+using Newtonsoft.Json;
 using YamlDotNet.Serialization;
 
 namespace Neuroglia.AsyncApi
@@ -38,19 +41,25 @@ namespace Neuroglia.AsyncApi
         /// <returns>The configured <see cref="IServiceCollection"/></returns>
         public static IServiceCollection AddAsyncApi(this IServiceCollection services)
         {
-            services.AddNewtonsoftJsonSerializer();
+            services.AddNewtonsoftJsonSerializer(options =>
+            {
+                options.NullValueHandling = NullValueHandling.Ignore;
+            });
             services.AddYamlDotNetSerializer(
                 serializer => serializer
                     .IncludeNonPublicProperties()
                     .WithTypeConverter(new JTokenSerializer())
                     .WithTypeConverter(new StringEnumSerializer())
+                    .WithTypeConverter(new UriTypeConverter())
                     .WithEmissionPhaseObjectGraphVisitor(args => new ChainedObjectGraphVisitor(args.InnerVisitor)),
-                deserializer => { });
+                deserializer => deserializer
+                    .WithTypeConverter(new UriTypeConverter()));
             services.AddHttpClient();
-            services.AddSingleton<IAsyncApiDocumentReader, AsyncApiDocumentReader>();
-            services.AddSingleton<IAsyncApiDocumentWriter, AsyncApiDocumentWriter>();
-            services.AddTransient<IAsyncApiDocumentBuilder, AsyncApiDocumentBuilder>();
-            services.AddValidatorsFromAssemblyContaining<AsyncApiDocumentValidator>();
+            services.TryAddSingleton<IAsyncApiDocumentReader, AsyncApiDocumentReader>();
+            services.TryAddSingleton<IAsyncApiDocumentWriter, AsyncApiDocumentWriter>();
+            services.TryAddTransient<IAsyncApiDocumentBuilder, AsyncApiDocumentBuilder>();
+            services.TryAddTransient<IAsyncApiDocumentGenerator, AsyncApiDocumentGenerator>();
+            services.AddValidatorsFromAssemblyContaining<AsyncApiDocumentValidator>(ServiceLifetime.Transient);
             return services;
         }
 

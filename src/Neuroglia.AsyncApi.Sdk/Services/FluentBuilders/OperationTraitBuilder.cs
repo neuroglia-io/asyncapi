@@ -106,7 +106,7 @@ namespace Neuroglia.AsyncApi.Services.FluentBuilders
         }
 
         /// <inheritdoc/>
-        public virtual TBuilder WithId(string operationId)
+        public virtual TBuilder WithOperationId(string operationId)
         {
             this.Trait.OperationId = operationId;
             return (TBuilder)(object)this;

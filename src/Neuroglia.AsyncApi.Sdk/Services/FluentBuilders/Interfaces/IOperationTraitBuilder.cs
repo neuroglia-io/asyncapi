@@ -36,7 +36,7 @@ namespace Neuroglia.AsyncApi.Services.FluentBuilders
         /// </summary>
         /// <param name="operationId">The id of the Async Api document to build</param>
         /// <returns>The configured <see cref="IOperationTraitBuilder{TBuilder, TTrait}"/></returns>
-        TBuilder WithId(string operationId);
+        TBuilder WithOperationId(string operationId);
 
         /// <summary>
         /// Configures the <see cref="OperationTrait"/> to use the specified API description

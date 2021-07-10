@@ -50,6 +50,14 @@ namespace Neuroglia.AsyncApi.Services.FluentBuilders
         IChannelBuilder UseBinding(IChannelBinding binding);
 
         /// <summary>
+        /// Defines and configures an operation of the <see cref="Channel"/> to build
+        /// </summary>
+        /// <param name="type">The <see cref="Operation"/>'s type</param>
+        /// <param name="setup">An <see cref="Action{T}"/> used to setup the Subscribe <see cref="Operation"/></param>
+        /// <returns>The configured <see cref="IChannelBuilder"/></returns>
+        IChannelBuilder DefineOperation(OperationType type, Action<IOperationBuilder> setup);
+
+        /// <summary>
         /// Defines and configures the Subscribe operation of the <see cref="Channel"/> to build
         /// </summary>
         /// <param name="setup">An <see cref="Action{T}"/> used to setup the Subscribe <see cref="Operation"/></param>

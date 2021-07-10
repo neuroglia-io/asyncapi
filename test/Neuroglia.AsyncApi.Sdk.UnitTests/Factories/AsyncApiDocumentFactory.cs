@@ -39,7 +39,7 @@ namespace Neuroglia.AsyncApi.UnitTests.Factories
                     .WithDescription("Fake Channel Description")
                     .UseBinding(new HttpChannelBinding())
                     .DefineSubscribeOperation(operation => operation
-                        .WithId("fake operation")
+                        .WithOperationId("fake operation")
                         .WithDescription("fake operation description")
                         .UseMessage(message => message
                             .OfType<TestMessage>()

@@ -71,8 +71,6 @@ namespace Neuroglia.AsyncApi.Services.FluentBuilders
         {
             if (string.IsNullOrWhiteSpace(protocol))
                 throw new ArgumentNullException(nameof(protocol));
-            if (string.IsNullOrWhiteSpace(version))
-                throw new ArgumentNullException(nameof(version));
             this.Server.Protocol = protocol;
             this.Server.ProtocolVersion = version;
             return this;

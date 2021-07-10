@@ -93,25 +93,36 @@ namespace Neuroglia.AsyncApi.Services.FluentBuilders
         }
 
         /// <inheritdoc/>
-        public virtual IChannelBuilder DefineSubscribeOperation(Action<IOperationBuilder> setup)
+        public virtual IChannelBuilder DefineOperation(OperationType type, Action<IOperationBuilder> setup)
         {
             if (setup == null)
                 throw new ArgumentNullException(nameof(setup));
             IOperationBuilder builder = ActivatorUtilities.CreateInstance<OperationBuilder>(this.ServiceProvider);
             setup(builder);
-            this.Channel.Subscribe = builder.Build();
+            switch (type)
+            {
+                case OperationType.Publish:
+                    this.Channel.Publish = builder.Build();
+                    break;
+                case OperationType.Subscribe:
+                    this.Channel.Subscribe = builder.Build();
+                    break;
+                default:
+                    throw new NotSupportedException($"The specified operation type '{type}' is not supported");
+            }
             return this;
+        }
+
+        /// <inheritdoc/>
+        public virtual IChannelBuilder DefineSubscribeOperation(Action<IOperationBuilder> setup)
+        {
+            return this.DefineOperation(OperationType.Subscribe, setup);
         }
 
         /// <inheritdoc/>
         public virtual IChannelBuilder DefinePublishOperation(Action<IOperationBuilder> setup)
         {
-            if (setup == null)
-                throw new ArgumentNullException(nameof(setup));
-            IOperationBuilder builder = ActivatorUtilities.CreateInstance<OperationBuilder>(this.ServiceProvider);
-            setup(builder);
-            this.Channel.Publish = builder.Build();
-            return this;
+            return this.DefineOperation(OperationType.Publish, setup);
         }
 
         /// <inheritdoc/>
