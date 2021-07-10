@@ -14,7 +14,7 @@
  * limitations under the License.
  *
  */
-namespace Neuroglia.AsyncApi.Sdk.Models.Bindings.Amqp
+namespace Neuroglia.AsyncApi.Models.Bindings.Amqp
 {
     /// <summary>
     /// Represents the object used to configure an AMQP routing key based channel

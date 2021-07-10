@@ -14,12 +14,12 @@
  * limitations under the License.
  *
  */
-using Neuroglia.AsyncApi.Sdk.Models.Bindings;
+using Neuroglia.AsyncApi.Models.Bindings;
 using Newtonsoft.Json.Linq;
 using Newtonsoft.Json.Schema;
 using System.Collections.Generic;
 
-namespace Neuroglia.AsyncApi.Sdk.Models
+namespace Neuroglia.AsyncApi.Models
 {
     /// <summary>
     /// Represents an object used to define a Async API operation message trait

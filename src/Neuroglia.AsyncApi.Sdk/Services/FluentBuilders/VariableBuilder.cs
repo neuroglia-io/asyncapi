@@ -15,11 +15,11 @@
  *
  */
 using FluentValidation;
-using Neuroglia.AsyncApi.Sdk.Models;
+using Neuroglia.AsyncApi.Models;
 using System;
 using System.Collections.Generic;
 
-namespace Neuroglia.AsyncApi.Sdk.Services.FluentBuilders
+namespace Neuroglia.AsyncApi.Services.FluentBuilders
 {
     /// <summary>
     /// Represents the default implementation of the <see cref="IVariableBuilder"/> interface

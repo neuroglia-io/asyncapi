@@ -1,7 +1,7 @@
 ﻿using FluentValidation;
-using Neuroglia.AsyncApi.Sdk.Models;
+using Neuroglia.AsyncApi.Models;
 
-namespace Neuroglia.AsyncApi.Sdk.Services.Validation
+namespace Neuroglia.AsyncApi.Services.Validation
 {
 
     /// <summary>

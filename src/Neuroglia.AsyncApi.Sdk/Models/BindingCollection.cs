@@ -14,14 +14,14 @@
  * limitations under the License.
  *
  */
-using Neuroglia.AsyncApi.Sdk.Models.Bindings;
+using Neuroglia.AsyncApi.Models.Bindings;
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 
-namespace Neuroglia.AsyncApi.Sdk.Models
+namespace Neuroglia.AsyncApi.Models
 {
 
     /// <summary>

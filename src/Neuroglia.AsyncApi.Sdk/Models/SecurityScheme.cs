@@ -18,7 +18,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
-namespace Neuroglia.AsyncApi.Sdk.Models
+namespace Neuroglia.AsyncApi.Models
 {
     /// <summary>
     /// Represents an object used to define a security scheme

@@ -15,7 +15,7 @@
  *
  */
 
-namespace Neuroglia.AsyncApi.Sdk.Models.Bindings.Redis
+namespace Neuroglia.AsyncApi.Models.Bindings.Redis
 {
 
     /// <summary>

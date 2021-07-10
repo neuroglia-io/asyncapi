@@ -17,7 +17,7 @@
 using Newtonsoft.Json.Schema;
 using System.Collections.Generic;
 
-namespace Neuroglia.AsyncApi.Sdk.Models
+namespace Neuroglia.AsyncApi.Models
 {
 
     /// <summary>

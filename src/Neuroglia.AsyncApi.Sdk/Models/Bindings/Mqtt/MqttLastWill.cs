@@ -16,7 +16,7 @@
  */
 using System.ComponentModel.DataAnnotations;
 
-namespace Neuroglia.AsyncApi.Sdk.Models.Bindings.Mqtt
+namespace Neuroglia.AsyncApi.Models.Bindings.Mqtt
 {
 
     /// <summary>

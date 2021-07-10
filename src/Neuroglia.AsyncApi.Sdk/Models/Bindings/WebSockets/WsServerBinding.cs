@@ -14,7 +14,7 @@
  * limitations under the License.
  *
  */
-namespace Neuroglia.AsyncApi.Sdk.Models.Bindings.WebSockets
+namespace Neuroglia.AsyncApi.Models.Bindings.WebSockets
 {
 
     /// <summary>

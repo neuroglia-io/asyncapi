@@ -1,12 +1,12 @@
 ﻿using FluentAssertions;
 using Microsoft.Extensions.DependencyInjection;
-using Neuroglia.AsyncApi.Sdk.Models.Bindings.Http;
-using Neuroglia.AsyncApi.Sdk.Services.FluentBuilders;
-using Neuroglia.AsyncApi.Sdk.UnitTests.Data;
+using Neuroglia.AsyncApi.Models.Bindings.Http;
+using Neuroglia.AsyncApi.Services.FluentBuilders;
+using Neuroglia.AsyncApi.UnitTests.Data;
 using System;
 using Xunit;
 
-namespace Neuroglia.AsyncApi.Sdk.UnitTests.Cases.FluentBuilders
+namespace Neuroglia.AsyncApi.UnitTests.Cases.FluentBuilders
 {
 
     public class FluentBuilderTests

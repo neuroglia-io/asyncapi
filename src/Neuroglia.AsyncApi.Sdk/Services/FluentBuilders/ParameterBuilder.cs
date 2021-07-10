@@ -16,14 +16,14 @@
  */
 using FluentValidation;
 using FluentValidation.Results;
-using Neuroglia.AsyncApi.Sdk.Models;
+using Neuroglia.AsyncApi.Models;
 using Newtonsoft.Json.Schema;
 using Newtonsoft.Json.Schema.Generation;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Neuroglia.AsyncApi.Sdk.Services.FluentBuilders
+namespace Neuroglia.AsyncApi.Services.FluentBuilders
 {
     /// <summary>
     /// Represents the default implementation of the <see cref="IParameterBuilder"/> interface

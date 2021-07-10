@@ -1,13 +1,13 @@
 ﻿using FluentAssertions;
 using Microsoft.Extensions.DependencyInjection;
-using Neuroglia.AsyncApi.Sdk.Services.IO;
-using Neuroglia.AsyncApi.Sdk.UnitTests.Factories;
+using Neuroglia.AsyncApi.Services.IO;
+using Neuroglia.AsyncApi.UnitTests.Factories;
 using System.IO;
 using System.Text;
 using System.Threading.Tasks;
 using Xunit;
 
-namespace Neuroglia.AsyncApi.Sdk.UnitTests.Cases.IO
+namespace Neuroglia.AsyncApi.UnitTests.Cases.IO
 {
     public class AsyncApiDocumentWriterTests
     {

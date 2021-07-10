@@ -15,7 +15,7 @@
  *
  */
 
-namespace Neuroglia.AsyncApi.Sdk.Models.Bindings.Mqtt
+namespace Neuroglia.AsyncApi.Models.Bindings.Mqtt
 {
     /// <summary>
     /// Represents the object used to configure an MQTT operation binding

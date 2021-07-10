@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.31410.357
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Neuroglia.AsyncApi.Sdk", "Neuroglia.AsyncApi.Sdk\Neuroglia.AsyncApi.Sdk.csproj", "{457D53DF-26DA-42D0-8863-433B95A80610}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Neuroglia.AsyncApi.Core", "Neuroglia.AsyncApi.Sdk\Neuroglia.AsyncApi.Core.csproj", "{457D53DF-26DA-42D0-8863-433B95A80610}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{817C6554-6E96-457C-BDF1-F3455A146E8F}"
 EndProject

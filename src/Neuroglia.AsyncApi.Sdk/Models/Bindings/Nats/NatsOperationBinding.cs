@@ -14,7 +14,7 @@
  * limitations under the License.
  *
  */
-namespace Neuroglia.AsyncApi.Sdk.Models.Bindings.Nats
+namespace Neuroglia.AsyncApi.Models.Bindings.Nats
 {
     /// <summary>
     /// Represents the object used to configure a <see href="https://nats.io/">NATS</see> operation binding

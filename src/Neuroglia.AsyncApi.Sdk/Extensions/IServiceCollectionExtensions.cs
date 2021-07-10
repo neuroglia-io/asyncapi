@@ -16,13 +16,13 @@
  */
 using FluentValidation;
 using Microsoft.Extensions.DependencyInjection;
-using Neuroglia.AsyncApi.Sdk.Services.FluentBuilders;
-using Neuroglia.AsyncApi.Sdk.Services.IO;
-using Neuroglia.AsyncApi.Sdk.Services.Validation;
+using Neuroglia.AsyncApi.Services.FluentBuilders;
+using Neuroglia.AsyncApi.Services.IO;
+using Neuroglia.AsyncApi.Services.Validation;
 using Neuroglia.Serialization;
 using YamlDotNet.Serialization;
 
-namespace Neuroglia.AsyncApi.Sdk
+namespace Neuroglia.AsyncApi
 {
 
     /// <summary>

@@ -17,8 +17,8 @@
 using FluentValidation;
 using FluentValidation.Results;
 using Microsoft.Extensions.DependencyInjection;
-using Neuroglia.AsyncApi.Sdk.Models;
-using Neuroglia.AsyncApi.Sdk.Models.Bindings;
+using Neuroglia.AsyncApi.Models;
+using Neuroglia.AsyncApi.Models.Bindings;
 using Newtonsoft.Json.Linq;
 using Newtonsoft.Json.Schema;
 using Newtonsoft.Json.Schema.Generation;
@@ -26,7 +26,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Neuroglia.AsyncApi.Sdk.Services.FluentBuilders
+namespace Neuroglia.AsyncApi.Services.FluentBuilders
 {
 
     /// <summary>

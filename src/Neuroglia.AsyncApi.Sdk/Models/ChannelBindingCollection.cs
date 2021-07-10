@@ -14,19 +14,19 @@
  * limitations under the License.
  *
  */
-using Neuroglia.AsyncApi.Sdk.Models.Bindings;
-using Neuroglia.AsyncApi.Sdk.Models.Bindings.Amqp;
-using Neuroglia.AsyncApi.Sdk.Models.Bindings.AmqpV1;
-using Neuroglia.AsyncApi.Sdk.Models.Bindings.Http;
-using Neuroglia.AsyncApi.Sdk.Models.Bindings.Kafka;
-using Neuroglia.AsyncApi.Sdk.Models.Bindings.Mqtt;
-using Neuroglia.AsyncApi.Sdk.Models.Bindings.Mqtt5;
-using Neuroglia.AsyncApi.Sdk.Models.Bindings.Nats;
-using Neuroglia.AsyncApi.Sdk.Models.Bindings.Redis;
-using Neuroglia.AsyncApi.Sdk.Models.Bindings.WebSockets;
+using Neuroglia.AsyncApi.Models.Bindings;
+using Neuroglia.AsyncApi.Models.Bindings.Amqp;
+using Neuroglia.AsyncApi.Models.Bindings.AmqpV1;
+using Neuroglia.AsyncApi.Models.Bindings.Http;
+using Neuroglia.AsyncApi.Models.Bindings.Kafka;
+using Neuroglia.AsyncApi.Models.Bindings.Mqtt;
+using Neuroglia.AsyncApi.Models.Bindings.Mqtt5;
+using Neuroglia.AsyncApi.Models.Bindings.Nats;
+using Neuroglia.AsyncApi.Models.Bindings.Redis;
+using Neuroglia.AsyncApi.Models.Bindings.WebSockets;
 using System.Collections.Generic;
 
-namespace Neuroglia.AsyncApi.Sdk.Models
+namespace Neuroglia.AsyncApi.Models
 {
 
     /// <summary>

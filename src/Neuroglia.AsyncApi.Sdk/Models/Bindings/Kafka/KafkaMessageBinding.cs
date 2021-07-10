@@ -16,7 +16,7 @@
  */
 using Newtonsoft.Json.Schema;
 
-namespace Neuroglia.AsyncApi.Sdk.Models.Bindings.Kafka
+namespace Neuroglia.AsyncApi.Models.Bindings.Kafka
 {
 
     /// <summary>

@@ -15,7 +15,7 @@
  *
  */
 
-namespace Neuroglia.AsyncApi.Sdk
+namespace Neuroglia.AsyncApi
 {
     /// <summary>
     /// Defines the fundamentals of a referenceable component

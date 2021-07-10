@@ -1,4 +1,4 @@
-﻿namespace Neuroglia.AsyncApi.Sdk.UnitTests.Data
+﻿namespace Neuroglia.AsyncApi.UnitTests.Data
 {
 
     public class TestMessage

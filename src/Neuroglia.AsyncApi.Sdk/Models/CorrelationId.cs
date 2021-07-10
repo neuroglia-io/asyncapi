@@ -16,7 +16,7 @@
  */
 using System.ComponentModel.DataAnnotations;
 
-namespace Neuroglia.AsyncApi.Sdk.Models
+namespace Neuroglia.AsyncApi.Models
 {
     /// <summary>
     /// Represents an object used to define an Async API correlation ID

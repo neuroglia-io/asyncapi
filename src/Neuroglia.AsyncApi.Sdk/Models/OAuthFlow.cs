@@ -17,7 +17,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace Neuroglia.AsyncApi.Sdk.Models
+namespace Neuroglia.AsyncApi.Models
 {
     /// <summary>
     /// Represents an object used to define a supported OAuth Flow

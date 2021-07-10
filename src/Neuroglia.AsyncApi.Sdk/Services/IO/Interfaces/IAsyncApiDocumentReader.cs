@@ -14,12 +14,12 @@
  * limitations under the License.
  *
  */
-using Neuroglia.AsyncApi.Sdk.Models;
+using Neuroglia.AsyncApi.Models;
 using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Neuroglia.AsyncApi.Sdk.Services.IO
+namespace Neuroglia.AsyncApi.Services.IO
 {
 
     /// <summary>

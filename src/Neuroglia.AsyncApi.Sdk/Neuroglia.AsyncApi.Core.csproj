@@ -6,6 +6,7 @@
     <Company>Neuroglia SPRL</Company>
     <Copyright>Copyright © 2021 Neuroglia SPRL. All rights reserved.</Copyright>
     <RepositoryType>git</RepositoryType>
+    <RootNamespace>Neuroglia.AsyncApi</RootNamespace>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">

@@ -14,7 +14,7 @@
  * limitations under the License.
  *
  */
-namespace Neuroglia.AsyncApi.Sdk.Models.Bindings
+namespace Neuroglia.AsyncApi.Models.Bindings
 {
     /// <summary>
     /// Defines the fundamentals of an operation binding

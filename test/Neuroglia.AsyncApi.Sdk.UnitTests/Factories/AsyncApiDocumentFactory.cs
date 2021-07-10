@@ -1,11 +1,11 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
-using Neuroglia.AsyncApi.Sdk.Models;
-using Neuroglia.AsyncApi.Sdk.Models.Bindings.Http;
-using Neuroglia.AsyncApi.Sdk.Services.FluentBuilders;
-using Neuroglia.AsyncApi.Sdk.UnitTests.Data;
+using Neuroglia.AsyncApi.Models;
+using Neuroglia.AsyncApi.Models.Bindings.Http;
+using Neuroglia.AsyncApi.Services.FluentBuilders;
+using Neuroglia.AsyncApi.UnitTests.Data;
 using System;
 
-namespace Neuroglia.AsyncApi.Sdk.UnitTests.Factories
+namespace Neuroglia.AsyncApi.UnitTests.Factories
 {
 
     internal static class AsyncApiDocumentFactory

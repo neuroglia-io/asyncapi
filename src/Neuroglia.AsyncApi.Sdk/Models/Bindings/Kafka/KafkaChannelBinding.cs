@@ -14,7 +14,7 @@
  * limitations under the License.
  *
  */
-namespace Neuroglia.AsyncApi.Sdk.Models.Bindings.Kafka
+namespace Neuroglia.AsyncApi.Models.Bindings.Kafka
 {
     /// <summary>
     /// Represents the object used to configure a Kafka channel binding

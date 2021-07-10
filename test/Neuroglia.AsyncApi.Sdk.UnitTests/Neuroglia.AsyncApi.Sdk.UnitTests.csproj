@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>net5.0</TargetFramework>
@@ -21,7 +21,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\src\Neuroglia.AsyncApi.Sdk\Neuroglia.AsyncApi.Sdk.csproj" />
+    <ProjectReference Include="..\..\src\Neuroglia.AsyncApi\Neuroglia.AsyncApi.Core.csproj" />
   </ItemGroup>
 
   <ItemGroup>

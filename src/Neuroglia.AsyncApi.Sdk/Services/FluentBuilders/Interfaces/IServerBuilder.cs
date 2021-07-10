@@ -14,11 +14,11 @@
  * limitations under the License.
  *
  */
-using Neuroglia.AsyncApi.Sdk.Models;
-using Neuroglia.AsyncApi.Sdk.Models.Bindings;
+using Neuroglia.AsyncApi.Models;
+using Neuroglia.AsyncApi.Models.Bindings;
 using System;
 
-namespace Neuroglia.AsyncApi.Sdk.Services.FluentBuilders
+namespace Neuroglia.AsyncApi.Services.FluentBuilders
 {
     /// <summary>
     /// Defines the fundamentals of a service used to build <see cref="Server"/>s

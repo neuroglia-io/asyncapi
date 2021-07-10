@@ -15,7 +15,7 @@
  *
  */
 using Microsoft.Extensions.Logging;
-using Neuroglia.AsyncApi.Sdk.Models;
+using Neuroglia.AsyncApi.Models;
 using Neuroglia.Serialization;
 using System;
 using System.IO;
@@ -24,7 +24,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Neuroglia.AsyncApi.Sdk.Services.IO
+namespace Neuroglia.AsyncApi.Services.IO
 {
 
     /// <summary>

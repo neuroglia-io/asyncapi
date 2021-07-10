@@ -14,7 +14,7 @@
  * limitations under the License.
  *
  */
-namespace Neuroglia.AsyncApi.Sdk.Models.Bindings.Nats
+namespace Neuroglia.AsyncApi.Models.Bindings.Nats
 {
 
     /// <summary>

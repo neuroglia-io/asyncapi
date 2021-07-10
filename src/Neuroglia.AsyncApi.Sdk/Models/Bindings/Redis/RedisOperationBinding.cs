@@ -15,7 +15,7 @@
  *
  */
 
-namespace Neuroglia.AsyncApi.Sdk.Models.Bindings.Redis
+namespace Neuroglia.AsyncApi.Models.Bindings.Redis
 {
     /// <summary>
     /// Represents the object used to configure a <see href="https://redis.io/">Redis</see> operation binding

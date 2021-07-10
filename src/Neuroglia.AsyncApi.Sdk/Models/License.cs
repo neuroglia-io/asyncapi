@@ -17,7 +17,7 @@
 using System;
 using System.ComponentModel.DataAnnotations;
 
-namespace Neuroglia.AsyncApi.Sdk.Models
+namespace Neuroglia.AsyncApi.Models
 {
     /// <summary>
     /// Represents an object used to provide license information for the exposed API

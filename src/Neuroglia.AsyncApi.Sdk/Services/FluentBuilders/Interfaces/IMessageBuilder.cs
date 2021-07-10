@@ -14,11 +14,11 @@
  * limitations under the License.
  *
  */
-using Neuroglia.AsyncApi.Sdk.Models;
+using Neuroglia.AsyncApi.Models;
 using Newtonsoft.Json.Schema;
 using System;
 
-namespace Neuroglia.AsyncApi.Sdk.Services.FluentBuilders
+namespace Neuroglia.AsyncApi.Services.FluentBuilders
 {
 
     /// <summary>

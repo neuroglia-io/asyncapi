@@ -14,7 +14,7 @@
  * limitations under the License.
  *
  */
-namespace Neuroglia.AsyncApi.Sdk
+namespace Neuroglia.AsyncApi
 {
 
     /// <summary>

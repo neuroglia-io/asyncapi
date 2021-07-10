@@ -16,7 +16,7 @@
  */
 using Newtonsoft.Json.Schema;
 
-namespace Neuroglia.AsyncApi.Sdk.Models.Bindings.WebSockets
+namespace Neuroglia.AsyncApi.Models.Bindings.WebSockets
 {
     /// <summary>
     /// Represents the object used to configure an WebSocket channel binding
