@@ -11,7 +11,7 @@
   - [Reading an AsyncAPI Document](#reading-an-asyncapi-document)
   - [Generating code-first AsyncAPI documents](#generating-code-first-asyncapi-documents)
 - [Samples](#samples)
-  - [Streetlights API - Server](#streetlights-api-server)
+  - [Streetlights API - Server](#streetlights-api---server)
 
 ## Summary
 A .NET 5.0 lightweight framework to work with the [AsyncAPI Specification](https://www.asyncapi.com/docs/specifications/v2.1.0).
