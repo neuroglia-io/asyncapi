@@ -1,0 +1,53 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net5.0</TargetFramework>
+    <Authors>Neuroglia SPRL</Authors>
+    <Company>Neuroglia SPRL</Company>
+    <Copyright>Copyright © 2021 Neuroglia SPRL. All rights reserved.</Copyright>
+    <RepositoryType>git</RepositoryType>
+    <RootNamespace>Neuroglia.AsyncApi</RootNamespace>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
+    <Version>2.1.0</Version>
+    <Description>A .NET 5.0 library to read, write, build and validate Async API documents</Description>
+    <PackageLicenseFile>LICENSE</PackageLicenseFile>
+    <PackageProjectUrl>https://github.com/neuroglia-io/AsyncApi</PackageProjectUrl>
+    <PackageIcon>logo_white_on_blue_256.png</PackageIcon>
+    <PackageIconUrl />
+    <RepositoryUrl>https://github.com/neuroglia-io/AsyncApi</RepositoryUrl>
+    <PackageTags>neuroglia asyncapi</PackageTags>
+    <NeutralLanguage>English</NeutralLanguage>
+    <IsPackable>True</IsPackable>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <DocumentationFile>Neuroglia.AsyncApi.Core.xml</DocumentationFile>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="FluentValidation.DependencyInjectionExtensions" Version="10.3.0" />
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="5.0.0" />
+    <PackageReference Include="Microsoft.Extensions.Http" Version="5.0.0" />
+    <PackageReference Include="Neuroglia.Core" Version="2.0.0.3" />
+    <PackageReference Include="Neuroglia.Serialization.Json" Version="2.0.0" />
+    <PackageReference Include="Neuroglia.Serialization.NewtonsoftJson" Version="2.0.0" />
+    <PackageReference Include="Neuroglia.Serialization.YamlDotNet" Version="2.0.0.3" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
+    <PackageReference Include="Newtonsoft.Json.Schema" Version="3.0.14" />
+    <PackageReference Include="SemanticVersion" Version="2.1.0" />
+    <PackageReference Include="YamlDotNet" Version="11.2.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="..\..\assets\img\logo_white_on_blue_256.png">
+      <Pack>True</Pack>
+      <PackagePath></PackagePath>
+    </None>
+    <None Include="..\..\LICENSE">
+      <Pack>True</Pack>
+      <PackagePath></PackagePath>
+    </None>
+  </ItemGroup>
+
+</Project>

@@ -1,0 +1,3238 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Neuroglia.AsyncApi.Core</name>
+    </assembly>
+    <members>
+        <member name="T:Neuroglia.AsyncApi.AmqpChannelType">
+            <summary>
+            Enumerates all supported AMQP channel types
+            </summary>
+        </member>
+        <member name="F:Neuroglia.AsyncApi.AmqpChannelType.RoutingKey">
+            <summary>
+            Indicates a routing key based AMQP channel
+            </summary>
+        </member>
+        <member name="F:Neuroglia.AsyncApi.AmqpChannelType.Queue">
+            <summary>
+            Indicates a queue based AMQP channel
+            </summary>
+        </member>
+        <member name="T:Neuroglia.AsyncApi.AmqpExchangeType">
+            <summary>
+            Enumerates all supported AMQP exchange types
+            </summary>
+        </member>
+        <member name="F:Neuroglia.AsyncApi.AmqpExchangeType.Topic">
+            <summary>
+            Indicates a topic AMQP exchange
+            </summary>
+        </member>
+        <member name="F:Neuroglia.AsyncApi.AmqpExchangeType.Direct">
+            <summary>
+            Indicates a direct AMQP exchange
+            </summary>
+        </member>
+        <member name="F:Neuroglia.AsyncApi.AmqpExchangeType.Fanout">
+            <summary>
+            Indicates a fanout AMQP exchange
+            </summary>
+        </member>
+        <member name="F:Neuroglia.AsyncApi.AmqpExchangeType.Default">
+            <summary>
+            Indicates a default AMQP exchange
+            </summary>
+        </member>
+        <member name="F:Neuroglia.AsyncApi.AmqpExchangeType.Headers">
+            <summary>
+            Indicates a headers AMQP exchange
+            </summary>
+        </member>
+        <member name="T:Neuroglia.AsyncApi.AsyncApiDocumentFormat">
+            <summary>
+            Enumerates all Async API document formats
+            </summary>
+        </member>
+        <member name="F:Neuroglia.AsyncApi.AsyncApiDocumentFormat.Yaml">
+            <summary>
+            Indicates YAML
+            </summary>
+        </member>
+        <member name="F:Neuroglia.AsyncApi.AsyncApiDocumentFormat.Json">
+            <summary>
+            Indicates JSON
+            </summary>
+        </member>
+        <member name="T:Neuroglia.AsyncApi.AsyncApiProtocols">
+            <summary>
+            Exposes constants about protocols officially supported by the Async API
+            </summary>
+        </member>
+        <member name="F:Neuroglia.AsyncApi.AsyncApiProtocols.Http">
+            <summary>
+            Gets the http Async API protocol
+            </summary>
+        </member>
+        <member name="F:Neuroglia.AsyncApi.AsyncApiProtocols.Ws">
+            <summary>
+            Gets the ws Async API protocol
+            </summary>
+        </member>
+        <member name="F:Neuroglia.AsyncApi.AsyncApiProtocols.Kakfa">
+            <summary>
+            Gets the kafka Async API protocol
+            </summary>
+        </member>
+        <member name="F:Neuroglia.AsyncApi.AsyncApiProtocols.Amqp">
+            <summary>
+            Gets the amqp Async API protocol
+            </summary>
+        </member>
+        <member name="F:Neuroglia.AsyncApi.AsyncApiProtocols.AmqpV1">
+            <summary>
+            Gets the amqp1 Async API protocol
+            </summary>
+        </member>
+        <member name="F:Neuroglia.AsyncApi.AsyncApiProtocols.Mqtt">
+            <summary>
+            Gets the mqtt Async API protocol
+            </summary>
+        </member>
+        <member name="F:Neuroglia.AsyncApi.AsyncApiProtocols.MqttV5">
+            <summary>
+            Gets the mqtt5 Async API protocol
+            </summary>
+        </member>
+        <member name="F:Neuroglia.AsyncApi.AsyncApiProtocols.Nats">
+            <summary>
+            Gets the nats Async API protocol
+            </summary>
+        </member>
+        <member name="F:Neuroglia.AsyncApi.AsyncApiProtocols.Jms">
+            <summary>
+            Gets the jms Async API protocol
+            </summary>
+        </member>
+        <member name="F:Neuroglia.AsyncApi.AsyncApiProtocols.Sns">
+            <summary>
+            Gets the sns Async API protocol
+            </summary>
+        </member>
+        <member name="F:Neuroglia.AsyncApi.AsyncApiProtocols.Sqs">
+            <summary>
+            Gets the sqs Async API protocol
+            </summary>
+        </member>
+        <member name="F:Neuroglia.AsyncApi.AsyncApiProtocols.Stomp">
+            <summary>
+            Gets the stomp Async API protocol
+            </summary>
+        </member>
+        <member name="F:Neuroglia.AsyncApi.AsyncApiProtocols.Redis">
+            <summary>
+            Gets the redis Async API protocol
+            </summary>
+        </member>
+        <member name="F:Neuroglia.AsyncApi.AsyncApiProtocols.Mercure">
+            <summary>
+            Gets the mercure Async API protocol
+            </summary>
+        </member>
+        <member name="F:Neuroglia.AsyncApi.AsyncApiProtocols.Ibmmq">
+            <summary>
+            Gets the ibmmq Async API protocol
+            </summary>
+        </member>
+        <member name="T:Neuroglia.AsyncApi.AsyncApiAttribute">
+            <summary>
+            Represents an <see cref="T:System.Attribute"/> used to mark a class as an Async Api to generate a new <see cref="T:Neuroglia.AsyncApi.Models.AsyncApiDocument"/> for
+            </summary>
+        </member>
+        <member name="M:Neuroglia.AsyncApi.AsyncApiAttribute.#ctor(System.String,System.String)">
+            <summary>
+            Initializes a new <see cref="T:Neuroglia.AsyncApi.AsyncApiAttribute"/>
+            </summary>
+            <param name="title">The <see cref="T:Neuroglia.AsyncApi.AsyncApiAttribute"/>'s title</param>
+            <param name="version">The <see cref="T:Neuroglia.AsyncApi.AsyncApiAttribute"/>'s version</param>
+        </member>
+        <member name="P:Neuroglia.AsyncApi.AsyncApiAttribute.Id">
+            <summary>
+            Gets/sets the generated <see cref="T:Neuroglia.AsyncApi.Models.AsyncApiDocument"/>'s id
+            </summary>
+        </member>
+        <member name="P:Neuroglia.AsyncApi.AsyncApiAttribute.Title">
+            <summary>
+            Gets the generated <see cref="T:Neuroglia.AsyncApi.Models.AsyncApiDocument"/>'s title
+            </summary>
+        </member>
+        <member name="P:Neuroglia.AsyncApi.AsyncApiAttribute.Version">
+            <summary>
+            Gets the generated <see cref="T:Neuroglia.AsyncApi.Models.AsyncApiDocument"/>'s version
+            </summary>
+        </member>
+        <member name="P:Neuroglia.AsyncApi.AsyncApiAttribute.Description">
+            <summary>
+            Gets/sets the generated <see cref="T:Neuroglia.AsyncApi.Models.AsyncApiDocument"/>'s description
+            </summary>
+        </member>
+        <member name="P:Neuroglia.AsyncApi.AsyncApiAttribute.TermsOfServiceUrl">
+            <summary>
+            Gets/sets the generated <see cref="T:Neuroglia.AsyncApi.Models.AsyncApiDocument"/>'s terms of service <see cref="T:System.Uri"/>
+            </summary>
+        </member>
+        <member name="P:Neuroglia.AsyncApi.AsyncApiAttribute.ContactName">
+            <summary>
+            Gets/sets the generated <see cref="T:Neuroglia.AsyncApi.Models.AsyncApiDocument"/>'s contact name
+            </summary>
+        </member>
+        <member name="P:Neuroglia.AsyncApi.AsyncApiAttribute.ContactUrl">
+            <summary>
+            Gets/sets the generated <see cref="T:Neuroglia.AsyncApi.Models.AsyncApiDocument"/>'s contact url
+            </summary>
+        </member>
+        <member name="P:Neuroglia.AsyncApi.AsyncApiAttribute.ContactEmail">
+            <summary>
+            Gets/sets the generated <see cref="T:Neuroglia.AsyncApi.Models.AsyncApiDocument"/>'s contact email
+            </summary>
+        </member>
+        <member name="P:Neuroglia.AsyncApi.AsyncApiAttribute.LicenseName">
+            <summary>
+            Gets/sets the generated <see cref="T:Neuroglia.AsyncApi.Models.AsyncApiDocument"/>'s license name
+            </summary>
+        </member>
+        <member name="P:Neuroglia.AsyncApi.AsyncApiAttribute.LicenseUrl">
+            <summary>
+            Gets/sets the generated <see cref="T:Neuroglia.AsyncApi.Models.AsyncApiDocument"/>'s license <see cref="T:System.Uri"/>
+            </summary>
+        </member>
+        <member name="T:Neuroglia.AsyncApi.ChannelAttribute">
+            <summary>
+            Represents an <see cref="T:System.Attribute"/> used to mark a class or a method as a <see cref="T:Neuroglia.AsyncApi.Models.Channel"/>
+            </summary>
+        </member>
+        <member name="M:Neuroglia.AsyncApi.ChannelAttribute.#ctor(System.String,System.String)">
+            <summary>
+            Initializes a new <see cref="T:Neuroglia.AsyncApi.ChannelAttribute"/>
+            </summary>
+            <param name="name">The <see cref="T:Neuroglia.AsyncApi.Models.Channel"/>'s name</param>
+            <param name="description">The <see cref="T:Neuroglia.AsyncApi.Models.Channel"/>'s description</param>
+        </member>
+        <member name="M:Neuroglia.AsyncApi.ChannelAttribute.#ctor(System.String)">
+            <summary>
+            Initializes a new <see cref="T:Neuroglia.AsyncApi.ChannelAttribute"/>
+            </summary>
+            <param name="name">The <see cref="T:Neuroglia.AsyncApi.Models.Channel"/>'s name</param>
+        </member>
+        <member name="P:Neuroglia.AsyncApi.ChannelAttribute.Name">
+            <summary>
+            Gets the <see cref="T:Neuroglia.AsyncApi.Models.Channel"/>'s name
+            </summary>
+        </member>
+        <member name="P:Neuroglia.AsyncApi.ChannelAttribute.Description">
+            <summary>
+            Gets/sets the <see cref="T:Neuroglia.AsyncApi.Models.Channel"/>'s description
+            </summary>
+        </member>
+        <member name="T:Neuroglia.AsyncApi.MessageAttribute">
+            <summary>
+            Represents an <see cref="T:System.Attribute"/> used to configure an <see cref="T:Neuroglia.AsyncApi.Models.Operation"/>'s <see cref="T:Neuroglia.AsyncApi.Models.Message"/>
+            </summary>
+        </member>
+        <member name="P:Neuroglia.AsyncApi.MessageAttribute.Name">
+            <summary>
+            Gets/sets the <see cref="T:Neuroglia.AsyncApi.Models.Message"/>'s name
+            </summary>
+        </member>
+        <member name="P:Neuroglia.AsyncApi.MessageAttribute.Title">
+            <summary>
+            Gets/sets the <see cref="T:Neuroglia.AsyncApi.Models.Message"/>'s title
+            </summary>
+        </member>
+        <member name="P:Neuroglia.AsyncApi.MessageAttribute.Description">
+            <summary>
+            Gets/sets the <see cref="T:Neuroglia.AsyncApi.Models.Message"/>'s description
+            </summary>
+        </member>
+        <member name="P:Neuroglia.AsyncApi.MessageAttribute.Summary">
+            <summary>
+            Gets/sets the <see cref="T:Neuroglia.AsyncApi.Models.Message"/>'s summary
+            </summary>
+        </member>
+        <member name="P:Neuroglia.AsyncApi.MessageAttribute.ContentType">
+            <summary>
+            Gets/sets the <see cref="T:Neuroglia.AsyncApi.Models.Message"/>'s content type
+            </summary>
+        </member>
+        <member name="T:Neuroglia.AsyncApi.OperationAttribute">
+            <summary>
+            Represents an <see cref="T:System.Attribute"/> used to mark a method as an <see cref="T:Neuroglia.AsyncApi.Models.Operation"/>
+            </summary>
+        </member>
+        <member name="M:Neuroglia.AsyncApi.OperationAttribute.#ctor(Neuroglia.AsyncApi.OperationType,System.Type)">
+            <summary>
+            Initializes a new <see cref="T:Neuroglia.AsyncApi.OperationAttribute"/>
+            </summary>
+            <param name="operationType">The <see cref="T:Neuroglia.AsyncApi.Models.Operation"/>'s type</param>
+            <param name="messageType">The <see cref="T:Neuroglia.AsyncApi.Models.Operation"/>'s message type</param>
+        </member>
+        <member name="M:Neuroglia.AsyncApi.OperationAttribute.#ctor(Neuroglia.AsyncApi.OperationType)">
+            <summary>
+            Initializes a new <see cref="T:Neuroglia.AsyncApi.OperationAttribute"/>
+            </summary>
+            <param name="operationType">The <see cref="T:Neuroglia.AsyncApi.Models.Operation"/>'s type</param>
+        </member>
+        <member name="P:Neuroglia.AsyncApi.OperationAttribute.OperationType">
+            <summary>
+            Gets the <see cref="T:Neuroglia.AsyncApi.Models.Operation"/>'s type
+            </summary>
+        </member>
+        <member name="P:Neuroglia.AsyncApi.OperationAttribute.MessageType">
+            <summary>
+            Gets the <see cref="T:Neuroglia.AsyncApi.Models.Operation"/>'s message type
+            </summary>
+        </member>
+        <member name="P:Neuroglia.AsyncApi.OperationAttribute.OperationId">
+            <summary>
+            Gets/sets the <see cref="T:Neuroglia.AsyncApi.Models.Operation"/>'s operation id
+            </summary>
+        </member>
+        <member name="P:Neuroglia.AsyncApi.OperationAttribute.Summary">
+            <summary>
+            Gets/sets the <see cref="T:Neuroglia.AsyncApi.Models.Operation"/>'s summary
+            </summary>
+        </member>
+        <member name="P:Neuroglia.AsyncApi.OperationAttribute.Description">
+            <summary>
+            Gets/sets the <see cref="T:Neuroglia.AsyncApi.Models.Operation"/>'s summary
+            </summary>
+        </member>
+        <member name="T:Neuroglia.AsyncApi.PublishOperationAttribute">
+            <summary>
+            Represents an <see cref="T:System.Attribute"/> used to mark a method as an <see cref="T:Neuroglia.AsyncApi.Models.Operation"/> of type <see cref="F:Neuroglia.AsyncApi.OperationType.Publish"/>
+            </summary>
+        </member>
+        <member name="M:Neuroglia.AsyncApi.PublishOperationAttribute.#ctor(System.Type)">
+            <summary>
+            Initializes a new <see cref="T:Neuroglia.AsyncApi.PublishOperationAttribute"/>
+            </summary>
+            <param name="messageType">The <see cref="T:Neuroglia.AsyncApi.Models.Operation"/>'s message type</param>
+        </member>
+        <member name="M:Neuroglia.AsyncApi.PublishOperationAttribute.#ctor">
+            <summary>
+            Initializes a new <see cref="T:Neuroglia.AsyncApi.PublishOperationAttribute"/>
+            </summary>
+        </member>
+        <member name="T:Neuroglia.AsyncApi.SubscribeOperationAttribute">
+            <summary>
+            Represents an <see cref="T:System.Attribute"/> used to mark a method as an <see cref="T:Neuroglia.AsyncApi.Models.Operation"/> of type <see cref="F:Neuroglia.AsyncApi.OperationType.Subscribe"/>
+            </summary>
+        </member>
+        <member name="M:Neuroglia.AsyncApi.SubscribeOperationAttribute.#ctor(System.Type)">
+            <summary>
+            Initializes a new <see cref="T:Neuroglia.AsyncApi.SubscribeOperationAttribute"/>
+            </summary>
+            <param name="messageType">The <see cref="T:Neuroglia.AsyncApi.Models.Operation"/>'s message type</param>
+        </member>
+        <member name="M:Neuroglia.AsyncApi.SubscribeOperationAttribute.#ctor">
+            <summary>
+            Initializes a new <see cref="T:Neuroglia.AsyncApi.OperationAttribute"/>
+            </summary>
+        </member>
+        <member name="T:Neuroglia.AsyncApi.IServiceCollectionExtensions">
+            <summary>
+            Defines extensions for <see cref="T:Microsoft.Extensions.DependencyInjection.IServiceCollection"/>s
+            </summary>
+        </member>
+        <member name="M:Neuroglia.AsyncApi.IServiceCollectionExtensions.AddAsyncApi(Microsoft.Extensions.DependencyInjection.IServiceCollection)">
+            <summary>
+            Adds and configures Async API services (<see cref="T:Neuroglia.Serialization.ISerializer"/>s, <see cref="T:Neuroglia.AsyncApi.Services.IO.IAsyncApiDocumentReader"/>, <see cref="T:Neuroglia.AsyncApi.Services.IO.IAsyncApiDocumentWriter"/>, ...)
+            </summary>
+            <param name="services">The <see cref="T:Microsoft.Extensions.DependencyInjection.IServiceCollection"/> to configure</param>
+            <returns>The configured <see cref="T:Microsoft.Extensions.DependencyInjection.IServiceCollection"/></returns>
+        </member>
+        <member name="T:Neuroglia.AsyncApi.HttpBindingOperationType">
+            <summary>
+            Enumerates all types of http binding operation types
+            </summary>
+        </member>
+        <member name="F:Neuroglia.AsyncApi.HttpBindingOperationType.Request">
+            <summary>
+            Indicates a request
+            </summary>
+        </member>
+        <member name="F:Neuroglia.AsyncApi.HttpBindingOperationType.Response">
+            <summary>
+            Indicates a response
+            </summary>
+        </member>
+        <member name="T:Neuroglia.AsyncApi.HttpMethod">
+            <summary>
+            Enumerates all supported HTTP methods
+            </summary>
+        </member>
+        <member name="F:Neuroglia.AsyncApi.HttpMethod.GET">
+            <summary>
+            Indicates the GET http method
+            </summary>
+        </member>
+        <member name="F:Neuroglia.AsyncApi.HttpMethod.POST">
+            <summary>
+            Indicates the POST http method
+            </summary>
+        </member>
+        <member name="F:Neuroglia.AsyncApi.HttpMethod.PUT">
+            <summary>
+            Indicates the PUT http method
+            </summary>
+        </member>
+        <member name="F:Neuroglia.AsyncApi.HttpMethod.PATCH">
+            <summary>
+            Indicates the PATCH http method
+            </summary>
+        </member>
+        <member name="F:Neuroglia.AsyncApi.HttpMethod.DELETE">
+            <summary>
+            Indicates the DELETE http method
+            </summary>
+        </member>
+        <member name="F:Neuroglia.AsyncApi.HttpMethod.HEAD">
+            <summary>
+            Indicates the HEAD http method
+            </summary>
+        </member>
+        <member name="F:Neuroglia.AsyncApi.HttpMethod.OPTIONS">
+            <summary>
+            Indicates the OPTIONS http method
+            </summary>
+        </member>
+        <member name="F:Neuroglia.AsyncApi.HttpMethod.CONNECT">
+            <summary>
+            Indicates the CONNECT http method
+            </summary>
+        </member>
+        <member name="F:Neuroglia.AsyncApi.HttpMethod.TRACE">
+            <summary>
+            Indicates the TRACE http method
+            </summary>
+        </member>
+        <member name="T:Neuroglia.AsyncApi.IReferenceable">
+            <summary>
+            Defines the fundamentals of a referenceable component
+            </summary>
+        </member>
+        <member name="P:Neuroglia.AsyncApi.IReferenceable.Reference">
+            <summary>
+            Gets the <see cref="T:Neuroglia.AsyncApi.IReferenceable"/>'s reference
+            </summary>
+        </member>
+        <member name="T:Neuroglia.AsyncApi.Models.ApiInfo">
+            <summary>
+            Represents an object that provides metadata about the API. The metadata can be used by the clients if needed
+            </summary>
+        </member>
+        <member name="P:Neuroglia.AsyncApi.Models.ApiInfo.Title">
+            <summary>
+            Gets/sets the title of the application
+            </summary>
+        </member>
+        <member name="P:Neuroglia.AsyncApi.Models.ApiInfo.Version">
+            <summary>
+            Gets/sets the version of the application API (not to be confused with the specification version)
+            </summary>
+        </member>
+        <member name="P:Neuroglia.AsyncApi.Models.ApiInfo.Description">
+            <summary>
+            Gets/sets a short description of the application. <see href="https://spec.commonmark.org/">CommonMark</see> syntax can be used for rich text representation.
+            </summary>
+        </member>
+        <member name="P:Neuroglia.AsyncApi.Models.ApiInfo.TermsOfService">
+            <summary>
+            Gets/sets a <see cref="T:System.Uri"/> to the Terms of Service for the API.
+            </summary>
+        </member>
+        <member name="P:Neuroglia.AsyncApi.Models.ApiInfo.Contact">
+            <summary>
+            Gets/sets the contact information for the exposed API.
+            </summary>
+        </member>
+        <member name="P:Neuroglia.AsyncApi.Models.ApiInfo.License">
+            <summary>
+            Gets/sets the license information for the exposed API.
+            </summary>
+        </member>
+        <member name="M:Neuroglia.AsyncApi.Models.ApiInfo.ToString">
+            <inheritdoc/>
+        </member>
+        <member name="T:Neuroglia.AsyncApi.Models.AsyncApiDocument">
+            <summary>
+            Represents an <see href="https://www.asyncapi.com">Async API</see> document
+            </summary>
+        </member>
+        <member name="P:Neuroglia.AsyncApi.Models.AsyncApiDocument.AsyncApi">
+            <summary>
+            Gets/sets the the AsyncAPI Specification version being used. It can be used by tooling Specifications and clients to interpret the version. 
+            </summary>
+            <remarks>
+            The structure shall be major.minor.patch, where patch versions must be compatible with the existing major.minor tooling. 
+            Typically patch versions will be introduced to address errors in the documentation, and tooling should typically be compatible with the corresponding major.minor (1.0.*). 
+            Patch versions will correspond to patches of this document.
+            </remarks>
+        </member>
+        <member name="P:Neuroglia.AsyncApi.Models.AsyncApiDocument.Id">
+            <summary>
+            Gets/sets the identifier of the application the AsyncAPI document is defining.
+            </summary>
+        </member>
+        <member name="P:Neuroglia.AsyncApi.Models.AsyncApiDocument.Info">
+            <summary>
+            Gets/sets the object that provides metadata about the API. The metadata can be used by the clients if needed. 
+            </summary>
+        </member>
+        <member name="P:Neuroglia.AsyncApi.Models.AsyncApiDocument.Servers">
+            <summary>
+            Gets/sets a <see cref="T:System.Collections.Generic.Dictionary`2"/> containing name/configuration mappings for the application's servers
+            </summary>
+        </member>
+        <member name="P:Neuroglia.AsyncApi.Models.AsyncApiDocument.DefaultContentType">
+            <summary>
+            Gets/sets the default content type to use when encoding/decoding a message's payload.
+            </summary>
+        </member>
+        <member name="P:Neuroglia.AsyncApi.Models.AsyncApiDocument.Channels">
+            <summary>
+            Gets/sets a collection containing the available channels and messages for the API.
+            </summary>
+        </member>
+        <member name="P:Neuroglia.AsyncApi.Models.AsyncApiDocument.Components">
+            <summary>
+            Gets/sets an object used to hold various schemas for the specification.
+            </summary>
+        </member>
+        <member name="P:Neuroglia.AsyncApi.Models.AsyncApiDocument.Tags">
+            <summary>
+            Gets/sets a <see cref="T:System.Collections.Generic.List`1"/> of tags used by the specification with additional metadata. Each tag name in the list MUST be unique.
+            </summary>
+        </member>
+        <member name="P:Neuroglia.AsyncApi.Models.AsyncApiDocument.ExternalDocs">
+            <summary>
+            Gets/sets a <see cref="T:System.Collections.Generic.List`1"/> containing additional external documentation.
+            </summary>
+        </member>
+        <member name="M:Neuroglia.AsyncApi.Models.AsyncApiDocument.ToString">
+            <inheritdoc/>
+        </member>
+        <member name="T:Neuroglia.AsyncApi.Models.BindingCollection`1">
+            <summary>
+            Represents the base class for all <see cref="T:Neuroglia.AsyncApi.Models.IBindingCollection`1"/> implementations
+            </summary>
+            <typeparam name="TBinding">The type of <see cref="T:Neuroglia.AsyncApi.Models.Bindings.IBinding"/> contained by the <see cref="T:Neuroglia.AsyncApi.Models.BindingCollection`1"/></typeparam>
+        </member>
+        <member name="M:Neuroglia.AsyncApi.Models.BindingCollection`1.Add(`0)">
+            <summary>
+            Adds the specified <see cref="T:Neuroglia.AsyncApi.Models.Bindings.IBinding"/> to the <see cref="T:Neuroglia.AsyncApi.Models.BindingCollection`1"/>
+            </summary>
+            <param name="binding">The <see cref="T:Neuroglia.AsyncApi.Models.Bindings.IBinding"/> to add</param>
+        </member>
+        <member name="M:Neuroglia.AsyncApi.Models.BindingCollection`1.GetEnumerator">
+            <inheritdoc/>
+        </member>
+        <member name="T:Neuroglia.AsyncApi.Models.Bindings.AmqpV1.AmqpV1ChannelBinding">
+            <summary>
+            Represents the object used to configure an AMQP 1.0 channel binding
+            </summary>
+        </member>
+        <member name="T:Neuroglia.AsyncApi.Models.Bindings.AmqpV1.AmqpV1MessageBinding">
+            <summary>
+            Represents the object used to configure an AMQP 1.0 message binding
+            </summary>
+        </member>
+        <member name="T:Neuroglia.AsyncApi.Models.Bindings.AmqpV1.AmqpV1OperationBinding">
+            <summary>
+            Represents the object used to configure an AMQP 1.0 operation binding
+            </summary>
+        </member>
+        <member name="T:Neuroglia.AsyncApi.Models.Bindings.AmqpV1.AmqpV1ServerBinding">
+            <summary>
+            Represents the object used to configure an AMQP 1.0 server binding
+            </summary>
+        </member>
+        <member name="T:Neuroglia.AsyncApi.Models.Bindings.Amqp.AmqpChannelBinding">
+            <summary>
+            Represents the object used to configure an AMQP channel binding
+            </summary>
+        </member>
+        <member name="P:Neuroglia.AsyncApi.Models.Bindings.Amqp.AmqpChannelBinding.Type">
+            <summary>
+            Gets/sets AMQP channel's type
+            </summary>
+        </member>
+        <member name="P:Neuroglia.AsyncApi.Models.Bindings.Amqp.AmqpChannelBinding.Exchange">
+            <summary>
+            Gets/sets the object used to configure the AMQP exchange, when <see cref="P:Neuroglia.AsyncApi.Models.Bindings.Amqp.AmqpChannelBinding.Type"/> is set to <see cref="F:Neuroglia.AsyncApi.AmqpChannelType.RoutingKey"/>
+            </summary>
+        </member>
+        <member name="P:Neuroglia.AsyncApi.Models.Bindings.Amqp.AmqpChannelBinding.Queue">
+            <summary>
+            Gets/sets the object used to configure the AMQP queue, when <see cref="P:Neuroglia.AsyncApi.Models.Bindings.Amqp.AmqpChannelBinding.Type"/> is set to <see cref="F:Neuroglia.AsyncApi.AmqpChannelType.Queue"/>
+            </summary>
+        </member>
+        <member name="P:Neuroglia.AsyncApi.Models.Bindings.Amqp.AmqpChannelBinding.BindingVersion">
+            <summary>
+            Gets/sets the version of this binding. Defaults to 'latest'.
+            </summary>
+        </member>
+        <member name="T:Neuroglia.AsyncApi.Models.Bindings.Amqp.AmqpExchange">
+            <summary>
+            Represents the object used to configure an AMQP routing key based channel
+            </summary>
+        </member>
+        <member name="P:Neuroglia.AsyncApi.Models.Bindings.Amqp.AmqpExchange.Name">
+            <summary>
+            Gets/sets the name of the exchange. It MUST NOT exceed 255 characters long.
+            </summary>
+        </member>
+        <member name="P:Neuroglia.AsyncApi.Models.Bindings.Amqp.AmqpExchange.Type">
+            <summary>
+            Gets/sets the <see cref="T:Neuroglia.AsyncApi.Models.Bindings.Amqp.AmqpExchange"/>'s type
+            </summary>
+        </member>
+        <member name="P:Neuroglia.AsyncApi.Models.Bindings.Amqp.AmqpExchange.Durable">
+            <summary>
+            Gets/sets a boolean indicating whether the exchange should survive broker restarts or not.
+            </summary>
+        </member>
+        <member name="P:Neuroglia.AsyncApi.Models.Bindings.Amqp.AmqpExchange.AutoDelete">
+            <summary>
+            Gets/sets a boolean indicating whether the exchange should be deleted when the last queue is unbound from it.
+            </summary>
+        </member>
+        <member name="P:Neuroglia.AsyncApi.Models.Bindings.Amqp.AmqpExchange.VirtualHost">
+            <summary>
+            Gets/sets the virtual host of the exchange. Defaults to '/'.
+            </summary>
+        </member>
+        <member name="T:Neuroglia.AsyncApi.Models.Bindings.Amqp.AmqpMessageBinding">
+            <summary>
+            Represents the object used to configure an AMQP 0.9+ message binding
+            </summary>
+        </member>
+        <member name="T:Neuroglia.AsyncApi.Models.Bindings.Amqp.AmqpOperationBinding">
+            <summary>
+            Represents the object used to configure an AMQP 0.9+ operation binding
+            </summary>
+        </member>
+        <member name="T:Neuroglia.AsyncApi.Models.Bindings.Amqp.AmqpQueue">
+            <summary>
+            Represents the object used to configure an AMQP queue based channel
+            </summary>
+        </member>
+        <member name="P:Neuroglia.AsyncApi.Models.Bindings.Amqp.AmqpQueue.Name">
+            <summary>
+            Gets/sets the name of the queue. It MUST NOT exceed 255 characters long.
+            </summary>
+        </member>
+        <member name="P:Neuroglia.AsyncApi.Models.Bindings.Amqp.AmqpQueue.Durable">
+            <summary>
+            Gets/sets a boolean indicating whether the queue should survive broker restarts or not.
+            </summary>
+        </member>
+        <member name="P:Neuroglia.AsyncApi.Models.Bindings.Amqp.AmqpQueue.Exclusive">
+            <summary>
+            Gets/sets a boolean indicating whether the queue should be used only by one connection or not.
+            </summary>
+        </member>
+        <member name="P:Neuroglia.AsyncApi.Models.Bindings.Amqp.AmqpQueue.AutoDelete">
+            <summary>
+            Gets/sets a boolean indicating whether the queue should be deleted when the last queue is unbound from it.
+            </summary>
+        </member>
+        <member name="P:Neuroglia.AsyncApi.Models.Bindings.Amqp.AmqpQueue.VirtualHost">
+            <summary>
+            Gets/sets the virtual host of the queue. Defaults to '/'.
+            </summary>
+        </member>
+        <member name="T:Neuroglia.AsyncApi.Models.Bindings.Amqp.AmqpServerBinding">
+            <summary>
+            Represents the object used to configure an AMQP 0.9+ server binding
+            </summary>
+        </member>
+        <member name="T:Neuroglia.AsyncApi.Models.Bindings.Http.HttpChannelBinding">
+            <summary>
+            Represents the object used to configure an http channel binding
+            </summary>
+        </member>
+        <member name="T:Neuroglia.AsyncApi.Models.Bindings.Http.HttpMessageBinding">
+            <summary>
+            Represents the object used to configure an http message binding
+            </summary>
+        </member>
+        <member name="P:Neuroglia.AsyncApi.Models.Bindings.Http.HttpMessageBinding.Headers">
+            <summary>
+            Gets/sets a <see cref="T:Newtonsoft.Json.Schema.JSchema"/> containing the definitions for HTTP-specific headers. This schema MUST be of type object and have a properties key.
+            </summary>
+        </member>
+        <member name="P:Neuroglia.AsyncApi.Models.Bindings.Http.HttpMessageBinding.BindingVersion">
+            <summary>
+            Gets/sets the version of this binding. Defaults to 'latest'.
+            </summary>
+        </member>
+        <member name="T:Neuroglia.AsyncApi.Models.Bindings.Http.HttpOperationBinding">
+            <summary>
+            Represents the object used to configure an http operation binding
+            </summary>
+        </member>
+        <member name="P:Neuroglia.AsyncApi.Models.Bindings.Http.HttpOperationBinding.Type">
+            <summary>
+            Gets/sets the binding's operation type
+            </summary>
+        </member>
+        <member name="P:Neuroglia.AsyncApi.Models.Bindings.Http.HttpOperationBinding.Method">
+            <summary>
+            Gets/sets the binding's method
+            </summary>
+        </member>
+        <member name="P:Neuroglia.AsyncApi.Models.Bindings.Http.HttpOperationBinding.Query">
+            <summary>
+            Gets/sets a <see cref="T:Newtonsoft.Json.Schema.JSchema"/> containing the definitions for each query parameter. This schema MUST be of type object and have a properties key.
+            </summary>
+        </member>
+        <member name="P:Neuroglia.AsyncApi.Models.Bindings.Http.HttpOperationBinding.BindingVersion">
+            <summary>
+            Gets/sets the version of this binding. Defaults to 'latest'.
+            </summary>
+        </member>
+        <member name="T:Neuroglia.AsyncApi.Models.Bindings.Http.HttpServerBinding">
+            <summary>
+            Represents the object used to configure an http server binding
+            </summary>
+        </member>
+        <member name="T:Neuroglia.AsyncApi.Models.Bindings.IBinding">
+            <summary>
+            Defines the fundamentals of an Async API binding
+            </summary>
+        </member>
+        <member name="T:Neuroglia.AsyncApi.Models.Bindings.IChannelBinding">
+            <summary>
+            Defines the fundamentals of a channel binding
+            </summary>
+        </member>
+        <member name="T:Neuroglia.AsyncApi.Models.Bindings.IMessageBinding">
+            <summary>
+            Defines the fundamentals of a message binding
+            </summary>
+        </member>
+        <member name="T:Neuroglia.AsyncApi.Models.Bindings.IOperationBinding">
+            <summary>
+            Defines the fundamentals of an operation binding
+            </summary>
+        </member>
+        <member name="T:Neuroglia.AsyncApi.Models.Bindings.IServerBinding">
+            <summary>
+            Defines the fundamentals of a server binding
+            </summary>
+        </member>
+        <member name="T:Neuroglia.AsyncApi.Models.Bindings.Kafka.KafkaChannelBinding">
+            <summary>
+            Represents the object used to configure a Kafka channel binding
+            </summary>
+        </member>
+        <member name="T:Neuroglia.AsyncApi.Models.Bindings.Kafka.KafkaMessageBinding">
+            <summary>
+            Represents the object used to configure a Kafka message binding
+            </summary>
+        </member>
+        <member name="P:Neuroglia.AsyncApi.Models.Bindings.Kafka.KafkaMessageBinding.Key">
+            <summary>
+            Gets/sets a <see cref="T:Newtonsoft.Json.Schema.JSchema"/> that defines the message key.
+            </summary>
+        </member>
+        <member name="P:Neuroglia.AsyncApi.Models.Bindings.Kafka.KafkaMessageBinding.BindingVersion">
+            <summary>
+            Gets/sets the version of this binding. Defaults to 'latest'.
+            </summary>
+        </member>
+        <member name="T:Neuroglia.AsyncApi.Models.Bindings.Kafka.KafkaOperationBinding">
+            <summary>
+            Represents the object used to configure a Kafka operation binding
+            </summary>
+        </member>
+        <member name="P:Neuroglia.AsyncApi.Models.Bindings.Kafka.KafkaOperationBinding.GroupId">
+            <summary>
+            Gets/sets the <see cref="T:Newtonsoft.Json.Schema.JSchema"/> of the consumer group.
+            </summary>
+        </member>
+        <member name="P:Neuroglia.AsyncApi.Models.Bindings.Kafka.KafkaOperationBinding.ClientId">
+            <summary>
+            Gets/sets the <see cref="T:Newtonsoft.Json.Schema.JSchema"/> of the consumer inside a consumer group.
+            </summary>
+        </member>
+        <member name="P:Neuroglia.AsyncApi.Models.Bindings.Kafka.KafkaOperationBinding.BindingVersion">
+            <summary>
+            Gets/sets the version of this binding. Defaults to 'latest'.
+            </summary>
+        </member>
+        <member name="T:Neuroglia.AsyncApi.Models.Bindings.Kafka.KafkaServerBinding">
+            <summary>
+            Represents the object used to configure a Kafka server binding
+            </summary>
+        </member>
+        <member name="T:Neuroglia.AsyncApi.Models.Bindings.Mqtt5.MqttV5ChannelBinding">
+            <summary>
+            Represents the object used to configure an MQTT V5+ channel binding
+            </summary>
+        </member>
+        <member name="T:Neuroglia.AsyncApi.Models.Bindings.Mqtt5.MqttV5MessageBinding">
+            <summary>
+            Represents the object used to configure an MQTT V5+ message binding
+            </summary>
+        </member>
+        <member name="T:Neuroglia.AsyncApi.Models.Bindings.Mqtt5.MqttV5OperationBinding">
+            <summary>
+            Represents the object used to configure an MQTT V5+ operation binding
+            </summary>
+        </member>
+        <member name="T:Neuroglia.AsyncApi.Models.Bindings.Mqtt5.MqttV5ServerBinding">
+            <summary>
+            Represents the object used to configure an MQTT V5+ server binding
+            </summary>
+        </member>
+        <member name="T:Neuroglia.AsyncApi.Models.Bindings.Mqtt.MqttChannelBinding">
+            <summary>
+            Represents the object used to configure an MQTT channel binding
+            </summary>
+        </member>
+        <member name="T:Neuroglia.AsyncApi.Models.Bindings.Mqtt.MqttLastWill">
+            <summary>
+            Represents an object used to configure an <see cref="T:Neuroglia.AsyncApi.Models.Bindings.Mqtt.MqttServerBinding"/>'s last Will and Testament
+            </summary>
+        </member>
+        <member name="P:Neuroglia.AsyncApi.Models.Bindings.Mqtt.MqttLastWill.Topic">
+            <summary>
+            Gets/sets the topic where the Last Will and Testament message will be sent.
+            </summary>
+        </member>
+        <member name="P:Neuroglia.AsyncApi.Models.Bindings.Mqtt.MqttLastWill.QoS">
+            <summary>
+            Gets/sets an integer that defines how hard the broker/client will try to ensure that the Last Will and Testament message is received. Its value MUST be either 0, 1 or 2.
+            </summary>
+        </member>
+        <member name="P:Neuroglia.AsyncApi.Models.Bindings.Mqtt.MqttLastWill.Message">
+            <summary>
+            Gets/sets the Last Will message
+            </summary>
+        </member>
+        <member name="P:Neuroglia.AsyncApi.Models.Bindings.Mqtt.MqttLastWill.Retain">
+            <summary>
+            Gets/sets a boolean indicating whether the broker should retain the Last Will and Testament message or not.
+            </summary>
+        </member>
+        <member name="T:Neuroglia.AsyncApi.Models.Bindings.Mqtt.MqttMessageBinding">
+            <summary>
+            Represents the object used to configure an MQTT message binding
+            </summary>
+        </member>
+        <member name="P:Neuroglia.AsyncApi.Models.Bindings.Mqtt.MqttMessageBinding.BindingVersion">
+            <summary>
+            Gets/sets the version of this binding. Defaults to 'latest'.
+            </summary>
+        </member>
+        <member name="T:Neuroglia.AsyncApi.Models.Bindings.Mqtt.MqttOperationBinding">
+            <summary>
+            Represents the object used to configure an MQTT operation binding
+            </summary>
+        </member>
+        <member name="P:Neuroglia.AsyncApi.Models.Bindings.Mqtt.MqttOperationBinding.QoS">
+            <summary>
+            Gets/sets an integer that defines the Quality of Service (QoS) levels for the message flow between client and server. Its value MUST be either 0 (At most once delivery), 1 (At least once delivery), or 2 (Exactly once delivery).
+            </summary>
+        </member>
+        <member name="P:Neuroglia.AsyncApi.Models.Bindings.Mqtt.MqttOperationBinding.Retain">
+            <summary>
+            Gets/sets a boolean indicating whether the broker the broker should retain the message or not.
+            </summary>
+        </member>
+        <member name="P:Neuroglia.AsyncApi.Models.Bindings.Mqtt.MqttOperationBinding.BindingVersion">
+            <summary>
+            Gets/sets the version of this binding. Defaults to 'latest'.
+            </summary>
+        </member>
+        <member name="T:Neuroglia.AsyncApi.Models.Bindings.Mqtt.MqttServerBinding">
+            <summary>
+            Represents the object used to configure an MQTT server binding
+            </summary>
+        </member>
+        <member name="P:Neuroglia.AsyncApi.Models.Bindings.Mqtt.MqttServerBinding.ClientId">
+            <summary>
+            Gets/sets the client identifier.
+            </summary>
+        </member>
+        <member name="P:Neuroglia.AsyncApi.Models.Bindings.Mqtt.MqttServerBinding.CleanSession">
+            <summary>
+            Gets/sets a boolean indicating whether to create a persisten connection or not. When false, the connection will is persistent.
+            </summary>
+        </member>
+        <member name="P:Neuroglia.AsyncApi.Models.Bindings.Mqtt.MqttServerBinding.LastWill">
+            <summary>
+            Gets/sets the last Will and Testament configuration.
+            </summary>
+        </member>
+        <member name="P:Neuroglia.AsyncApi.Models.Bindings.Mqtt.MqttServerBinding.KeepAlive">
+            <summary>
+            Gets/sets an interval in seconds of the longest period of time the broker and the client can endure without sending a message.
+            </summary>
+        </member>
+        <member name="P:Neuroglia.AsyncApi.Models.Bindings.Mqtt.MqttServerBinding.BindingVersion">
+            <summary>
+            Gets/sets the version of this binding. Defaults to 'latest'.
+            </summary>
+        </member>
+        <member name="T:Neuroglia.AsyncApi.Models.Bindings.Nats.NatsChannelBinding">
+            <summary>
+            Represents the object used to configure a <see href="https://nats.io/">NATS</see> channel binding
+            </summary>
+        </member>
+        <member name="T:Neuroglia.AsyncApi.Models.Bindings.Nats.NatsMessageBinding">
+            <summary>
+            Represents the object used to configure a <see href="https://nats.io/">NATS</see> message binding
+            </summary>
+        </member>
+        <member name="T:Neuroglia.AsyncApi.Models.Bindings.Nats.NatsOperationBinding">
+            <summary>
+            Represents the object used to configure a <see href="https://nats.io/">NATS</see> operation binding
+            </summary>
+        </member>
+        <member name="T:Neuroglia.AsyncApi.Models.Bindings.Nats.NatsServerBinding">
+            <summary>
+            Represents the object used to configure a <see href="https://nats.io/">NATS</see> server binding
+            </summary>
+        </member>
+        <member name="T:Neuroglia.AsyncApi.Models.Bindings.Redis.RedisChannelBinding">
+            <summary>
+            Represents the object used to configure a <see href="https://redis.io/">Redis</see> channel binding
+            </summary>
+        </member>
+        <member name="T:Neuroglia.AsyncApi.Models.Bindings.Redis.RedisMessageBinding">
+            <summary>
+            Represents the object used to configure a <see href="https://redis.io/">Redis</see> message binding
+            </summary>
+        </member>
+        <member name="T:Neuroglia.AsyncApi.Models.Bindings.Redis.RedisOperationBinding">
+            <summary>
+            Represents the object used to configure a <see href="https://redis.io/">Redis</see> operation binding
+            </summary>
+        </member>
+        <member name="T:Neuroglia.AsyncApi.Models.Bindings.Redis.RedisServerBinding">
+            <summary>
+            Represents the object used to configure a <see href="https://redis.io/">Redis</see> server binding
+            </summary>
+        </member>
+        <member name="T:Neuroglia.AsyncApi.Models.Bindings.WebSockets.WsChannelBinding">
+            <summary>
+            Represents the object used to configure an WebSocket channel binding
+            </summary>
+        </member>
+        <member name="P:Neuroglia.AsyncApi.Models.Bindings.WebSockets.WsChannelBinding.Type">
+            <summary>
+            Gets/sets the <see cref="T:Neuroglia.AsyncApi.Models.Bindings.WebSockets.WsChannelBinding"/>'s operation type
+            </summary>
+        </member>
+        <member name="P:Neuroglia.AsyncApi.Models.Bindings.WebSockets.WsChannelBinding.Query">
+            <summary>
+            Gets/sets a <see cref="T:Newtonsoft.Json.Schema.JSchema"/> containing the definitions for each query parameter. This schema MUST be of type object and have a properties key.
+            </summary>
+        </member>
+        <member name="P:Neuroglia.AsyncApi.Models.Bindings.WebSockets.WsChannelBinding.Headers">
+            <summary>
+            Gets/sets a <see cref="T:Newtonsoft.Json.Schema.JSchema"/> containing the definitions for HTTP-specific headers. This schema MUST be of type object and have a properties key.
+            </summary>
+        </member>
+        <member name="P:Neuroglia.AsyncApi.Models.Bindings.WebSockets.WsChannelBinding.BindingVersion">
+            <summary>
+            Gets/sets the version of this binding. Defaults to 'latest'.
+            </summary>
+        </member>
+        <member name="T:Neuroglia.AsyncApi.Models.Bindings.WebSockets.WsMessageBinding">
+            <summary>
+            Represents the object used to configure a WebSocket message binding
+            </summary>
+        </member>
+        <member name="T:Neuroglia.AsyncApi.Models.Bindings.WebSockets.WsOperationBinding">
+            <summary>
+            Represents the object used to configure a WebSocket operation binding
+            </summary>
+        </member>
+        <member name="T:Neuroglia.AsyncApi.Models.Bindings.WebSockets.WsServerBinding">
+            <summary>
+            Represents the object used to configure an WebSocket server binding
+            </summary>
+        </member>
+        <member name="T:Neuroglia.AsyncApi.Models.Channel">
+            <summary>
+            Represents an object used to define an Async API channel
+            </summary>
+        </member>
+        <member name="P:Neuroglia.AsyncApi.Models.Channel.Description">
+            <summary>
+            Gets/sets an optional description of this channel item. <see href="https://spec.commonmark.org/">CommonMark</see> syntax can be used for rich text representation.
+            </summary>
+        </member>
+        <member name="P:Neuroglia.AsyncApi.Models.Channel.Subscribe">
+            <summary>
+            Gets/sets a definition of the SUBSCRIBE operation, which defines the messages produced by the application and sent to the channel.
+            </summary>
+        </member>
+        <member name="P:Neuroglia.AsyncApi.Models.Channel.Publish">
+            <summary>
+            Gets/sets a definition of the PUBLISH operation, which defines the messages consumed by the application from the channel.
+            </summary>
+        </member>
+        <member name="P:Neuroglia.AsyncApi.Models.Channel.Parameters">
+            <summary>
+            Gets/sets a <see cref="T:System.Collections.Generic.Dictionary`2"/> of the parameters included in the channel name. It SHOULD be present only when using channels with expressions (as defined by RFC 6570 section 2.2).
+            </summary>
+        </member>
+        <member name="P:Neuroglia.AsyncApi.Models.Channel.Bindings">
+            <summary>
+            Gets/sets an object used to configure the <see cref="T:Neuroglia.AsyncApi.Models.Channel"/>'s <see cref="T:Neuroglia.AsyncApi.Models.Bindings.IChannelBinding"/>s
+            </summary>
+        </member>
+        <member name="T:Neuroglia.AsyncApi.Models.ChannelBindingCollection">
+            <summary>
+            Represents the object used to configure a <see cref="T:Neuroglia.AsyncApi.Models.Channel"/>'s <see cref="T:Neuroglia.AsyncApi.Models.Bindings.IChannelBinding"/>s
+            </summary>
+        </member>
+        <member name="P:Neuroglia.AsyncApi.Models.ChannelBindingCollection.Http">
+            <summary>
+            Gets/sets the protocol-specific information for an HTTP server.
+            </summary>
+        </member>
+        <member name="P:Neuroglia.AsyncApi.Models.ChannelBindingCollection.Ws">
+            <summary>
+            Gets/sets the protocol-specific information for an WebSockets server.
+            </summary>
+        </member>
+        <member name="P:Neuroglia.AsyncApi.Models.ChannelBindingCollection.Kafka">
+            <summary>
+            Gets/sets the protocol-specific information for a Kafka server.
+            </summary>
+        </member>
+        <member name="P:Neuroglia.AsyncApi.Models.ChannelBindingCollection.Amqp">
+            <summary>
+            Gets/sets the protocol-specific information for an AMQP 0-9-1 server.
+            </summary>
+        </member>
+        <member name="P:Neuroglia.AsyncApi.Models.ChannelBindingCollection.Amqp1">
+            <summary>
+            Gets/sets the protocol-specific information for an information for an AMQP 1.0 server.
+            </summary>
+        </member>
+        <member name="P:Neuroglia.AsyncApi.Models.ChannelBindingCollection.Mqtt">
+            <summary>
+            Gets/sets the protocol-specific information for an information for an MQTT server.
+            </summary>
+        </member>
+        <member name="P:Neuroglia.AsyncApi.Models.ChannelBindingCollection.Mqtt5">
+            <summary>
+            Gets/sets the protocol-specific information for an information for an MQTT 5 server.
+            </summary>
+        </member>
+        <member name="P:Neuroglia.AsyncApi.Models.ChannelBindingCollection.Nats">
+            <summary>
+            Gets/sets the protocol-specific information for an information for a NATS server.
+            </summary>
+        </member>
+        <member name="P:Neuroglia.AsyncApi.Models.ChannelBindingCollection.Redis">
+            <summary>
+            Gets/sets the protocol-specific information for an information for a Redis server.
+            </summary>
+        </member>
+        <member name="T:Neuroglia.AsyncApi.Models.ComponentCollection">
+            <summary>
+            Represents a set of reusable objects for different aspects of the AsyncAPI specification. 
+            All objects defined within the components object will have no effect on the API unless they are explicitly referenced from properties outside the components object.
+            </summary>
+        </member>
+        <member name="P:Neuroglia.AsyncApi.Models.ComponentCollection.Schemas">
+            <summary>
+            Gets/sets a <see cref="T:System.Collections.Generic.Dictionary`2"/> used to hold reusable <see cref="T:Newtonsoft.Json.Schema.JSchema"/>s
+            </summary>
+        </member>
+        <member name="P:Neuroglia.AsyncApi.Models.ComponentCollection.Messages">
+            <summary>
+            Gets/sets a <see cref="T:System.Collections.Generic.Dictionary`2"/> used to hold reusable <see cref="T:Neuroglia.AsyncApi.Models.Message"/>s
+            </summary>
+        </member>
+        <member name="P:Neuroglia.AsyncApi.Models.ComponentCollection.SecuritySchemes">
+            <summary>
+            Gets/sets a <see cref="T:System.Collections.Generic.Dictionary`2"/> used to hold reusable <see cref="T:Neuroglia.AsyncApi.Models.SecurityScheme"/>s
+            </summary>
+        </member>
+        <member name="P:Neuroglia.AsyncApi.Models.ComponentCollection.Parameters">
+            <summary>
+            Gets/sets a <see cref="T:System.Collections.Generic.Dictionary`2"/> used to hold reusable <see cref="T:Neuroglia.AsyncApi.Models.Parameter"/>s
+            </summary>
+        </member>
+        <member name="P:Neuroglia.AsyncApi.Models.ComponentCollection.CorrelationIds">
+            <summary>
+            Gets/sets a <see cref="T:System.Collections.Generic.Dictionary`2"/> used to hold reusable <see cref="T:Neuroglia.AsyncApi.Models.CorrelationId"/>s
+            </summary>
+        </member>
+        <member name="P:Neuroglia.AsyncApi.Models.ComponentCollection.OperationTraits">
+            <summary>
+            Gets/sets a <see cref="T:System.Collections.Generic.Dictionary`2"/> used to hold reusable <see cref="T:Neuroglia.AsyncApi.Models.OperationTrait"/>s
+            </summary>
+        </member>
+        <member name="P:Neuroglia.AsyncApi.Models.ComponentCollection.MessageTraits">
+            <summary>
+            Gets/sets a <see cref="T:System.Collections.Generic.Dictionary`2"/> used to hold reusable <see cref="T:Neuroglia.AsyncApi.Models.MessageTrait"/>s
+            </summary>
+        </member>
+        <member name="P:Neuroglia.AsyncApi.Models.ComponentCollection.ServerBindings">
+            <summary>
+            Gets/sets a <see cref="T:System.Collections.Generic.Dictionary`2"/> used to hold reusable <see cref="T:Neuroglia.AsyncApi.Models.ServerBindingCollection"/>s
+            </summary>
+        </member>
+        <member name="P:Neuroglia.AsyncApi.Models.ComponentCollection.ChannelBindings">
+            <summary>
+            Gets/sets a <see cref="T:System.Collections.Generic.Dictionary`2"/> used to hold reusable <see cref="T:Neuroglia.AsyncApi.Models.ChannelBindingCollection"/>s
+            </summary>
+        </member>
+        <member name="P:Neuroglia.AsyncApi.Models.ComponentCollection.OperationBindings">
+            <summary>
+            Gets/sets a <see cref="T:System.Collections.Generic.Dictionary`2"/> used to hold reusable <see cref="T:Neuroglia.AsyncApi.Models.OperationBindingCollection"/>s
+            </summary>
+        </member>
+        <member name="P:Neuroglia.AsyncApi.Models.ComponentCollection.MessageBindings">
+            <summary>
+            Gets/sets a <see cref="T:System.Collections.Generic.Dictionary`2"/> used to hold reusable <see cref="T:Neuroglia.AsyncApi.Models.MessageBindingCollection"/>s
+            </summary>
+        </member>
+        <member name="T:Neuroglia.AsyncApi.Models.Contact">
+            <summary>
+            Represents an object used to provide contact information for the exposed API
+            </summary>
+        </member>
+        <member name="P:Neuroglia.AsyncApi.Models.Contact.Name">
+            <summary>
+            Gets/sets the identifying name of the contact person/organization.
+            </summary>
+        </member>
+        <member name="P:Neuroglia.AsyncApi.Models.Contact.Url">
+            <summary>
+            Gets/sets the <see cref="T:System.Uri"/> pointing to the contact information.
+            </summary>
+        </member>
+        <member name="P:Neuroglia.AsyncApi.Models.Contact.Email">
+            <summary>
+            Gets/sets the <see cref="T:System.Uri"/> pointing to the contact information.
+            </summary>
+        </member>
+        <member name="T:Neuroglia.AsyncApi.Models.CorrelationId">
+            <summary>
+            Represents an object used to define an Async API correlation ID
+            </summary>
+        </member>
+        <member name="P:Neuroglia.AsyncApi.Models.CorrelationId.Description">
+            <summary>
+            Gets/sets a short description of the application. <see href="https://spec.commonmark.org/">CommonMark</see> syntax can be used for rich text representation.
+            </summary>
+        </member>
+        <member name="P:Neuroglia.AsyncApi.Models.CorrelationId.Location">
+            <summary>
+            Gets/sets a runtime expression that specifies the location of the correlation ID.
+            </summary>
+        </member>
+        <member name="T:Neuroglia.AsyncApi.Models.ExternalDocumentation">
+            <summary>
+            Represents an object used to define a reference to an external documentation
+            </summary>
+        </member>
+        <member name="P:Neuroglia.AsyncApi.Models.ExternalDocumentation.Description">
+            <summary>
+            Gets/sets an optional description of this documentation. <see href="https://spec.commonmark.org/">CommonMark</see> syntax can be used for rich text representation.
+            </summary>
+        </member>
+        <member name="P:Neuroglia.AsyncApi.Models.ExternalDocumentation.Url">
+            <summary>
+            Gets/sets the <see cref="T:System.Uri"/> for the target documentation.
+            </summary>
+        </member>
+        <member name="M:Neuroglia.AsyncApi.Models.ExternalDocumentation.ToString">
+            <inheritdoc/>
+        </member>
+        <member name="T:Neuroglia.AsyncApi.Models.IBindingCollection`1">
+            <summary>
+            Defines the fundamentals of a collection of <see cref="T:Neuroglia.AsyncApi.Models.Bindings.IBinding"/>s
+            </summary>
+            <typeparam name="TBinding">The type of <see cref="T:Neuroglia.AsyncApi.Models.Bindings.IBinding"/> contained by the <see cref="T:Neuroglia.AsyncApi.Models.IBindingCollection`1"/></typeparam>
+        </member>
+        <member name="T:Neuroglia.AsyncApi.Models.License">
+            <summary>
+            Represents an object used to provide license information for the exposed API
+            </summary>
+        </member>
+        <member name="P:Neuroglia.AsyncApi.Models.License.Name">
+            <summary>
+            Gets/sets the license name used for the API.
+            </summary>
+        </member>
+        <member name="P:Neuroglia.AsyncApi.Models.License.Url">
+            <summary>
+            Gets/sets the <see cref="T:System.Uri"/> to the license used for the API.
+            </summary>
+        </member>
+        <member name="M:Neuroglia.AsyncApi.Models.License.ToString">
+            <inheritdoc/>
+        </member>
+        <member name="T:Neuroglia.AsyncApi.Models.Message">
+            <summary>
+            Represents an object used to define a Async API operation message
+            </summary>
+        </member>
+        <member name="P:Neuroglia.AsyncApi.Models.Message.Payload">
+            <summary>
+            Gets/sets the definition of the message payload. It can be of any type but defaults to Schema object. It must match the <see cref="P:Neuroglia.AsyncApi.Models.MessageTrait.SchemaFormat"/>, including encoding type - e.g Avro should be inlined as either a YAML or JSON object NOT a string to be parsed as YAML or JSON.
+            </summary>
+        </member>
+        <member name="P:Neuroglia.AsyncApi.Models.Message.Traits">
+            <summary>
+            Gets/sets a <see cref="T:System.Collections.Generic.List`1"/> of traits to apply to the message object. Traits MUST be merged into the message object using the JSON Merge Patch algorithm in the same order they are defined here.
+            </summary>
+        </member>
+        <member name="T:Neuroglia.AsyncApi.Models.MessageBindingCollection">
+            <summary>
+            Represents the object used to configure a <see cref="T:Neuroglia.AsyncApi.Models.Message"/>'s <see cref="T:Neuroglia.AsyncApi.Models.Bindings.IMessageBinding"/>s
+            </summary>
+        </member>
+        <member name="P:Neuroglia.AsyncApi.Models.MessageBindingCollection.Http">
+            <summary>
+            Gets/sets the protocol-specific information for an HTTP server.
+            </summary>
+        </member>
+        <member name="P:Neuroglia.AsyncApi.Models.MessageBindingCollection.Ws">
+            <summary>
+            Gets/sets the protocol-specific information for an WebSockets server.
+            </summary>
+        </member>
+        <member name="P:Neuroglia.AsyncApi.Models.MessageBindingCollection.Kafka">
+            <summary>
+            Gets/sets the protocol-specific information for a Kafka server.
+            </summary>
+        </member>
+        <member name="P:Neuroglia.AsyncApi.Models.MessageBindingCollection.Amqp">
+            <summary>
+            Gets/sets the protocol-specific information for an AMQP 0-9-1 server.
+            </summary>
+        </member>
+        <member name="P:Neuroglia.AsyncApi.Models.MessageBindingCollection.Amqp1">
+            <summary>
+            Gets/sets the protocol-specific information for an information for an AMQP 1.0 server.
+            </summary>
+        </member>
+        <member name="P:Neuroglia.AsyncApi.Models.MessageBindingCollection.Mqtt">
+            <summary>
+            Gets/sets the protocol-specific information for an information for an MQTT server.
+            </summary>
+        </member>
+        <member name="P:Neuroglia.AsyncApi.Models.MessageBindingCollection.Mqtt5">
+            <summary>
+            Gets/sets the protocol-specific information for an information for an MQTT 5 server.
+            </summary>
+        </member>
+        <member name="P:Neuroglia.AsyncApi.Models.MessageBindingCollection.Nats">
+            <summary>
+            Gets/sets the protocol-specific information for an information for a NATS server.
+            </summary>
+        </member>
+        <member name="P:Neuroglia.AsyncApi.Models.MessageBindingCollection.Redis">
+            <summary>
+            Gets/sets the protocol-specific information for an information for a Redis server.
+            </summary>
+        </member>
+        <member name="T:Neuroglia.AsyncApi.Models.MessageTrait">
+            <summary>
+            Represents an object used to define a Async API operation message trait
+            </summary>
+        </member>
+        <member name="P:Neuroglia.AsyncApi.Models.MessageTrait.Headers">
+            <summary>
+            Gets/sets a <see cref="T:Newtonsoft.Json.Schema.JSchema"/> of the application headers. Schema MUST be of type "object". It MUST NOT define the protocol headers.
+            </summary>
+        </member>
+        <member name="P:Neuroglia.AsyncApi.Models.MessageTrait.CorrelationId">
+            <summary>
+            Gets/sets the definition of the correlation ID used for message tracing or matching.
+            </summary>
+        </member>
+        <member name="P:Neuroglia.AsyncApi.Models.MessageTrait.SchemaFormat">
+            <summary>
+            Gets/sets a string containing the name of the schema format used to define the message payload. 
+            If omitted, implementations should parse the payload as a <see cref="T:Newtonsoft.Json.Schema.JSchema"/>.
+            When the payload is defined using a $ref to a remote file, it is RECOMMENDED the schema format includes the file encoding type to allow implementations to parse the file correctly. E.g., adding +yaml if content type is application/vnd.apache.avro results in application/vnd.apache.avro+yaml.
+            </summary>
+        </member>
+        <member name="P:Neuroglia.AsyncApi.Models.MessageTrait.ContentType">
+            <summary>
+            Gets/sets the content type to use when encoding/decoding a message's payload. The value MUST be a specific media type (e.g. application/json). When omitted, the value MUST be the one specified on the <see cref="P:Neuroglia.AsyncApi.Models.AsyncApiDocument.DefaultContentType"/> property.
+            </summary>
+        </member>
+        <member name="P:Neuroglia.AsyncApi.Models.MessageTrait.Name">
+            <summary>
+            Gets/sets a machine-friendly name for the message.
+            </summary>
+        </member>
+        <member name="P:Neuroglia.AsyncApi.Models.MessageTrait.Title">
+            <summary>
+            Gets/sets a human-friendly title for the message.
+            </summary>
+        </member>
+        <member name="P:Neuroglia.AsyncApi.Models.MessageTrait.Summary">
+            <summary>
+            Gets/sets a short summary of what the message is about.
+            </summary>
+        </member>
+        <member name="P:Neuroglia.AsyncApi.Models.MessageTrait.Description">
+            <summary>
+            Gets/sets an optional description of the message. <see href="https://spec.commonmark.org/">CommonMark</see> syntax can be used for rich text representation.
+            </summary>
+        </member>
+        <member name="P:Neuroglia.AsyncApi.Models.MessageTrait.Tags">
+            <summary>
+            gets/sets a <see cref="T:System.Collections.Generic.List`1"/> of tags for API documentation control. Tags can be used for logical grouping of operations.
+            </summary>
+        </member>
+        <member name="P:Neuroglia.AsyncApi.Models.MessageTrait.ExternalDocs">
+            <summary>
+            Gets/sets a <see cref="T:System.Collections.Generic.List`1"/> containing additional external documentation for this message.
+            </summary>
+        </member>
+        <member name="P:Neuroglia.AsyncApi.Models.MessageTrait.Bindings">
+            <summary>
+            Gets/sets an object used to configure the <see cref="T:Neuroglia.AsyncApi.Models.MessageTrait"/>'s <see cref="T:Neuroglia.AsyncApi.Models.Bindings.IMessageBinding"/>s
+            </summary>
+        </member>
+        <member name="P:Neuroglia.AsyncApi.Models.MessageTrait.Examples">
+            <summary>
+            Gets/sets an <see cref="T:System.Collections.Generic.IDictionary`2"/> where keys MUST be either headers and/or payload. 
+            Values MUST contain examples that validate against the headers or payload fields, respectively. 
+            Example MAY also have the name and summary additional keys to provide respectively a machine-friendly name and a short summary of what the example is about.
+            </summary>
+        </member>
+        <member name="M:Neuroglia.AsyncApi.Models.MessageTrait.ToString">
+            <inheritdoc/>
+        </member>
+        <member name="T:Neuroglia.AsyncApi.Models.OAuthFlow">
+            <summary>
+            Represents an object used to define a supported OAuth Flow
+            </summary>
+        </member>
+        <member name="P:Neuroglia.AsyncApi.Models.OAuthFlow.AuthorizationUrl">
+            <summary>
+            Gets/sets the authorization URL to be used for this flow. This MUST be in the form of a URL.
+            </summary>
+        </member>
+        <member name="P:Neuroglia.AsyncApi.Models.OAuthFlow.TokenUrl">
+            <summary>
+            Gets/sets the token URL to be used for this flow. This MUST be in the form of a URL.
+            </summary>
+        </member>
+        <member name="P:Neuroglia.AsyncApi.Models.OAuthFlow.RefreshUrl">
+            <summary>
+            Gets/sets the <see cref="T:System.Uri"/> to be used for obtaining refresh tokens.
+            </summary>
+        </member>
+        <member name="P:Neuroglia.AsyncApi.Models.OAuthFlow.Description">
+            <summary>
+            Gets/sets the available scopes for the OAuth2 security scheme. A map between the scope name and a short description for it.
+            </summary>
+        </member>
+        <member name="T:Neuroglia.AsyncApi.Models.OAuthFlowCollection">
+            <summary>
+            Represents a collection of <see cref="T:Neuroglia.AsyncApi.Models.OAuthFlow"/>s
+            </summary>
+        </member>
+        <member name="P:Neuroglia.AsyncApi.Models.OAuthFlowCollection.Implicit">
+            <summary>
+            Gets/sets the configuration for the OAuth Implicit flow
+            </summary>
+        </member>
+        <member name="P:Neuroglia.AsyncApi.Models.OAuthFlowCollection.Password">
+            <summary>
+            Gets/sets the configuration for the OAuth Resource Owner Protected Credentials flow
+            </summary>
+        </member>
+        <member name="P:Neuroglia.AsyncApi.Models.OAuthFlowCollection.ClientCredentials">
+            <summary>
+            Gets/sets the configuration for the OAuth Client Credentials flow
+            </summary>
+        </member>
+        <member name="P:Neuroglia.AsyncApi.Models.OAuthFlowCollection.AuthorizationCode">
+            <summary>
+            Gets/sets the configuration for the OAuth Authorization Code flow
+            </summary>
+        </member>
+        <member name="M:Neuroglia.AsyncApi.Models.OAuthFlowCollection.GetEnumerator">
+            <inheritdoc/>
+        </member>
+        <member name="T:Neuroglia.AsyncApi.Models.Operation">
+            <summary>
+            Represents an object used to define a Async API operation
+            </summary>
+        </member>
+        <member name="P:Neuroglia.AsyncApi.Models.Operation.Traits">
+            <summary>
+            Gets/sets a <see cref="T:System.Collections.Generic.List`1"/> of traits to apply to the operation object. Traits MUST be merged into the operation object using the JSON Merge Patch algorithm in the same order they are defined here.
+            </summary>
+        </member>
+        <member name="P:Neuroglia.AsyncApi.Models.Operation.Message">
+            <summary>
+            Gets/sets a definition of the message that will be published or received on this channel.
+            </summary>
+        </member>
+        <member name="T:Neuroglia.AsyncApi.Models.OperationBindingCollection">
+            <summary>
+            Represents the object used to configure a <see cref="T:Neuroglia.AsyncApi.Models.Operation"/>'s <see cref="T:Neuroglia.AsyncApi.Models.Bindings.IOperationBinding"/>s
+            </summary>
+        </member>
+        <member name="P:Neuroglia.AsyncApi.Models.OperationBindingCollection.Http">
+            <summary>
+            Gets/sets the protocol-specific information for an HTTP server.
+            </summary>
+        </member>
+        <member name="P:Neuroglia.AsyncApi.Models.OperationBindingCollection.Ws">
+            <summary>
+            Gets/sets the protocol-specific information for an WebSockets server.
+            </summary>
+        </member>
+        <member name="P:Neuroglia.AsyncApi.Models.OperationBindingCollection.Kafka">
+            <summary>
+            Gets/sets the protocol-specific information for a Kafka server.
+            </summary>
+        </member>
+        <member name="P:Neuroglia.AsyncApi.Models.OperationBindingCollection.Amqp">
+            <summary>
+            Gets/sets the protocol-specific information for an AMQP 0-9-1 server.
+            </summary>
+        </member>
+        <member name="P:Neuroglia.AsyncApi.Models.OperationBindingCollection.Amqp1">
+            <summary>
+            Gets/sets the protocol-specific information for an information for an AMQP 1.0 server.
+            </summary>
+        </member>
+        <member name="P:Neuroglia.AsyncApi.Models.OperationBindingCollection.Mqtt">
+            <summary>
+            Gets/sets the protocol-specific information for an information for an MQTT server.
+            </summary>
+        </member>
+        <member name="P:Neuroglia.AsyncApi.Models.OperationBindingCollection.Mqtt5">
+            <summary>
+            Gets/sets the protocol-specific information for an information for an MQTT 5 server.
+            </summary>
+        </member>
+        <member name="P:Neuroglia.AsyncApi.Models.OperationBindingCollection.Nats">
+            <summary>
+            Gets/sets the protocol-specific information for an information for a NATS server.
+            </summary>
+        </member>
+        <member name="P:Neuroglia.AsyncApi.Models.OperationBindingCollection.Redis">
+            <summary>
+            Gets/sets the protocol-specific information for an information for a Redis server.
+            </summary>
+        </member>
+        <member name="T:Neuroglia.AsyncApi.Models.OperationTrait">
+            <summary>
+            Represents an object used to define a Async API operation trait
+            </summary>
+        </member>
+        <member name="P:Neuroglia.AsyncApi.Models.OperationTrait.OperationId">
+            <summary>
+            Gets/sets a unique string used to identify the operation. The id MUST be unique among all operations described in the API. The operationId value is case-sensitive. Tools and libraries MAY use the operationId to uniquely identify an operation, therefore, it is RECOMMENDED to follow common programming naming conventions.
+            </summary>
+        </member>
+        <member name="P:Neuroglia.AsyncApi.Models.OperationTrait.Summary">
+            <summary>
+            Gets/sets a short summary of what the operation is about.
+            </summary>
+        </member>
+        <member name="P:Neuroglia.AsyncApi.Models.OperationTrait.Description">
+            <summary>
+            Gets/sets an optional description of the operation trait. <see href="https://spec.commonmark.org/">CommonMark</see> syntax can be used for rich text representation.
+            </summary>
+        </member>
+        <member name="P:Neuroglia.AsyncApi.Models.OperationTrait.Tags">
+            <summary>
+            Gets/sets a <see cref="T:System.Collections.Generic.List`1"/> of tags for API documentation control. Tags can be used for logical grouping of operations.
+            </summary>
+        </member>
+        <member name="P:Neuroglia.AsyncApi.Models.OperationTrait.ExternalDocs">
+            <summary>
+            Gets/sets a <see cref="T:System.Collections.Generic.List`1"/> containing additional external documentation for this operation.
+            </summary>
+        </member>
+        <member name="P:Neuroglia.AsyncApi.Models.OperationTrait.Bindings">
+            <summary>
+            Gets/sets an object used to configure the <see cref="T:Neuroglia.AsyncApi.Models.OperationTrait"/>'s <see cref="T:Neuroglia.AsyncApi.Models.Bindings.IOperationBinding"/>s
+            </summary>
+        </member>
+        <member name="M:Neuroglia.AsyncApi.Models.OperationTrait.ToString">
+            <inheritdoc/>
+        </member>
+        <member name="T:Neuroglia.AsyncApi.Models.Parameter">
+            <summary>
+            Represents an object used to define an Async API parameter
+            </summary>
+        </member>
+        <member name="P:Neuroglia.AsyncApi.Models.Parameter.Description">
+            <summary>
+            Gets/sets a short description of the parameter. <see href="https://spec.commonmark.org/">CommonMark</see> syntax can be used for rich text representation.
+            </summary>
+        </member>
+        <member name="P:Neuroglia.AsyncApi.Models.Parameter.Schema">
+            <summary>
+            Gets/sets the <see cref="T:Neuroglia.AsyncApi.Models.Parameter"/>'s <see cref="T:Newtonsoft.Json.Schema.JSchema"/>
+            </summary>
+        </member>
+        <member name="P:Neuroglia.AsyncApi.Models.Parameter.Location">
+            <summary>
+            Gets/sets a runtime expression that specifies the location of the parameter value. 
+            Even when a definition for the target field exists, it MUST NOT be used to validate this parameter but, instead, the <see cref="P:Neuroglia.AsyncApi.Models.Parameter.Schema"/> property MUST be used.
+            </summary>
+        </member>
+        <member name="M:Neuroglia.AsyncApi.Models.Parameter.ToString">
+            <inheritdoc/>
+        </member>
+        <member name="T:Neuroglia.AsyncApi.Models.ReferenceableComponent">
+            <summary>
+            Represents the base class for all <see cref="T:Neuroglia.AsyncApi.IReferenceable"/> Async API components
+            </summary>
+        </member>
+        <member name="P:Neuroglia.AsyncApi.Models.ReferenceableComponent.Reference">
+            <summary>
+            Gets/sets an an external definition of the <see cref="T:Neuroglia.AsyncApi.Models.ReferenceableComponent"/>.
+            </summary>
+        </member>
+        <member name="T:Neuroglia.AsyncApi.Models.SecurityScheme">
+            <summary>
+            Represents an object used to define a security scheme
+            </summary>
+        </member>
+        <member name="P:Neuroglia.AsyncApi.Models.SecurityScheme.Type">
+            <summary>
+            Gets/sets a <see cref="T:System.Collections.Generic.List`1"/> containing additional external documentation.
+            </summary>
+        </member>
+        <member name="P:Neuroglia.AsyncApi.Models.SecurityScheme.Description">
+            <summary>
+            Gets/sets a short description of the security scheme. <see href="https://spec.commonmark.org/">CommonMark</see> syntax can be used for rich text representation.
+            </summary>
+        </member>
+        <member name="P:Neuroglia.AsyncApi.Models.SecurityScheme.Name">
+            <summary>
+            Gets/sets the name of the header, query or cookie parameter to be used.
+            </summary>
+        </member>
+        <member name="P:Neuroglia.AsyncApi.Models.SecurityScheme.In">
+            <summary>
+            Gets/sets the location of the API key. Valid values are "user" and "password" for <see cref="F:Neuroglia.AsyncApi.SecuritySchemeType.ApiKey"/> and "query", "header" or "cookie" for <see cref="F:Neuroglia.AsyncApi.SecuritySchemeType.HttpApiKey"/>.
+            </summary>
+        </member>
+        <member name="P:Neuroglia.AsyncApi.Models.SecurityScheme.Scheme">
+            <summary>
+            Gets/sets the name of the HTTP Authorization scheme to be used in the Authorization header as defined in RFC7235.
+            </summary>
+        </member>
+        <member name="P:Neuroglia.AsyncApi.Models.SecurityScheme.BearerFormat">
+            <summary>
+            Gets/sets an object containing configuration information for the flow types supported.
+            </summary>
+        </member>
+        <member name="P:Neuroglia.AsyncApi.Models.SecurityScheme.Flows">
+            <summary>
+            Gets/sets an object containing configuration information for the flow types supported.
+            </summary>
+        </member>
+        <member name="P:Neuroglia.AsyncApi.Models.SecurityScheme.OpenIdConnectUrl">
+            <summary>
+            Gets/sets the OpenId Connect <see cref="T:System.Uri"/> to discover OAuth2 configuration values.
+            </summary>
+        </member>
+        <member name="M:Neuroglia.AsyncApi.Models.SecurityScheme.ToString">
+            <inheritdoc/>
+        </member>
+        <member name="T:Neuroglia.AsyncApi.Models.Server">
+            <summary>
+            Represents an object used to describe a message broker, a server or any other kind of computer program capable of sending and/or receiving data.
+            </summary>
+            <remarks>
+            This object is used to capture details such as URIs, protocols and security configuration. 
+            Variable substitution can be used so that some details, for example usernames and passwords, can be injected by code generation tools.
+            </remarks>
+        </member>
+        <member name="P:Neuroglia.AsyncApi.Models.Server.Url">
+            <summary>
+            Gets/sets the <see cref="T:System.Uri"/> pointing to the contact information.
+            </summary>
+        </member>
+        <member name="P:Neuroglia.AsyncApi.Models.Server.Protocol">
+            <summary>
+            Gets/sets the protocol this URL supports for connection. 
+            Supported protocol include, but are not limited to: amqp, amqps, http, https, ibmmq, jms, kafka, kafka-secure, mqtt, secure-mqtt, stomp, stomps, ws, wss, mercure.
+            </summary>
+        </member>
+        <member name="P:Neuroglia.AsyncApi.Models.Server.ProtocolVersion">
+            <summary>
+            Gets/sets the version of the protocol used for connection. For instance: AMQP 0.9.1, HTTP 2.0, Kafka 1.0.0, etc.
+            </summary>
+        </member>
+        <member name="P:Neuroglia.AsyncApi.Models.Server.Description">
+            <summary>
+            Gets/sets an optional string describing the host designated by the URL. <see href="https://spec.commonmark.org/">CommonMark</see> syntax MAY be used for rich text representation.
+            </summary>
+        </member>
+        <member name="P:Neuroglia.AsyncApi.Models.Server.Variables">
+            <summary>
+            Gets/sets an optional string describing the host designated by the URL. <see href="https://spec.commonmark.org/">CommonMark</see> syntax MAY be used for rich text representation.
+            </summary>
+        </member>
+        <member name="P:Neuroglia.AsyncApi.Models.Server.Security">
+            <summary>
+            Gets/sets an <see cref="T:System.Collections.Generic.IList`1"/> of values that represent alternative security requirement objects that can be used. 
+            Only one of the security requirement objects need to be satisfied to authorize a connection or operation. 
+            </summary>
+        </member>
+        <member name="P:Neuroglia.AsyncApi.Models.Server.Bindings">
+            <summary>
+            Gets/sets an object used to configure the <see cref="T:Neuroglia.AsyncApi.Models.Server"/>'s <see cref="T:Neuroglia.AsyncApi.Models.Bindings.IServerBinding"/>s
+            </summary>
+        </member>
+        <member name="M:Neuroglia.AsyncApi.Models.Server.ToString">
+            <inheritdoc/>
+        </member>
+        <member name="T:Neuroglia.AsyncApi.Models.ServerBindingCollection">
+            <summary>
+            Represents the object used to configure a <see cref="T:Neuroglia.AsyncApi.Models.Server"/>'s <see cref="T:Neuroglia.AsyncApi.Models.Bindings.IServerBinding"/>s
+            </summary>
+        </member>
+        <member name="P:Neuroglia.AsyncApi.Models.ServerBindingCollection.Http">
+            <summary>
+            Gets/sets the protocol-specific information for an HTTP server.
+            </summary>
+        </member>
+        <member name="P:Neuroglia.AsyncApi.Models.ServerBindingCollection.Ws">
+            <summary>
+            Gets/sets the protocol-specific information for an WebSockets server.
+            </summary>
+        </member>
+        <member name="P:Neuroglia.AsyncApi.Models.ServerBindingCollection.Kafka">
+            <summary>
+            Gets/sets the protocol-specific information for a Kafka server.
+            </summary>
+        </member>
+        <member name="P:Neuroglia.AsyncApi.Models.ServerBindingCollection.Amqp">
+            <summary>
+            Gets/sets the protocol-specific information for an AMQP 0-9-1 server.
+            </summary>
+        </member>
+        <member name="P:Neuroglia.AsyncApi.Models.ServerBindingCollection.Amqp1">
+            <summary>
+            Gets/sets the protocol-specific information for an information for an AMQP 1.0 server.
+            </summary>
+        </member>
+        <member name="P:Neuroglia.AsyncApi.Models.ServerBindingCollection.Mqtt">
+            <summary>
+            Gets/sets the protocol-specific information for an information for an MQTT server.
+            </summary>
+        </member>
+        <member name="P:Neuroglia.AsyncApi.Models.ServerBindingCollection.Mqtt5">
+            <summary>
+            Gets/sets the protocol-specific information for an information for an MQTT 5 server.
+            </summary>
+        </member>
+        <member name="P:Neuroglia.AsyncApi.Models.ServerBindingCollection.Nats">
+            <summary>
+            Gets/sets the protocol-specific information for an information for a NATS server.
+            </summary>
+        </member>
+        <member name="P:Neuroglia.AsyncApi.Models.ServerBindingCollection.Redis">
+            <summary>
+            Gets/sets the protocol-specific information for an information for a Redis server.
+            </summary>
+        </member>
+        <member name="T:Neuroglia.AsyncApi.Models.TagDefinition">
+            <summary>
+            Represents an object used to define a tag assigned to an Async API component
+            </summary>
+        </member>
+        <member name="P:Neuroglia.AsyncApi.Models.TagDefinition.Name">
+            <summary>
+            Gets/sets the name of the tag.
+            </summary>
+        </member>
+        <member name="P:Neuroglia.AsyncApi.Models.TagDefinition.Description">
+            <summary>
+            Gets/sets an optional description of this channel item. <see href="https://spec.commonmark.org/">CommonMark</see> syntax can be used for rich text representation.
+            </summary>
+        </member>
+        <member name="P:Neuroglia.AsyncApi.Models.TagDefinition.ExternalDocs">
+            <summary>
+            Gets/sets a <see cref="T:System.Collections.Generic.List`1"/> containing additional external documentation for this tag.
+            </summary>
+        </member>
+        <member name="M:Neuroglia.AsyncApi.Models.TagDefinition.ToString">
+            <inheritdoc/>
+        </member>
+        <member name="T:Neuroglia.AsyncApi.Models.VariableDefinition">
+            <summary>
+            Represents an object used to describe a Server Variable for server URL template substitution.
+            </summary>
+        </member>
+        <member name="P:Neuroglia.AsyncApi.Models.VariableDefinition.Enum">
+            <summary>
+            Gets/sets an <see cref="T:System.Collections.Generic.IEnumerable`1"/> of values to be used if the substitution options are from a limited set.
+            </summary>
+        </member>
+        <member name="P:Neuroglia.AsyncApi.Models.VariableDefinition.Default">
+            <summary>
+            Gets/sets the default value to use for substitution, and to send, if an alternate value is not supplied.
+            </summary>
+        </member>
+        <member name="P:Neuroglia.AsyncApi.Models.VariableDefinition.Description">
+            <summary>
+            Gets/sets an optional string describing the server variable. <see href="https://spec.commonmark.org/">CommonMark</see> syntax MAY be used for rich text representation.
+            </summary>
+        </member>
+        <member name="P:Neuroglia.AsyncApi.Models.VariableDefinition.Examples">
+            <summary>
+            Gets/sets an <see cref="T:System.Collections.Generic.List`1"/> of examples of the server variable.
+            </summary>
+        </member>
+        <member name="T:Neuroglia.AsyncApi.MqttQoSLevel">
+            <summary>
+            Enumerates all supported MQTT Quality of Service types
+            </summary>
+        </member>
+        <member name="F:Neuroglia.AsyncApi.MqttQoSLevel.AtMostOne">
+            <summary>
+            Indicates that messages should be sent at most once
+            </summary>
+        </member>
+        <member name="F:Neuroglia.AsyncApi.MqttQoSLevel.AtLeastOne">
+            <summary>
+            Indicates that messages should be sent at least once
+            </summary>
+        </member>
+        <member name="F:Neuroglia.AsyncApi.MqttQoSLevel.ExactlyOne">
+            <summary>
+            Indicates that MQTT messages should be sent exactly once
+            </summary>
+        </member>
+        <member name="T:Neuroglia.AsyncApi.OperationType">
+            <summary>
+            Enumerates all Async API operation types
+            </summary>
+        </member>
+        <member name="F:Neuroglia.AsyncApi.OperationType.Publish">
+            <summary>
+            Indicates a PUB operation
+            </summary>
+        </member>
+        <member name="F:Neuroglia.AsyncApi.OperationType.Subscribe">
+            <summary>
+            Indicates a SUB operation
+            </summary>
+        </member>
+        <member name="T:Neuroglia.AsyncApi.SecuritySchemeType">
+            <summary>
+            Enumerates all supported security schemes
+            </summary>
+        </member>
+        <member name="F:Neuroglia.AsyncApi.SecuritySchemeType.UserPassword">
+            <summary>
+            Indicates a security scheme based on a username/password pair
+            </summary>
+        </member>
+        <member name="F:Neuroglia.AsyncApi.SecuritySchemeType.ApiKey">
+            <summary>
+            Indicates a security scheme based on API keys
+            </summary>
+        </member>
+        <member name="F:Neuroglia.AsyncApi.SecuritySchemeType.X509">
+            <summary>
+            Indicates a security scheme based on X509 certificates
+            </summary>
+        </member>
+        <member name="F:Neuroglia.AsyncApi.SecuritySchemeType.SymmetricEncryption">
+            <summary>
+            Indicates a security scheme based on symmetric encryption
+            </summary>
+        </member>
+        <member name="F:Neuroglia.AsyncApi.SecuritySchemeType.AsymmetricEncryption">
+            <summary>
+            Indicates a security scheme based on asymmetric encryption
+            </summary>
+        </member>
+        <member name="F:Neuroglia.AsyncApi.SecuritySchemeType.HttpApiKey">
+            <summary>
+            Indicates a security scheme based on HTTP API keys
+            </summary>
+        </member>
+        <member name="F:Neuroglia.AsyncApi.SecuritySchemeType.Http">
+            <summary>
+            Indicates a security scheme based on HTTP
+            </summary>
+        </member>
+        <member name="F:Neuroglia.AsyncApi.SecuritySchemeType.OAuth2">
+            <summary>
+            Indicates a security scheme based on OAUTH2
+            </summary>
+        </member>
+        <member name="F:Neuroglia.AsyncApi.SecuritySchemeType.OpenIDConnect">
+            <summary>
+            Indicates a security scheme based on OpenID Connect
+            </summary>
+        </member>
+        <member name="F:Neuroglia.AsyncApi.SecuritySchemeType.Plain">
+            <summary>
+            Indicates a plain security scheme
+            </summary>
+        </member>
+        <member name="F:Neuroglia.AsyncApi.SecuritySchemeType.ScramSha256">
+            <summary>
+            Indicates a SCRAM SHA256 security scheme
+            </summary>
+        </member>
+        <member name="F:Neuroglia.AsyncApi.SecuritySchemeType.ScramSha512">
+            <summary>
+            Indicates a SCRAM SHA512 security scheme
+            </summary>
+        </member>
+        <member name="F:Neuroglia.AsyncApi.SecuritySchemeType.Gssapi">
+            <summary>
+            Indicates a GSSAPI security scheme
+            </summary>
+        </member>
+        <member name="T:Neuroglia.AsyncApi.Services.FluentBuilders.AsyncApiDocumentBuilder">
+            <summary>
+            Represents the default implementation of the <see cref="T:Neuroglia.AsyncApi.Services.FluentBuilders.IAsyncApiDocumentBuilder"/>
+            </summary>
+        </member>
+        <member name="M:Neuroglia.AsyncApi.Services.FluentBuilders.AsyncApiDocumentBuilder.#ctor(System.IServiceProvider,System.Collections.Generic.IEnumerable{FluentValidation.IValidator{Neuroglia.AsyncApi.Models.AsyncApiDocument}})">
+            <summary>
+            Initializes a new <see cref="T:Neuroglia.AsyncApi.Services.FluentBuilders.AsyncApiDocumentBuilder"/>
+            </summary>
+            <param name="serviceProvider">The current <see cref="T:System.IServiceProvider"/></param>
+            <param name="validators">The services used to validate <see cref="T:Neuroglia.AsyncApi.Models.AsyncApiDocument"/>s</param>
+        </member>
+        <member name="P:Neuroglia.AsyncApi.Services.FluentBuilders.AsyncApiDocumentBuilder.ServiceProvider">
+            <summary>
+            Gets the current <see cref="T:System.IServiceProvider"/>
+            </summary>
+        </member>
+        <member name="P:Neuroglia.AsyncApi.Services.FluentBuilders.AsyncApiDocumentBuilder.Validators">
+            <summary>
+            Gets the services used to validate <see cref="T:Neuroglia.AsyncApi.Models.AsyncApiDocument"/>s
+            </summary>
+        </member>
+        <member name="P:Neuroglia.AsyncApi.Services.FluentBuilders.AsyncApiDocumentBuilder.Document">
+            <summary>
+            Gets the <see cref="T:Neuroglia.AsyncApi.Models.AsyncApiDocument"/> to configure
+            </summary>
+        </member>
+        <member name="M:Neuroglia.AsyncApi.Services.FluentBuilders.AsyncApiDocumentBuilder.UseAsyncApi(System.String)">
+            <inheritdoc/>
+        </member>
+        <member name="M:Neuroglia.AsyncApi.Services.FluentBuilders.AsyncApiDocumentBuilder.WithId(System.String)">
+            <inheritdoc/>
+        </member>
+        <member name="M:Neuroglia.AsyncApi.Services.FluentBuilders.AsyncApiDocumentBuilder.WithTitle(System.String)">
+            <inheritdoc/>
+        </member>
+        <member name="M:Neuroglia.AsyncApi.Services.FluentBuilders.AsyncApiDocumentBuilder.WithVersion(System.String)">
+            <inheritdoc/>
+        </member>
+        <member name="M:Neuroglia.AsyncApi.Services.FluentBuilders.AsyncApiDocumentBuilder.WithDescription(System.String)">
+            <inheritdoc/>
+        </member>
+        <member name="M:Neuroglia.AsyncApi.Services.FluentBuilders.AsyncApiDocumentBuilder.WithTermsOfService(System.Uri)">
+            <inheritdoc/>
+        </member>
+        <member name="M:Neuroglia.AsyncApi.Services.FluentBuilders.AsyncApiDocumentBuilder.WithContact(System.String,System.Uri,System.String)">
+            <inheritdoc/>
+        </member>
+        <member name="M:Neuroglia.AsyncApi.Services.FluentBuilders.AsyncApiDocumentBuilder.WithLicense(System.String,System.Uri)">
+            <inheritdoc/>
+        </member>
+        <member name="M:Neuroglia.AsyncApi.Services.FluentBuilders.AsyncApiDocumentBuilder.WithDefaultContentType(System.String)">
+            <inheritdoc/>
+        </member>
+        <member name="M:Neuroglia.AsyncApi.Services.FluentBuilders.AsyncApiDocumentBuilder.TagWith(System.Action{Neuroglia.AsyncApi.Services.FluentBuilders.ITagBuilder})">
+            <inheritdoc/>
+        </member>
+        <member name="M:Neuroglia.AsyncApi.Services.FluentBuilders.AsyncApiDocumentBuilder.DocumentWith(System.Uri,System.String)">
+            <inheritdoc/>
+        </member>
+        <member name="M:Neuroglia.AsyncApi.Services.FluentBuilders.AsyncApiDocumentBuilder.UseServer(System.String,System.Action{Neuroglia.AsyncApi.Services.FluentBuilders.IServerBuilder})">
+            <inheritdoc/>
+        </member>
+        <member name="M:Neuroglia.AsyncApi.Services.FluentBuilders.AsyncApiDocumentBuilder.UseChannel(System.String,System.Action{Neuroglia.AsyncApi.Services.FluentBuilders.IChannelBuilder})">
+            <inheritdoc/>
+        </member>
+        <member name="M:Neuroglia.AsyncApi.Services.FluentBuilders.AsyncApiDocumentBuilder.AddSchema(System.String,Newtonsoft.Json.Schema.JSchema)">
+            <inheritdoc/>
+        </member>
+        <member name="M:Neuroglia.AsyncApi.Services.FluentBuilders.AsyncApiDocumentBuilder.AddMessage(System.String,Neuroglia.AsyncApi.Models.Message)">
+            <inheritdoc/>
+        </member>
+        <member name="M:Neuroglia.AsyncApi.Services.FluentBuilders.AsyncApiDocumentBuilder.AddMessage(System.String,System.Action{Neuroglia.AsyncApi.Services.FluentBuilders.IMessageBuilder})">
+            <inheritdoc/>
+        </member>
+        <member name="M:Neuroglia.AsyncApi.Services.FluentBuilders.AsyncApiDocumentBuilder.AddSecurityScheme(System.String,Neuroglia.AsyncApi.Models.SecurityScheme)">
+            <inheritdoc/>
+        </member>
+        <member name="M:Neuroglia.AsyncApi.Services.FluentBuilders.AsyncApiDocumentBuilder.AddParameter(System.String,Neuroglia.AsyncApi.Models.Parameter)">
+            <inheritdoc/>
+        </member>
+        <member name="M:Neuroglia.AsyncApi.Services.FluentBuilders.AsyncApiDocumentBuilder.AddParameter(System.String,System.Action{Neuroglia.AsyncApi.Services.FluentBuilders.IParameterBuilder})">
+            <inheritdoc/>
+        </member>
+        <member name="M:Neuroglia.AsyncApi.Services.FluentBuilders.AsyncApiDocumentBuilder.AddCorrelationId(System.String,Neuroglia.AsyncApi.Models.CorrelationId)">
+            <inheritdoc/>
+        </member>
+        <member name="M:Neuroglia.AsyncApi.Services.FluentBuilders.AsyncApiDocumentBuilder.AddOperationTrait(System.String,Neuroglia.AsyncApi.Models.OperationTrait)">
+            <inheritdoc/>
+        </member>
+        <member name="M:Neuroglia.AsyncApi.Services.FluentBuilders.AsyncApiDocumentBuilder.AddOperationTrait(System.String,System.Action{Neuroglia.AsyncApi.Services.FluentBuilders.IOperationTraitBuilder})">
+            <inheritdoc/>
+        </member>
+        <member name="M:Neuroglia.AsyncApi.Services.FluentBuilders.AsyncApiDocumentBuilder.AddMessageTrait(System.String,Neuroglia.AsyncApi.Models.MessageTrait)">
+            <inheritdoc/>
+        </member>
+        <member name="M:Neuroglia.AsyncApi.Services.FluentBuilders.AsyncApiDocumentBuilder.AddMessageTrait(System.String,System.Action{Neuroglia.AsyncApi.Services.FluentBuilders.IMessageTraitBuilder})">
+            <inheritdoc/>
+        </member>
+        <member name="M:Neuroglia.AsyncApi.Services.FluentBuilders.AsyncApiDocumentBuilder.AddServerBinding(System.String,Neuroglia.AsyncApi.Models.ServerBindingCollection)">
+            <inheritdoc/>
+        </member>
+        <member name="M:Neuroglia.AsyncApi.Services.FluentBuilders.AsyncApiDocumentBuilder.AddChannelBinding(System.String,Neuroglia.AsyncApi.Models.ChannelBindingCollection)">
+            <inheritdoc/>
+        </member>
+        <member name="M:Neuroglia.AsyncApi.Services.FluentBuilders.AsyncApiDocumentBuilder.AddOperationBinding(System.String,Neuroglia.AsyncApi.Models.OperationBindingCollection)">
+            <inheritdoc/>
+        </member>
+        <member name="M:Neuroglia.AsyncApi.Services.FluentBuilders.AsyncApiDocumentBuilder.AddMessageBinding(System.String,Neuroglia.AsyncApi.Models.MessageBindingCollection)">
+            <inheritdoc/>
+        </member>
+        <member name="M:Neuroglia.AsyncApi.Services.FluentBuilders.AsyncApiDocumentBuilder.Build">
+            <inheritdoc/>
+        </member>
+        <member name="T:Neuroglia.AsyncApi.Services.FluentBuilders.ChannelBuilder">
+            <summary>
+            Represents the default implementation of the <see cref="T:Neuroglia.AsyncApi.Services.FluentBuilders.IChannelBuilder"/>
+            </summary>
+        </member>
+        <member name="M:Neuroglia.AsyncApi.Services.FluentBuilders.ChannelBuilder.#ctor(System.IServiceProvider,System.Collections.Generic.IEnumerable{FluentValidation.IValidator{Neuroglia.AsyncApi.Models.Channel}})">
+            <summary>
+            Initializes a new <see cref="T:Neuroglia.AsyncApi.Services.FluentBuilders.ChannelBuilder"/>
+            </summary>
+            <param name="serviceProvider">The current <see cref="T:System.IServiceProvider"/></param>
+            <param name="validators">The services used to validate <see cref="T:Neuroglia.AsyncApi.Models.Channel"/>s</param>
+        </member>
+        <member name="P:Neuroglia.AsyncApi.Services.FluentBuilders.ChannelBuilder.ServiceProvider">
+            <summary>
+            Gets the current <see cref="T:System.IServiceProvider"/>
+            </summary>
+        </member>
+        <member name="P:Neuroglia.AsyncApi.Services.FluentBuilders.ChannelBuilder.Validators">
+            <summary>
+            Gets the services used to validate <see cref="T:Neuroglia.AsyncApi.Models.Channel"/>s
+            </summary>
+        </member>
+        <member name="P:Neuroglia.AsyncApi.Services.FluentBuilders.ChannelBuilder.Channel">
+            <summary>
+            Gets the <see cref="T:Neuroglia.AsyncApi.Models.Channel"/> to build
+            </summary>
+        </member>
+        <member name="M:Neuroglia.AsyncApi.Services.FluentBuilders.ChannelBuilder.WithDescription(System.String)">
+            <inheritdoc/>
+        </member>
+        <member name="M:Neuroglia.AsyncApi.Services.FluentBuilders.ChannelBuilder.AddParameter(System.String,System.Action{Neuroglia.AsyncApi.Services.FluentBuilders.IParameterBuilder})">
+            <inheritdoc/>
+        </member>
+        <member name="M:Neuroglia.AsyncApi.Services.FluentBuilders.ChannelBuilder.UseBinding(Neuroglia.AsyncApi.Models.Bindings.IChannelBinding)">
+            <inheritdoc/>
+        </member>
+        <member name="M:Neuroglia.AsyncApi.Services.FluentBuilders.ChannelBuilder.DefineOperation(Neuroglia.AsyncApi.OperationType,System.Action{Neuroglia.AsyncApi.Services.FluentBuilders.IOperationBuilder})">
+            <inheritdoc/>
+        </member>
+        <member name="M:Neuroglia.AsyncApi.Services.FluentBuilders.ChannelBuilder.DefineSubscribeOperation(System.Action{Neuroglia.AsyncApi.Services.FluentBuilders.IOperationBuilder})">
+            <inheritdoc/>
+        </member>
+        <member name="M:Neuroglia.AsyncApi.Services.FluentBuilders.ChannelBuilder.DefinePublishOperation(System.Action{Neuroglia.AsyncApi.Services.FluentBuilders.IOperationBuilder})">
+            <inheritdoc/>
+        </member>
+        <member name="M:Neuroglia.AsyncApi.Services.FluentBuilders.ChannelBuilder.Build">
+            <inheritdoc/>
+        </member>
+        <member name="T:Neuroglia.AsyncApi.Services.FluentBuilders.IAsyncApiDocumentBuilder">
+            <summary>
+            Defines the fundamentals of a service used to build <see cref="T:Neuroglia.AsyncApi.Models.AsyncApiDocument"/>s
+            </summary>
+        </member>
+        <member name="M:Neuroglia.AsyncApi.Services.FluentBuilders.IAsyncApiDocumentBuilder.UseAsyncApi(System.String)">
+            <summary>
+            Configures the <see cref="T:Neuroglia.AsyncApi.Models.AsyncApiDocument"/> to use the specified Async Api Specification version
+            </summary>
+            <param name="version">The Async Api Specification version to use</param>
+            <returns>The configured <see cref="T:Neuroglia.AsyncApi.Services.FluentBuilders.IAsyncApiDocumentBuilder"/></returns>
+        </member>
+        <member name="M:Neuroglia.AsyncApi.Services.FluentBuilders.IAsyncApiDocumentBuilder.WithId(System.String)">
+            <summary>
+            Configures the <see cref="T:Neuroglia.AsyncApi.Models.AsyncApiDocument"/> to use the specified id
+            </summary>
+            <param name="id">The id of the Async Api document to build</param>
+            <returns>The configured <see cref="T:Neuroglia.AsyncApi.Services.FluentBuilders.IAsyncApiDocumentBuilder"/></returns>
+        </member>
+        <member name="M:Neuroglia.AsyncApi.Services.FluentBuilders.IAsyncApiDocumentBuilder.WithTitle(System.String)">
+            <summary>
+            Configures the <see cref="T:Neuroglia.AsyncApi.Models.AsyncApiDocument"/> to use the specified API title
+            </summary>
+            <param name="title">The title of the Async Api document to build</param>
+            <returns>The configured <see cref="T:Neuroglia.AsyncApi.Services.FluentBuilders.IAsyncApiDocumentBuilder"/></returns>
+        </member>
+        <member name="M:Neuroglia.AsyncApi.Services.FluentBuilders.IAsyncApiDocumentBuilder.WithVersion(System.String)">
+            <summary>
+            Configures the <see cref="T:Neuroglia.AsyncApi.Models.AsyncApiDocument"/> to use the specified API version
+            </summary>
+            <param name="version">The version of the Async Api document to build</param>
+            <returns>The configured <see cref="T:Neuroglia.AsyncApi.Services.FluentBuilders.IAsyncApiDocumentBuilder"/></returns>
+        </member>
+        <member name="M:Neuroglia.AsyncApi.Services.FluentBuilders.IAsyncApiDocumentBuilder.WithDescription(System.String)">
+            <summary>
+            Configures the <see cref="T:Neuroglia.AsyncApi.Models.AsyncApiDocument"/> to use the specified API description
+            </summary>
+            <param name="description">The description of the Async Api document to build</param>
+            <returns>The configured <see cref="T:Neuroglia.AsyncApi.Services.FluentBuilders.IAsyncApiDocumentBuilder"/></returns>
+        </member>
+        <member name="M:Neuroglia.AsyncApi.Services.FluentBuilders.IAsyncApiDocumentBuilder.WithTermsOfService(System.Uri)">
+            <summary>
+            Configures the <see cref="T:Neuroglia.AsyncApi.Models.AsyncApiDocument"/> to use the specified <see cref="T:System.Uri"/> for the API's terms of service
+            </summary>
+            <param name="uri">The <see cref="T:System.Uri"/> of the API's terms of service</param>
+            <returns>The configured <see cref="T:Neuroglia.AsyncApi.Services.FluentBuilders.IAsyncApiDocumentBuilder"/></returns>
+        </member>
+        <member name="M:Neuroglia.AsyncApi.Services.FluentBuilders.IAsyncApiDocumentBuilder.WithContact(System.String,System.Uri,System.String)">
+            <summary>
+            Configures the <see cref="T:Neuroglia.AsyncApi.Models.AsyncApiDocument"/> to use the specified contact for the API
+            </summary>
+            <param name="name">The contact name</param>
+            <param name="uri">The contact <see cref="T:System.Uri"/></param>
+            <param name="email">The contact email</param>
+            <returns>The configured <see cref="T:Neuroglia.AsyncApi.Services.FluentBuilders.IAsyncApiDocumentBuilder"/></returns>
+        </member>
+        <member name="M:Neuroglia.AsyncApi.Services.FluentBuilders.IAsyncApiDocumentBuilder.WithLicense(System.String,System.Uri)">
+            <summary>
+            Configures the <see cref="T:Neuroglia.AsyncApi.Models.AsyncApiDocument"/> to use the specified license
+            </summary>
+            <param name="name">The name of the license to use</param>
+            <param name="uri">The license's <see cref="T:System.Uri"/></param>
+            <returns>The configured <see cref="T:Neuroglia.AsyncApi.Services.FluentBuilders.IAsyncApiDocumentBuilder"/></returns>
+        </member>
+        <member name="M:Neuroglia.AsyncApi.Services.FluentBuilders.IAsyncApiDocumentBuilder.WithDefaultContentType(System.String)">
+            <summary>
+            Configures the <see cref="T:Neuroglia.AsyncApi.Models.AsyncApiDocument"/> to use the specified license
+            </summary>
+            <param name="contentType">The content type to use by default</param>
+            <returns>The configured <see cref="T:Neuroglia.AsyncApi.Services.FluentBuilders.IAsyncApiDocumentBuilder"/></returns>
+        </member>
+        <member name="M:Neuroglia.AsyncApi.Services.FluentBuilders.IAsyncApiDocumentBuilder.TagWith(System.Action{Neuroglia.AsyncApi.Services.FluentBuilders.ITagBuilder})">
+            <summary>
+            Marks the <see cref="T:Neuroglia.AsyncApi.Models.AsyncApiDocument"/> to build with the specified tag
+            </summary>
+            <param name="setup">An <see cref="T:System.Action`1"/> used to setup the tag to use</param>
+            <returns>The configured <see cref="T:Neuroglia.AsyncApi.Services.FluentBuilders.IAsyncApiDocumentBuilder"/></returns>
+        </member>
+        <member name="M:Neuroglia.AsyncApi.Services.FluentBuilders.IAsyncApiDocumentBuilder.DocumentWith(System.Uri,System.String)">
+            <summary>
+            Adds the specified external documentation to the <see cref="T:Neuroglia.AsyncApi.Models.AsyncApiDocument"/> to build
+            </summary>
+            <param name="uri">The <see cref="T:System.Uri"/> to the documentation to add</param>
+            <param name="description">The description of the documentation to add</param>
+            <returns>The configured <see cref="T:Neuroglia.AsyncApi.Services.FluentBuilders.IAsyncApiDocumentBuilder"/></returns>
+        </member>
+        <member name="M:Neuroglia.AsyncApi.Services.FluentBuilders.IAsyncApiDocumentBuilder.UseServer(System.String,System.Action{Neuroglia.AsyncApi.Services.FluentBuilders.IServerBuilder})">
+            <summary>
+            Adds the specified <see cref="T:Neuroglia.AsyncApi.Models.Server"/> to the <see cref="T:Neuroglia.AsyncApi.Models.AsyncApiDocument"/> to build
+            </summary>
+            <param name="name">The name of the <see cref="T:Neuroglia.AsyncApi.Models.Server"/> to add</param>
+            <param name="setup">An <see cref="T:System.Action`1"/> used to setup the <see cref="T:Neuroglia.AsyncApi.Models.Server"/> to add</param>
+            <returns>The configured <see cref="T:Neuroglia.AsyncApi.Services.FluentBuilders.IAsyncApiDocumentBuilder"/></returns>
+        </member>
+        <member name="M:Neuroglia.AsyncApi.Services.FluentBuilders.IAsyncApiDocumentBuilder.UseChannel(System.String,System.Action{Neuroglia.AsyncApi.Services.FluentBuilders.IChannelBuilder})">
+            <summary>
+            Adds the specified <see cref="T:Neuroglia.AsyncApi.Models.Channel"/> to the <see cref="T:Neuroglia.AsyncApi.Models.AsyncApiDocument"/> to build
+            </summary>
+            <param name="name">The name of the <see cref="T:Neuroglia.AsyncApi.Models.Channel"/> to add</param>
+            <param name="setup">An <see cref="T:System.Action`1"/> used to setup the <see cref="T:Neuroglia.AsyncApi.Models.Channel"/> to add</param>
+            <returns>The configured <see cref="T:Neuroglia.AsyncApi.Services.FluentBuilders.IAsyncApiDocumentBuilder"/></returns>
+        </member>
+        <member name="M:Neuroglia.AsyncApi.Services.FluentBuilders.IAsyncApiDocumentBuilder.AddSchema(System.String,Newtonsoft.Json.Schema.JSchema)">
+            <summary>
+            Adds the specified <see cref="T:Newtonsoft.Json.Schema.JSchema"/>
+            </summary>
+            <param name="name">The name of the <see cref="T:Newtonsoft.Json.Schema.JSchema"/> to add</param>
+            <param name="schema">The <see cref="T:Newtonsoft.Json.Schema.JSchema"/> to add</param>
+            <returns>The configured <see cref="T:Neuroglia.AsyncApi.Services.FluentBuilders.IAsyncApiDocumentBuilder"/></returns>
+        </member>
+        <member name="M:Neuroglia.AsyncApi.Services.FluentBuilders.IAsyncApiDocumentBuilder.AddMessage(System.String,Neuroglia.AsyncApi.Models.Message)">
+            <summary>
+            Adds the specified <see cref="T:Neuroglia.AsyncApi.Models.Message"/>
+            </summary>
+            <param name="name">The name of the <see cref="T:Neuroglia.AsyncApi.Models.Message"/> to add</param>
+            <param name="message">The <see cref="T:Neuroglia.AsyncApi.Models.Message"/> to add</param>
+            <returns>The configured <see cref="T:Neuroglia.AsyncApi.Services.FluentBuilders.IAsyncApiDocumentBuilder"/></returns>
+        </member>
+        <member name="M:Neuroglia.AsyncApi.Services.FluentBuilders.IAsyncApiDocumentBuilder.AddMessage(System.String,System.Action{Neuroglia.AsyncApi.Services.FluentBuilders.IMessageBuilder})">
+            <summary>
+            Adds the specified <see cref="T:Neuroglia.AsyncApi.Models.Message"/>
+            </summary>
+            <param name="name">The name of the <see cref="T:Neuroglia.AsyncApi.Models.Message"/> to add</param>
+            <param name="setup">An <see cref="T:System.Action`1"/> used to setup the <see cref="T:Neuroglia.AsyncApi.Models.Message"/> to add</param>
+            <returns>The configured <see cref="T:Neuroglia.AsyncApi.Services.FluentBuilders.IAsyncApiDocumentBuilder"/></returns>
+        </member>
+        <member name="M:Neuroglia.AsyncApi.Services.FluentBuilders.IAsyncApiDocumentBuilder.AddSecurityScheme(System.String,Neuroglia.AsyncApi.Models.SecurityScheme)">
+            <summary>
+            Adds the specified <see cref="T:Neuroglia.AsyncApi.Models.SecurityScheme"/>
+            </summary>
+            <param name="name">The name of the <see cref="T:Neuroglia.AsyncApi.Models.SecurityScheme"/> to add</param>
+            <param name="scheme">The <see cref="T:Neuroglia.AsyncApi.Models.SecurityScheme"/> to add</param>
+            <returns>The configured <see cref="T:Neuroglia.AsyncApi.Services.FluentBuilders.IAsyncApiDocumentBuilder"/></returns>
+        </member>
+        <member name="M:Neuroglia.AsyncApi.Services.FluentBuilders.IAsyncApiDocumentBuilder.AddParameter(System.String,Neuroglia.AsyncApi.Models.Parameter)">
+            <summary>
+            Adds the specified <see cref="T:Neuroglia.AsyncApi.Models.Parameter"/>
+            </summary>
+            <param name="name">The name of the <see cref="T:Neuroglia.AsyncApi.Models.Parameter"/> to add</param>
+            <param name="parameter">The <see cref="T:Neuroglia.AsyncApi.Models.Parameter"/> to add</param>
+            <returns>The configured <see cref="T:Neuroglia.AsyncApi.Services.FluentBuilders.IAsyncApiDocumentBuilder"/></returns>
+        </member>
+        <member name="M:Neuroglia.AsyncApi.Services.FluentBuilders.IAsyncApiDocumentBuilder.AddParameter(System.String,System.Action{Neuroglia.AsyncApi.Services.FluentBuilders.IParameterBuilder})">
+            <summary>
+            Adds the specified <see cref="T:Neuroglia.AsyncApi.Models.Parameter"/>
+            </summary>
+            <param name="name">The name of the <see cref="T:Neuroglia.AsyncApi.Models.Parameter"/> to add</param>
+            <param name="setup">An <see cref="T:System.Action`1"/> used to setup the <see cref="T:Neuroglia.AsyncApi.Models.Parameter"/> to add</param>
+            <returns>The configured <see cref="T:Neuroglia.AsyncApi.Services.FluentBuilders.IAsyncApiDocumentBuilder"/></returns>
+        </member>
+        <member name="M:Neuroglia.AsyncApi.Services.FluentBuilders.IAsyncApiDocumentBuilder.AddCorrelationId(System.String,Neuroglia.AsyncApi.Models.CorrelationId)">
+            <summary>
+            Adds the specified <see cref="T:Neuroglia.AsyncApi.Models.CorrelationId"/>
+            </summary>
+            <param name="name">The name of the <see cref="T:Neuroglia.AsyncApi.Models.CorrelationId"/> to add</param>
+            <param name="correlationId">The <see cref="T:Neuroglia.AsyncApi.Models.CorrelationId"/> to add</param>
+            <returns>The configured <see cref="T:Neuroglia.AsyncApi.Services.FluentBuilders.IAsyncApiDocumentBuilder"/></returns>
+        </member>
+        <member name="M:Neuroglia.AsyncApi.Services.FluentBuilders.IAsyncApiDocumentBuilder.AddOperationTrait(System.String,Neuroglia.AsyncApi.Models.OperationTrait)">
+            <summary>
+            Adds the specified <see cref="T:Neuroglia.AsyncApi.Models.OperationTrait"/>
+            </summary>
+            <param name="name">The name of the <see cref="T:Neuroglia.AsyncApi.Models.OperationTrait"/> to add</param>
+            <param name="trait">The <see cref="T:Neuroglia.AsyncApi.Models.OperationTrait"/> to add</param>
+            <returns>The configured <see cref="T:Neuroglia.AsyncApi.Services.FluentBuilders.IAsyncApiDocumentBuilder"/></returns>
+        </member>
+        <member name="M:Neuroglia.AsyncApi.Services.FluentBuilders.IAsyncApiDocumentBuilder.AddOperationTrait(System.String,System.Action{Neuroglia.AsyncApi.Services.FluentBuilders.IOperationTraitBuilder})">
+            <summary>
+            Adds the specified <see cref="T:Neuroglia.AsyncApi.Models.OperationTrait"/>
+            </summary>
+            <param name="name">The name of the <see cref="T:Neuroglia.AsyncApi.Models.OperationTrait"/> to add</param>
+            <param name="setup">An <see cref="T:System.Action`1"/> used to setup the <see cref="T:Neuroglia.AsyncApi.Models.OperationTrait"/> to add</param>
+            <returns>The configured <see cref="T:Neuroglia.AsyncApi.Services.FluentBuilders.IAsyncApiDocumentBuilder"/></returns>
+        </member>
+        <member name="M:Neuroglia.AsyncApi.Services.FluentBuilders.IAsyncApiDocumentBuilder.AddMessageTrait(System.String,Neuroglia.AsyncApi.Models.MessageTrait)">
+            <summary>
+            Adds the specified <see cref="T:Neuroglia.AsyncApi.Models.MessageTrait"/>
+            </summary>
+            <param name="name">The name of the <see cref="T:Neuroglia.AsyncApi.Models.MessageTrait"/> to add</param>
+            <param name="trait">The <see cref="T:Neuroglia.AsyncApi.Models.MessageTrait"/> to add</param>
+            <returns>The configured <see cref="T:Neuroglia.AsyncApi.Services.FluentBuilders.IAsyncApiDocumentBuilder"/></returns>
+        </member>
+        <member name="M:Neuroglia.AsyncApi.Services.FluentBuilders.IAsyncApiDocumentBuilder.AddMessageTrait(System.String,System.Action{Neuroglia.AsyncApi.Services.FluentBuilders.IMessageTraitBuilder})">
+            <summary>
+            Adds the specified <see cref="T:Neuroglia.AsyncApi.Models.MessageTrait"/>
+            </summary>
+            <param name="name">The name of the <see cref="T:Neuroglia.AsyncApi.Models.MessageTrait"/> to add</param>
+            <param name="setup">An <see cref="T:System.Action`1"/> used to setup the <see cref="T:Neuroglia.AsyncApi.Models.MessageTrait"/> to add</param>
+            <returns>The configured <see cref="T:Neuroglia.AsyncApi.Services.FluentBuilders.IAsyncApiDocumentBuilder"/></returns>
+        </member>
+        <member name="M:Neuroglia.AsyncApi.Services.FluentBuilders.IAsyncApiDocumentBuilder.AddServerBinding(System.String,Neuroglia.AsyncApi.Models.ServerBindingCollection)">
+            <summary>
+            Adds the specified <see cref="T:Neuroglia.AsyncApi.Models.ServerBindingCollection"/>
+            </summary>
+            <param name="name">The name of the <see cref="T:Neuroglia.AsyncApi.Models.ServerBindingCollection"/> to add</param>
+            <param name="bindings">The <see cref="T:Neuroglia.AsyncApi.Models.ServerBindingCollection"/> to add</param>
+            <returns>The configured <see cref="T:Neuroglia.AsyncApi.Services.FluentBuilders.IAsyncApiDocumentBuilder"/></returns>
+        </member>
+        <member name="M:Neuroglia.AsyncApi.Services.FluentBuilders.IAsyncApiDocumentBuilder.AddChannelBinding(System.String,Neuroglia.AsyncApi.Models.ChannelBindingCollection)">
+            <summary>
+            Adds the specified <see cref="T:Neuroglia.AsyncApi.Models.ChannelBindingCollection"/>
+            </summary>
+            <param name="name">The name of the <see cref="T:Neuroglia.AsyncApi.Models.ChannelBindingCollection"/> to add</param>
+            <param name="bindings">The <see cref="T:Neuroglia.AsyncApi.Models.ChannelBindingCollection"/> to add</param>
+            <returns>The configured <see cref="T:Neuroglia.AsyncApi.Services.FluentBuilders.IAsyncApiDocumentBuilder"/></returns>
+        </member>
+        <member name="M:Neuroglia.AsyncApi.Services.FluentBuilders.IAsyncApiDocumentBuilder.AddOperationBinding(System.String,Neuroglia.AsyncApi.Models.OperationBindingCollection)">
+            <summary>
+            Adds the specified <see cref="T:Neuroglia.AsyncApi.Models.OperationBindingCollection"/>
+            </summary>
+            <param name="name">The name of the <see cref="T:Neuroglia.AsyncApi.Models.OperationBindingCollection"/> to add</param>
+            <param name="bindings">The <see cref="T:Neuroglia.AsyncApi.Models.OperationBindingCollection"/> to add</param>
+            <returns>The configured <see cref="T:Neuroglia.AsyncApi.Services.FluentBuilders.IAsyncApiDocumentBuilder"/></returns>
+        </member>
+        <member name="M:Neuroglia.AsyncApi.Services.FluentBuilders.IAsyncApiDocumentBuilder.AddMessageBinding(System.String,Neuroglia.AsyncApi.Models.MessageBindingCollection)">
+            <summary>
+            Adds the specified <see cref="T:Neuroglia.AsyncApi.Models.MessageBindingCollection"/>
+            </summary>
+            <param name="name">The name of the <see cref="T:Neuroglia.AsyncApi.Models.MessageBindingCollection"/> to add</param>
+            <param name="bindings">The <see cref="T:Neuroglia.AsyncApi.Models.MessageBindingCollection"/> to add</param>
+            <returns>The configured <see cref="T:Neuroglia.AsyncApi.Services.FluentBuilders.IAsyncApiDocumentBuilder"/></returns>
+        </member>
+        <member name="M:Neuroglia.AsyncApi.Services.FluentBuilders.IAsyncApiDocumentBuilder.Build">
+            <summary>
+            Builds a new <see cref="T:Neuroglia.AsyncApi.Models.AsyncApiDocument"/>
+            </summary>
+            <returns>A new <see cref="T:Neuroglia.AsyncApi.Models.AsyncApiDocument"/></returns>
+        </member>
+        <member name="T:Neuroglia.AsyncApi.Services.FluentBuilders.IChannelBuilder">
+            <summary>
+            Defines the fundamentals of a service used to build <see cref="T:Neuroglia.AsyncApi.Models.Channel"/>s
+            </summary>
+        </member>
+        <member name="M:Neuroglia.AsyncApi.Services.FluentBuilders.IChannelBuilder.WithDescription(System.String)">
+            <summary>
+            Configures the <see cref="T:Neuroglia.AsyncApi.Models.Channel"/> to build to use the specified description
+            </summary>
+            <param name="description">The <see cref="T:Neuroglia.AsyncApi.Models.Channel"/>'s description</param>
+            <returns>The configured <see cref="T:Neuroglia.AsyncApi.Services.FluentBuilders.IChannelBuilder"/></returns>
+        </member>
+        <member name="M:Neuroglia.AsyncApi.Services.FluentBuilders.IChannelBuilder.AddParameter(System.String,System.Action{Neuroglia.AsyncApi.Services.FluentBuilders.IParameterBuilder})">
+            <summary>
+            Adds a new <see cref="T:Neuroglia.AsyncApi.Models.Parameter"/> to the <see cref="T:Neuroglia.AsyncApi.Models.Channel"/> to build
+            </summary>
+            <param name="name">The name of the <see cref="T:Neuroglia.AsyncApi.Models.Parameter"/> to add</param>
+            <param name="setup">An <see cref="T:System.Action`1"/> used to setup the <see cref="T:Neuroglia.AsyncApi.Models.Parameter"/> to add</param>
+            <returns>The configured <see cref="T:Neuroglia.AsyncApi.Services.FluentBuilders.IChannelBuilder"/></returns>
+        </member>
+        <member name="M:Neuroglia.AsyncApi.Services.FluentBuilders.IChannelBuilder.UseBinding(Neuroglia.AsyncApi.Models.Bindings.IChannelBinding)">
+            <summary>
+            Adds the specified <see cref="T:Neuroglia.AsyncApi.Models.Bindings.IChannelBinding"/> to the <see cref="T:Neuroglia.AsyncApi.Models.Channel"/> to build
+            </summary>
+            <param name="binding">The <see cref="T:Neuroglia.AsyncApi.Models.Bindings.IChannelBinding"/> to add</param>
+            <returns>The configured <see cref="T:Neuroglia.AsyncApi.Services.FluentBuilders.IChannelBuilder"/></returns>
+        </member>
+        <member name="M:Neuroglia.AsyncApi.Services.FluentBuilders.IChannelBuilder.DefineOperation(Neuroglia.AsyncApi.OperationType,System.Action{Neuroglia.AsyncApi.Services.FluentBuilders.IOperationBuilder})">
+            <summary>
+            Defines and configures an operation of the <see cref="T:Neuroglia.AsyncApi.Models.Channel"/> to build
+            </summary>
+            <param name="type">The <see cref="T:Neuroglia.AsyncApi.Models.Operation"/>'s type</param>
+            <param name="setup">An <see cref="T:System.Action`1"/> used to setup the Subscribe <see cref="T:Neuroglia.AsyncApi.Models.Operation"/></param>
+            <returns>The configured <see cref="T:Neuroglia.AsyncApi.Services.FluentBuilders.IChannelBuilder"/></returns>
+        </member>
+        <member name="M:Neuroglia.AsyncApi.Services.FluentBuilders.IChannelBuilder.DefineSubscribeOperation(System.Action{Neuroglia.AsyncApi.Services.FluentBuilders.IOperationBuilder})">
+            <summary>
+            Defines and configures the Subscribe operation of the <see cref="T:Neuroglia.AsyncApi.Models.Channel"/> to build
+            </summary>
+            <param name="setup">An <see cref="T:System.Action`1"/> used to setup the Subscribe <see cref="T:Neuroglia.AsyncApi.Models.Operation"/></param>
+            <returns>The configured <see cref="T:Neuroglia.AsyncApi.Services.FluentBuilders.IChannelBuilder"/></returns>
+        </member>
+        <member name="M:Neuroglia.AsyncApi.Services.FluentBuilders.IChannelBuilder.DefinePublishOperation(System.Action{Neuroglia.AsyncApi.Services.FluentBuilders.IOperationBuilder})">
+            <summary>
+            Defines and configures the Publish operation of the <see cref="T:Neuroglia.AsyncApi.Models.Channel"/> to build
+            </summary>
+            <param name="setup">An <see cref="T:System.Action`1"/> used to setup the Publish <see cref="T:Neuroglia.AsyncApi.Models.Operation"/></param>
+            <returns>The configured <see cref="T:Neuroglia.AsyncApi.Services.FluentBuilders.IChannelBuilder"/></returns>
+        </member>
+        <member name="M:Neuroglia.AsyncApi.Services.FluentBuilders.IChannelBuilder.Build">
+            <summary>
+            Builds a new <see cref="T:Neuroglia.AsyncApi.Models.Channel"/>
+            </summary>
+            <returns>A new <see cref="T:Neuroglia.AsyncApi.Models.Channel"/></returns>
+        </member>
+        <member name="T:Neuroglia.AsyncApi.Services.FluentBuilders.IMessageBuilder">
+            <summary>
+            Defines the fundamentals of a service used to build <see cref="T:Neuroglia.AsyncApi.Models.Message"/>s
+            </summary>
+        </member>
+        <member name="M:Neuroglia.AsyncApi.Services.FluentBuilders.IMessageBuilder.OfType``1">
+            <summary>
+            Configures the <see cref="T:Neuroglia.AsyncApi.Models.MessageTrait"/> to build to use the specified payload
+            </summary>
+            <typeparam name="TPayload">The type used to define the <see cref="T:Neuroglia.AsyncApi.Models.MessageTrait"/>'s payload</typeparam>
+            <returns>The configured <see cref="T:Neuroglia.AsyncApi.Services.FluentBuilders.IMessageBuilder"/></returns>
+        </member>
+        <member name="M:Neuroglia.AsyncApi.Services.FluentBuilders.IMessageBuilder.OfType(System.Type)">
+            <summary>
+            Configures the <see cref="T:Neuroglia.AsyncApi.Models.MessageTrait"/> to build to use the specified payload
+            </summary>
+            <param name="payloadType">The type used to define the <see cref="T:Neuroglia.AsyncApi.Models.MessageTrait"/>'s payload</param>
+            <returns>The configured <see cref="T:Neuroglia.AsyncApi.Services.FluentBuilders.IMessageBuilder"/></returns>
+        </member>
+        <member name="M:Neuroglia.AsyncApi.Services.FluentBuilders.IMessageBuilder.WithPayloadSchema(Newtonsoft.Json.Schema.JSchema)">
+            <summary>
+            Configures the <see cref="T:Neuroglia.AsyncApi.Models.MessageTrait"/> to build to use the specified payload
+            </summary>
+            <param name="payloadSchema">The <see cref="T:Newtonsoft.Json.Schema.JSchema"/> used to define the <see cref="T:Neuroglia.AsyncApi.Models.MessageTrait"/>'s payload</param>
+            <returns>The configured <see cref="T:Neuroglia.AsyncApi.Services.FluentBuilders.IMessageBuilder"/></returns>
+        </member>
+        <member name="M:Neuroglia.AsyncApi.Services.FluentBuilders.IMessageBuilder.WithTrait(System.Action{Neuroglia.AsyncApi.Services.FluentBuilders.IMessageTraitBuilder})">
+            <summary>
+            Configures the <see cref="T:Neuroglia.AsyncApi.Models.Message"/> to build to use the specified <see cref="T:Neuroglia.AsyncApi.Models.MessageTrait"/>
+            </summary>
+            <param name="setup">An <see cref="T:System.Action`1"/> used to setup the <see cref="T:Neuroglia.AsyncApi.Models.MessageTrait"/> to use</param>
+            <returns>The configured <see cref="T:Neuroglia.AsyncApi.Services.FluentBuilders.IMessageBuilder"/></returns>
+        </member>
+        <member name="T:Neuroglia.AsyncApi.Services.FluentBuilders.IMessageTraitBuilder`2">
+            <summary>
+            Defines the fundamentals of a service used to build <see cref="T:Neuroglia.AsyncApi.Models.MessageTrait"/>s
+            </summary>
+            <typeparam name="TBuilder">The type of <see cref="T:Neuroglia.AsyncApi.Services.FluentBuilders.IMessageTraitBuilder`2"/> to return for chaining purposes</typeparam>
+            <typeparam name="TTrait">The type of <see cref="T:Neuroglia.AsyncApi.Models.MessageTrait"/> to build</typeparam>
+        </member>
+        <member name="M:Neuroglia.AsyncApi.Services.FluentBuilders.IMessageTraitBuilder`2.WithHeaders``1">
+            <summary>
+            Configures the <see cref="T:Neuroglia.AsyncApi.Models.MessageTrait"/> to build to use the specified headers
+            </summary>
+            <typeparam name="THeaders">The type used to define the <see cref="T:Neuroglia.AsyncApi.Models.MessageTrait"/>'s headers</typeparam>
+            <returns>The configured <see cref="T:Neuroglia.AsyncApi.Services.FluentBuilders.IMessageTraitBuilder`2"/></returns>
+        </member>
+        <member name="M:Neuroglia.AsyncApi.Services.FluentBuilders.IMessageTraitBuilder`2.WithHeaders(System.Type)">
+            <summary>
+            Configures the <see cref="T:Neuroglia.AsyncApi.Models.MessageTrait"/> to build to use the specified headers
+            </summary>
+            <param name="headersType">The type used to define the <see cref="T:Neuroglia.AsyncApi.Models.MessageTrait"/>'s headers</param>
+            <returns>The configured <see cref="T:Neuroglia.AsyncApi.Services.FluentBuilders.IMessageTraitBuilder`2"/></returns>
+        </member>
+        <member name="M:Neuroglia.AsyncApi.Services.FluentBuilders.IMessageTraitBuilder`2.WithHeaders(Newtonsoft.Json.Schema.JSchema)">
+            <summary>
+            Configures the <see cref="T:Neuroglia.AsyncApi.Models.MessageTrait"/> to build to use the specified headers
+            </summary>
+            <param name="headersSchema">The <see cref="T:Newtonsoft.Json.Schema.JSchema"/> used to define the <see cref="T:Neuroglia.AsyncApi.Models.MessageTrait"/>'s headers</param>
+            <returns>The configured <see cref="T:Neuroglia.AsyncApi.Services.FluentBuilders.IMessageTraitBuilder`2"/></returns>
+        </member>
+        <member name="M:Neuroglia.AsyncApi.Services.FluentBuilders.IMessageTraitBuilder`2.WithCorrelationId(System.String,System.String)">
+            <summary>
+            Configures the <see cref="T:Neuroglia.AsyncApi.Models.MessageTrait"/> to build to use the specified correlation id
+            </summary>
+            <param name="location">The location of the correlation id to use</param>
+            <param name="description">The description of the correlation id to use</param>
+            <returns>The configured <see cref="T:Neuroglia.AsyncApi.Services.FluentBuilders.IMessageTraitBuilder`2"/></returns>
+        </member>
+        <member name="M:Neuroglia.AsyncApi.Services.FluentBuilders.IMessageTraitBuilder`2.WithSchemaFormat(System.String)">
+            <summary>
+            Configures the <see cref="T:Neuroglia.AsyncApi.Models.MessageTrait"/> to build to use the specified schema format
+            </summary>
+            <param name="schemaFormat">The schema format to use</param>
+            <returns>The configured <see cref="T:Neuroglia.AsyncApi.Services.FluentBuilders.IMessageTraitBuilder`2"/></returns>
+        </member>
+        <member name="M:Neuroglia.AsyncApi.Services.FluentBuilders.IMessageTraitBuilder`2.WithContentType(System.String)">
+            <summary>
+            Configures the <see cref="T:Neuroglia.AsyncApi.Models.MessageTrait"/> to build to use the specified content type
+            </summary>
+            <param name="contentType">The content type to use</param>
+            <returns>The configured <see cref="T:Neuroglia.AsyncApi.Services.FluentBuilders.IMessageTraitBuilder`2"/></returns>
+        </member>
+        <member name="M:Neuroglia.AsyncApi.Services.FluentBuilders.IMessageTraitBuilder`2.WithName(System.String)">
+            <summary>
+            Configures the <see cref="T:Neuroglia.AsyncApi.Models.MessageTrait"/> to build to use the specified content type
+            </summary>
+            <param name="name">The name to use</param>
+            <returns>The configured <see cref="T:Neuroglia.AsyncApi.Services.FluentBuilders.IMessageTraitBuilder`2"/></returns>
+        </member>
+        <member name="M:Neuroglia.AsyncApi.Services.FluentBuilders.IMessageTraitBuilder`2.WithTitle(System.String)">
+            <summary>
+            Configures the <see cref="T:Neuroglia.AsyncApi.Models.MessageTrait"/> to build to use the specified title
+            </summary>
+            <param name="title">The title to use</param>
+            <returns>The configured <see cref="T:Neuroglia.AsyncApi.Services.FluentBuilders.IMessageTraitBuilder`2"/></returns>
+        </member>
+        <member name="M:Neuroglia.AsyncApi.Services.FluentBuilders.IMessageTraitBuilder`2.WithSummary(System.String)">
+            <summary>
+            Configures the <see cref="T:Neuroglia.AsyncApi.Models.MessageTrait"/> to build to use the specified summary
+            </summary>
+            <param name="summary">The summary to use</param>
+            <returns>The configured <see cref="T:Neuroglia.AsyncApi.Services.FluentBuilders.IMessageTraitBuilder`2"/></returns>
+        </member>
+        <member name="M:Neuroglia.AsyncApi.Services.FluentBuilders.IMessageTraitBuilder`2.WithDescription(System.String)">
+            <summary>
+            Configures the <see cref="T:Neuroglia.AsyncApi.Models.MessageTrait"/> to build to use the specified description
+            </summary>
+            <param name="description">The description to use</param>
+            <returns>The configured <see cref="T:Neuroglia.AsyncApi.Services.FluentBuilders.IMessageTraitBuilder`2"/></returns>
+        </member>
+        <member name="M:Neuroglia.AsyncApi.Services.FluentBuilders.IMessageTraitBuilder`2.AddExample(System.String,System.Object)">
+            <summary>
+            Adds the specified example to the <see cref="T:Neuroglia.AsyncApi.Models.MessageTrait"/> to build
+            </summary>
+            <param name="name">The name of the example to add</param>
+            <param name="example">The example to use</param>
+            <returns>The configured <see cref="T:Neuroglia.AsyncApi.Services.FluentBuilders.IMessageTraitBuilder`2"/></returns>
+        </member>
+        <member name="M:Neuroglia.AsyncApi.Services.FluentBuilders.IMessageTraitBuilder`2.TagWith(System.Action{Neuroglia.AsyncApi.Services.FluentBuilders.ITagBuilder})">
+            <summary>
+            Marks the <see cref="T:Neuroglia.AsyncApi.Models.MessageTrait"/> to build with the specified tag
+            </summary>
+            <param name="setup">An <see cref="T:System.Action`1"/> used to setup the tag to use</param>
+            <returns>The configured <see cref="T:Neuroglia.AsyncApi.Services.FluentBuilders.IMessageTraitBuilder`2"/></returns>
+        </member>
+        <member name="M:Neuroglia.AsyncApi.Services.FluentBuilders.IMessageTraitBuilder`2.DocumentWith(System.Uri,System.String)">
+            <summary>
+            Adds the specified external documentation to the <see cref="T:Neuroglia.AsyncApi.Models.MessageTrait"/> to build
+            </summary>
+            <param name="uri">The <see cref="T:System.Uri"/> to the documentation to add</param>
+            <param name="description">The description of the documentation to add</param>
+            <returns>The configured <see cref="T:Neuroglia.AsyncApi.Services.FluentBuilders.IMessageTraitBuilder`2"/></returns>
+        </member>
+        <member name="M:Neuroglia.AsyncApi.Services.FluentBuilders.IMessageTraitBuilder`2.UseBinding(Neuroglia.AsyncApi.Models.Bindings.IMessageBinding)">
+            <summary>
+            Adds the specified <see cref="T:Neuroglia.AsyncApi.Models.Bindings.IMessageBinding"/> to the <see cref="T:Neuroglia.AsyncApi.Models.MessageTrait"/> to build
+            </summary>
+            <param name="binding">The <see cref="T:Neuroglia.AsyncApi.Models.Bindings.IMessageBinding"/> to add</param>
+            <returns>The configured <see cref="T:Neuroglia.AsyncApi.Services.FluentBuilders.IMessageTraitBuilder`2"/></returns>
+        </member>
+        <member name="M:Neuroglia.AsyncApi.Services.FluentBuilders.IMessageTraitBuilder`2.Build">
+            <summary>
+            Builds a new <see cref="T:Neuroglia.AsyncApi.Models.MessageTrait"/>
+            </summary>
+            <returns>A new <see cref="T:Neuroglia.AsyncApi.Models.MessageTrait"/></returns>
+        </member>
+        <member name="T:Neuroglia.AsyncApi.Services.FluentBuilders.IMessageTraitBuilder">
+            <summary>
+            Defines the fundamentals of a service used to build <see cref="T:Neuroglia.AsyncApi.Models.MessageTrait"/>s
+            </summary>
+        </member>
+        <member name="T:Neuroglia.AsyncApi.Services.FluentBuilders.IOperationBuilder">
+            <summary>
+            Defines the fundamentals of a service used to build <see cref="T:Neuroglia.AsyncApi.Models.Operation"/>s
+            </summary>
+        </member>
+        <member name="M:Neuroglia.AsyncApi.Services.FluentBuilders.IOperationBuilder.WithTrait(System.Action{Neuroglia.AsyncApi.Services.FluentBuilders.IOperationTraitBuilder})">
+            <summary>
+            Configures the <see cref="T:Neuroglia.AsyncApi.Models.Operation"/> to build to use the specified <see cref="T:Neuroglia.AsyncApi.Models.OperationTrait"/>
+            </summary>
+            <param name="setup">An <see cref="T:System.Action`1"/> used to setup the <see cref="T:Neuroglia.AsyncApi.Models.OperationTrait"/> to use</param>
+            <returns>The configured <see cref="T:Neuroglia.AsyncApi.Services.FluentBuilders.IOperationBuilder"/></returns>
+        </member>
+        <member name="M:Neuroglia.AsyncApi.Services.FluentBuilders.IOperationBuilder.UseMessage(System.Action{Neuroglia.AsyncApi.Services.FluentBuilders.IMessageBuilder})">
+            <summary>
+            Configures the <see cref="T:Neuroglia.AsyncApi.Models.Operation"/> to build to use the specified <see cref="T:Neuroglia.AsyncApi.Models.Message"/>
+            </summary>
+            <param name="setup">An <see cref="T:System.Action`1"/> used to setup the <see cref="T:Neuroglia.AsyncApi.Models.Message"/> to use</param>
+            <returns>The configured <see cref="T:Neuroglia.AsyncApi.Services.FluentBuilders.IOperationBuilder"/></returns>
+        </member>
+        <member name="T:Neuroglia.AsyncApi.Services.FluentBuilders.IOperationTraitBuilder`2">
+            <summary>
+            Defines the fundamentals of a service used to build <see cref="T:Neuroglia.AsyncApi.Models.OperationTrait"/>s
+            </summary>
+            <typeparam name="TBuilder">The type of <see cref="T:Neuroglia.AsyncApi.Services.FluentBuilders.IOperationTraitBuilder`2"/> to return for chaining purposes</typeparam>
+            <typeparam name="TTrait">The type of <see cref="T:Neuroglia.AsyncApi.Models.OperationTrait"/> to build</typeparam>
+        </member>
+        <member name="M:Neuroglia.AsyncApi.Services.FluentBuilders.IOperationTraitBuilder`2.WithOperationId(System.String)">
+            <summary>
+            Configures the <see cref="T:Neuroglia.AsyncApi.Models.OperationTrait"/> to use the specified id
+            </summary>
+            <param name="operationId">The id of the Async Api document to build</param>
+            <returns>The configured <see cref="T:Neuroglia.AsyncApi.Services.FluentBuilders.IOperationTraitBuilder`2"/></returns>
+        </member>
+        <member name="M:Neuroglia.AsyncApi.Services.FluentBuilders.IOperationTraitBuilder`2.WithSummary(System.String)">
+            <summary>
+            Configures the <see cref="T:Neuroglia.AsyncApi.Models.OperationTrait"/> to use the specified API description
+            </summary>
+            <param name="summary">The summary of the Async Api document to build</param>
+            <returns>The configured <see cref="T:Neuroglia.AsyncApi.Services.FluentBuilders.IOperationTraitBuilder`2"/></returns>
+        </member>
+        <member name="M:Neuroglia.AsyncApi.Services.FluentBuilders.IOperationTraitBuilder`2.WithDescription(System.String)">
+            <summary>
+            Configures the <see cref="T:Neuroglia.AsyncApi.Models.OperationTrait"/> to use the specified API description
+            </summary>
+            <param name="description">The description of the Async Api document to build</param>
+            <returns>The configured <see cref="T:Neuroglia.AsyncApi.Services.FluentBuilders.IOperationTraitBuilder`2"/></returns>
+        </member>
+        <member name="M:Neuroglia.AsyncApi.Services.FluentBuilders.IOperationTraitBuilder`2.TagWith(System.Action{Neuroglia.AsyncApi.Services.FluentBuilders.ITagBuilder})">
+            <summary>
+            Marks the <see cref="T:Neuroglia.AsyncApi.Models.OperationTrait"/> to build with the specified tag
+            </summary>
+            <param name="setup">An <see cref="T:System.Action`1"/> used to setup the tag to use</param>
+            <returns>The configured <see cref="T:Neuroglia.AsyncApi.Services.FluentBuilders.IOperationTraitBuilder`2"/></returns>
+        </member>
+        <member name="M:Neuroglia.AsyncApi.Services.FluentBuilders.IOperationTraitBuilder`2.DocumentWith(System.Uri,System.String)">
+            <summary>
+            Adds the specified external documentation to the <see cref="T:Neuroglia.AsyncApi.Models.OperationTrait"/> to build
+            </summary>
+            <param name="uri">The <see cref="T:System.Uri"/> to the documentation to add</param>
+            <param name="description">The description of the documentation to add</param>
+            <returns>The configured <see cref="T:Neuroglia.AsyncApi.Services.FluentBuilders.IOperationTraitBuilder`2"/></returns>
+        </member>
+        <member name="M:Neuroglia.AsyncApi.Services.FluentBuilders.IOperationTraitBuilder`2.UseBinding(Neuroglia.AsyncApi.Models.Bindings.IOperationBinding)">
+            <summary>
+            Adds the specified <see cref="T:Neuroglia.AsyncApi.Models.Bindings.IOperationBinding"/> to the <see cref="T:Neuroglia.AsyncApi.Models.OperationTrait"/> to build
+            </summary>
+            <param name="binding">The <see cref="T:Neuroglia.AsyncApi.Models.Bindings.IOperationBinding"/> to add</param>
+            <returns>The configured <see cref="T:Neuroglia.AsyncApi.Services.FluentBuilders.IOperationTraitBuilder`2"/></returns>
+        </member>
+        <member name="M:Neuroglia.AsyncApi.Services.FluentBuilders.IOperationTraitBuilder`2.Build">
+            <summary>
+            Builds a new <see cref="T:Neuroglia.AsyncApi.Models.OperationTrait"/>
+            </summary>
+            <returns>A new <see cref="T:Neuroglia.AsyncApi.Models.OperationTrait"/></returns>
+        </member>
+        <member name="T:Neuroglia.AsyncApi.Services.FluentBuilders.IOperationTraitBuilder">
+            <summary>
+            Defines the fundamentals of a service used to build <see cref="T:Neuroglia.AsyncApi.Models.OperationTrait"/>s
+            </summary>
+        </member>
+        <member name="T:Neuroglia.AsyncApi.Services.FluentBuilders.IParameterBuilder">
+            <summary>
+            Defines the fundamentals of the service used to build <see cref="T:Neuroglia.AsyncApi.Models.Parameter"/>s
+            </summary>
+        </member>
+        <member name="M:Neuroglia.AsyncApi.Services.FluentBuilders.IParameterBuilder.OfType``1">
+            <summary>
+            Configures the type of the <see cref="T:Neuroglia.AsyncApi.Models.Parameter"/> to build
+            </summary>
+            <typeparam name="TParameter">The type of the <see cref="T:Neuroglia.AsyncApi.Models.Parameter"/> to build</typeparam>
+            <returns>The configured <see cref="T:Neuroglia.AsyncApi.Services.FluentBuilders.IParameterBuilder"/></returns>
+        </member>
+        <member name="M:Neuroglia.AsyncApi.Services.FluentBuilders.IParameterBuilder.OfType(System.Type)">
+            <summary>
+            Configures the type of the <see cref="T:Neuroglia.AsyncApi.Models.Parameter"/> to build
+            </summary>
+            <param name="parameterType">The type of the <see cref="T:Neuroglia.AsyncApi.Models.Parameter"/> to build</param>
+            <returns>The configured <see cref="T:Neuroglia.AsyncApi.Services.FluentBuilders.IParameterBuilder"/></returns>
+        </member>
+        <member name="M:Neuroglia.AsyncApi.Services.FluentBuilders.IParameterBuilder.WithSchema(Newtonsoft.Json.Schema.JSchema)">
+            <summary>
+            Configures the <see cref="T:Newtonsoft.Json.Schema.JSchema"/> of the <see cref="T:Neuroglia.AsyncApi.Models.Parameter"/> to build
+            </summary>
+            <param name="schema">The <see cref="T:Newtonsoft.Json.Schema.JSchema"/> of the <see cref="T:Neuroglia.AsyncApi.Models.Parameter"/> to build</param>
+            <returns>The configured <see cref="T:Neuroglia.AsyncApi.Services.FluentBuilders.IParameterBuilder"/></returns>
+        </member>
+        <member name="M:Neuroglia.AsyncApi.Services.FluentBuilders.IParameterBuilder.WithDescription(System.String)">
+            <summary>
+            Configures the <see cref="T:Neuroglia.AsyncApi.Models.Parameter"/> to build to use the specified description
+            </summary>
+            <param name="description">The description to use</param>
+            <returns>The configured <see cref="T:Neuroglia.AsyncApi.Services.FluentBuilders.IParameterBuilder"/></returns>
+        </member>
+        <member name="M:Neuroglia.AsyncApi.Services.FluentBuilders.IParameterBuilder.AtLocation(System.String)">
+            <summary>
+            Sets the location of the <see cref="T:Neuroglia.AsyncApi.Models.Parameter"/> to build
+            </summary>
+            <param name="location">A runtime expression that specifies the location of the parameter value</param>
+            <returns>The configured <see cref="T:Neuroglia.AsyncApi.Services.FluentBuilders.IParameterBuilder"/></returns>
+        </member>
+        <member name="M:Neuroglia.AsyncApi.Services.FluentBuilders.IParameterBuilder.Build">
+            <summary>
+            Builds a new <see cref="T:Neuroglia.AsyncApi.Models.Parameter"/>
+            </summary>
+            <returns>A new <see cref="T:Neuroglia.AsyncApi.Models.Parameter"/></returns>
+        </member>
+        <member name="T:Neuroglia.AsyncApi.Services.FluentBuilders.IServerBuilder">
+            <summary>
+            Defines the fundamentals of a service used to build <see cref="T:Neuroglia.AsyncApi.Models.Server"/>s
+            </summary>
+        </member>
+        <member name="M:Neuroglia.AsyncApi.Services.FluentBuilders.IServerBuilder.WithUrl(System.Uri)">
+            <summary>
+            Configures the <see cref="T:Neuroglia.AsyncApi.Models.Server"/> to use the specified url
+            </summary>
+            <param name="uri">The <see cref="T:System.Uri"/> of the <see cref="T:Neuroglia.AsyncApi.Models.Server"/> to build</param>
+            <returns>The configured <see cref="T:Neuroglia.AsyncApi.Services.FluentBuilders.IServerBuilder"/></returns>
+        </member>
+        <member name="M:Neuroglia.AsyncApi.Services.FluentBuilders.IServerBuilder.WithProtocol(System.String,System.String)">
+            <summary>
+            Configures the <see cref="T:Neuroglia.AsyncApi.Models.Server"/> to use the specified protocol
+            </summary>
+            <param name="protocol">The protocol to use</param>
+            <param name="version">The protocol version to use</param>
+            <returns>The configured <see cref="T:Neuroglia.AsyncApi.Services.FluentBuilders.IServerBuilder"/></returns>
+        </member>
+        <member name="M:Neuroglia.AsyncApi.Services.FluentBuilders.IServerBuilder.WithDescription(System.String)">
+            <summary>
+            Configures the <see cref="T:Neuroglia.AsyncApi.Models.Server"/> to use the specified description
+            </summary>
+            <param name="description">The description to use</param>
+            <returns>The configured <see cref="T:Neuroglia.AsyncApi.Services.FluentBuilders.IServerBuilder"/></returns>
+        </member>
+        <member name="M:Neuroglia.AsyncApi.Services.FluentBuilders.IServerBuilder.AddVariable(System.String,System.Action{Neuroglia.AsyncApi.Services.FluentBuilders.IVariableBuilder})">
+            <summary>
+            Adds the specified <see cref="T:Neuroglia.AsyncApi.Models.VariableDefinition"/> to the <see cref="T:Neuroglia.AsyncApi.Models.Server"/> to build
+            </summary>
+            <param name="name">The name of the <see cref="T:Neuroglia.AsyncApi.Models.VariableDefinition"/> to add</param>
+            <param name="setup">An <see cref="T:System.Action`1"/> used to setup the <see cref="T:Neuroglia.AsyncApi.Models.VariableDefinition"/> to add</param>
+            <returns>The configured <see cref="T:Neuroglia.AsyncApi.Services.FluentBuilders.IServerBuilder"/></returns>
+        </member>
+        <member name="M:Neuroglia.AsyncApi.Services.FluentBuilders.IServerBuilder.UseSecurityScheme(System.String)">
+            <summary>
+            Configures the <see cref="T:Neuroglia.AsyncApi.Models.Server"/> to build to use the specified <see cref="T:Neuroglia.AsyncApi.Models.SecurityScheme"/>
+            </summary>
+            <param name="name">The name of the <see cref="T:Neuroglia.AsyncApi.Models.SecurityScheme"/> to add</param>
+            <returns>The configured <see cref="T:Neuroglia.AsyncApi.Services.FluentBuilders.IServerBuilder"/></returns>
+        </member>
+        <member name="M:Neuroglia.AsyncApi.Services.FluentBuilders.IServerBuilder.UseBinding(Neuroglia.AsyncApi.Models.Bindings.IServerBinding)">
+            <summary>
+            Adds the specified <see cref="T:Neuroglia.AsyncApi.Models.Bindings.IServerBinding"/> to the <see cref="T:Neuroglia.AsyncApi.Models.Server"/> to build
+            </summary>
+            <param name="binding">The <see cref="T:Neuroglia.AsyncApi.Models.Bindings.IServerBinding"/> to add</param>
+            <returns>The configured <see cref="T:Neuroglia.AsyncApi.Services.FluentBuilders.IServerBuilder"/></returns>
+        </member>
+        <member name="M:Neuroglia.AsyncApi.Services.FluentBuilders.IServerBuilder.Build">
+            <summary>
+            Builds a new <see cref="T:Neuroglia.AsyncApi.Models.Server"/>
+            </summary>
+            <returns>A new <see cref="T:Neuroglia.AsyncApi.Models.Server"/></returns>
+        </member>
+        <member name="T:Neuroglia.AsyncApi.Services.FluentBuilders.ITagBuilder">
+            <summary>
+            Defines the fundamentals of a service used to build <see cref="T:Neuroglia.AsyncApi.Models.TagDefinition"/>s
+            </summary>
+        </member>
+        <member name="M:Neuroglia.AsyncApi.Services.FluentBuilders.ITagBuilder.WithName(System.String)">
+            <summary>
+            Configures the <see cref="T:Neuroglia.AsyncApi.Models.TagDefinition"/> to use the specified name
+            </summary>
+            <param name="name">The name to use</param>
+            <returns>The configured <see cref="T:Neuroglia.AsyncApi.Services.FluentBuilders.ITagBuilder"/></returns>
+        </member>
+        <member name="M:Neuroglia.AsyncApi.Services.FluentBuilders.ITagBuilder.WithDescription(System.String)">
+            <summary>
+            Configures the <see cref="T:Neuroglia.AsyncApi.Models.TagDefinition"/> to use the specified description
+            </summary>
+            <param name="description">The description to use</param>
+            <returns>The configured <see cref="T:Neuroglia.AsyncApi.Services.FluentBuilders.ITagBuilder"/></returns>
+        </member>
+        <member name="M:Neuroglia.AsyncApi.Services.FluentBuilders.ITagBuilder.DocumentWith(System.Uri,System.String)">
+            <summary>
+            Adds the specified external documentation to the <see cref="T:Neuroglia.AsyncApi.Models.TagDefinition"/> to build
+            </summary>
+            <param name="uri">The <see cref="T:System.Uri"/> to the documentation to add</param>
+            <param name="description">The description of the documentation to add</param>
+            <returns>The configured <see cref="T:Neuroglia.AsyncApi.Services.FluentBuilders.ITagBuilder"/></returns>
+        </member>
+        <member name="M:Neuroglia.AsyncApi.Services.FluentBuilders.ITagBuilder.Build">
+            <summary>
+            Builds a new <see cref="T:Neuroglia.AsyncApi.Models.TagDefinition"/>
+            </summary>
+            <returns>A new <see cref="T:Neuroglia.AsyncApi.Models.TagDefinition"/></returns>
+        </member>
+        <member name="T:Neuroglia.AsyncApi.Services.FluentBuilders.IVariableBuilder">
+            <summary>
+            Defines the fundamentals of a service used to build <see cref="T:Neuroglia.AsyncApi.Models.VariableDefinition"/>s
+            </summary>
+        </member>
+        <member name="M:Neuroglia.AsyncApi.Services.FluentBuilders.IVariableBuilder.WithEnumValues(System.String[])">
+            <summary>
+            Configures the <see cref="T:Neuroglia.AsyncApi.Models.VariableDefinition"/> to build to use the specified enum values
+            </summary>
+            <param name="values">An array of values to be used if the substitution options are from a limited set.</param>
+            <returns>The configured <see cref="T:Neuroglia.AsyncApi.Services.FluentBuilders.IVariableBuilder"/></returns>
+        </member>
+        <member name="M:Neuroglia.AsyncApi.Services.FluentBuilders.IVariableBuilder.WithDefaultValue(System.String)">
+            <summary>
+            Configures the <see cref="T:Neuroglia.AsyncApi.Models.VariableDefinition"/> to build to use the specified default value
+            </summary>
+            <param name="value">The value to use by default for substitution, and to send, if an alternate value is not supplied.</param>
+            <returns>The configured <see cref="T:Neuroglia.AsyncApi.Services.FluentBuilders.IVariableBuilder"/></returns>
+        </member>
+        <member name="M:Neuroglia.AsyncApi.Services.FluentBuilders.IVariableBuilder.WithDescription(System.String)">
+            <summary>
+            Configures the <see cref="T:Neuroglia.AsyncApi.Models.VariableDefinition"/> to use the specified description
+            </summary>
+            <param name="description">The description to use</param>
+            <returns>The configured <see cref="T:Neuroglia.AsyncApi.Services.FluentBuilders.IVariableBuilder"/></returns>
+        </member>
+        <member name="M:Neuroglia.AsyncApi.Services.FluentBuilders.IVariableBuilder.AddExample(System.String)">
+            <summary>
+            Adds the specified example to the <see cref="T:Neuroglia.AsyncApi.Models.VariableDefinition"/> to build
+            </summary>
+            <param name="example">The example to add</param>
+            <returns>The configured <see cref="T:Neuroglia.AsyncApi.Services.FluentBuilders.IVariableBuilder"/></returns>
+        </member>
+        <member name="M:Neuroglia.AsyncApi.Services.FluentBuilders.IVariableBuilder.Build">
+            <summary>
+            Builds a new <see cref="T:Neuroglia.AsyncApi.Models.VariableDefinition"/>
+            </summary>
+            <returns>A new <see cref="T:Neuroglia.AsyncApi.Models.VariableDefinition"/></returns>
+        </member>
+        <member name="T:Neuroglia.AsyncApi.Services.FluentBuilders.MessageBuilder">
+            <summary>
+            Represents the default implementation of the <see cref="T:Neuroglia.AsyncApi.Services.FluentBuilders.IMessageBuilder"/> interface
+            </summary>
+        </member>
+        <member name="M:Neuroglia.AsyncApi.Services.FluentBuilders.MessageBuilder.#ctor(System.IServiceProvider,System.Collections.Generic.IEnumerable{FluentValidation.IValidator{Neuroglia.AsyncApi.Models.Message}})">
+            <summary>
+            Initializes a new <see cref="T:Neuroglia.AsyncApi.Services.FluentBuilders.MessageBuilder"/>
+            </summary>
+            <param name="serviceProvider">The current <see cref="T:System.IServiceProvider"/></param>
+            <param name="validators">An <see cref="T:System.Collections.Generic.IEnumerable`1"/> containing the services used to validate <see cref="T:Neuroglia.AsyncApi.Models.MessageTrait"/>s</param>
+        </member>
+        <member name="M:Neuroglia.AsyncApi.Services.FluentBuilders.MessageBuilder.OfType``1">
+            <inheritdoc/>
+        </member>
+        <member name="M:Neuroglia.AsyncApi.Services.FluentBuilders.MessageBuilder.OfType(System.Type)">
+            <inheritdoc/>
+        </member>
+        <member name="M:Neuroglia.AsyncApi.Services.FluentBuilders.MessageBuilder.WithPayloadSchema(Newtonsoft.Json.Schema.JSchema)">
+            <inheritdoc/>
+        </member>
+        <member name="M:Neuroglia.AsyncApi.Services.FluentBuilders.MessageBuilder.WithTrait(System.Action{Neuroglia.AsyncApi.Services.FluentBuilders.IMessageTraitBuilder})">
+            <inheritdoc/>
+        </member>
+        <member name="T:Neuroglia.AsyncApi.Services.FluentBuilders.MessageTraitBuilder`2">
+            <summary>
+            Represents the base class for all <see cref="T:Neuroglia.AsyncApi.Services.FluentBuilders.IMessageTraitBuilder`2"/> implementations
+            </summary>
+            <typeparam name="TBuilder">The type of <see cref="T:Neuroglia.AsyncApi.Services.FluentBuilders.IMessageTraitBuilder`2"/> to return for chaining purposes</typeparam>
+            <typeparam name="TTrait">The type of <see cref="T:Neuroglia.AsyncApi.Models.MessageTrait"/> to build</typeparam>
+        </member>
+        <member name="M:Neuroglia.AsyncApi.Services.FluentBuilders.MessageTraitBuilder`2.#ctor(System.IServiceProvider,System.Collections.Generic.IEnumerable{FluentValidation.IValidator{`1}})">
+            <summary>
+            Initializes a new <see cref="T:Neuroglia.AsyncApi.Services.FluentBuilders.MessageTraitBuilder`2"/>
+            </summary>
+            <param name="serviceProvider">The current <see cref="T:System.IServiceProvider"/></param>
+            <param name="validators">An <see cref="T:System.Collections.Generic.IEnumerable`1"/> containing the services used to validate <see cref="T:Neuroglia.AsyncApi.Models.MessageTrait"/>s</param>
+        </member>
+        <member name="P:Neuroglia.AsyncApi.Services.FluentBuilders.MessageTraitBuilder`2.ServiceProvider">
+            <summary>
+            Gets the current <see cref="T:System.IServiceProvider"/>
+            </summary>
+        </member>
+        <member name="P:Neuroglia.AsyncApi.Services.FluentBuilders.MessageTraitBuilder`2.Validators">
+            <summary>
+            Gets an <see cref="T:System.Collections.Generic.IEnumerable`1"/> containing the services used to validate <see cref="T:Neuroglia.AsyncApi.Models.MessageTrait"/>s
+            </summary>
+        </member>
+        <member name="P:Neuroglia.AsyncApi.Services.FluentBuilders.MessageTraitBuilder`2.Trait">
+            <summary>
+            Gets the <see cref="T:Neuroglia.AsyncApi.Models.MessageTrait"/> to configure
+            </summary>
+        </member>
+        <member name="M:Neuroglia.AsyncApi.Services.FluentBuilders.MessageTraitBuilder`2.AddExample(System.String,System.Object)">
+            <inheritdoc/>
+        </member>
+        <member name="M:Neuroglia.AsyncApi.Services.FluentBuilders.MessageTraitBuilder`2.DocumentWith(System.Uri,System.String)">
+            <inheritdoc/>
+        </member>
+        <member name="M:Neuroglia.AsyncApi.Services.FluentBuilders.MessageTraitBuilder`2.TagWith(System.Action{Neuroglia.AsyncApi.Services.FluentBuilders.ITagBuilder})">
+            <inheritdoc/>
+        </member>
+        <member name="M:Neuroglia.AsyncApi.Services.FluentBuilders.MessageTraitBuilder`2.UseBinding(Neuroglia.AsyncApi.Models.Bindings.IMessageBinding)">
+            <inheritdoc/>
+        </member>
+        <member name="M:Neuroglia.AsyncApi.Services.FluentBuilders.MessageTraitBuilder`2.WithContentType(System.String)">
+            <inheritdoc/>
+        </member>
+        <member name="M:Neuroglia.AsyncApi.Services.FluentBuilders.MessageTraitBuilder`2.WithCorrelationId(System.String,System.String)">
+            <inheritdoc/>
+        </member>
+        <member name="M:Neuroglia.AsyncApi.Services.FluentBuilders.MessageTraitBuilder`2.WithDescription(System.String)">
+            <inheritdoc/>
+        </member>
+        <member name="M:Neuroglia.AsyncApi.Services.FluentBuilders.MessageTraitBuilder`2.WithHeaders``1">
+            <inheritdoc/>
+        </member>
+        <member name="M:Neuroglia.AsyncApi.Services.FluentBuilders.MessageTraitBuilder`2.WithHeaders(System.Type)">
+            <inheritdoc/>
+        </member>
+        <member name="M:Neuroglia.AsyncApi.Services.FluentBuilders.MessageTraitBuilder`2.WithHeaders(Newtonsoft.Json.Schema.JSchema)">
+            <inheritdoc/>
+        </member>
+        <member name="M:Neuroglia.AsyncApi.Services.FluentBuilders.MessageTraitBuilder`2.WithName(System.String)">
+            <inheritdoc/>
+        </member>
+        <member name="M:Neuroglia.AsyncApi.Services.FluentBuilders.MessageTraitBuilder`2.WithSchemaFormat(System.String)">
+            <inheritdoc/>
+        </member>
+        <member name="M:Neuroglia.AsyncApi.Services.FluentBuilders.MessageTraitBuilder`2.WithSummary(System.String)">
+            <inheritdoc/>
+        </member>
+        <member name="M:Neuroglia.AsyncApi.Services.FluentBuilders.MessageTraitBuilder`2.WithTitle(System.String)">
+            <inheritdoc/>
+        </member>
+        <member name="M:Neuroglia.AsyncApi.Services.FluentBuilders.MessageTraitBuilder`2.Build">
+            <inheritdoc/>
+        </member>
+        <member name="T:Neuroglia.AsyncApi.Services.FluentBuilders.MessageTraitBuilder">
+            <summary>
+            Represents the default implementation of the <see cref="T:Neuroglia.AsyncApi.Services.FluentBuilders.IMessageTraitBuilder"/> interface
+            </summary>
+        </member>
+        <member name="M:Neuroglia.AsyncApi.Services.FluentBuilders.MessageTraitBuilder.#ctor(System.IServiceProvider,System.Collections.Generic.IEnumerable{FluentValidation.IValidator{Neuroglia.AsyncApi.Models.MessageTrait}})">
+            <summary>
+            Initializes a new <see cref="T:Neuroglia.AsyncApi.Services.FluentBuilders.MessageTraitBuilder"/>
+            </summary>
+            <param name="serviceProvider">The current <see cref="T:System.IServiceProvider"/></param>
+            <param name="validators">An <see cref="T:System.Collections.Generic.IEnumerable`1"/> containing the services used to validate <see cref="T:Neuroglia.AsyncApi.Models.MessageTrait"/>s</param>
+        </member>
+        <member name="T:Neuroglia.AsyncApi.Services.FluentBuilders.OperationBuilder">
+            <summary>
+            Represents the base class for all <see cref="T:Neuroglia.AsyncApi.Services.FluentBuilders.IOperationBuilder"/> implementations
+            </summary>
+        </member>
+        <member name="M:Neuroglia.AsyncApi.Services.FluentBuilders.OperationBuilder.#ctor(System.IServiceProvider,System.Collections.Generic.IEnumerable{FluentValidation.IValidator{Neuroglia.AsyncApi.Models.OperationTrait}})">
+            <summary>
+            Initializes a new <see cref="T:Neuroglia.AsyncApi.Services.FluentBuilders.OperationBuilder"/>
+            </summary>
+            <param name="serviceProvider">The current <see cref="T:System.IServiceProvider"/></param>
+            <param name="validators">An <see cref="T:System.Collections.Generic.IEnumerable`1"/> containing the services used to validate <see cref="T:Neuroglia.AsyncApi.Models.OperationTrait"/>s</param>
+        </member>
+        <member name="M:Neuroglia.AsyncApi.Services.FluentBuilders.OperationBuilder.UseMessage(System.Action{Neuroglia.AsyncApi.Services.FluentBuilders.IMessageBuilder})">
+            <inheritdoc/>
+        </member>
+        <member name="M:Neuroglia.AsyncApi.Services.FluentBuilders.OperationBuilder.WithTrait(System.Action{Neuroglia.AsyncApi.Services.FluentBuilders.IOperationTraitBuilder})">
+            <inheritdoc/>
+        </member>
+        <member name="T:Neuroglia.AsyncApi.Services.FluentBuilders.OperationTraitBuilder`2">
+            <summary>
+            Represents the base class for all <see cref="T:Neuroglia.AsyncApi.Services.FluentBuilders.IOperationTraitBuilder`2"/> implementations
+            </summary>
+            <typeparam name="TBuilder">The type of <see cref="T:Neuroglia.AsyncApi.Services.FluentBuilders.IOperationTraitBuilder`2"/> to return for chaining purposes</typeparam>
+            <typeparam name="TTrait">The type of <see cref="T:Neuroglia.AsyncApi.Models.OperationTrait"/> to build</typeparam>
+        </member>
+        <member name="M:Neuroglia.AsyncApi.Services.FluentBuilders.OperationTraitBuilder`2.#ctor(System.IServiceProvider,System.Collections.Generic.IEnumerable{FluentValidation.IValidator{`1}})">
+            <summary>
+            Initializes a new <see cref="T:Neuroglia.AsyncApi.Services.FluentBuilders.OperationTraitBuilder`2"/>
+            </summary>
+            <param name="serviceProvider">The current <see cref="T:System.IServiceProvider"/></param>
+            <param name="validators">An <see cref="T:System.Collections.Generic.IEnumerable`1"/> containing the services used to validate <see cref="T:Neuroglia.AsyncApi.Models.OperationTrait"/>s</param>
+        </member>
+        <member name="P:Neuroglia.AsyncApi.Services.FluentBuilders.OperationTraitBuilder`2.ServiceProvider">
+            <summary>
+            Gets the current <see cref="T:System.IServiceProvider"/>
+            </summary>
+        </member>
+        <member name="P:Neuroglia.AsyncApi.Services.FluentBuilders.OperationTraitBuilder`2.Validators">
+            <summary>
+            Gets an <see cref="T:System.Collections.Generic.IEnumerable`1"/> containing the services used to validate <see cref="T:Neuroglia.AsyncApi.Models.OperationTrait"/>s
+            </summary>
+        </member>
+        <member name="P:Neuroglia.AsyncApi.Services.FluentBuilders.OperationTraitBuilder`2.Trait">
+            <summary>
+            Gets the <see cref="T:Neuroglia.AsyncApi.Models.MessageTrait"/> to configure
+            </summary>
+        </member>
+        <member name="M:Neuroglia.AsyncApi.Services.FluentBuilders.OperationTraitBuilder`2.DocumentWith(System.Uri,System.String)">
+            <inheritdoc/>
+        </member>
+        <member name="M:Neuroglia.AsyncApi.Services.FluentBuilders.OperationTraitBuilder`2.TagWith(System.Action{Neuroglia.AsyncApi.Services.FluentBuilders.ITagBuilder})">
+            <inheritdoc/>
+        </member>
+        <member name="M:Neuroglia.AsyncApi.Services.FluentBuilders.OperationTraitBuilder`2.UseBinding(Neuroglia.AsyncApi.Models.Bindings.IOperationBinding)">
+            <inheritdoc/>
+        </member>
+        <member name="M:Neuroglia.AsyncApi.Services.FluentBuilders.OperationTraitBuilder`2.WithDescription(System.String)">
+            <inheritdoc/>
+        </member>
+        <member name="M:Neuroglia.AsyncApi.Services.FluentBuilders.OperationTraitBuilder`2.WithOperationId(System.String)">
+            <inheritdoc/>
+        </member>
+        <member name="M:Neuroglia.AsyncApi.Services.FluentBuilders.OperationTraitBuilder`2.WithSummary(System.String)">
+            <inheritdoc/>
+        </member>
+        <member name="M:Neuroglia.AsyncApi.Services.FluentBuilders.OperationTraitBuilder`2.Build">
+            <inheritdoc/>
+        </member>
+        <member name="T:Neuroglia.AsyncApi.Services.FluentBuilders.OperationTraitBuilder">
+            <summary>
+            Represents the base class for all <see cref="T:Neuroglia.AsyncApi.Services.FluentBuilders.IOperationTraitBuilder"/> implementations
+            </summary>
+        </member>
+        <member name="M:Neuroglia.AsyncApi.Services.FluentBuilders.OperationTraitBuilder.#ctor(System.IServiceProvider,System.Collections.Generic.IEnumerable{FluentValidation.IValidator{Neuroglia.AsyncApi.Models.OperationTrait}})">
+            <summary>
+            Initializes a new <see cref="T:Neuroglia.AsyncApi.Services.FluentBuilders.OperationTraitBuilder"/>
+            </summary>
+            <param name="serviceProvider">The current <see cref="T:System.IServiceProvider"/></param>
+            <param name="validators">An <see cref="T:System.Collections.Generic.IEnumerable`1"/> containing the services used to validate <see cref="T:Neuroglia.AsyncApi.Models.OperationTrait"/>s</param>
+        </member>
+        <member name="T:Neuroglia.AsyncApi.Services.FluentBuilders.ParameterBuilder">
+            <summary>
+            Represents the default implementation of the <see cref="T:Neuroglia.AsyncApi.Services.FluentBuilders.IParameterBuilder"/> interface
+            </summary>
+        </member>
+        <member name="M:Neuroglia.AsyncApi.Services.FluentBuilders.ParameterBuilder.#ctor(System.IServiceProvider,System.Collections.Generic.IEnumerable{FluentValidation.IValidator{Neuroglia.AsyncApi.Models.Parameter}})">
+            <summary>
+            Initializes a new <see cref="T:Neuroglia.AsyncApi.Services.FluentBuilders.ParameterBuilder"/>
+            </summary>
+            <param name="serviceProvider">The current <see cref="T:System.IServiceProvider"/></param>
+            <param name="validators">The services used to validate <see cref="T:Neuroglia.AsyncApi.Models.Parameter"/>s</param>
+        </member>
+        <member name="P:Neuroglia.AsyncApi.Services.FluentBuilders.ParameterBuilder.ServiceProvider">
+            <summary>
+            Gets the current <see cref="T:System.IServiceProvider"/>
+            </summary>
+        </member>
+        <member name="P:Neuroglia.AsyncApi.Services.FluentBuilders.ParameterBuilder.Validators">
+            <summary>
+            Gets the services used to validate <see cref="T:Neuroglia.AsyncApi.Models.Parameter"/>s
+            </summary>
+        </member>
+        <member name="P:Neuroglia.AsyncApi.Services.FluentBuilders.ParameterBuilder.Parameter">
+            <summary>
+            Gets the <see cref="T:Neuroglia.AsyncApi.Models.Parameter"/> to configure
+            </summary>
+        </member>
+        <member name="M:Neuroglia.AsyncApi.Services.FluentBuilders.ParameterBuilder.OfType``1">
+            <inheritdoc/>
+        </member>
+        <member name="M:Neuroglia.AsyncApi.Services.FluentBuilders.ParameterBuilder.OfType(System.Type)">
+            <inheritdoc/>
+        </member>
+        <member name="M:Neuroglia.AsyncApi.Services.FluentBuilders.ParameterBuilder.WithSchema(Newtonsoft.Json.Schema.JSchema)">
+            <inheritdoc/>
+        </member>
+        <member name="M:Neuroglia.AsyncApi.Services.FluentBuilders.ParameterBuilder.WithDescription(System.String)">
+            <inheritdoc/>
+        </member>
+        <member name="M:Neuroglia.AsyncApi.Services.FluentBuilders.ParameterBuilder.AtLocation(System.String)">
+            <inheritdoc/>
+        </member>
+        <member name="M:Neuroglia.AsyncApi.Services.FluentBuilders.ParameterBuilder.Build">
+            <inheritdoc/>
+        </member>
+        <member name="T:Neuroglia.AsyncApi.Services.FluentBuilders.ServerBuilder">
+            <summary>
+            Represents the default implementation of the <see cref="T:Neuroglia.AsyncApi.Services.FluentBuilders.IServerBuilder"/>
+            </summary>
+        </member>
+        <member name="M:Neuroglia.AsyncApi.Services.FluentBuilders.ServerBuilder.#ctor(System.IServiceProvider,System.Collections.Generic.IEnumerable{FluentValidation.IValidator{Neuroglia.AsyncApi.Models.Server}})">
+            <summary>
+            Initializes a new <see cref="T:Neuroglia.AsyncApi.Services.FluentBuilders.ServerBuilder"/>
+            </summary>
+            <param name="serviceProvider">The current <see cref="T:System.IServiceProvider"/></param>
+            <param name="validators">The services used to validate <see cref="T:Neuroglia.AsyncApi.Models.Server"/>s</param>
+        </member>
+        <member name="P:Neuroglia.AsyncApi.Services.FluentBuilders.ServerBuilder.ServiceProvider">
+            <summary>
+            Gets the current <see cref="T:System.IServiceProvider"/>
+            </summary>
+        </member>
+        <member name="P:Neuroglia.AsyncApi.Services.FluentBuilders.ServerBuilder.Validators">
+            <summary>
+            Gets the services used to validate <see cref="T:Neuroglia.AsyncApi.Models.Server"/>s
+            </summary>
+        </member>
+        <member name="P:Neuroglia.AsyncApi.Services.FluentBuilders.ServerBuilder.Server">
+            <summary>
+            Gets the <see cref="T:Neuroglia.AsyncApi.Models.Server"/> to configure
+            </summary>
+        </member>
+        <member name="M:Neuroglia.AsyncApi.Services.FluentBuilders.ServerBuilder.WithUrl(System.Uri)">
+            <inheritdoc/>
+        </member>
+        <member name="M:Neuroglia.AsyncApi.Services.FluentBuilders.ServerBuilder.WithProtocol(System.String,System.String)">
+            <inheritdoc/>
+        </member>
+        <member name="M:Neuroglia.AsyncApi.Services.FluentBuilders.ServerBuilder.WithDescription(System.String)">
+            <inheritdoc/>
+        </member>
+        <member name="M:Neuroglia.AsyncApi.Services.FluentBuilders.ServerBuilder.AddVariable(System.String,System.Action{Neuroglia.AsyncApi.Services.FluentBuilders.IVariableBuilder})">
+            <inheritdoc/>
+        </member>
+        <member name="M:Neuroglia.AsyncApi.Services.FluentBuilders.ServerBuilder.UseBinding(Neuroglia.AsyncApi.Models.Bindings.IServerBinding)">
+            <inheritdoc/>
+        </member>
+        <member name="M:Neuroglia.AsyncApi.Services.FluentBuilders.ServerBuilder.UseSecurityScheme(System.String)">
+            <inheritdoc/>
+        </member>
+        <member name="M:Neuroglia.AsyncApi.Services.FluentBuilders.ServerBuilder.Build">
+            <inheritdoc/>
+        </member>
+        <member name="T:Neuroglia.AsyncApi.Services.FluentBuilders.TagBuilder">
+            <summary>
+            Represents the default implementation of the <see cref="T:Neuroglia.AsyncApi.Services.FluentBuilders.ITagBuilder"/>
+            </summary>
+        </member>
+        <member name="M:Neuroglia.AsyncApi.Services.FluentBuilders.TagBuilder.#ctor(System.Collections.Generic.IEnumerable{FluentValidation.IValidator{Neuroglia.AsyncApi.Models.TagDefinition}})">
+            <summary>
+            Initializes a new <see cref="T:Neuroglia.AsyncApi.Services.FluentBuilders.TagBuilder"/>
+            </summary>
+            <param name="validators">An <see cref="T:System.Collections.Generic.IEnumerable`1"/> containing the services used to validate <see cref="T:Neuroglia.AsyncApi.Models.TagDefinition"/>s</param>
+        </member>
+        <member name="P:Neuroglia.AsyncApi.Services.FluentBuilders.TagBuilder.Validators">
+            <summary>
+            Gets the services used to validate <see cref="T:Neuroglia.AsyncApi.Models.TagDefinition"/>s
+            </summary>
+        </member>
+        <member name="P:Neuroglia.AsyncApi.Services.FluentBuilders.TagBuilder.Tag">
+            <summary>
+            Gets the <see cref="T:Neuroglia.AsyncApi.Models.TagDefinition"/> to configure
+            </summary>
+        </member>
+        <member name="M:Neuroglia.AsyncApi.Services.FluentBuilders.TagBuilder.WithName(System.String)">
+            <inheritdoc/>
+        </member>
+        <member name="M:Neuroglia.AsyncApi.Services.FluentBuilders.TagBuilder.WithDescription(System.String)">
+            <inheritdoc/>
+        </member>
+        <member name="M:Neuroglia.AsyncApi.Services.FluentBuilders.TagBuilder.DocumentWith(System.Uri,System.String)">
+            <inheritdoc/>
+        </member>
+        <member name="M:Neuroglia.AsyncApi.Services.FluentBuilders.TagBuilder.Build">
+            <inheritdoc/>
+        </member>
+        <member name="T:Neuroglia.AsyncApi.Services.FluentBuilders.VariableBuilder">
+            <summary>
+            Represents the default implementation of the <see cref="T:Neuroglia.AsyncApi.Services.FluentBuilders.IVariableBuilder"/> interface
+            </summary>
+        </member>
+        <member name="M:Neuroglia.AsyncApi.Services.FluentBuilders.VariableBuilder.#ctor(System.Collections.Generic.IEnumerable{FluentValidation.IValidator{Neuroglia.AsyncApi.Models.VariableDefinition}})">
+            <summary>
+            Initializes a new <see cref="T:Neuroglia.AsyncApi.Services.FluentBuilders.VariableBuilder"/>
+            </summary>
+            <param name="validators">The services used to validate <see cref="T:Neuroglia.AsyncApi.Models.VariableDefinition"/>s</param>
+        </member>
+        <member name="P:Neuroglia.AsyncApi.Services.FluentBuilders.VariableBuilder.Validators">
+            <summary>
+            Gets the services used to validate <see cref="T:Neuroglia.AsyncApi.Models.VariableDefinition"/>s
+            </summary>
+        </member>
+        <member name="P:Neuroglia.AsyncApi.Services.FluentBuilders.VariableBuilder.Variable">
+            <summary>
+            Gets the <see cref="T:Neuroglia.AsyncApi.Models.VariableDefinition"/> to build
+            </summary>
+        </member>
+        <member name="M:Neuroglia.AsyncApi.Services.FluentBuilders.VariableBuilder.WithEnumValues(System.String[])">
+            <inheritdoc/>
+        </member>
+        <member name="M:Neuroglia.AsyncApi.Services.FluentBuilders.VariableBuilder.WithDefaultValue(System.String)">
+            <inheritdoc/>
+        </member>
+        <member name="M:Neuroglia.AsyncApi.Services.FluentBuilders.VariableBuilder.WithDescription(System.String)">
+            <inheritdoc/>
+        </member>
+        <member name="M:Neuroglia.AsyncApi.Services.FluentBuilders.VariableBuilder.AddExample(System.String)">
+            <inheritdoc/>
+        </member>
+        <member name="M:Neuroglia.AsyncApi.Services.FluentBuilders.VariableBuilder.Build">
+            <inheritdoc/>
+        </member>
+        <member name="T:Neuroglia.AsyncApi.Services.Generators.AsyncApiDocumentGenerator">
+            <summary>
+            Represents the default implementation of the <see cref="T:Neuroglia.AsyncApi.Services.Generators.IAsyncApiDocumentGenerator"/> interface
+            </summary>
+        </member>
+        <member name="M:Neuroglia.AsyncApi.Services.Generators.AsyncApiDocumentGenerator.#ctor(System.IServiceProvider)">
+            <summary>
+            Initializes a new <see cref="T:Neuroglia.AsyncApi.Services.Generators.AsyncApiDocumentGenerator"/>
+            </summary>
+            <param name="serviceProvider">The current <see cref="T:System.IServiceProvider"/></param>
+        </member>
+        <member name="P:Neuroglia.AsyncApi.Services.Generators.AsyncApiDocumentGenerator.ServiceProvider">
+            <summary>
+            Gets the current <see cref="T:System.IServiceProvider"/>
+            </summary>
+        </member>
+        <member name="M:Neuroglia.AsyncApi.Services.Generators.AsyncApiDocumentGenerator.GenerateAsync(System.Type[])">
+            <inheritdoc/>
+        </member>
+        <member name="M:Neuroglia.AsyncApi.Services.Generators.AsyncApiDocumentGenerator.GenerateDocumentForAsync(System.Type,System.Threading.CancellationToken)">
+            <summary>
+            Generates a new <see cref="T:Neuroglia.AsyncApi.Models.AsyncApiDocument"/> for the specified type
+            </summary>
+            <param name="type">The type to generate a code-first <see cref="T:Neuroglia.AsyncApi.Models.AsyncApiDocument"/> for</param>
+            <param name="cancellationToken">A <see cref="T:System.Threading.CancellationToken"/></param>
+            <returns>A new <see cref="T:Neuroglia.AsyncApi.Models.AsyncApiDocument"/></returns>
+        </member>
+        <member name="M:Neuroglia.AsyncApi.Services.Generators.AsyncApiDocumentGenerator.ConfigureChannelForAsync(Neuroglia.AsyncApi.Services.FluentBuilders.IAsyncApiDocumentBuilder,Neuroglia.AsyncApi.ChannelAttribute,System.Collections.Generic.List{System.Reflection.MethodInfo},System.Threading.CancellationToken)">
+            <summary>
+            Builds a new <see cref="T:Neuroglia.AsyncApi.Models.Channel"/>
+            </summary>
+            <param name="builder">The <see cref="T:Neuroglia.AsyncApi.Services.FluentBuilders.IAsyncApiDocumentBuilder"/> to configure</param>
+            <param name="channel">The attribute used to describe the <see cref="T:Neuroglia.AsyncApi.Models.Channel"/> to configure</param>
+            <param name="methods">A <see cref="T:System.Collections.Generic.List`1"/> containing the <see cref="T:Neuroglia.AsyncApi.Models.Channel"/>'s <see cref="T:Neuroglia.AsyncApi.Models.Operation"/>s <see cref="T:System.Reflection.MethodInfo"/>s</param>
+            <param name="cancellationToken">A <see cref="T:System.Threading.CancellationToken"/></param>
+            <returns>A new awaitable <see cref="T:System.Threading.Tasks.Task"/></returns>
+        </member>
+        <member name="T:Neuroglia.AsyncApi.Services.Generators.IAsyncApiDocumentGenerator">
+            <summary>
+            Defines the fundamentals of a service used to generate <see cref="T:Neuroglia.AsyncApi.Models.AsyncApiDocument"/>s in a code-first fashion
+            </summary>
+        </member>
+        <member name="M:Neuroglia.AsyncApi.Services.Generators.IAsyncApiDocumentGenerator.GenerateAsync(System.Type[])">
+            <summary>
+            Generates code-first <see cref="T:Neuroglia.AsyncApi.Models.AsyncApiDocument"/>s for types reflected in the specified assemblies
+            </summary>
+            <param name="markupTypes">An <see cref="T:System.Array"/> containing the mark up types belonging to the assemblies to scan</param>
+            <returns>An <see cref="T:System.Collections.Generic.IEnumerable`1"/> containing the generated <see cref="T:Neuroglia.AsyncApi.Models.AsyncApiDocument"/>s</returns>
+        </member>
+        <member name="T:Neuroglia.AsyncApi.Services.IO.AsyncApiDocumentReader">
+            <summary>
+            Represents the default implementation of the <see cref="T:Neuroglia.AsyncApi.Services.IO.IAsyncApiDocumentReader"/> interface
+            </summary>
+        </member>
+        <member name="M:Neuroglia.AsyncApi.Services.IO.AsyncApiDocumentReader.#ctor(Microsoft.Extensions.Logging.ILogger{Neuroglia.AsyncApi.Services.IO.AsyncApiDocumentReader},Neuroglia.Serialization.IJsonSerializer,Neuroglia.Serialization.IYamlSerializer,System.Net.Http.IHttpClientFactory)">
+            <summary>
+            Initializes a new <see cref="T:Neuroglia.AsyncApi.Services.IO.AsyncApiDocumentReader"/>
+            </summary>
+            <param name="logger">The service used to perform logging</param>
+            <param name="jsonSerializer">The service used to serialize and deserialize JSON</param>
+            <param name="yamlSerializer">The service used to serialize and deserialize YAML</param>
+            <param name="httpClientFactory">The service used to create <see cref="T:System.Net.Http.HttpClient"/>s</param>
+        </member>
+        <member name="P:Neuroglia.AsyncApi.Services.IO.AsyncApiDocumentReader.Logger">
+            <summary>
+            Gets the service used to perform logging
+            </summary>
+        </member>
+        <member name="P:Neuroglia.AsyncApi.Services.IO.AsyncApiDocumentReader.JsonSerializer">
+            <summary>
+            Gets the service used to serialize and deserialize JSON
+            </summary>
+        </member>
+        <member name="P:Neuroglia.AsyncApi.Services.IO.AsyncApiDocumentReader.YamlSerializer">
+            <summary>
+            Gets the service used to serialize and deserialize YAML
+            </summary>
+        </member>
+        <member name="P:Neuroglia.AsyncApi.Services.IO.AsyncApiDocumentReader.HttpClient">
+            <summary>
+            Gets the <see cref="T:System.Net.Http.HttpClient"/> used to retrieve external definitions
+            </summary>
+        </member>
+        <member name="M:Neuroglia.AsyncApi.Services.IO.AsyncApiDocumentReader.ReadAsync(System.IO.Stream,System.Threading.CancellationToken)">
+            <inheritdoc/>
+        </member>
+        <member name="T:Neuroglia.AsyncApi.Services.IO.AsyncApiDocumentWriter">
+            <summary>
+            Represents the default implementation of the <see cref="T:Neuroglia.AsyncApi.Services.IO.IAsyncApiDocumentWriter"/> interface
+            </summary>
+        </member>
+        <member name="M:Neuroglia.AsyncApi.Services.IO.AsyncApiDocumentWriter.#ctor(Microsoft.Extensions.Logging.ILogger{Neuroglia.AsyncApi.Services.IO.AsyncApiDocumentReader},Neuroglia.Serialization.IJsonSerializer,Neuroglia.Serialization.IYamlSerializer)">
+            <summary>
+            Initializes a new <see cref="T:Neuroglia.AsyncApi.Services.IO.AsyncApiDocumentWriter"/>
+            </summary>
+            <param name="logger">The service used to perform logging</param>
+            <param name="jsonSerializer">The service used to serialize and deserialize JSON</param>
+            <param name="yamlSerializer">The service used to serialize and deserialize YAML</param>
+        </member>
+        <member name="P:Neuroglia.AsyncApi.Services.IO.AsyncApiDocumentWriter.Logger">
+            <summary>
+            Gets the service used to perform logging
+            </summary>
+        </member>
+        <member name="P:Neuroglia.AsyncApi.Services.IO.AsyncApiDocumentWriter.JsonSerializer">
+            <summary>
+            Gets the service used to serialize and deserialize JSON
+            </summary>
+        </member>
+        <member name="P:Neuroglia.AsyncApi.Services.IO.AsyncApiDocumentWriter.YamlSerializer">
+            <summary>
+            Gets the service used to serialize and deserialize YAML
+            </summary>
+        </member>
+        <member name="P:Neuroglia.AsyncApi.Services.IO.AsyncApiDocumentWriter.HttpClient">
+            <summary>
+            Gets the <see cref="T:System.Net.Http.HttpClient"/> used to retrieve external definitions
+            </summary>
+        </member>
+        <member name="M:Neuroglia.AsyncApi.Services.IO.AsyncApiDocumentWriter.WriteAsync(Neuroglia.AsyncApi.Models.AsyncApiDocument,System.IO.Stream,Neuroglia.AsyncApi.AsyncApiDocumentFormat,System.Threading.CancellationToken)">
+            <inheritdoc/>
+        </member>
+        <member name="T:Neuroglia.AsyncApi.Services.IO.IAsyncApiDocumentReader">
+            <summary>
+            Defines the fundamentals of a service used to read <see cref="T:Neuroglia.AsyncApi.Models.AsyncApiDocument"/>s
+            </summary>
+        </member>
+        <member name="M:Neuroglia.AsyncApi.Services.IO.IAsyncApiDocumentReader.ReadAsync(System.IO.Stream,System.Threading.CancellationToken)">
+            <summary>
+            Reads a <see cref="T:Neuroglia.AsyncApi.Models.AsyncApiDocument"/> from the specified <see cref="T:System.IO.Stream"/>
+            </summary>
+            <param name="stream">The <see cref="T:System.IO.Stream"/> to read the <see cref="T:Neuroglia.AsyncApi.Models.AsyncApiDocument"/> from</param>
+            <param name="cancellationToken">A <see cref="T:System.Threading.CancellationToken"/></param>
+            <returns>A new <see cref="T:Neuroglia.AsyncApi.Models.AsyncApiDocument"/></returns>
+        </member>
+        <member name="T:Neuroglia.AsyncApi.Services.IO.IAsyncApiDocumentWriter">
+            <summary>
+            Defines the fundamentals of a service used to write <see cref="T:Neuroglia.AsyncApi.Models.AsyncApiDocument"/>s
+            </summary>
+        </member>
+        <member name="M:Neuroglia.AsyncApi.Services.IO.IAsyncApiDocumentWriter.WriteAsync(Neuroglia.AsyncApi.Models.AsyncApiDocument,System.IO.Stream,Neuroglia.AsyncApi.AsyncApiDocumentFormat,System.Threading.CancellationToken)">
+            <summary>
+            Writes the specified <see cref="T:Neuroglia.AsyncApi.Models.AsyncApiDocument"/> to a <see cref="T:System.IO.Stream"/>
+            </summary>
+            <param name="document">The <see cref="T:Neuroglia.AsyncApi.Models.AsyncApiDocument"/> to write</param>
+            <param name="stream">The <see cref="T:System.IO.Stream"/> to read the <see cref="T:Neuroglia.AsyncApi.Models.AsyncApiDocument"/> from</param>
+            <param name="format">The format of the <see cref="T:Neuroglia.AsyncApi.Models.AsyncApiDocument"/> to read. Defaults to '<see cref="F:Neuroglia.AsyncApi.AsyncApiDocumentFormat.Yaml"/>'</param>
+            <param name="cancellationToken">A <see cref="T:System.Threading.CancellationToken"/></param>
+            <returns>A new <see cref="T:Neuroglia.AsyncApi.Models.AsyncApiDocument"/></returns>
+        </member>
+        <member name="T:Neuroglia.AsyncApi.Services.Validation.AsyncApiDocumentValidator">
+            <summary>
+            Represents the service used to validate <see cref="T:Neuroglia.AsyncApi.Models.AsyncApiDocument"/>s
+            </summary>
+        </member>
+        <member name="M:Neuroglia.AsyncApi.Services.Validation.AsyncApiDocumentValidator.#ctor">
+            <summary>
+            Initializes a new <see cref="T:Neuroglia.AsyncApi.Services.Validation.AsyncApiDocumentValidator"/>
+            </summary>
+        </member>
+        <member name="T:Neuroglia.AsyncApi.Services.Validation.ChannelValidator">
+            <summary>
+            Represents the service used to validate <see cref="T:Neuroglia.AsyncApi.Models.Channel"/>s
+            </summary>
+        </member>
+        <member name="M:Neuroglia.AsyncApi.Services.Validation.ChannelValidator.#ctor">
+            <summary>
+            Initializes a new <see cref="T:Neuroglia.AsyncApi.Services.Validation.ChannelValidator"/>
+            </summary>
+        </member>
+        <member name="T:Neuroglia.AsyncApi.Services.Validation.MessageTraitValidator">
+            <summary>
+            Represents the service used to validate <see cref="T:Neuroglia.AsyncApi.Models.MessageTrait"/>s
+            </summary>
+        </member>
+        <member name="M:Neuroglia.AsyncApi.Services.Validation.MessageTraitValidator.#ctor">
+            <summary>
+            Initializes a new <see cref="T:Neuroglia.AsyncApi.Services.Validation.MessageTraitValidator"/>
+            </summary>
+        </member>
+        <member name="T:Neuroglia.AsyncApi.Services.Validation.MessageValidator">
+            <summary>
+            Represents the service used to validate <see cref="T:Neuroglia.AsyncApi.Models.Message"/>s
+            </summary>
+        </member>
+        <member name="M:Neuroglia.AsyncApi.Services.Validation.MessageValidator.#ctor">
+            <summary>
+            Initializes a new <see cref="T:Neuroglia.AsyncApi.Services.Validation.MessageValidator"/>
+            </summary>
+        </member>
+        <member name="T:Neuroglia.AsyncApi.Services.Validation.OperationTraitValidator">
+            <summary>
+            Represents the service used to validate <see cref="T:Neuroglia.AsyncApi.Models.OperationTrait"/>s
+            </summary>
+        </member>
+        <member name="M:Neuroglia.AsyncApi.Services.Validation.OperationTraitValidator.#ctor">
+            <summary>
+            Initializes a new <see cref="T:Neuroglia.AsyncApi.Services.Validation.OperationTraitValidator"/>
+            </summary>
+        </member>
+        <member name="T:Neuroglia.AsyncApi.Services.Validation.OperationValidator">
+            <summary>
+            Represents the service used to validate <see cref="T:Neuroglia.AsyncApi.Models.Operation"/>s
+            </summary>
+        </member>
+        <member name="M:Neuroglia.AsyncApi.Services.Validation.OperationValidator.#ctor">
+            <summary>
+            Initializes a new <see cref="T:Neuroglia.AsyncApi.Services.Validation.OperationValidator"/>
+            </summary>
+        </member>
+        <member name="T:Neuroglia.AsyncApi.Services.Validation.ServerValidator">
+            <summary>
+            Represents the service used to validate <see cref="T:Neuroglia.AsyncApi.Models.Server"/>s
+            </summary>
+        </member>
+        <member name="M:Neuroglia.AsyncApi.Services.Validation.ServerValidator.#ctor">
+            <summary>
+            Initializes a new <see cref="T:Neuroglia.AsyncApi.Services.Validation.ServerValidator"/>
+            </summary>
+        </member>
+    </members>
+</doc>
