@@ -28,17 +28,17 @@ Neuroglia.AsyncApi.Client | Contains services to build clients at runtime based 
 
 ### Core library
 ```bash
-dotnet add package Neuroglia.AsyncApi.Core --version 0.1.0
+dotnet add package Neuroglia.AsyncApi.Core --version 2.1.0
 ```
 
 ### Code-first generation library
 ```bash
-dotnet add package Neuroglia.AsyncApi.AspNetCore --version 0.1.0
+dotnet add package Neuroglia.AsyncApi.AspNetCore --version 2.1.0
 ```
 
 ### AsyncAPI client
 ```bash
-dotnet add package Neuroglia.AsyncApi.Client --version 0.1.0
+dotnet add package Neuroglia.AsyncApi.Client --version 2.1.0
 ```
 
 ## Usage
