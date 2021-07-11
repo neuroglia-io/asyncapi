@@ -139,7 +139,7 @@ var options = new AsyncApiDocumentGenerationOptions()
 IEnumerable<AsyncApiDocument> documents = generator.GenerateAsync(typeof(StreetLightsService), options);
 ```
 
-### 2.2. Generating documents automatically and serve them using ASP
+#### 2.2. Generating documents automatically and serve them using ASP
 
 Go to your ASP project's `Startup.cs` file and add the following lines:
 ```csharp
