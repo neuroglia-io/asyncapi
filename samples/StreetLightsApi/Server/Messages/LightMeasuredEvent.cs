@@ -1,6 +1,7 @@
-﻿using System;
+﻿using Neuroglia.AsyncApi;
+using System;
 
-namespace Neuroglia.AsyncApi.Samples.StreetLightsApi.Messages
+namespace StreetLightsApi.Server.Messages
 {
 
     [Message(Name = "LightMeasured")]

@@ -1,7 +1,7 @@
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Hosting;
 
-namespace Neuroglia.AsyncApi.Samples.StreetLightsApi
+namespace StreetLightsApi.Server
 {
     public class Program
     {

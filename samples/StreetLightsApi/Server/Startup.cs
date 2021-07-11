@@ -3,10 +3,11 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Neuroglia.AsyncApi.Samples.StreetLightsApi.Services;
+using Neuroglia.AsyncApi;
+using StreetLightsApi.Server.Services;
 using System;
 
-namespace Neuroglia.AsyncApi.Samples.StreetLightsApi
+namespace StreetLightsApi.Server
 {
 
     public class Startup

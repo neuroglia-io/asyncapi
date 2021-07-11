@@ -3,14 +3,15 @@ using Microsoft.Extensions.Logging;
 using MQTTnet;
 using MQTTnet.Client;
 using MQTTnet.Client.Options;
-using Neuroglia.AsyncApi.Samples.StreetLightsApi.Messages;
+using StreetLightsApi.Server.Messages;
 using Neuroglia.Serialization;
 using System;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using Neuroglia.AsyncApi;
 
-namespace Neuroglia.AsyncApi.Samples.StreetLightsApi.Services
+namespace StreetLightsApi.Server.Services
 {
 
     [AsyncApi("Streetlights API", "1.0.0", Description = "The Smartylighting Streetlights API allows you to remotely manage the city lights.", LicenseName = "Apache 2.0", LicenseUrl = "https://www.apache.org/licenses/LICENSE-2.0")]

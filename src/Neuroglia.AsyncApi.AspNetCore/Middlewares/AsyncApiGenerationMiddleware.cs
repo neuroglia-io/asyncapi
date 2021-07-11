@@ -76,8 +76,8 @@ namespace Neuroglia.AsyncApi.Middlewares
                 return;
             }
             string[] components = context.Request.Path.ToString().Split('/', StringSplitOptions.RemoveEmptyEntries);
-            string documentName = HttpUtility.UrlDecode(components.Last());
-            string documentVersion = HttpUtility.UrlDecode(components[^2]);
+            string documentName = HttpUtility.UrlDecode(components[^2]);
+            string documentVersion = HttpUtility.UrlDecode(components[^1]);
             AsyncApiDocumentFormat format = context.Request.ContentType switch
             {
                 "application/yaml" => AsyncApiDocumentFormat.Yaml,
