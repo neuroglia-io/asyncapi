@@ -179,7 +179,7 @@ public class Startup
 
 ## Samples
 
-### [Streetlights API - Server](https://github.com/neuroglia-io/asyncapi/samples/StreetLightsApi/Server)
+### [Streetlights API - Server](https://github.com/neuroglia-io/AsyncApi/tree/main/samples/StreetLightsApi/Server)
 
 A simple `ASP.NET 5.0` REST API using a MQTT-powered message bus to send and receive information about environmental lighting conditions for a particular streetlight.
 
