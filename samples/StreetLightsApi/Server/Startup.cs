@@ -6,6 +6,7 @@ using Microsoft.Extensions.Hosting;
 using Neuroglia.AsyncApi;
 using StreetLightsApi.Server.Services;
 using System;
+using System.Linq;
 
 namespace StreetLightsApi.Server
 {
@@ -25,7 +26,10 @@ namespace StreetLightsApi.Server
 
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddControllers();
+            services.AddRazorPages()
+                .AddApplicationPart(typeof(Neuroglia.AsyncApi.AspNetCore.UI.Pages.DashboardModel).Assembly)
+                .AddRazorRuntimeCompilation();
+            services.AddControllers(); 
             services.AddAsyncApiGeneration(builder => 
                 builder.WithMarkupType<StreetLightsService>()
                     .UseDefaultConfiguration(asyncApi =>
@@ -56,7 +60,8 @@ namespace StreetLightsApi.Server
             app.UseAsyncApiGeneration();
             app.UseEndpoints(endpoints =>
             {
-                endpoints.MapControllers();
+                //endpoints.MapControllers();
+                endpoints.MapRazorPages();
             });
         }
     }

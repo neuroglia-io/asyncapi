@@ -529,6 +529,23 @@
             Gets/sets a <see cref="T:System.Collections.Generic.List`1"/> containing additional external documentation.
             </summary>
         </member>
+        <member name="M:Neuroglia.AsyncApi.Models.AsyncApiDocument.TryGetOperation(System.String,Neuroglia.AsyncApi.Models.Operation@,System.String@)">
+            <summary>
+            Attempts to get the <see cref="T:Neuroglia.AsyncApi.Models.Operation"/> with the specified id
+            </summary>
+            <param name="operationId">The id of the <see cref="T:Neuroglia.AsyncApi.Models.Operation"/> to get</param>
+            <param name="operation">The resulting <see cref="T:Neuroglia.AsyncApi.Models.Operation"/>, if any</param>
+            <param name="channelName">The name of the <see cref="T:Neuroglia.AsyncApi.Models.Channel"/> the <see cref="T:Neuroglia.AsyncApi.Models.Operation"/> belongs to, if any</param>
+            <returns>A boolean indicating whether or not the <see cref="T:Neuroglia.AsyncApi.Models.Operation"/> with the specified id could be found</returns>
+        </member>
+        <member name="M:Neuroglia.AsyncApi.Models.AsyncApiDocument.TryGetOperation(System.String,Neuroglia.AsyncApi.Models.Operation@)">
+            <summary>
+            Attempts to get the <see cref="T:Neuroglia.AsyncApi.Models.Operation"/> with the specified id
+            </summary>
+            <param name="operationId">The id of the <see cref="T:Neuroglia.AsyncApi.Models.Operation"/> to get</param>
+            <param name="operation">The resulting <see cref="T:Neuroglia.AsyncApi.Models.Operation"/>, if any</param>
+            <returns>A boolean indicating whether or not the <see cref="T:Neuroglia.AsyncApi.Models.Operation"/> with the specified id could be found</returns>
+        </member>
         <member name="M:Neuroglia.AsyncApi.Models.AsyncApiDocument.ToString">
             <inheritdoc/>
         </member>
@@ -1006,6 +1023,55 @@
             <summary>
             Gets/sets an object used to configure the <see cref="T:Neuroglia.AsyncApi.Models.Channel"/>'s <see cref="T:Neuroglia.AsyncApi.Models.Bindings.IChannelBinding"/>s
             </summary>
+        </member>
+        <member name="P:Neuroglia.AsyncApi.Models.Channel.Operations">
+            <summary>
+            Gets an <see cref="T:System.Collections.Generic.IEnumerable`1"/> containing the <see cref="T:Neuroglia.AsyncApi.Models.Channel"/>'s <see cref="T:Neuroglia.AsyncApi.Models.Operation"/>s
+            </summary>
+        </member>
+        <member name="M:Neuroglia.AsyncApi.Models.Channel.DefinesOperationWithId(System.String)">
+            <summary>
+            Determines whether or not the <see cref="T:Neuroglia.AsyncApi.Models.Channel"/> defines an <see cref="T:Neuroglia.AsyncApi.Models.Operation"/> with the specified id
+            </summary>
+            <param name="operationId">The id of the operation to check</param>
+            <returns>A boolean indicating whether or not the <see cref="T:Neuroglia.AsyncApi.Models.Channel"/> defines an <see cref="T:Neuroglia.AsyncApi.Models.Operation"/> with the specified id</returns>
+        </member>
+        <member name="M:Neuroglia.AsyncApi.Models.Channel.DefinesOperationOfType(Neuroglia.AsyncApi.OperationType)">
+            <summary>
+            Determines whether or not the <see cref="T:Neuroglia.AsyncApi.Models.Channel"/> defines an <see cref="T:Neuroglia.AsyncApi.Models.Operation"/> of the specified type
+            </summary>
+            <param name="type">The type of the operation to check</param>
+            <returns>A boolean indicating whether or not the <see cref="T:Neuroglia.AsyncApi.Models.Channel"/> defines an <see cref="T:Neuroglia.AsyncApi.Models.Operation"/> of the specified type</returns>
+        </member>
+        <member name="M:Neuroglia.AsyncApi.Models.Channel.GetOperationById(System.String)">
+            <summary>
+            Gets the <see cref="T:Neuroglia.AsyncApi.Models.Operation"/> with the specified id
+            </summary>
+            <param name="operationId">The id of the <see cref="T:Neuroglia.AsyncApi.Models.Operation"/> to get</param>
+            <returns>The <see cref="T:Neuroglia.AsyncApi.Models.Operation"/> with the specified id, if any</returns>
+        </member>
+        <member name="M:Neuroglia.AsyncApi.Models.Channel.TryGetOperationById(System.String,Neuroglia.AsyncApi.Models.Operation@)">
+            <summary>
+            Attempts to retrieve an <see cref="T:Neuroglia.AsyncApi.Models.Operation"/> by id
+            </summary>
+            <param name="operationId">The id of the <see cref="T:Neuroglia.AsyncApi.Models.Operation"/> to get</param>
+            <param name="operation">The <see cref="T:Neuroglia.AsyncApi.Models.Operation"/> with the specified id</param>
+            <returns>A boolean indicating whether or not the <see cref="T:Neuroglia.AsyncApi.Models.Operation"/> with the specified id could be found</returns>
+        </member>
+        <member name="M:Neuroglia.AsyncApi.Models.Channel.GetOperationByType(Neuroglia.AsyncApi.OperationType)">
+            <summary>
+            Gets the <see cref="T:Neuroglia.AsyncApi.Models.Operation"/> of the specified type
+            </summary>
+            <param name="type">The type of the <see cref="T:Neuroglia.AsyncApi.Models.Operation"/> to get</param>
+            <returns>The <see cref="T:Neuroglia.AsyncApi.Models.Operation"/> of the specified type, if any</returns>
+        </member>
+        <member name="M:Neuroglia.AsyncApi.Models.Channel.TryGetOperationById(Neuroglia.AsyncApi.OperationType,Neuroglia.AsyncApi.Models.Operation@)">
+            <summary>
+            Attempts to retrieve an <see cref="T:Neuroglia.AsyncApi.Models.Operation"/> by type
+            </summary>
+            <param name="type">The type of the <see cref="T:Neuroglia.AsyncApi.Models.Operation"/> to get</param>
+            <param name="operation">The <see cref="T:Neuroglia.AsyncApi.Models.Operation"/> of the specified type</param>
+            <returns>A boolean indicating whether or not the <see cref="T:Neuroglia.AsyncApi.Models.Operation"/> of the specified type could be found</returns>
         </member>
         <member name="T:Neuroglia.AsyncApi.Models.ChannelBindingCollection">
             <summary>

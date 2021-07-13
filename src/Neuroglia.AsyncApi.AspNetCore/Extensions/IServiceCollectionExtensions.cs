@@ -45,7 +45,7 @@ namespace Neuroglia.AsyncApi
             services.TryAddSingleton(Options.Create(builder.Build()));
             services.TryAddSingleton<AsyncApiDocumentProvider>();
             services.TryAddSingleton<IAsyncApiDocumentProvider>(provider => provider.GetRequiredService<AsyncApiDocumentProvider>());
-            services.TryAddSingleton<IHostedService>(provider => provider.GetRequiredService<AsyncApiDocumentProvider>());
+            services.AddSingleton<IHostedService>(provider => provider.GetRequiredService<AsyncApiDocumentProvider>());
             return services;
         }
 

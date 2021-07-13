@@ -20,8 +20,6 @@ using Neuroglia.AsyncApi.Configuration;
 using Neuroglia.AsyncApi.Models;
 using Neuroglia.AsyncApi.Services;
 using System;
-using System.Linq;
-using System.Text.Encodings.Web;
 using System.Threading.Tasks;
 using System.Web;
 

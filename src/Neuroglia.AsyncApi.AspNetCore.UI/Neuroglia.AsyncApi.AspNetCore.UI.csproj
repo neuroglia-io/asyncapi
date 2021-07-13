@@ -1,0 +1,33 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net5.0</TargetFramework>
+    <Authors>Neuroglia SPRL</Authors>
+    <Company>Neuroglia SPRL</Company>
+    <Copyright>Copyright © 2021 Neuroglia SPRL. All rights reserved.</Copyright>
+    <RepositoryType>git</RepositoryType>
+    <RootNamespace>Neuroglia.AsyncApi</RootNamespace>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
+    <Version>2.1.0</Version>
+    <Description>A .NET 5.0 library used to visualize and interact with AsyncAPI documents. The UI is built using Razor Pages and Boostrap 4.0.</Description>
+    <PackageLicenseFile>LICENSE</PackageLicenseFile>
+    <PackageProjectUrl>https://github.com/neuroglia-io/AsyncApi</PackageProjectUrl>
+    <PackageIcon>logo_white_on_blue_256.png</PackageIcon>
+    <PackageIconUrl />
+    <RepositoryUrl>https://github.com/neuroglia-io/AsyncApi</RepositoryUrl>
+    <PackageTags>neuroglia asyncapi asp ui</PackageTags>
+    <NeutralLanguage>English</NeutralLanguage>
+    <IsPackable>True</IsPackable>
+    <OutputType>Library</OutputType>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Neuroglia.AsyncApi.AspNetCore\Neuroglia.AsyncApi.AspNetCore.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="5.0.2" />
+  </ItemGroup>
+
+</Project>
