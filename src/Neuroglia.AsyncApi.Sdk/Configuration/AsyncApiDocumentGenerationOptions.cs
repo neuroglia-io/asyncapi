@@ -16,6 +16,11 @@ namespace Neuroglia.AsyncApi.Configuration
         /// </summary>
         public Action<IAsyncApiDocumentBuilder> DefaultConfiguration { get; set; }
 
+        /// <summary>
+        /// Gets/sets a boolean indicating whether or not the automatically generate examples. Defaults to true.
+        /// </summary>
+        public bool AutomaticallyGenerateExamples { get; set; } = true;
+
     }
 
 }

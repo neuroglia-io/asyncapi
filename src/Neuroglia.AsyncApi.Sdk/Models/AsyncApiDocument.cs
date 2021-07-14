@@ -14,8 +14,10 @@
  * limitations under the License.
  *
  */
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.Linq;
 
 namespace Neuroglia.AsyncApi.Models
 {
@@ -96,7 +98,7 @@ namespace Neuroglia.AsyncApi.Models
         [Newtonsoft.Json.JsonProperty("tags")]
         [YamlDotNet.Serialization.YamlMember(Alias = "tags")]
         [System.Text.Json.Serialization.JsonPropertyName("tags")]
-        public virtual List<TagDefinition> Tags { get; set; }
+        public virtual List<Tag> Tags { get; set; }
 
         /// <summary>
         /// Gets/sets a <see cref="List{T}"/> containing additional external documentation.
@@ -105,6 +107,41 @@ namespace Neuroglia.AsyncApi.Models
         [YamlDotNet.Serialization.YamlMember(Alias = "externalDocs")]
         [System.Text.Json.Serialization.JsonPropertyName("externalDocs")]
         public virtual List<ExternalDocumentation> ExternalDocs { get; set; }
+
+        /// <summary>
+        /// Attempts to get the <see cref="Operation"/> with the specified id
+        /// </summary>
+        /// <param name="operationId">The id of the <see cref="Operation"/> to get</param>
+        /// <param name="operation">The resulting <see cref="Operation"/>, if any</param>
+        /// <param name="channelName">The name of the <see cref="Channel"/> the <see cref="Operation"/> belongs to, if any</param>
+        /// <returns>A boolean indicating whether or not the <see cref="Operation"/> with the specified id could be found</returns>
+        public virtual bool TryGetOperation(string operationId, out Operation operation, out string channelName)
+        {
+            if (string.IsNullOrWhiteSpace(operationId))
+                throw new ArgumentNullException(nameof(operationId));
+            operation = null;
+            channelName = null;
+            KeyValuePair<string, Channel>? channel = this.Channels?.FirstOrDefault(c => c.Value.DefinesOperationWithId(operationId));
+            if (!channel.HasValue
+                || channel.Value.Equals(default(KeyValuePair<string, Channel>)))
+                return false;
+            operation = channel.Value.Value.GetOperationById(operationId);
+            channelName = channel.Value.Key;
+            return true;
+        }
+
+        /// <summary>
+        /// Attempts to get the <see cref="Operation"/> with the specified id
+        /// </summary>
+        /// <param name="operationId">The id of the <see cref="Operation"/> to get</param>
+        /// <param name="operation">The resulting <see cref="Operation"/>, if any</param>
+        /// <returns>A boolean indicating whether or not the <see cref="Operation"/> with the specified id could be found</returns>
+        public virtual bool TryGetOperation(string operationId, out Operation operation)
+        {
+            if (string.IsNullOrWhiteSpace(operationId))
+                throw new ArgumentNullException(nameof(operationId));
+            return this.TryGetOperation(operationId, out operation, out _);
+        }
 
         /// <inheritdoc/>
         public override string ToString()

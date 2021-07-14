@@ -1,9 +1,9 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Neuroglia.AsyncApi;
+using Neuroglia.AsyncApi.Models.Bindings.Mqtt;
 using StreetLightsApi.Server.Services;
 using System;
 
@@ -13,29 +13,39 @@ namespace StreetLightsApi.Server
     public class Startup
     {
 
-        public Startup(IConfiguration configuration, IWebHostEnvironment environment)
+        public Startup(IWebHostEnvironment environment)
         {
-            this.Configuration = configuration;
             this.Environment = environment;
         }
-
-        IConfiguration Configuration { get; }
 
         IWebHostEnvironment Environment { get; }
 
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddControllers();
+            services.AddAsyncApiUI();
+            services.AddRazorPages()
+                .AddRazorRuntimeCompilation();
+            services.AddControllers(); 
             services.AddAsyncApiGeneration(builder => 
                 builder.WithMarkupType<StreetLightsService>()
                     .UseDefaultConfiguration(asyncApi =>
                     {
                         asyncApi.UseServer("mosquitto", server => server
                             .WithUrl(new Uri("mqtt://test.mosquitto.org"))
-                            .WithProtocol(AsyncApiProtocols.Mqtt));
+                            .WithProtocol(AsyncApiProtocols.Mqtt)
+                            .WithDescription("The Mosquitto test MQTT server")
+                            .UseBinding(new MqttServerBinding() 
+                            { 
+                                ClientId = "StreetLightsAPI:1.0.0", 
+                                CleanSession = true 
+                            }));
                     }));
+
             services.AddSingleton<StreetLightsService>();
             services.AddSingleton<IHostedService>(provider => provider.GetRequiredService<StreetLightsService>());
+
+            services.AddSingleton<MovementDetectorService>();
+            services.AddSingleton<IHostedService>(provider => provider.GetRequiredService<MovementDetectorService>());
         }
 
         public void Configure(IApplicationBuilder app)
@@ -56,7 +66,8 @@ namespace StreetLightsApi.Server
             app.UseAsyncApiGeneration();
             app.UseEndpoints(endpoints =>
             {
-                endpoints.MapControllers();
+                //endpoints.MapControllers();
+                endpoints.MapRazorPages();
             });
         }
     }

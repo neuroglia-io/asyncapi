@@ -21,6 +21,7 @@ using Neuroglia.AsyncApi.Models;
 using Neuroglia.AsyncApi.Services.Generators;
 using Neuroglia.AsyncApi.Services.IO;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -29,6 +30,7 @@ using System.Threading.Tasks;
 
 namespace Neuroglia.AsyncApi.Services
 {
+
     /// <summary>
     /// Represents the default implementation of the <see cref="IAsyncApiDocumentProvider"/> interface
     /// </summary>
@@ -89,6 +91,17 @@ namespace Neuroglia.AsyncApi.Services
             await this.Writer.WriteAsync(document, stream, format);
             await stream.FlushAsync();
             return stream.ToArray();
+        }
+
+        /// <inheritdoc/>
+        public virtual IEnumerator<AsyncApiDocument> GetEnumerator()
+        {
+            return this.Documents.AsReadOnly().GetEnumerator();
+        }
+
+        IEnumerator IEnumerable.GetEnumerator()
+        {
+            return this.GetEnumerator();
         }
 
     }

@@ -15,6 +15,7 @@
  *
  */
 using Neuroglia.AsyncApi.Models.Bindings;
+using System;
 using System.Collections.Generic;
 
 namespace Neuroglia.AsyncApi.Models
@@ -66,6 +67,105 @@ namespace Neuroglia.AsyncApi.Models
         [YamlDotNet.Serialization.YamlMember(Alias = "bindings")]
         [System.Text.Json.Serialization.JsonPropertyName("bindings")]
         public virtual ChannelBindingCollection Bindings { get; set; }
+
+        /// <summary>
+        /// Gets an <see cref="IEnumerable{T}"/> containing the <see cref="Channel"/>'s <see cref="Operation"/>s
+        /// </summary>
+        [Newtonsoft.Json.JsonIgnore]
+        [System.Text.Json.Serialization.JsonIgnore]
+        [YamlDotNet.Serialization.YamlIgnore]
+        public virtual IEnumerable<Operation> Operations
+        {
+            get
+            {
+                yield return this.Subscribe;
+                yield return this.Publish;
+            }
+        }
+
+        /// <summary>
+        /// Determines whether or not the <see cref="Channel"/> defines an <see cref="Operation"/> with the specified id
+        /// </summary>
+        /// <param name="operationId">The id of the operation to check</param>
+        /// <returns>A boolean indicating whether or not the <see cref="Channel"/> defines an <see cref="Operation"/> with the specified id</returns>
+        public virtual bool DefinesOperationWithId(string operationId)
+        {
+            if (string.IsNullOrWhiteSpace(operationId))
+                throw new ArgumentNullException(nameof(operationId));
+            return this.Publish?.OperationId == operationId || this.Subscribe?.OperationId == operationId;
+        }
+
+        /// <summary>
+        /// Determines whether or not the <see cref="Channel"/> defines an <see cref="Operation"/> of the specified type
+        /// </summary>
+        /// <param name="type">The type of the operation to check</param>
+        /// <returns>A boolean indicating whether or not the <see cref="Channel"/> defines an <see cref="Operation"/> of the specified type</returns>
+        public virtual bool DefinesOperationOfType(OperationType type)
+        {
+            return type switch
+            {
+                OperationType.Publish => this.Publish != null,
+                OperationType.Subscribe => this.Subscribe != null,
+                _ => throw new NotSupportedException($"The specified operation type '{type}' is not supported"),
+            };
+        }
+
+        /// <summary>
+        /// Gets the <see cref="Operation"/> with the specified id
+        /// </summary>
+        /// <param name="operationId">The id of the <see cref="Operation"/> to get</param>
+        /// <returns>The <see cref="Operation"/> with the specified id, if any</returns>
+        public virtual Operation GetOperationById(string operationId)
+        {
+            if (string.IsNullOrWhiteSpace(operationId))
+                throw new ArgumentNullException(nameof(operationId));
+            if (this.Publish?.OperationId == operationId)
+                return this.Publish;
+            if (this.Subscribe?.OperationId == operationId)
+                return this.Subscribe;
+            return null;
+        }
+
+        /// <summary>
+        /// Attempts to retrieve an <see cref="Operation"/> by id
+        /// </summary>
+        /// <param name="operationId">The id of the <see cref="Operation"/> to get</param>
+        /// <param name="operation">The <see cref="Operation"/> with the specified id</param>
+        /// <returns>A boolean indicating whether or not the <see cref="Operation"/> with the specified id could be found</returns>
+        public virtual bool TryGetOperationById(string operationId, out Operation operation)
+        {
+            if (string.IsNullOrWhiteSpace(operationId))
+                throw new ArgumentNullException(nameof(operationId));
+            operation = this.GetOperationById(operationId);
+            return operation != null;
+        }
+
+        /// <summary>
+        /// Gets the <see cref="Operation"/> of the specified type
+        /// </summary>
+        /// <param name="type">The type of the <see cref="Operation"/> to get</param>
+        /// <returns>The <see cref="Operation"/> of the specified type, if any</returns>
+        public virtual Operation GetOperationByType(OperationType type)
+        {
+            return type switch
+            {
+                OperationType.Publish => this.Publish,
+                OperationType.Subscribe => this.Subscribe,
+                _ => throw new NotSupportedException($"The specified operation type '{type}' is not supported"),
+            };
+        }
+
+        /// <summary>
+        /// Attempts to retrieve an <see cref="Operation"/> by type
+        /// </summary>
+        /// <param name="type">The type of the <see cref="Operation"/> to get</param>
+        /// <param name="operation">The <see cref="Operation"/> of the specified type</param>
+        /// <returns>A boolean indicating whether or not the <see cref="Operation"/> of the specified type could be found</returns>
+        public virtual bool TryGetOperationById(OperationType type, out Operation operation)
+        {
+            operation = this.GetOperationByType(type);
+            return operation != null;
+        }
 
     }
 

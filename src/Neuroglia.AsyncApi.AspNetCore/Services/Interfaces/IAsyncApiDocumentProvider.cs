@@ -15,6 +15,7 @@
  *
  */
 using Neuroglia.AsyncApi.Models;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace Neuroglia.AsyncApi.Services
@@ -24,6 +25,7 @@ namespace Neuroglia.AsyncApi.Services
     /// Defines the fundamentals of a service used to provide <see cref="AsyncApiDocument"/>s
     /// </summary>
     public interface IAsyncApiDocumentProvider
+        : IEnumerable<AsyncApiDocument>
     {
 
         /// <summary>

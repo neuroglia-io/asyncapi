@@ -17,6 +17,10 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "samples", "samples", "{080F
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "StreetLightsApi.Server", "..\samples\StreetLightsApi\Server\StreetLightsApi.Server.csproj", "{9FFAD2FD-038F-4786-8A52-68013C02F8B2}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Neuroglia.AsyncApi.Client", "Neuroglia.AsyncApi.Client\Neuroglia.AsyncApi.Client.csproj", "{093C868A-4856-4DC2-A447-A5245BBCB1EE}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Neuroglia.AsyncApi.AspNetCore.UI", "Neuroglia.AsyncApi.AspNetCore.UI\Neuroglia.AsyncApi.AspNetCore.UI.csproj", "{2B6DA3C0-88B1-40B8-A2B1-13ABF5D703EB}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -39,6 +43,14 @@ Global
 		{9FFAD2FD-038F-4786-8A52-68013C02F8B2}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9FFAD2FD-038F-4786-8A52-68013C02F8B2}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9FFAD2FD-038F-4786-8A52-68013C02F8B2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{093C868A-4856-4DC2-A447-A5245BBCB1EE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{093C868A-4856-4DC2-A447-A5245BBCB1EE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{093C868A-4856-4DC2-A447-A5245BBCB1EE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{093C868A-4856-4DC2-A447-A5245BBCB1EE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2B6DA3C0-88B1-40B8-A2B1-13ABF5D703EB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2B6DA3C0-88B1-40B8-A2B1-13ABF5D703EB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2B6DA3C0-88B1-40B8-A2B1-13ABF5D703EB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2B6DA3C0-88B1-40B8-A2B1-13ABF5D703EB}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -48,6 +60,8 @@ Global
 		{0846128D-D375-4A8C-B601-854B1F89F293} = {FF10534F-E6AE-4589-9225-C125DE723819}
 		{288D625A-DB08-461D-A371-BB42841753EF} = {817C6554-6E96-457C-BDF1-F3455A146E8F}
 		{9FFAD2FD-038F-4786-8A52-68013C02F8B2} = {080FE7CB-B102-4F1C-BE48-340027524D14}
+		{093C868A-4856-4DC2-A447-A5245BBCB1EE} = {817C6554-6E96-457C-BDF1-F3455A146E8F}
+		{2B6DA3C0-88B1-40B8-A2B1-13ABF5D703EB} = {817C6554-6E96-457C-BDF1-F3455A146E8F}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {292C0290-D369-4B77-9EEC-1C41DCAF2781}

@@ -192,6 +192,9 @@
         <member name="M:Neuroglia.AsyncApi.Services.AsyncApiDocumentProvider.ReadDocumentContentsAsync(System.String,System.String,Neuroglia.AsyncApi.AsyncApiDocumentFormat)">
             <inheritdoc/>
         </member>
+        <member name="M:Neuroglia.AsyncApi.Services.AsyncApiDocumentProvider.GetEnumerator">
+            <inheritdoc/>
+        </member>
         <member name="T:Neuroglia.AsyncApi.Services.IAsyncApiDocumentProvider">
             <summary>
             Defines the fundamentals of a service used to provide <see cref="T:Neuroglia.AsyncApi.Models.AsyncApiDocument"/>s
