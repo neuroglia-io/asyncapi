@@ -53,7 +53,8 @@ namespace StreetLightsApi.Server.Services
             await this.PublishLightMeasured(new() { Id = 415, Lumens = 5, SentAt = DateTime.UtcNow });
         }
 
-        [Channel("light/measured"), PublishOperation(OperationId = "onLightMeasured", Summary = "Inform about environmental lighting conditions for a particular streetlight")]
+        [Tag("light", "A tag for light-related operations"), Tag("measurement", "A tag for measurement-related operations")]
+        [Channel("light/measured"), PublishOperation(OperationId = "NotifyLightMeasured", Summary = "Notifies remote consumers about environmental lighting conditions for a particular streetlight")]
         public async Task PublishLightMeasured(LightMeasuredEvent e)
         {
             MqttApplicationMessage message = new()
@@ -65,7 +66,8 @@ namespace StreetLightsApi.Server.Services
             await this.MqttClient.PublishAsync(message);
         }
 
-        [Channel("light/measured"), SubscribeOperation(OperationId = "lightMeasuredEvent", Summary = "Inform about environmental lighting conditions for a particular streetlight")]
+        [Tag("light", "A tag for light-related operations"), Tag("measurement", "A tag for measurement-related operations")]
+        [Channel("light/measured"), SubscribeOperation(OperationId = "OnLightMeasured", Summary = "Inform about environmental lighting conditions for a particular streetlight")]
         protected async Task OnLightMeasured(LightMeasuredEvent e)
         {
             this.Logger.LogInformation($"Event received:{Environment.NewLine}{await this.Serializer.SerializeAsync(e)}");

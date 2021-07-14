@@ -49,10 +49,10 @@ namespace Neuroglia.AsyncApi.Services.FluentBuilders
         IServerBuilder WithDescription(string description);
 
         /// <summary>
-        /// Adds the specified <see cref="VariableDefinition"/> to the <see cref="Server"/> to build
+        /// Adds the specified <see cref="Variable"/> to the <see cref="Server"/> to build
         /// </summary>
-        /// <param name="name">The name of the <see cref="VariableDefinition"/> to add</param>
-        /// <param name="setup">An <see cref="Action{T}"/> used to setup the <see cref="VariableDefinition"/> to add</param>
+        /// <param name="name">The name of the <see cref="Variable"/> to add</param>
+        /// <param name="setup">An <see cref="Action{T}"/> used to setup the <see cref="Variable"/> to add</param>
         /// <returns>The configured <see cref="IServerBuilder"/></returns>
         IServerBuilder AddVariable(string name, Action<IVariableBuilder> setup);
 

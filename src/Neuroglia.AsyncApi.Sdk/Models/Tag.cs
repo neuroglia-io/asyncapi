@@ -22,7 +22,7 @@ namespace Neuroglia.AsyncApi.Models
     /// <summary>
     /// Represents an object used to define a tag assigned to an Async API component
     /// </summary>
-    public class TagDefinition
+    public class Tag
     {
 
         /// <summary>

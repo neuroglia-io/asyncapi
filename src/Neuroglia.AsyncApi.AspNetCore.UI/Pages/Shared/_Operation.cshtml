@@ -12,32 +12,65 @@
 <div class="mt-3">
     <div class="card">
         <div class="card-header">
-            <span class="badge badge-pill badge-success" title="@(operationType == OperationType.Publish ? pubTooltip : subTooltip)">@(operationType == OperationType.Publish ? "PUB" : "SUB")</span>
-            <a data-toggle="collapse" href="#@operationRef" role="button" aria-expanded="false" title="@(string.IsNullOrWhiteSpace(operation.Summary) ? operation.OperationId : operation.Summary)">
-                <span class="h5">@operation.OperationId</span>
-            </a>
+            <div class="row">
+                <div class="col-md-6">
+                    <span class="badge badge-pill badge-success" title="@(operationType == OperationType.Publish ? pubTooltip : subTooltip)">@(operationType == OperationType.Publish ? "PUB" : "SUB")</span>
+                    <a data-toggle="collapse" href="#@operationRef" role="button" aria-expanded="false" title="@(string.IsNullOrWhiteSpace(operation.Summary) ? operation.OperationId : operation.Summary)">
+                        <span class="h5">@operation.OperationId</span>
+                    </a>
+                </div>
+                <div class="col-md-6 text-right">
+                    @if (operation.Tags != null)
+                    {
+                        foreach (var tag in operation.Tags)
+                        {
+                            <span class="badge badge-secondary" title="@tag.Description">@tag.Name</span>
+                        }
+                    }
+                </div>
+            </div>
         </div>
         <div id="@operationRef" class="card-body collapse">
             <p class="mb-3">@operation.Summary</p>
             <div class="card mt-2">
                 <div class="card-header">
-                    <a data-toggle="collapse" href="#message_@operationRef" role="button" aria-expanded="false">
-                        <span class="font-weight-bold">Message </span><span class="font-italic">[@message.Name]</span>
-                    </a>
+                    <div class="row">
+                        <div class="col-md-4">
+                            <a data-toggle="collapse" href="#@(operationRef)_message" role="button" aria-expanded="false">
+                                <span class="font-weight-bold">Message</span>
+                            </a>
+                            <span class="font-italic">[@message.Name]</span>
+                        </div>
+                        <div class="col-md-8 text-right">
+                            @if (message.Tags != null)
+                            {
+                                foreach (var tag in message.Tags)
+                                {
+                                    <span class="badge badge-secondary" title="@tag.Description">@tag.Name</span>
+                                }
+                            }
+                        </div>
+                    </div>
                 </div>
-                <div id="message_@operationRef" class="card-body collapse">
+                <div id="@(operationRef)_message" class="card-body collapse">
                     <div class="card">
-                        <div class="card-body">
+                        <div class="card-header">
+                            <a data-toggle="collapse" href="#@(operationRef)_message_payload" role="button" aria-expanded="false">
+                                <span class="font-weight-bold">Payload</span>
+                            </a>
+                        </div>
+                        <div id="@(operationRef)_message_payload" class="card-body">
                             <div class="row m-1">
                                 @foreach (var property in schema.Properties)
                                 {
-                                    <div class="col-md-3">
+                                    <div class="col-md-4">
                                         <span class="font-italic">@property.Key</span>
                                     </div>
-                                    <div class="col-md-9">
-                                        <span class="font-weight-bold text-primary">@property.Value.Type</span>
+                                    <div class="col-md-8">
+                                        <span class="font-weight-bold text-primary">@property.Value.Type?.ToString().Replace(", ", " | ")</span>
                                         @if (schema.Required != null
-                                           && schema.Required.Contains(property.Key))
+                                         && schema.Required.Contains(property.Key)
+                                         && !property.Value.Type.Value.HasFlag(Newtonsoft.Json.Schema.JSchemaType.Null))
                                         {
                                             <span class="badge badge-pill badge-danger text-white">Required</span>
                                         }
@@ -51,16 +84,38 @@
                             </div>
                         </div>
                     </div>
-                </div>
-            </div>
-            <div class="card mt-2">
-                <div class="card-header">
-                    <a data-toggle="collapse" href="#examples_@operationRef" role="button" aria-expanded="false">
-                        <span class="font-weight-bold">Examples</span>
-                    </a>
-                </div>
-                <div id="examples_@operationRef" class="card-body collapse">
-
+                    @if (message.Examples != null)
+                    {
+                        <div class="card mt-2">
+                            <div class="card-header">
+                                <a data-toggle="collapse" href="#@(operationRef)_message_examples" role="button" aria-expanded="false">
+                                    <span class="font-weight-bold">Examples</span>
+                                </a>
+                            </div>
+                            <div id="@(operationRef)_message_examples" class="card-body collapse">
+                                @foreach (var exampleKvp in message.Examples)
+                                {
+                                    var example = exampleKvp.Value;
+                                    <hr />
+                                    <h6>@exampleKvp.Key</h6>
+                                    <hr />
+                                    @foreach (var property in example.Properties().Where(p => p.Value != null 
+                                     && p.Value.Type != Newtonsoft.Json.Linq.JTokenType.Null 
+                                     && p.Value.Type != Newtonsoft.Json.Linq.JTokenType.None))
+                                    {
+                                        <div class="row m-2">
+                                            <div class="col-md-4">
+                                                <span class="font-italic">@property.Name</span>
+                                            </div>
+                                            <div class="col-md-8">
+                                                <pre class="font-weight-bold text-primary">@property.Value.ToString(Newtonsoft.Json.Formatting.Indented)</pre>
+                                            </div>
+                                        </div>
+                                    }
+                                }
+                            </div>
+                        </div>
+                    }
                 </div>
             </div>
         </div>

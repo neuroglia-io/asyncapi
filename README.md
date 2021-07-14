@@ -10,35 +10,42 @@
   - [Writing an AsyncAPI Document](#writing-an-asyncapi-document)
   - [Reading an AsyncAPI Document](#reading-an-asyncapi-document)
   - [Generating code-first AsyncAPI documents](#generating-code-first-asyncapi-documents)
+  - [Using the AsyncAPI UI](#using-the-asyncapi-ui)
 - [Samples](#samples)
   - [Streetlights API - Server](#streetlights-api---server)
 
 ## Summary
-A .NET 5.0 lightweight framework to work with the [AsyncAPI Specification](https://www.asyncapi.com/docs/specifications/v2.1.0).
+A .NET 5.0 library used to visualize and interact with [AsyncAPI](https://www.asyncapi.com/docs/specifications/v2.1.0) documents. The UI is built using Razor Pages and Boostrap 4.0
 
 ## Status
 
 | Name | Description | Latest Release | Spec version |
 | :---: | :---: | :---: | :---: |
-| [Neuroglia.AsyncApi.Core](www.nuget.org/packages/Neuroglia.AsyncApi.Core) | Contains `AsyncAPI` models and core services such as fluent builders, validators, reader, writer and code-first generator | [2.1.0](https://github.com/neuroglia-io/asyncapi/releases/) | [v2.1.0](https://www.asyncapi.com/docs/specifications/v2.1.0) |
-[Neuroglia.AsyncApi.AspNetCore](www.nuget.org/packages/Neuroglia.AsyncApi.AspNetCore) | Contains `ASP.NET 5.0` extensions, services for code-first generation and middleware for serving `AsyncAPI` documents | [2.1.0](https://github.com/neuroglia-io/asyncapi/releases/) | [v2.1.0](https://www.asyncapi.com/docs/specifications/v2.1.0) |
+| [Neuroglia.AsyncApi.Core](www.nuget.org/packages/Neuroglia.AsyncApi.Core) | Contains `AsyncAPI` models and core services such as fluent builders, validators, reader, writer and code-first generator | [2.1.0.1](https://github.com/neuroglia-io/asyncapi/releases/) | [v2.1.0](https://www.asyncapi.com/docs/specifications/v2.1.0) |
+[Neuroglia.AsyncApi.AspNetCore](www.nuget.org/packages/Neuroglia.AsyncApi.AspNetCore) | Contains `ASP.NET 5.0` extensions, services for code-first generation and middleware for serving `AsyncAPI` documents | [2.1.0.1](https://github.com/neuroglia-io/asyncapi/releases/) | [v2.1.0](https://www.asyncapi.com/docs/specifications/v2.1.0) |
+[Neuroglia.AsyncApi.AspNetCore.UI](www.nuget.org/packages/Neuroglia.AsyncApi.AspNetCore.UI) | Contains `ASP.NET 5.0` extensions, services for code-first generation and middleware for serving `AsyncAPI` documents | [2.1.0.1](https://github.com/neuroglia-io/asyncapi/releases/) | [v2.1.0](https://www.asyncapi.com/docs/specifications/v2.1.0) |
 Neuroglia.AsyncApi.Client | Contains services to build clients at runtime based on `AsyncAPI` documents | WIP | [v2.1.0](https://www.asyncapi.com/docs/specifications/v2.1.0) |
 
 ## Installation
 
 ### Core library
 ```bash
-dotnet add package Neuroglia.AsyncApi.Core --version 2.1.0
+dotnet add package Neuroglia.AsyncApi.Core --version 2.1.0.1
 ```
 
 ### Code-first generation library
 ```bash
-dotnet add package Neuroglia.AsyncApi.AspNetCore --version 2.1.0
+dotnet add package Neuroglia.AsyncApi.AspNetCore --version 2.1.0.1
+```
+
+### AsyncAPI UI
+```bash
+dotnet add package Neuroglia.AsyncApi.AspNetCore.UI --version 2.1.0.1
 ```
 
 ### AsyncAPI client
 ```bash
-dotnet add package Neuroglia.AsyncApi.Client --version 2.1.0
+dotnet add package Neuroglia.AsyncApi.Client --version 2.1.0.1
 ```
 
 ## Usage
@@ -176,6 +183,18 @@ public class Startup
 }
 
 ```
+
+### Using the AsyncAPI UI
+
+Go to your ASP project's `Startup.cs` file and add the following line to your `ConfigureServices` method:
+
+```csharp
+services.AddAsyncApiUI();
+```
+
+Launch your ASP project, then navigate to `http://localhost:44236/asyncapi`. You should see something like this:
+
+![AsyncAPI UI - Screenshot](/assets/img/ui.png)
 
 ## Samples
 

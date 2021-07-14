@@ -31,21 +31,21 @@ namespace Neuroglia.AsyncApi.Services.FluentBuilders
         /// <summary>
         /// Initializes a new <see cref="VariableBuilder"/>
         /// </summary>
-        /// <param name="validators">The services used to validate <see cref="VariableDefinition"/>s</param>
-        public VariableBuilder(IEnumerable<IValidator<VariableDefinition>> validators)
+        /// <param name="validators">The services used to validate <see cref="Models.Variable"/>s</param>
+        public VariableBuilder(IEnumerable<IValidator<Variable>> validators)
         {
             this.Validators = validators;
         }
 
         /// <summary>
-        /// Gets the services used to validate <see cref="VariableDefinition"/>s
+        /// Gets the services used to validate <see cref="Models.Variable"/>s
         /// </summary>
-        protected virtual IEnumerable<IValidator<VariableDefinition>> Validators { get; }
+        protected virtual IEnumerable<IValidator<Variable>> Validators { get; }
 
         /// <summary>
-        /// Gets the <see cref="VariableDefinition"/> to build
+        /// Gets the <see cref="Models.Variable"/> to build
         /// </summary>
-        protected VariableDefinition Variable { get; } = new();
+        protected Variable Variable { get; } = new();
 
         /// <inheritdoc/>
         public virtual IVariableBuilder WithEnumValues(params string[] values)
@@ -80,7 +80,7 @@ namespace Neuroglia.AsyncApi.Services.FluentBuilders
         }
 
         /// <inheritdoc/>
-        public virtual VariableDefinition Build()
+        public virtual Variable Build()
         {
             return this.Variable;
         }

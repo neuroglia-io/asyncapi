@@ -34,21 +34,21 @@ namespace Neuroglia.AsyncApi.Services.FluentBuilders
         /// <summary>
         /// Initializes a new <see cref="TagBuilder"/>
         /// </summary>
-        /// <param name="validators">An <see cref="IEnumerable{T}"/> containing the services used to validate <see cref="TagDefinition"/>s</param>
-        public TagBuilder(IEnumerable<IValidator<TagDefinition>> validators)
+        /// <param name="validators">An <see cref="IEnumerable{T}"/> containing the services used to validate <see cref="Models.Tag"/>s</param>
+        public TagBuilder(IEnumerable<IValidator<Tag>> validators)
         {
             this.Validators = validators;
         }
 
         /// <summary>
-        /// Gets the services used to validate <see cref="TagDefinition"/>s
+        /// Gets the services used to validate <see cref="Models.Tag"/>s
         /// </summary>
-        protected virtual IEnumerable<IValidator<TagDefinition>> Validators { get; }
+        protected virtual IEnumerable<IValidator<Tag>> Validators { get; }
 
         /// <summary>
-        /// Gets the <see cref="TagDefinition"/> to configure
+        /// Gets the <see cref="Models.Tag"/> to configure
         /// </summary>
-        protected virtual TagDefinition Tag { get; } = new();
+        protected virtual Tag Tag { get; } = new();
 
         /// <inheritdoc/>
         public virtual ITagBuilder WithName(string name)
@@ -78,7 +78,7 @@ namespace Neuroglia.AsyncApi.Services.FluentBuilders
         }
 
         /// <inheritdoc/>
-        public virtual TagDefinition Build()
+        public virtual Tag Build()
         {
             IEnumerable<ValidationResult> validationResults = this.Validators.Select(v => v.Validate(this.Tag));
             if (!validationResults.All(r => r.IsValid))

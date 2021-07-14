@@ -1,25 +1,133 @@
-﻿<!DOCTYPE html>
+﻿@inject Neuroglia.AsyncApi.Services.IAsyncApiDocumentProvider DocumentProvider;
+@{ 
+    if(!this.Context.Request.Query.TryGetValue("title", out Microsoft.Extensions.Primitives.StringValues documentTitle))
+    {
+        documentTitle = string.Empty;
+    }
+    if(!this.Context.Request.Query.TryGetValue("version", out Microsoft.Extensions.Primitives.StringValues documentVersion))
+    {
+        documentVersion = string.Empty;
+    }
+}
+<!DOCTYPE html>
 <html>
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@ViewBag.Title - Neuroglia AsyncAPI UI</title>
     <link rel="stylesheet" href="https://ajax.aspnetcdn.com/ajax/bootstrap/4.0.0/css/bootstrap.min.css" />
+    <style>
+        html, body {
+            width: 100%;
+            height: 100%;
+        }
+
+        html {
+            position: relative;
+            min-height: 100%;
+        }
+
+        a.navbar-brand {
+            white-space: normal;
+            text-align: center;
+            word-break: break-all;
+        }
+
+        a.navbar-brand span {
+            font-family: 'Cantarell', sans-serif;
+            font-size: 26px;
+            color: #005eb8;
+        }
+
+        .footer {
+            width: 100%;
+            white-space: nowrap;
+            /* Set the fixed height of the footer here */
+            height: 60px;
+            line-height: 60px; /* Vertically center the text there */
+            margin: 0px;
+            padding: 0px;
+        }
+
+        #main {
+            min-height: calc(100vh - 80px - 60px); /* 100% - footer - header */
+        }
+
+        header {
+            height: 80px;
+            margin: 0px;
+            padding: 0px;
+        }
+
+        header .navbar {
+            padding-left: 0px;
+            padding-right: 0px;
+            margin: 0px;
+        }
+
+        header .logo{
+            height: 50px;
+            margin: 5px;
+        }
+
+    </style>
 </head>
 <body>
-    <div class="container body-content">
+
+    <header class="bg-dark border-bottom box-shadow">
+        <div class="container">
+            <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-dark text-muted">
+                <div class="row container-fluid p-0 m-0">
+                    <div class="col-md-8 p-0 m-0">
+                        <h3 class="mb-0">AsyncAPI</h3>
+                        <span>Powered by Neuroglia</span>
+                    </div>
+                    <div class="col-md-4 p-0 m-0 text-right">
+                        <select class="form-control js-asyncapi-document">
+                            @foreach (var document in this.DocumentProvider)
+                            {
+                                bool selected = (document.Info.Title.Equals(documentTitle, StringComparison.OrdinalIgnoreCase) || document.Info.Title.Replace(" ", "").Equals(documentTitle, StringComparison.OrdinalIgnoreCase))
+                                    && document.Info.Version.Equals(documentVersion, StringComparison.OrdinalIgnoreCase);
+                                if (selected)
+                                {
+                                    <option value="@(document.Info.Title)__@(document.Info.Version)" selected>@document.Info.Title @document.Info.Version</option>
+                                }
+                                else
+                                {
+                                    <option value="@(document.Info.Title)__@(document.Info.Version)">@document.Info.Title @document.Info.Version</option>
+                                }
+                            }
+                        </select>
+                    </div>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <div id="main" class="container body-content pt-5 p-3">
         @RenderBody()
-        <hr />
-        <footer>
-            <p>Copyright &copy; 2021 Neuroglia SPRL. All rights reserved.</p>
-        </footer>
     </div>
 
-    <environment>
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-        <script src="https://ajax.aspnetcdn.com/ajax/bootstrap/4.0.0/bootstrap.min.js" crossorigin="anonymous"></script>
-    </environment>
+    <footer class="border-top footer text-muted text-center bg-dark">
+        <div class="container">
+            <p>Copyright &copy; @(DateTime.UtcNow.Year) Neuroglia SPRL. All rights reserved.</p>
+        </div>
+    </footer>
 
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://ajax.aspnetcdn.com/ajax/bootstrap/4.0.0/bootstrap.min.js" crossorigin="anonymous"></script>
+    <script>
+        $('select.js-asyncapi-document').on('change', function () {
+            var $this = $(this);
+            const components = $(this).val().split("__");
+            const title = components[0];
+            const version = components[1];
+            const newUrl = new URL(window.location.href);
+            newUrl.searchParams.set("title", title);
+            newUrl.searchParams.set("version", version);
+            window.location = newUrl.href;
+        });
+    </script>
     @RenderSection("Scripts", required: false)
 </body>
 </html>

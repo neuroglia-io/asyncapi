@@ -339,6 +339,34 @@
             Initializes a new <see cref="T:Neuroglia.AsyncApi.OperationAttribute"/>
             </summary>
         </member>
+        <member name="T:Neuroglia.AsyncApi.TagAttribute">
+            <summary>
+            Represents an <see cref="T:System.Attribute"/> used to tag an <see cref="T:Neuroglia.AsyncApi.Models.Operation"/> method
+            </summary>
+        </member>
+        <member name="M:Neuroglia.AsyncApi.TagAttribute.#ctor(System.String,System.String)">
+            <summary>
+            Initializes a new <see cref="T:Neuroglia.AsyncApi.TagAttribute"/>
+            </summary>
+            <param name="name">The name of the <see cref="T:Neuroglia.AsyncApi.Models.Tag"/> to generate</param>
+            <param name="description">The description of the <see cref="T:Neuroglia.AsyncApi.Models.Tag"/> to generate</param>
+        </member>
+        <member name="M:Neuroglia.AsyncApi.TagAttribute.#ctor(System.String)">
+            <summary>
+            Initializes a new <see cref="T:Neuroglia.AsyncApi.TagAttribute"/>
+            </summary>
+            <param name="name">The name of the <see cref="T:Neuroglia.AsyncApi.Models.Tag"/> to generate</param>
+        </member>
+        <member name="P:Neuroglia.AsyncApi.TagAttribute.Name">
+            <summary>
+            Gets the name of the <see cref="T:Neuroglia.AsyncApi.Models.Tag"/> to generate
+            </summary>
+        </member>
+        <member name="P:Neuroglia.AsyncApi.TagAttribute.Description">
+            <summary>
+            Gets the description of the <see cref="T:Neuroglia.AsyncApi.Models.Tag"/> to generate
+            </summary>
+        </member>
         <member name="T:Neuroglia.AsyncApi.Configuration.AsyncApiDocumentGenerationOptions">
             <summary>
             Represents the options used to configure <see cref="T:Neuroglia.AsyncApi.Models.AsyncApiDocument"/> generation
@@ -347,6 +375,11 @@
         <member name="P:Neuroglia.AsyncApi.Configuration.AsyncApiDocumentGenerationOptions.DefaultConfiguration">
             <summary>
             Gets/sets an <see cref="T:System.Action`1"/> used to configure the <see cref="T:Neuroglia.AsyncApi.Models.AsyncApiDocument"/>s to configure
+            </summary>
+        </member>
+        <member name="P:Neuroglia.AsyncApi.Configuration.AsyncApiDocumentGenerationOptions.AutomaticallyGenerateExamples">
+            <summary>
+            Gets/sets a boolean indicating whether or not the automatically generate examples. Defaults to true.
             </summary>
         </member>
         <member name="T:Neuroglia.AsyncApi.IServiceCollectionExtensions">
@@ -1735,50 +1768,50 @@
             Gets/sets the protocol-specific information for an information for a Redis server.
             </summary>
         </member>
-        <member name="T:Neuroglia.AsyncApi.Models.TagDefinition">
+        <member name="T:Neuroglia.AsyncApi.Models.Tag">
             <summary>
             Represents an object used to define a tag assigned to an Async API component
             </summary>
         </member>
-        <member name="P:Neuroglia.AsyncApi.Models.TagDefinition.Name">
+        <member name="P:Neuroglia.AsyncApi.Models.Tag.Name">
             <summary>
             Gets/sets the name of the tag.
             </summary>
         </member>
-        <member name="P:Neuroglia.AsyncApi.Models.TagDefinition.Description">
+        <member name="P:Neuroglia.AsyncApi.Models.Tag.Description">
             <summary>
             Gets/sets an optional description of this channel item. <see href="https://spec.commonmark.org/">CommonMark</see> syntax can be used for rich text representation.
             </summary>
         </member>
-        <member name="P:Neuroglia.AsyncApi.Models.TagDefinition.ExternalDocs">
+        <member name="P:Neuroglia.AsyncApi.Models.Tag.ExternalDocs">
             <summary>
             Gets/sets a <see cref="T:System.Collections.Generic.List`1"/> containing additional external documentation for this tag.
             </summary>
         </member>
-        <member name="M:Neuroglia.AsyncApi.Models.TagDefinition.ToString">
+        <member name="M:Neuroglia.AsyncApi.Models.Tag.ToString">
             <inheritdoc/>
         </member>
-        <member name="T:Neuroglia.AsyncApi.Models.VariableDefinition">
+        <member name="T:Neuroglia.AsyncApi.Models.Variable">
             <summary>
             Represents an object used to describe a Server Variable for server URL template substitution.
             </summary>
         </member>
-        <member name="P:Neuroglia.AsyncApi.Models.VariableDefinition.Enum">
+        <member name="P:Neuroglia.AsyncApi.Models.Variable.Enum">
             <summary>
             Gets/sets an <see cref="T:System.Collections.Generic.IEnumerable`1"/> of values to be used if the substitution options are from a limited set.
             </summary>
         </member>
-        <member name="P:Neuroglia.AsyncApi.Models.VariableDefinition.Default">
+        <member name="P:Neuroglia.AsyncApi.Models.Variable.Default">
             <summary>
             Gets/sets the default value to use for substitution, and to send, if an alternate value is not supplied.
             </summary>
         </member>
-        <member name="P:Neuroglia.AsyncApi.Models.VariableDefinition.Description">
+        <member name="P:Neuroglia.AsyncApi.Models.Variable.Description">
             <summary>
             Gets/sets an optional string describing the server variable. <see href="https://spec.commonmark.org/">CommonMark</see> syntax MAY be used for rich text representation.
             </summary>
         </member>
-        <member name="P:Neuroglia.AsyncApi.Models.VariableDefinition.Examples">
+        <member name="P:Neuroglia.AsyncApi.Models.Variable.Examples">
             <summary>
             Gets/sets an <see cref="T:System.Collections.Generic.List`1"/> of examples of the server variable.
             </summary>
@@ -2640,10 +2673,10 @@
         </member>
         <member name="M:Neuroglia.AsyncApi.Services.FluentBuilders.IServerBuilder.AddVariable(System.String,System.Action{Neuroglia.AsyncApi.Services.FluentBuilders.IVariableBuilder})">
             <summary>
-            Adds the specified <see cref="T:Neuroglia.AsyncApi.Models.VariableDefinition"/> to the <see cref="T:Neuroglia.AsyncApi.Models.Server"/> to build
+            Adds the specified <see cref="T:Neuroglia.AsyncApi.Models.Variable"/> to the <see cref="T:Neuroglia.AsyncApi.Models.Server"/> to build
             </summary>
-            <param name="name">The name of the <see cref="T:Neuroglia.AsyncApi.Models.VariableDefinition"/> to add</param>
-            <param name="setup">An <see cref="T:System.Action`1"/> used to setup the <see cref="T:Neuroglia.AsyncApi.Models.VariableDefinition"/> to add</param>
+            <param name="name">The name of the <see cref="T:Neuroglia.AsyncApi.Models.Variable"/> to add</param>
+            <param name="setup">An <see cref="T:System.Action`1"/> used to setup the <see cref="T:Neuroglia.AsyncApi.Models.Variable"/> to add</param>
             <returns>The configured <see cref="T:Neuroglia.AsyncApi.Services.FluentBuilders.IServerBuilder"/></returns>
         </member>
         <member name="M:Neuroglia.AsyncApi.Services.FluentBuilders.IServerBuilder.UseSecurityScheme(System.String)">
@@ -2668,26 +2701,26 @@
         </member>
         <member name="T:Neuroglia.AsyncApi.Services.FluentBuilders.ITagBuilder">
             <summary>
-            Defines the fundamentals of a service used to build <see cref="T:Neuroglia.AsyncApi.Models.TagDefinition"/>s
+            Defines the fundamentals of a service used to build <see cref="T:Neuroglia.AsyncApi.Models.Tag"/>s
             </summary>
         </member>
         <member name="M:Neuroglia.AsyncApi.Services.FluentBuilders.ITagBuilder.WithName(System.String)">
             <summary>
-            Configures the <see cref="T:Neuroglia.AsyncApi.Models.TagDefinition"/> to use the specified name
+            Configures the <see cref="T:Neuroglia.AsyncApi.Models.Tag"/> to use the specified name
             </summary>
             <param name="name">The name to use</param>
             <returns>The configured <see cref="T:Neuroglia.AsyncApi.Services.FluentBuilders.ITagBuilder"/></returns>
         </member>
         <member name="M:Neuroglia.AsyncApi.Services.FluentBuilders.ITagBuilder.WithDescription(System.String)">
             <summary>
-            Configures the <see cref="T:Neuroglia.AsyncApi.Models.TagDefinition"/> to use the specified description
+            Configures the <see cref="T:Neuroglia.AsyncApi.Models.Tag"/> to use the specified description
             </summary>
             <param name="description">The description to use</param>
             <returns>The configured <see cref="T:Neuroglia.AsyncApi.Services.FluentBuilders.ITagBuilder"/></returns>
         </member>
         <member name="M:Neuroglia.AsyncApi.Services.FluentBuilders.ITagBuilder.DocumentWith(System.Uri,System.String)">
             <summary>
-            Adds the specified external documentation to the <see cref="T:Neuroglia.AsyncApi.Models.TagDefinition"/> to build
+            Adds the specified external documentation to the <see cref="T:Neuroglia.AsyncApi.Models.Tag"/> to build
             </summary>
             <param name="uri">The <see cref="T:System.Uri"/> to the documentation to add</param>
             <param name="description">The description of the documentation to add</param>
@@ -2695,48 +2728,48 @@
         </member>
         <member name="M:Neuroglia.AsyncApi.Services.FluentBuilders.ITagBuilder.Build">
             <summary>
-            Builds a new <see cref="T:Neuroglia.AsyncApi.Models.TagDefinition"/>
+            Builds a new <see cref="T:Neuroglia.AsyncApi.Models.Tag"/>
             </summary>
-            <returns>A new <see cref="T:Neuroglia.AsyncApi.Models.TagDefinition"/></returns>
+            <returns>A new <see cref="T:Neuroglia.AsyncApi.Models.Tag"/></returns>
         </member>
         <member name="T:Neuroglia.AsyncApi.Services.FluentBuilders.IVariableBuilder">
             <summary>
-            Defines the fundamentals of a service used to build <see cref="T:Neuroglia.AsyncApi.Models.VariableDefinition"/>s
+            Defines the fundamentals of a service used to build <see cref="T:Neuroglia.AsyncApi.Models.Variable"/>s
             </summary>
         </member>
         <member name="M:Neuroglia.AsyncApi.Services.FluentBuilders.IVariableBuilder.WithEnumValues(System.String[])">
             <summary>
-            Configures the <see cref="T:Neuroglia.AsyncApi.Models.VariableDefinition"/> to build to use the specified enum values
+            Configures the <see cref="T:Neuroglia.AsyncApi.Models.Variable"/> to build to use the specified enum values
             </summary>
             <param name="values">An array of values to be used if the substitution options are from a limited set.</param>
             <returns>The configured <see cref="T:Neuroglia.AsyncApi.Services.FluentBuilders.IVariableBuilder"/></returns>
         </member>
         <member name="M:Neuroglia.AsyncApi.Services.FluentBuilders.IVariableBuilder.WithDefaultValue(System.String)">
             <summary>
-            Configures the <see cref="T:Neuroglia.AsyncApi.Models.VariableDefinition"/> to build to use the specified default value
+            Configures the <see cref="T:Neuroglia.AsyncApi.Models.Variable"/> to build to use the specified default value
             </summary>
             <param name="value">The value to use by default for substitution, and to send, if an alternate value is not supplied.</param>
             <returns>The configured <see cref="T:Neuroglia.AsyncApi.Services.FluentBuilders.IVariableBuilder"/></returns>
         </member>
         <member name="M:Neuroglia.AsyncApi.Services.FluentBuilders.IVariableBuilder.WithDescription(System.String)">
             <summary>
-            Configures the <see cref="T:Neuroglia.AsyncApi.Models.VariableDefinition"/> to use the specified description
+            Configures the <see cref="T:Neuroglia.AsyncApi.Models.Variable"/> to use the specified description
             </summary>
             <param name="description">The description to use</param>
             <returns>The configured <see cref="T:Neuroglia.AsyncApi.Services.FluentBuilders.IVariableBuilder"/></returns>
         </member>
         <member name="M:Neuroglia.AsyncApi.Services.FluentBuilders.IVariableBuilder.AddExample(System.String)">
             <summary>
-            Adds the specified example to the <see cref="T:Neuroglia.AsyncApi.Models.VariableDefinition"/> to build
+            Adds the specified example to the <see cref="T:Neuroglia.AsyncApi.Models.Variable"/> to build
             </summary>
             <param name="example">The example to add</param>
             <returns>The configured <see cref="T:Neuroglia.AsyncApi.Services.FluentBuilders.IVariableBuilder"/></returns>
         </member>
         <member name="M:Neuroglia.AsyncApi.Services.FluentBuilders.IVariableBuilder.Build">
             <summary>
-            Builds a new <see cref="T:Neuroglia.AsyncApi.Models.VariableDefinition"/>
+            Builds a new <see cref="T:Neuroglia.AsyncApi.Models.Variable"/>
             </summary>
-            <returns>A new <see cref="T:Neuroglia.AsyncApi.Models.VariableDefinition"/></returns>
+            <returns>A new <see cref="T:Neuroglia.AsyncApi.Models.Variable"/></returns>
         </member>
         <member name="T:Neuroglia.AsyncApi.Services.FluentBuilders.MessageBuilder">
             <summary>
@@ -3026,20 +3059,20 @@
             Represents the default implementation of the <see cref="T:Neuroglia.AsyncApi.Services.FluentBuilders.ITagBuilder"/>
             </summary>
         </member>
-        <member name="M:Neuroglia.AsyncApi.Services.FluentBuilders.TagBuilder.#ctor(System.Collections.Generic.IEnumerable{FluentValidation.IValidator{Neuroglia.AsyncApi.Models.TagDefinition}})">
+        <member name="M:Neuroglia.AsyncApi.Services.FluentBuilders.TagBuilder.#ctor(System.Collections.Generic.IEnumerable{FluentValidation.IValidator{Neuroglia.AsyncApi.Models.Tag}})">
             <summary>
             Initializes a new <see cref="T:Neuroglia.AsyncApi.Services.FluentBuilders.TagBuilder"/>
             </summary>
-            <param name="validators">An <see cref="T:System.Collections.Generic.IEnumerable`1"/> containing the services used to validate <see cref="T:Neuroglia.AsyncApi.Models.TagDefinition"/>s</param>
+            <param name="validators">An <see cref="T:System.Collections.Generic.IEnumerable`1"/> containing the services used to validate <see cref="T:Neuroglia.AsyncApi.Models.Tag"/>s</param>
         </member>
         <member name="P:Neuroglia.AsyncApi.Services.FluentBuilders.TagBuilder.Validators">
             <summary>
-            Gets the services used to validate <see cref="T:Neuroglia.AsyncApi.Models.TagDefinition"/>s
+            Gets the services used to validate <see cref="T:Neuroglia.AsyncApi.Models.Tag"/>s
             </summary>
         </member>
         <member name="P:Neuroglia.AsyncApi.Services.FluentBuilders.TagBuilder.Tag">
             <summary>
-            Gets the <see cref="T:Neuroglia.AsyncApi.Models.TagDefinition"/> to configure
+            Gets the <see cref="T:Neuroglia.AsyncApi.Models.Tag"/> to configure
             </summary>
         </member>
         <member name="M:Neuroglia.AsyncApi.Services.FluentBuilders.TagBuilder.WithName(System.String)">
@@ -3059,20 +3092,20 @@
             Represents the default implementation of the <see cref="T:Neuroglia.AsyncApi.Services.FluentBuilders.IVariableBuilder"/> interface
             </summary>
         </member>
-        <member name="M:Neuroglia.AsyncApi.Services.FluentBuilders.VariableBuilder.#ctor(System.Collections.Generic.IEnumerable{FluentValidation.IValidator{Neuroglia.AsyncApi.Models.VariableDefinition}})">
+        <member name="M:Neuroglia.AsyncApi.Services.FluentBuilders.VariableBuilder.#ctor(System.Collections.Generic.IEnumerable{FluentValidation.IValidator{Neuroglia.AsyncApi.Models.Variable}})">
             <summary>
             Initializes a new <see cref="T:Neuroglia.AsyncApi.Services.FluentBuilders.VariableBuilder"/>
             </summary>
-            <param name="validators">The services used to validate <see cref="T:Neuroglia.AsyncApi.Models.VariableDefinition"/>s</param>
+            <param name="validators">The services used to validate <see cref="T:Neuroglia.AsyncApi.Models.Variable"/>s</param>
         </member>
         <member name="P:Neuroglia.AsyncApi.Services.FluentBuilders.VariableBuilder.Validators">
             <summary>
-            Gets the services used to validate <see cref="T:Neuroglia.AsyncApi.Models.VariableDefinition"/>s
+            Gets the services used to validate <see cref="T:Neuroglia.AsyncApi.Models.Variable"/>s
             </summary>
         </member>
         <member name="P:Neuroglia.AsyncApi.Services.FluentBuilders.VariableBuilder.Variable">
             <summary>
-            Gets the <see cref="T:Neuroglia.AsyncApi.Models.VariableDefinition"/> to build
+            Gets the <see cref="T:Neuroglia.AsyncApi.Models.Variable"/> to build
             </summary>
         </member>
         <member name="M:Neuroglia.AsyncApi.Services.FluentBuilders.VariableBuilder.WithEnumValues(System.String[])">
@@ -3131,6 +3164,22 @@
             <param name="options">The <see cref="T:Neuroglia.AsyncApi.Configuration.AsyncApiDocumentGenerationOptions"/> to use</param>
             <param name="cancellationToken">A <see cref="T:System.Threading.CancellationToken"/></param>
             <returns>A new awaitable <see cref="T:System.Threading.Tasks.Task"/></returns>
+        </member>
+        <member name="M:Neuroglia.AsyncApi.Services.Generators.AsyncApiDocumentGenerator.ConfigureOperationMessageFor(Neuroglia.AsyncApi.Services.FluentBuilders.IMessageBuilder,Neuroglia.AsyncApi.OperationAttribute,System.Reflection.MethodInfo,Neuroglia.AsyncApi.Configuration.AsyncApiDocumentGenerationOptions)">
+            <summary>
+            Configures and builds a new <see cref="T:Neuroglia.AsyncApi.Models.Message"/> for the specified <see cref="T:Neuroglia.AsyncApi.Models.Operation"/>
+            </summary>
+            <param name="builder">The <see cref="T:Neuroglia.AsyncApi.Services.FluentBuilders.IMessageBuilder"/> to configure</param>
+            <param name="operation">The attribute used to describe the <see cref="T:Neuroglia.AsyncApi.Models.Operation"/> to configure</param>
+            <param name="operationMethod">The <see cref="T:System.Reflection.MethodInfo"/> marked with the specified <see cref="T:Neuroglia.AsyncApi.Models.Operation"/> attribute</param>
+            <param name="options">The <see cref="T:Neuroglia.AsyncApi.Configuration.AsyncApiDocumentGenerationOptions"/> to use</param>
+        </member>
+        <member name="M:Neuroglia.AsyncApi.Services.Generators.AsyncApiDocumentGenerator.GenerateExamplesFor(System.Type)">
+            <summary>
+            Generates examples for the specified data type
+            </summary>
+            <param name="type">The type to generate examples for</param>
+            <returns>A new <see cref="T:System.Collections.Generic.Dictionary`2"/> containing the generated examples mapped by name</returns>
         </member>
         <member name="T:Neuroglia.AsyncApi.Services.Generators.IAsyncApiDocumentGenerator">
             <summary>

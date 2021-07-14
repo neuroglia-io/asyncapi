@@ -75,7 +75,7 @@ namespace Neuroglia.AsyncApi.Models
         [Newtonsoft.Json.JsonProperty("variables")]
         [YamlDotNet.Serialization.YamlMember(Alias = "variables")]
         [System.Text.Json.Serialization.JsonPropertyName("variables")]
-        public virtual Dictionary<string, VariableDefinition> Variables { get; set; }
+        public virtual Dictionary<string, Variable> Variables { get; set; }
 
         /// <summary>
         /// Gets/sets an <see cref="IList{T}"/> of values that represent alternative security requirement objects that can be used. 

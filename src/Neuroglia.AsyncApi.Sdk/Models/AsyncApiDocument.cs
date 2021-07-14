@@ -98,7 +98,7 @@ namespace Neuroglia.AsyncApi.Models
         [Newtonsoft.Json.JsonProperty("tags")]
         [YamlDotNet.Serialization.YamlMember(Alias = "tags")]
         [System.Text.Json.Serialization.JsonPropertyName("tags")]
-        public virtual List<TagDefinition> Tags { get; set; }
+        public virtual List<Tag> Tags { get; set; }
 
         /// <summary>
         /// Gets/sets a <see cref="List{T}"/> containing additional external documentation.
