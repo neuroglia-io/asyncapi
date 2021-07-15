@@ -21,9 +21,9 @@ A .NET 5.0 library used to visualize and interact with [AsyncAPI](https://www.as
 
 | Name | Description | Latest Release | Spec version |
 | :---: | :---: | :---: | :---: |
-| [Neuroglia.AsyncApi.Core](www.nuget.org/packages/Neuroglia.AsyncApi.Core) | Contains `AsyncAPI` models and core services such as fluent builders, validators, reader, writer and code-first generator | [2.1.0.1](https://github.com/neuroglia-io/asyncapi/releases/) | [v2.1.0](https://www.asyncapi.com/docs/specifications/v2.1.0) |
-[Neuroglia.AsyncApi.AspNetCore](www.nuget.org/packages/Neuroglia.AsyncApi.AspNetCore) | Contains `ASP.NET 5.0` extensions, services for code-first generation and middleware for serving `AsyncAPI` documents | [2.1.0.1](https://github.com/neuroglia-io/asyncapi/releases/) | [v2.1.0](https://www.asyncapi.com/docs/specifications/v2.1.0) |
-[Neuroglia.AsyncApi.AspNetCore.UI](www.nuget.org/packages/Neuroglia.AsyncApi.AspNetCore.UI) | Contains `ASP.NET 5.0` extensions, services for code-first generation and middleware for serving `AsyncAPI` documents | [2.1.0.1](https://github.com/neuroglia-io/asyncapi/releases/) | [v2.1.0](https://www.asyncapi.com/docs/specifications/v2.1.0) |
+| [Neuroglia.AsyncApi.Core](http://www.nuget.org/packages/Neuroglia.AsyncApi.Core) | Contains `AsyncAPI` models and core services such as fluent builders, validators, reader, writer and code-first generator | [2.1.0.1](https://github.com/neuroglia-io/asyncapi/releases/) | [v2.1.0](https://www.asyncapi.com/docs/specifications/v2.1.0) |
+[Neuroglia.AsyncApi.AspNetCore](http://www.nuget.org/packages/Neuroglia.AsyncApi.AspNetCore) | Contains `ASP.NET 5.0` extensions, services for code-first generation and middleware for serving `AsyncAPI` documents | [2.1.0.1](https://github.com/neuroglia-io/asyncapi/releases/) | [v2.1.0](https://www.asyncapi.com/docs/specifications/v2.1.0) |
+[Neuroglia.AsyncApi.AspNetCore.UI](http://www.nuget.org/packages/Neuroglia.AsyncApi.AspNetCore.UI) | Contains `ASP.NET 5.0` extensions, services for code-first generation and middleware for serving `AsyncAPI` documents | [2.1.0.1](https://github.com/neuroglia-io/asyncapi/releases/) | [v2.1.0](https://www.asyncapi.com/docs/specifications/v2.1.0) |
 Neuroglia.AsyncApi.Client | Contains services to build clients at runtime based on `AsyncAPI` documents | WIP | [v2.1.0](https://www.asyncapi.com/docs/specifications/v2.1.0) |
 
 ## Installation
