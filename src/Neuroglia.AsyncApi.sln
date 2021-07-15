@@ -17,8 +17,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "samples", "samples", "{080F
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "StreetLightsApi.Server", "..\samples\StreetLightsApi\Server\StreetLightsApi.Server.csproj", "{9FFAD2FD-038F-4786-8A52-68013C02F8B2}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Neuroglia.AsyncApi.Client", "Neuroglia.AsyncApi.Client\Neuroglia.AsyncApi.Client.csproj", "{093C868A-4856-4DC2-A447-A5245BBCB1EE}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Neuroglia.AsyncApi.AspNetCore.UI", "Neuroglia.AsyncApi.AspNetCore.UI\Neuroglia.AsyncApi.AspNetCore.UI.csproj", "{2B6DA3C0-88B1-40B8-A2B1-13ABF5D703EB}"
 EndProject
 Global
