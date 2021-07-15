@@ -394,6 +394,27 @@
             <param name="services">The <see cref="T:Microsoft.Extensions.DependencyInjection.IServiceCollection"/> to configure</param>
             <returns>The configured <see cref="T:Microsoft.Extensions.DependencyInjection.IServiceCollection"/></returns>
         </member>
+        <member name="T:Neuroglia.AsyncApi.JSchemaExtensions">
+            <summary>
+            Defines extensions for <see cref="T:Newtonsoft.Json.Schema.JSchema"/>s
+            </summary>
+        </member>
+        <member name="M:Neuroglia.AsyncApi.JSchemaExtensions.GenerateExamples(Newtonsoft.Json.Schema.JSchema)">
+            <summary>
+            Generates examples for the specified schema
+            </summary>
+            <param name="schema">The <see cref="T:Newtonsoft.Json.Schema.JSchema"/> to generate a new example for</param>
+            <returns>A new <see cref="T:System.Collections.Generic.Dictionary`2"/> containing the generated examples mapped by name</returns>
+        </member>
+        <member name="M:Neuroglia.AsyncApi.JSchemaExtensions.GenerateExample(Newtonsoft.Json.Schema.JSchema,System.String,System.Boolean)">
+            <summary>
+            Generates an example for the specified schema
+            </summary>
+            <param name="schema">The <see cref="T:Newtonsoft.Json.Schema.JSchema"/> to generate a new example for</param>
+            <param name="name">The name of the <see cref="T:Newtonsoft.Json.Schema.JSchema"/> to generate a new example for</param>
+            <param name="requiredPropertiesOnly">A boolean indicating whether or not to generate an example based only on required properties</param>
+            <returns>A new example <see cref="T:Newtonsoft.Json.Linq.JToken"/></returns>
+        </member>
         <member name="T:Neuroglia.AsyncApi.HttpBindingOperationType">
             <summary>
             Enumerates all types of http binding operation types
@@ -3169,7 +3190,7 @@
             <summary>
             Configures and builds a new <see cref="T:Neuroglia.AsyncApi.Models.Message"/> for the specified <see cref="T:Neuroglia.AsyncApi.Models.Operation"/>
             </summary>
-            <param name="builder">The <see cref="T:Neuroglia.AsyncApi.Services.FluentBuilders.IMessageBuilder"/> to configure</param>
+            <param name="messageBuilder">The <see cref="T:Neuroglia.AsyncApi.Services.FluentBuilders.IMessageBuilder"/> to configure</param>
             <param name="operation">The attribute used to describe the <see cref="T:Neuroglia.AsyncApi.Models.Operation"/> to configure</param>
             <param name="operationMethod">The <see cref="T:System.Reflection.MethodInfo"/> marked with the specified <see cref="T:Neuroglia.AsyncApi.Models.Operation"/> attribute</param>
             <param name="options">The <see cref="T:Neuroglia.AsyncApi.Configuration.AsyncApiDocumentGenerationOptions"/> to use</param>

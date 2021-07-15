@@ -22,16 +22,14 @@
         <div>
             <h1>@document.Info.Title <span class="badge badge-secondary badge-pill">@document.Info.Version</span></h1>
             <div class="mb-3">
-                @if (document.Info.License != null)
+                @if (document.Info.License != null
+                    && document.Info.License.Url != null)
                 {
-                    if (document.Info.TermsOfService != null)
-                    {
-                        <a class="badge badge-pill badge-primary" href="@document.Info.TermsOfService" target="_blank" title="View the Terms of Service of the @document.Info.Title @document.Info.Version">Terms of Service</a>
-                    }
-                    if (document.Info.License.Url != null)
-                    {
-                        <a class="badge badge-pill badge-primary" href="@document.Info.License.Url" target="_blank" title="View the license of the @document.Info.Title @document.Info.Version">@document.Info.License.Name</a>
-                    }
+                    <a class="badge badge-pill badge-primary" href="@document.Info.License.Url" target="_blank" title="View the license of the @document.Info.Title @document.Info.Version">@document.Info.License.Name</a>
+                }
+                @if (document.Info.TermsOfService != null)
+                {
+                    <a class="badge badge-pill badge-primary" href="@document.Info.TermsOfService" target="_blank" title="View the Terms of Service of the @document.Info.Title @document.Info.Version">Terms of Service</a>
                 }
             </div>
             <p>@document.Info.Description</p>
@@ -68,5 +66,30 @@
                 }
             </div>
         </div>
+        <br />
+        @if (document.Components != null)
+        {
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="card-title"><a data-toggle="collapse" href="#components" role="button" aria-expanded="false">Components</a></h3>
+                </div>
+                <div id="components" class="card-body">
+                    @if (document.Components.Schemas != null)
+                    {
+                        <div class="card">
+                            <div class="card-header">
+                                <h4 class="card-title"><a data-toggle="collapse" href="#components_schemas" role="button" aria-expanded="false">Schemas</a></h4>
+                            </div>
+                            <div id="components_schemas" class="card-body">
+                                @foreach (KeyValuePair<string, JSchema> schema in document.Components.Schemas)
+                                {
+                                    <partial name="_Schema" model="schema" view-data="new ViewDataDictionary(new Microsoft.AspNetCore.Mvc.ModelBinding.EmptyModelMetadataProvider(), new Microsoft.AspNetCore.Mvc.ModelBinding.ModelStateDictionary())" view-data-Collapsed="true" />
+                                }
+                            </div>
+                        </div>
+                    }
+                </div>
+            </div>
+        }
     }
 </div>

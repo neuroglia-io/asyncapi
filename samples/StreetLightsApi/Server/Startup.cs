@@ -2,8 +2,10 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Neuroglia;
 using Neuroglia.AsyncApi;
 using Neuroglia.AsyncApi.Models.Bindings.Mqtt;
+using Newtonsoft.Json.Schema.Generation;
 using StreetLightsApi.Server.Services;
 using System;
 
@@ -30,15 +32,17 @@ namespace StreetLightsApi.Server
                 builder.WithMarkupType<StreetLightsService>()
                     .UseDefaultConfiguration(asyncApi =>
                     {
-                        asyncApi.UseServer("mosquitto", server => server
-                            .WithUrl(new Uri("mqtt://test.mosquitto.org"))
-                            .WithProtocol(AsyncApiProtocols.Mqtt)
-                            .WithDescription("The Mosquitto test MQTT server")
-                            .UseBinding(new MqttServerBinding() 
-                            { 
-                                ClientId = "StreetLightsAPI:1.0.0", 
-                                CleanSession = true 
-                            }));
+                        asyncApi
+                            .WithTermsOfService(new Uri("https://www.websitepolicies.com/blog/sample-terms-service-template"))
+                            .UseServer("mosquitto", server => server
+                                .WithUrl(new Uri("mqtt://test.mosquitto.org"))
+                                .WithProtocol(AsyncApiProtocols.Mqtt)
+                                .WithDescription("The Mosquitto test MQTT server")
+                                .UseBinding(new MqttServerBinding()
+                                {
+                                    ClientId = "StreetLightsAPI:1.0.0",
+                                    CleanSession = true
+                                }));
                     }));
 
             services.AddSingleton<StreetLightsService>();

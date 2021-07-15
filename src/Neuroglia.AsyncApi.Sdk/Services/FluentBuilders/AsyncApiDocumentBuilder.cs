@@ -207,7 +207,11 @@ namespace Neuroglia.AsyncApi.Services.FluentBuilders
                 throw new ArgumentNullException(nameof(name));
             if (schema == null)
                 throw new ArgumentNullException(nameof(schema));
-
+            if (this.Document.Components == null)
+                this.Document.Components = new();
+            if (this.Document.Components.Schemas == null)
+                this.Document.Components.Schemas = new();
+            this.Document.Components.Schemas.Add(name, schema);
             return this;
         }
 

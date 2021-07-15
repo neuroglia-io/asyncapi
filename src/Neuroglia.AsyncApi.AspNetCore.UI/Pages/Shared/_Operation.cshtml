@@ -14,7 +14,7 @@
         <div class="card-header">
             <div class="row">
                 <div class="col-md-6">
-                    <span class="badge badge-pill badge-success" title="@(operationType == OperationType.Publish ? pubTooltip : subTooltip)">@(operationType == OperationType.Publish ? "PUB" : "SUB")</span>
+                    <span class="badge badge-pill badge-@(operationType == OperationType.Publish ? "success" : "info")" title="@(operationType == OperationType.Publish ? pubTooltip : subTooltip)">@(operationType == OperationType.Publish ? "PUB" : "SUB")</span>
                     <a data-toggle="collapse" href="#@operationRef" role="button" aria-expanded="false" title="@(string.IsNullOrWhiteSpace(operation.Summary) ? operation.OperationId : operation.Summary)">
                         <span class="h5">@operation.OperationId</span>
                     </a>
@@ -39,7 +39,7 @@
                             <a data-toggle="collapse" href="#@(operationRef)_message" role="button" aria-expanded="false">
                                 <span class="font-weight-bold">Message</span>
                             </a>
-                            <span class="font-italic">[@message.Name]</span>
+                            <span class="font-italic text-muted">[@message.Name]</span>
                         </div>
                         <div class="col-md-8 text-right">
                             @if (message.Tags != null)

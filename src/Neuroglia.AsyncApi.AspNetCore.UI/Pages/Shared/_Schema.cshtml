@@ -1,0 +1,38 @@
+﻿@model KeyValuePair<string, Newtonsoft.Json.Schema.JSchema>
+@{ 
+    var collapsed = this.ViewBag.Collapsed;
+    var schemaName = this.Model.Key;
+    var schema = this.Model.Value;
+    var reference = Guid.NewGuid().ToString();
+}
+
+<div data-name="@schemaName" class="js-schema card">
+    <div class="card-header">
+        <a data-toggle="collapse" href="#@reference" role="button" aria-expanded="false">
+            <span class="font-weight-bold">@schemaName</span>
+        </a>
+    </div>
+    <div id="@reference" class="card-body@(collapsed ? " collapse" : "")">
+        <p>@schema.Description</p>
+        @foreach (var exampleKvp in schema.GenerateExamples())
+        {
+            var example = exampleKvp.Value;
+            <hr />
+            <h6>@exampleKvp.Key</h6>
+            <hr />
+            @foreach (var property in example.Properties().Where(p => p.Value != null
+                && p.Value.Type != Newtonsoft.Json.Linq.JTokenType.Null
+                && p.Value.Type != Newtonsoft.Json.Linq.JTokenType.None))
+            {
+                <div class="row m-2">
+                    <div class="col-md-4">
+                        <span class="font-italic">@property.Name</span>
+                    </div>
+                    <div class="col-md-8">
+                        <pre class="font-weight-bold text-primary">@property.Value.ToString(Newtonsoft.Json.Formatting.Indented)</pre>
+                    </div>
+                </div>
+            }
+        }
+    </div>
+</div>
