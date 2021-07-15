@@ -76,7 +76,7 @@ var document = builder
     .Build();
 ```
 
-### Writing an AsyncAPI Document
+### Writing an AsyncAPI Document 
 
 ```csharp
 var writer = serviceProvider.GetRequiredService<IAsyncApiDocumentWriter>();
