@@ -3,7 +3,7 @@
     OperationType operationType = this.Model.Key;
     Operation operation = this.Model.Value;
     Message message = this.Model.Value.Message;
-    JSchema schema = message.Payload.ToObject<JSchema>();
+    JSchema schema = message.Payload?.ToObject<JSchema>();
     string operationRef = $"{operation.OperationId}{operationType}".Slugify();
     string pubTooltip = "An operation used to publish a message to the specified channel";
     string subTooltip = "An operation used to subscribe to messages from the specified channel";
@@ -53,37 +53,41 @@
                     </div>
                 </div>
                 <div id="@(operationRef)_message" class="card-body collapse">
-                    <div class="card">
-                        <div class="card-header">
-                            <a data-toggle="collapse" href="#@(operationRef)_message_payload" role="button" aria-expanded="false">
-                                <span class="font-weight-bold">Payload</span>
-                            </a>
-                        </div>
-                        <div id="@(operationRef)_message_payload" class="card-body">
-                            <div class="row m-1">
-                                @foreach (var property in schema.Properties)
-                                {
-                                    <div class="col-md-4">
-                                        <span class="font-italic">@property.Key</span>
-                                    </div>
-                                    <div class="col-md-8">
-                                        <span class="font-weight-bold text-primary">@property.Value.Type?.ToString().Replace(", ", " | ")</span>
-                                        @if (schema.Required != null
-                                         && schema.Required.Contains(property.Key)
-                                         && !property.Value.Type.Value.HasFlag(Newtonsoft.Json.Schema.JSchemaType.Null))
-                                        {
-                                            <span class="badge badge-pill badge-danger text-white">Required</span>
-                                        }
-                                        @if (!string.IsNullOrWhiteSpace(property.Value.Format))
-                                        {
-                                            <span class="badge badge-pill badge-warning">Format: @property.Value.Format</span>
-                                        }
-                                        <p>@property.Value.Description</p>
-                                    </div>
-                                }
+                    @if (message != null
+                       && schema != null)
+                    {
+                        <div class="card">
+                            <div class="card-header">
+                                <a data-toggle="collapse" href="#@(operationRef)_message_payload" role="button" aria-expanded="false">
+                                    <span class="font-weight-bold">Payload</span>
+                                </a>
+                            </div>
+                            <div id="@(operationRef)_message_payload" class="card-body">
+                                <div class="row m-1">
+                                    @foreach (var property in schema.Properties)
+                                    {
+                                        <div class="col-md-4">
+                                            <span class="font-italic">@property.Key</span>
+                                        </div>
+                                        <div class="col-md-8">
+                                            <span class="font-weight-bold text-primary">@property.Value.Type?.ToString().Replace(", ", " | ")</span>
+                                            @if (schema.Required != null
+                                            && schema.Required.Contains(property.Key)
+                                            && !property.Value.Type.Value.HasFlag(Newtonsoft.Json.Schema.JSchemaType.Null))
+                                            {
+                                                <span class="badge badge-pill badge-danger text-white">Required</span>
+                                            }
+                                            @if (!string.IsNullOrWhiteSpace(property.Value.Format))
+                                            {
+                                                <span class="badge badge-pill badge-warning">Format: @property.Value.Format</span>
+                                            }
+                                            <p>@property.Value.Description</p>
+                                        </div>
+                                    }
+                                </div>
                             </div>
                         </div>
-                    </div>
+                    }
                     @if (message.Examples != null)
                     {
                         <div class="card mt-2">
@@ -99,9 +103,9 @@
                                     <hr />
                                     <h6>@exampleKvp.Key</h6>
                                     <hr />
-                                    @foreach (var property in example.Properties().Where(p => p.Value != null 
-                                     && p.Value.Type != Newtonsoft.Json.Linq.JTokenType.Null 
-                                     && p.Value.Type != Newtonsoft.Json.Linq.JTokenType.None))
+                                    @foreach (var property in example.Properties().Where(p => p.Value != null
+                                    && p.Value.Type != Newtonsoft.Json.Linq.JTokenType.Null
+                                    && p.Value.Type != Newtonsoft.Json.Linq.JTokenType.None))
                                     {
                                         <div class="row m-2">
                                             <div class="col-md-4">

@@ -40,9 +40,12 @@
                 <h3 class="card-title"><a data-toggle="collapse" href="#servers" role="button" aria-expanded="false">Servers</a></h3>
             </div>
             <div id="servers" class="card-body">
-                @foreach (KeyValuePair<string, Server> server in document.Servers)
+                @if (document.Servers != null)
                 {
-                    <partial name="_Server" model="server" />
+                    foreach (KeyValuePair<string, Server> server in document.Servers)
+                    {
+                        <partial name="_Server" model="server" />
+                    }
                 }
             </div>
         </div>
