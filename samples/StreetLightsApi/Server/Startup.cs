@@ -2,10 +2,8 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Neuroglia;
 using Neuroglia.AsyncApi;
 using Neuroglia.AsyncApi.Models.Bindings.Mqtt;
-using Newtonsoft.Json.Schema.Generation;
 using StreetLightsApi.Server.Services;
 using System;
 
