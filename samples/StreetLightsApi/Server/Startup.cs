@@ -46,8 +46,8 @@ namespace StreetLightsApi.Server
             services.AddSingleton<StreetLightsService>();
             services.AddSingleton<IHostedService>(provider => provider.GetRequiredService<StreetLightsService>());
 
-            services.AddSingleton<MovementDetectorService>();
-            services.AddSingleton<IHostedService>(provider => provider.GetRequiredService<MovementDetectorService>());
+            services.AddSingleton<MovementSensorService>();
+            services.AddSingleton<IHostedService>(provider => provider.GetRequiredService<MovementSensorService>());
         }
 
         public void Configure(IApplicationBuilder app)

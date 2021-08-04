@@ -10,6 +10,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using Neuroglia.AsyncApi;
 
 namespace StreetLightsApi.Server.Services
 {

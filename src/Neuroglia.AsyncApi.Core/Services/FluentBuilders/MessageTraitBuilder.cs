@@ -75,7 +75,7 @@ namespace Neuroglia.AsyncApi.Services.FluentBuilders
                 throw new ArgumentNullException(nameof(example));
             if (this.Trait.Examples == null)
                 this.Trait.Examples = new();
-            this.Trait.Examples.Add(name, JObject.FromObject(example));
+            this.Trait.Examples.Add(name, JToken.FromObject(example));
             return (TBuilder)(object)this;
         }
 
