@@ -35,10 +35,10 @@ namespace Neuroglia.AsyncApi
         /// </summary>
         /// <param name="schema">The <see cref="JSchema"/> to generate a new example for</param>
         /// <returns>A new <see cref="Dictionary{TKey, TValue}"/> containing the generated examples mapped by name</returns>
-        public static Dictionary<string, JObject> GenerateExamples(this JSchema schema)
+        public static Dictionary<string, JToken> GenerateExamples(this JSchema schema)
         {
-            Dictionary<string, JObject> examples = new();
-            JObject minimalExample = (JObject)schema.GenerateExample(requiredPropertiesOnly: true);
+            Dictionary<string, JToken> examples = new();
+            JToken minimalExample = schema.GenerateExample(requiredPropertiesOnly: true);
             if (schema.Properties.All(p =>
                 schema.Required.Contains(p.Key)
                 && !p.Value.Type.Value.HasFlag(JSchemaType.Null)))
@@ -77,7 +77,7 @@ namespace Neuroglia.AsyncApi
                     schemaType &= ~JSchemaType.Null;
             if (schemaType.HasFlag(JSchemaType.None))
                 schemaType &= ~JSchemaType.None;
-            switch (schemaType)
+            return schemaType switch
             {
                 JSchemaType.Array => GenerateExampleArrayFor(schema, requiredPropertiesOnly),
                 JSchemaType.String => GenerateExampleStringFor(schema, name),

@@ -1,5 +1,6 @@
-﻿@model KeyValuePair<string, Newtonsoft.Json.Schema.JSchema>
-@{ 
+﻿@using Newtonsoft.Json.Linq
+@model KeyValuePair<string, Newtonsoft.Json.Schema.JSchema>
+@{
     var collapsed = this.ViewBag.Collapsed;
     var schemaName = this.Model.Key;
     var schema = this.Model.Value;

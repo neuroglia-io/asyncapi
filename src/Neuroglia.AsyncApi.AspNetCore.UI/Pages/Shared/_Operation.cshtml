@@ -1,4 +1,5 @@
-﻿@model KeyValuePair<OperationType, Operation>
+﻿@using Newtonsoft.Json.Linq
+@model KeyValuePair<OperationType, Operation>
 @{
     OperationType operationType = this.Model.Key;
     Operation operation = this.Model.Value;
