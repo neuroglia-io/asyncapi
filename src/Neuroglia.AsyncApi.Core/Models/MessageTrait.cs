@@ -21,6 +21,7 @@ using System.Collections.Generic;
 
 namespace Neuroglia.AsyncApi.Models
 {
+
     /// <summary>
     /// Represents an object used to define a Async API operation message trait
     /// </summary>
@@ -126,7 +127,7 @@ namespace Neuroglia.AsyncApi.Models
         [Newtonsoft.Json.JsonProperty("examples")]
         [YamlDotNet.Serialization.YamlMember(Alias = "examples")]
         [System.Text.Json.Serialization.JsonPropertyName("examples")]
-        public virtual Dictionary<string, JObject> Examples { get; set; }
+        public virtual Dictionary<string, JToken> Examples { get; set; }
 
         /// <inheritdoc/>
         public override string ToString()

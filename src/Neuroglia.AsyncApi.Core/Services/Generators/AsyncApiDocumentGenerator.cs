@@ -216,7 +216,7 @@ namespace Neuroglia.AsyncApi.Services.Generators
             }
             if (options.AutomaticallyGenerateExamples)
             {
-                foreach(KeyValuePair<string, JObject> example in this.GenerateExamplesFor(messageType))
+                foreach(KeyValuePair<string, JToken> example in this.GenerateExamplesFor(messageType))
                 {
                     messageBuilder.AddExample(example.Key, example.Value);
                 }
@@ -228,7 +228,7 @@ namespace Neuroglia.AsyncApi.Services.Generators
         /// </summary>
         /// <param name="type">The type to generate examples for</param>
         /// <returns>A new <see cref="Dictionary{TKey, TValue}"/> containing the generated examples mapped by name</returns>
-        protected virtual Dictionary<string, JObject> GenerateExamplesFor(Type type)
+        protected virtual Dictionary<string, JToken> GenerateExamplesFor(Type type)
         {
             if (type == null)
                 throw new ArgumentNullException(nameof(type));

@@ -35,10 +35,10 @@ namespace Neuroglia.AsyncApi
         /// </summary>
         /// <param name="schema">The <see cref="JSchema"/> to generate a new example for</param>
         /// <returns>A new <see cref="Dictionary{TKey, TValue}"/> containing the generated examples mapped by name</returns>
-        public static Dictionary<string, JObject> GenerateExamples(this JSchema schema)
+        public static Dictionary<string, JToken> GenerateExamples(this JSchema schema)
         {
-            Dictionary<string, JObject> examples = new();
-            JObject minimalExample = (JObject)schema.GenerateExample(requiredPropertiesOnly: true);
+            Dictionary<string, JToken> examples = new();
+            JToken minimalExample = schema.GenerateExample(requiredPropertiesOnly: true);
             if (schema.Properties.All(p =>
                 schema.Required.Contains(p.Key)
                 && !p.Value.Type.Value.HasFlag(JSchemaType.Null)))
@@ -77,21 +77,15 @@ namespace Neuroglia.AsyncApi
                     schemaType &= ~JSchemaType.Null;
             if (schemaType.HasFlag(JSchemaType.None))
                 schemaType &= ~JSchemaType.None;
-            switch (schemaType)
+            return schemaType switch
             {
-                case JSchemaType.Array:
-                    return GenerateExampleArrayFor(schema, requiredPropertiesOnly);
-                case JSchemaType.String:
-                    return GenerateExampleStringFor(schema, name);
-                case JSchemaType.Boolean:
-                    return JToken.FromObject(new Random().Next(0, 1) == 1 ? true : false);
-                case JSchemaType.Integer:
-                    return GenerateExampleIntegerFor(schema);
-                case JSchemaType.Object:
-                    return GenerateExampleObjectFor(schema, requiredPropertiesOnly);
-                default:
-                    return null;
-            }
+                JSchemaType.Array => GenerateExampleArrayFor(schema, requiredPropertiesOnly),
+                JSchemaType.String => GenerateExampleStringFor(schema, name),
+                JSchemaType.Boolean => JToken.FromObject(new Random().Next(0, 1) == 1),
+                JSchemaType.Integer or JSchemaType.Number => GenerateExampleIntegerFor(schema),
+                JSchemaType.Object => GenerateExampleObjectFor(schema, requiredPropertiesOnly),
+                _ => null,
+            };
         }
 
         private static JObject GenerateExampleObjectFor(JSchema schema, bool requiredPropertiesOnly)
