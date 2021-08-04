@@ -1,4 +1,5 @@
-﻿@model KeyValuePair<OperationType, Operation>
+﻿@using Newtonsoft.Json.Linq
+@model KeyValuePair<OperationType, Operation>
 @{
     OperationType operationType = this.Model.Key;
     Operation operation = this.Model.Value;
@@ -54,7 +55,8 @@
                 </div>
                 <div id="@(operationRef)_message" class="card-body collapse">
                     @if (message != null
-                       && schema != null)
+                      && schema != null
+                      && (schema.Type == JSchemaType.Array || schema.Type == JSchemaType.Object))
                     {
                         <div class="card">
                             <div class="card-header">
@@ -72,8 +74,8 @@
                                         <div class="col-md-8">
                                             <span class="font-weight-bold text-primary">@property.Value.Type?.ToString().Replace(", ", " | ")</span>
                                             @if (schema.Required != null
-                                            && schema.Required.Contains(property.Key)
-                                            && !property.Value.Type.Value.HasFlag(Newtonsoft.Json.Schema.JSchemaType.Null))
+                                           && schema.Required.Contains(property.Key)
+                                           && !property.Value.Type.Value.HasFlag(Newtonsoft.Json.Schema.JSchemaType.Null))
                                             {
                                                 <span class="badge badge-pill badge-danger text-white">Required</span>
                                             }
@@ -100,20 +102,29 @@
                                 @foreach (var exampleKvp in message.Examples)
                                 {
                                     var example = exampleKvp.Value;
-                                    <hr />
-                                    <h6>@exampleKvp.Key</h6>
-                                    <hr />
-                                    @foreach (var property in example.Properties().Where(p => p.Value != null
-                                    && p.Value.Type != Newtonsoft.Json.Linq.JTokenType.Null
-                                    && p.Value.Type != Newtonsoft.Json.Linq.JTokenType.None))
+                                    @if (example is JObject exampleObject)
+                                    {
+                                        <hr />
+                                        <h6>@exampleKvp.Key</h6>
+                                        <hr />
+                                        foreach (var property in exampleObject.Properties().Where(p => p.Value != null
+                                            && p.Value.Type != Newtonsoft.Json.Linq.JTokenType.Null
+                                            && p.Value.Type != Newtonsoft.Json.Linq.JTokenType.None))
+                                        {
+                                            <div class="row m-2">
+                                                <div class="col-md-4">
+                                                    <span class="font-italic">@property.Name</span>
+                                                </div>
+                                                <div class="col-md-8">
+                                                    <pre class="font-weight-bold text-primary">@property.Value.ToString(Newtonsoft.Json.Formatting.Indented)</pre>
+                                                </div>
+                                            </div>
+                                        }
+                                    }
+                                    else
                                     {
                                         <div class="row m-2">
-                                            <div class="col-md-4">
-                                                <span class="font-italic">@property.Name</span>
-                                            </div>
-                                            <div class="col-md-8">
-                                                <pre class="font-weight-bold text-primary">@property.Value.ToString(Newtonsoft.Json.Formatting.Indented)</pre>
-                                            </div>
+                                            <pre class="font-weight-bold text-primary">@example.ToString(Newtonsoft.Json.Formatting.Indented)</pre>
                                         </div>
                                     }
                                 }
