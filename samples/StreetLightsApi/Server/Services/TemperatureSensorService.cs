@@ -10,7 +10,6 @@ using System.ComponentModel.DataAnnotations;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
-using Neuroglia.AsyncApi;
 
 namespace StreetLightsApi.Server.Services
 {
@@ -57,7 +56,7 @@ namespace StreetLightsApi.Server.Services
         [Channel("temperature/changed"), SubscribeOperation(OperationId = "OnTemperatureChanged", Summary = "Inform about temperature changes captured by sensors")]
         protected async Task OnTemperatureChanged([Range(-100,100)]decimal degrees, DateTime timestamp)
         {
-            this.Logger.LogInformation($"Current temperature is {degrees}° Celsius");
+            this.Logger.LogInformation($"{timestamp}: {degrees}°");
             await Task.CompletedTask;
         }
 

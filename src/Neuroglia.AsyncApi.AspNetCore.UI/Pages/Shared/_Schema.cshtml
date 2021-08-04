@@ -24,8 +24,8 @@
                 <h6>@exampleKvp.Key</h6>
                 <hr />
                 foreach (var property in exampleObject.Properties().Where(p => p.Value != null
-                && p.Value.Type != Newtonsoft.Json.Linq.JTokenType.Null
-                && p.Value.Type != Newtonsoft.Json.Linq.JTokenType.None))
+                    && p.Value.Type != Newtonsoft.Json.Linq.JTokenType.Null
+                    && p.Value.Type != Newtonsoft.Json.Linq.JTokenType.None))
                 {
                     <div class="row m-2">
                         <div class="col-md-4">

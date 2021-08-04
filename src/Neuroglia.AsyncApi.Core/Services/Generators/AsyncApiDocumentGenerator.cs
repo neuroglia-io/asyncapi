@@ -90,7 +90,7 @@ namespace Neuroglia.AsyncApi.Services.Generators
                 throw new ArgumentNullException(nameof(type));
             AsyncApiAttribute asyncApi = type.GetCustomAttribute<AsyncApiAttribute>();
             IAsyncApiDocumentBuilder builder = this.ServiceProvider.GetRequiredService<IAsyncApiDocumentBuilder>();
-            options.DefaultConfiguration?.Invoke(builder);
+            options?.DefaultConfiguration?.Invoke(builder);
             builder
                 .WithId(asyncApi.Id)
                 .WithTitle(asyncApi.Title)
@@ -243,7 +243,7 @@ namespace Neuroglia.AsyncApi.Services.Generators
                         .WithDescription(tag.Description));
                 }
             }
-            if (options.AutomaticallyGenerateExamples)
+            if (options == null || options.AutomaticallyGenerateExamples)
             {
                 foreach(KeyValuePair<string, JToken> example in messageSchema.GenerateExamples())
                 {

@@ -55,7 +55,8 @@
                 </div>
                 <div id="@(operationRef)_message" class="card-body collapse">
                     @if (message != null
-                       && schema != null)
+                       && schema != null
+                       && (schema.Type == JSchemaType.Array || schema.Type == JSchemaType.Object))
                     {
                         <div class="card">
                             <div class="card-header">
@@ -97,7 +98,7 @@
                                     <span class="font-weight-bold">Examples</span>
                                 </a>
                             </div>
-                            <div id="@(operationRef)_message_examples" class="card-body collapse">
+                            <div id="@(operationRef)_message_examples" class="card-body@(schema.Type == JSchemaType.Array || schema.Type == JSchemaType.Object ? " collapse" : "")">
                                 @foreach (var exampleKvp in message.Examples)
                                 {
                                     var example = exampleKvp.Value;
