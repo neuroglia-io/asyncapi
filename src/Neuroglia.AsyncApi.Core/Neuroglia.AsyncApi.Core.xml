@@ -415,6 +415,49 @@
             <param name="requiredPropertiesOnly">A boolean indicating whether or not to generate an example based only on required properties</param>
             <returns>A new example <see cref="T:Newtonsoft.Json.Linq.JToken"/></returns>
         </member>
+        <member name="T:Neuroglia.AsyncApi.JSchemaGeneratorExtensions">
+            <summary>
+            Defines extensions for <see cref="T:Newtonsoft.Json.Schema.Generation.JSchemaGenerator"/>s
+            </summary>
+        </member>
+        <member name="M:Neuroglia.AsyncApi.JSchemaGeneratorExtensions.Generate(Newtonsoft.Json.Schema.Generation.JSchemaGenerator,System.Reflection.ParameterInfo)">
+            <summary>
+            Generates a new <see cref="T:Newtonsoft.Json.Schema.JSchema"/> for the specified <see cref="T:System.Reflection.ParameterInfo"/>
+            </summary>
+            <param name="generator">The extended <see cref="T:Newtonsoft.Json.Schema.Generation.JSchemaGenerator"/></param>
+            <param name="parameter">The <see cref="T:System.Reflection.ParameterInfo"/> to generate a new <see cref="T:Newtonsoft.Json.Schema.JSchema"/> for</param>
+            <returns>A new <see cref="T:Newtonsoft.Json.Schema.JSchema"/></returns>
+        </member>
+        <member name="T:Neuroglia.AsyncApi.RandomExtensions">
+            <summary>
+            Defines extensions for <see cref="T:System.Random"/>s
+            </summary>
+            <remarks>Code taken from <see href="https://stackoverflow.com/a/28860710/3637555">Bryan Loeper</see></remarks>
+        </member>
+        <member name="M:Neuroglia.AsyncApi.RandomExtensions.NextDecimal(System.Random)">
+            <summary>
+            Generates a new random decimal
+            </summary>
+            <param name="random">The extended <see cref="T:System.Random"/></param>
+            <returns>A new random decimal</returns>
+        </member>
+        <member name="M:Neuroglia.AsyncApi.RandomExtensions.NextDecimal(System.Random,System.Decimal)">
+            <summary>
+            Generates a new random decimal
+            </summary>
+            <param name="random">The extended <see cref="T:System.Random"/></param>
+            <param name="maxValue">The maximal decimal value</param>
+            <returns>A new random decimal</returns>
+        </member>
+        <member name="M:Neuroglia.AsyncApi.RandomExtensions.NextDecimal(System.Random,System.Decimal,System.Decimal)">
+            <summary>
+            Generates a new random decimal
+            </summary>
+            <param name="random">The extended <see cref="T:System.Random"/></param>
+            <param name="minValue">The minimal decimal value</param>
+            <param name="maxValue">The maximal decimal value</param>
+            <returns>A new random decimal</returns>
+        </member>
         <member name="T:Neuroglia.AsyncApi.HttpBindingOperationType">
             <summary>
             Enumerates all types of http binding operation types
@@ -3194,13 +3237,6 @@
             <param name="operation">The attribute used to describe the <see cref="T:Neuroglia.AsyncApi.Models.Operation"/> to configure</param>
             <param name="operationMethod">The <see cref="T:System.Reflection.MethodInfo"/> marked with the specified <see cref="T:Neuroglia.AsyncApi.Models.Operation"/> attribute</param>
             <param name="options">The <see cref="T:Neuroglia.AsyncApi.Configuration.AsyncApiDocumentGenerationOptions"/> to use</param>
-        </member>
-        <member name="M:Neuroglia.AsyncApi.Services.Generators.AsyncApiDocumentGenerator.GenerateExamplesFor(System.Type)">
-            <summary>
-            Generates examples for the specified data type
-            </summary>
-            <param name="type">The type to generate examples for</param>
-            <returns>A new <see cref="T:System.Collections.Generic.Dictionary`2"/> containing the generated examples mapped by name</returns>
         </member>
         <member name="T:Neuroglia.AsyncApi.Services.Generators.IAsyncApiDocumentGenerator">
             <summary>

@@ -29,9 +29,9 @@
     <PackageReference Include="FluentValidation.DependencyInjectionExtensions" Version="10.3.0" />
     <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="5.0.0" />
     <PackageReference Include="Microsoft.Extensions.Http" Version="5.0.0" />
-    <PackageReference Include="Neuroglia.Serialization.Json" Version="2.0.0.7" />
-    <PackageReference Include="Neuroglia.Serialization.NewtonsoftJson" Version="2.0.0.7" />
-    <PackageReference Include="Neuroglia.Serialization.YamlDotNet" Version="2.0.0.7" />
+    <PackageReference Include="Neuroglia.Serialization.Json" Version="2.0.0.16" />
+    <PackageReference Include="Neuroglia.Serialization.NewtonsoftJson" Version="2.0.0.16" />
+    <PackageReference Include="Neuroglia.Serialization.YamlDotNet" Version="2.0.0.16" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
     <PackageReference Include="Newtonsoft.Json.Schema" Version="3.0.14" />
     <PackageReference Include="SemanticVersion" Version="2.1.0" />

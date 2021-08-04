@@ -15,13 +15,16 @@
  *
  */
 using Microsoft.Extensions.DependencyInjection;
+using Neuroglia;
 using Neuroglia.AsyncApi.Configuration;
 using Neuroglia.AsyncApi.Models;
 using Neuroglia.AsyncApi.Services.FluentBuilders;
 using Newtonsoft.Json.Linq;
+using Newtonsoft.Json.Schema;
 using Newtonsoft.Json.Schema.Generation;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Reflection;
 using System.Threading;
@@ -180,24 +183,47 @@ namespace Neuroglia.AsyncApi.Services.Generators
                 throw new ArgumentNullException(nameof(operationMethod));
             Type messageType = operation.MessageType;
             ParameterInfo[] parameters = operationMethod.GetParameters();
+            JSchemaGenerator schemaGenerator = new();
+            JSchema messageSchema;
             if (messageType == null)
+            {
                 if (parameters.Length == 1)
+                {
                     messageType = parameters.First().ParameterType;
+                    messageSchema = schemaGenerator.Generate(parameters.First());
+                }
                 else
-                    return;
-            messageBuilder.OfType(messageType);
+                {
+                    messageType = typeof(object);
+                    messageSchema = new() { Type = JSchemaType.Object };
+                    foreach (ParameterInfo parameter in parameters)
+                    {
+                        JSchema parameterSchema = schemaGenerator.Generate(parameter);
+                        messageSchema.Properties.Add(parameter.Name, parameterSchema);
+                        if (parameter.TryGetCustomAttribute<RequiredAttribute>(out _)
+                            || !parameter.ParameterType.IsNullable()
+                            || parameter.DefaultValue == DBNull.Value)
+                            messageSchema.Required.Add(parameter.Name);
+                    }
+                }
+            }
+            else
+            {
+                messageSchema = schemaGenerator.Generate(messageType);
+            }
+            messageBuilder.WithPayloadSchema(messageSchema);
             MessageAttribute message = operationMethod.GetCustomAttribute<MessageAttribute>();
             if (message == null)
-                message = messageType.GetCustomAttribute<MessageAttribute>();
+                message = messageType?.GetCustomAttribute<MessageAttribute>();
             string name = message?.Name;
             if (string.IsNullOrWhiteSpace(name))
-                name = messageType.Name.ToCamelCase();
+                name = messageType?.Name.ToCamelCase();
             string title = message?.Title;
             if (string.IsNullOrWhiteSpace(title))
                 title = name?.SplitCamelCase(false, true);
             string description = message?.Description;
             if (string.IsNullOrWhiteSpace(description))
-                description = messageType.GetDocumentationSummary();
+                description = messageType?.GetDocumentationSummary();
             string summary = message?.Summary;
             if (string.IsNullOrWhiteSpace(summary))
                 summary = description;
@@ -208,31 +234,22 @@ namespace Neuroglia.AsyncApi.Services.Generators
                 .WithSummary(summary)
                 .WithDescription(description)
                 .WithContentType(contentType);
-            foreach (TagAttribute tag in messageType.GetCustomAttributes<TagAttribute>())
+            if(messageType != null)
             {
-                messageBuilder.TagWith(tagBuilder => tagBuilder
-                    .WithName(tag.Name)
-                    .WithDescription(tag.Description));
+                foreach (TagAttribute tag in messageType.GetCustomAttributes<TagAttribute>())
+                {
+                    messageBuilder.TagWith(tagBuilder => tagBuilder
+                        .WithName(tag.Name)
+                        .WithDescription(tag.Description));
+                }
             }
             if (options.AutomaticallyGenerateExamples)
             {
-                foreach(KeyValuePair<string, JObject> example in this.GenerateExamplesFor(messageType))
+                foreach(KeyValuePair<string, JToken> example in messageSchema.GenerateExamples())
                 {
                     messageBuilder.AddExample(example.Key, example.Value);
                 }
             }
-        }
-
-        /// <summary>
-        /// Generates examples for the specified data type
-        /// </summary>
-        /// <param name="type">The type to generate examples for</param>
-        /// <returns>A new <see cref="Dictionary{TKey, TValue}"/> containing the generated examples mapped by name</returns>
-        protected virtual Dictionary<string, JObject> GenerateExamplesFor(Type type)
-        {
-            if (type == null)
-                throw new ArgumentNullException(nameof(type));
-            return new JSchemaGenerator().Generate(type).GenerateExamples();
         }
 
     }

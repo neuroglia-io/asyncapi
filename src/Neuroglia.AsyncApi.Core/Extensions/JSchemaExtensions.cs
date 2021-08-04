@@ -43,7 +43,7 @@ namespace Neuroglia.AsyncApi
                 schema.Required.Contains(p.Key)
                 && !p.Value.Type.Value.HasFlag(JSchemaType.Null)))
             {
-                examples.Add("Default payload", minimalExample);
+                examples.Add("Payload", minimalExample);
             }
             else
             {
@@ -79,19 +79,14 @@ namespace Neuroglia.AsyncApi
                 schemaType &= ~JSchemaType.None;
             switch (schemaType)
             {
-                case JSchemaType.Array:
-                    return GenerateExampleArrayFor(schema, requiredPropertiesOnly);
-                case JSchemaType.String:
-                    return GenerateExampleStringFor(schema, name);
-                case JSchemaType.Boolean:
-                    return JToken.FromObject(new Random().Next(0, 1) == 1 ? true : false);
-                case JSchemaType.Integer:
-                    return GenerateExampleIntegerFor(schema);
-                case JSchemaType.Object:
-                    return GenerateExampleObjectFor(schema, requiredPropertiesOnly);
-                default:
-                    return null;
-            }
+                JSchemaType.Array => GenerateExampleArrayFor(schema, requiredPropertiesOnly),
+                JSchemaType.String => GenerateExampleStringFor(schema, name),
+                JSchemaType.Boolean => JToken.FromObject(new Random().Next(0, 1) == 1),
+                JSchemaType.Integer => GenerateExampleIntegerFor(schema),
+                JSchemaType.Number => GenerateExampleNumberFor(schema),
+                JSchemaType.Object => GenerateExampleObjectFor(schema, requiredPropertiesOnly),
+                _ => null,
+            };
         }
 
         private static JObject GenerateExampleObjectFor(JSchema schema, bool requiredPropertiesOnly)
@@ -138,13 +133,26 @@ namespace Neuroglia.AsyncApi
         {
             if (schema == null)
                 throw new ArgumentNullException(nameof(schema));
-            int min = 0;
+            int min = int.MinValue;
             int max = int.MaxValue;
             if (schema.Minimum.HasValue)
                 min = (int)schema.Minimum.Value;
             if (schema.Maximum.HasValue)
                 max = (int)schema.Maximum.Value;
             return JToken.FromObject(new Random().Next(min, max));
+        }
+
+        private static JToken GenerateExampleNumberFor(JSchema schema)
+        {
+            if (schema == null)
+                throw new ArgumentNullException(nameof(schema));
+            decimal min = decimal.MinValue;
+            decimal max = decimal.MaxValue;
+            if (schema.Minimum.HasValue)
+                min = (decimal)schema.Minimum.Value;
+            if (schema.Maximum.HasValue)
+                max = (decimal)schema.Maximum.Value;
+            return JToken.FromObject(Math.Round(new Random().NextDecimal(min, max), 2));
         }
 
         private static JToken GenerateExampleStringFor(JSchema schema, string name)
