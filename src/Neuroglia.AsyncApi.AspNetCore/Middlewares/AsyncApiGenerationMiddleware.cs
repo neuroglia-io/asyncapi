@@ -20,6 +20,10 @@ using Neuroglia.AsyncApi.Configuration;
 using Neuroglia.AsyncApi.Models;
 using Neuroglia.AsyncApi.Services;
 using System;
+using System.Linq;
+using System.Net;
+using System.Net.Mime;
+using System.Text;
 using System.Threading.Tasks;
 using System.Web;
 
@@ -74,18 +78,86 @@ namespace Neuroglia.AsyncApi.Middlewares
                 return;
             }
             string[] components = context.Request.Path.ToString().Split('/', StringSplitOptions.RemoveEmptyEntries);
-            string documentName = HttpUtility.UrlDecode(components[^2]);
-            string documentVersion = HttpUtility.UrlDecode(components[^1]);
-            AsyncApiDocumentFormat format = context.Request.ContentType switch
+            byte[] contents;
+            string documentName;
+            switch (components.Length)
             {
-                "application/yaml" => AsyncApiDocumentFormat.Yaml,
-                "application/json" => AsyncApiDocumentFormat.Json,
-                _ => AsyncApiDocumentFormat.Yaml
-            };
-            byte[] contents = await this.DocumentProvider.ReadDocumentContentsAsync(documentName, documentVersion, format);
-            context.Response.ContentType = "";
+                case 1:
+                    contents = this.RenderAsyncApiDocumentList();
+                    context.Response.ContentType = MediaTypeNames.Text.Html;
+                    break;
+                case 2:
+                    documentName = HttpUtility.UrlDecode(components[^1]);
+                    IGrouping<string, AsyncApiDocument> versions = this.DocumentProvider.GroupBy(d => d.Info.Title).FirstOrDefault(d => d.Key.Replace(" ", "").Equals(documentName, StringComparison.InvariantCultureIgnoreCase));
+                    if(versions == null)
+                    {
+                        context.Response.StatusCode = (int)HttpStatusCode.NotFound;
+                        context.Response.Body.Close();
+                        return;
+                    }
+                    contents = this.RenderAsyncApiDocumentVersionList(versions);
+                    context.Response.ContentType = MediaTypeNames.Text.Html;
+                    break;
+                case 3:
+                    documentName = HttpUtility.UrlDecode(components[^2]);
+                    string documentVersion = HttpUtility.UrlDecode(components[^1]);
+                    AsyncApiDocumentFormat format = context.Request.ContentType switch
+                    {
+                        "application/yaml" => AsyncApiDocumentFormat.Yaml,
+                        "application/json" => AsyncApiDocumentFormat.Json,
+                        _ => AsyncApiDocumentFormat.Yaml
+                    };
+                    contents = await this.DocumentProvider.ReadDocumentContentsAsync(documentName, documentVersion, format);
+                    context.Response.ContentType = context.Request.ContentType;
+                    break;
+                default:
+                    context.Response.StatusCode = (int)HttpStatusCode.NotFound;
+                    context.Response.Body.Close();
+                    return;
+            }
+
             await context.Response.BodyWriter.WriteAsync(contents);
             context.Response.Body.Close();
+        }
+
+        /// <summary>
+        /// Renders the Async API document list
+        /// </summary>
+        /// <returns>The encoded html of the Async API document list</returns>
+        protected virtual byte[] RenderAsyncApiDocumentList()
+        {
+            string html = $@"<ul>
+{string.Join(Environment.NewLine, this.DocumentProvider.ToList().GroupBy(d => d.Info.Title).Select(dg => @$"    <li>
+        {dg.Key}
+        <ul>
+            {string.Join(Environment.NewLine, dg.Select(d => @$"
+            <li>
+                <a href=""{this.Options.PathPrefix}/{d.Info.Title.ToLower().Replace(" ", "")}/{d.Info.Version}"">{d.Info.Version}</a>
+            </li>"))}
+        </ul>
+    </li>"))}
+</ul>
+";
+            return Encoding.UTF8.GetBytes(html);
+        }
+
+        /// <summary>
+        /// Renders the Async API document version list for the specified <see cref="AsyncApiDocument"/>s 
+        /// </summary>
+        /// <param name="versions">The <see cref="IGrouping{TKey, TElement}"/> of <see cref="AsyncApiDocument"/> versions to render the list for</param>
+        /// <returns>The encoded html of the Async API document version list</returns>
+        protected virtual byte[] RenderAsyncApiDocumentVersionList(IGrouping<string, AsyncApiDocument> versions)
+        {
+            string html = $@"
+{versions.Key}
+<ul>
+    {string.Join(Environment.NewLine, versions.Select(v => @$"
+    <li>
+        <a href=""{this.Options.PathPrefix}/{v.Info.Title.ToLower().Replace(" ", "")}/{v.Info.Version}"">{v.Info.Version}</a>
+    </li>"))}
+</ul>
+";
+            return Encoding.UTF8.GetBytes(html);
         }
 
     }

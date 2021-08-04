@@ -153,6 +153,19 @@
             <param name="context">The current <see cref="T:Microsoft.AspNetCore.Http.HttpContext"/></param>
             <returns>A new awaitable <see cref="T:System.Threading.Tasks.Task"/></returns>
         </member>
+        <member name="M:Neuroglia.AsyncApi.Middlewares.AsyncApiGenerationMiddleware.RenderAsyncApiDocumentList">
+            <summary>
+            Renders the Async API document list
+            </summary>
+            <returns>The encoded html of the Async API document list</returns>
+        </member>
+        <member name="M:Neuroglia.AsyncApi.Middlewares.AsyncApiGenerationMiddleware.RenderAsyncApiDocumentVersionList(System.Linq.IGrouping{System.String,Neuroglia.AsyncApi.Models.AsyncApiDocument})">
+            <summary>
+            Renders the Async API document version list for the specified <see cref="T:Neuroglia.AsyncApi.Models.AsyncApiDocument"/>s 
+            </summary>
+            <param name="versions">The <see cref="T:System.Linq.IGrouping`2"/> of <see cref="T:Neuroglia.AsyncApi.Models.AsyncApiDocument"/> versions to render the list for</param>
+            <returns>The encoded html of the Async API document version list</returns>
+        </member>
         <member name="T:Neuroglia.AsyncApi.Services.AsyncApiDocumentProvider">
             <summary>
             Represents the default implementation of the <see cref="T:Neuroglia.AsyncApi.Services.IAsyncApiDocumentProvider"/> interface

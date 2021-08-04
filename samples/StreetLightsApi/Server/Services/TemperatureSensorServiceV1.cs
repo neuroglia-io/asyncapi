@@ -15,11 +15,11 @@ namespace StreetLightsApi.Server.Services
 {
 
     [AsyncApi("Temperature Sensor API", "1.0.0", Description = "The Temperature Sensor API allows you to get remotely notified about temperature changes captured by sensors.", LicenseName = "Apache 2.0", LicenseUrl = "https://www.apache.org/licenses/LICENSE-2.0")]
-    public class TemperatureSensorService
-        : BackgroundService
+    public class TemperatureSensorServiceV1
+       : BackgroundService
     {
 
-        public TemperatureSensorService(ILogger<TemperatureSensorService> logger, IJsonSerializer serializer)
+        public TemperatureSensorServiceV1(ILogger<TemperatureSensorServiceV1> logger, IJsonSerializer serializer)
         {
             this.Logger = logger;
             this.Serializer = serializer;
@@ -46,7 +46,7 @@ namespace StreetLightsApi.Server.Services
             this.MqttClient.UseApplicationMessageReceivedHandler(async message =>
             {
                 decimal degrees = await this.Serializer.DeserializeAsync<decimal>(Encoding.UTF8.GetString(message.ApplicationMessage.Payload));
-                await this.OnTemperatureChanged(degrees, DateTime.Now);
+                await this.OnTemperatureChanged(degrees);
                 await message.AcknowledgeAsync(stoppingToken);
             });
             await this.MqttClient.SubscribeAsync("OnTemperatureChanged");
@@ -54,9 +54,9 @@ namespace StreetLightsApi.Server.Services
 
         [Tag("temperature", "A tag for temeprature-related operations"), Tag("sensor", "A tag for sensor-related operations")]
         [Channel("temperature/changed"), SubscribeOperation(OperationId = "OnTemperatureChanged", Summary = "Inform about temperature changes captured by sensors")]
-        protected async Task OnTemperatureChanged([Range(-100,100)]decimal degrees, DateTime timestamp)
+        protected async Task OnTemperatureChanged([Range(-100, 100)]decimal degrees)
         {
-            this.Logger.LogInformation($"{timestamp}: {degrees}°");
+            this.Logger.LogInformation($"Temperature is {degrees}° Celsius");
             await Task.CompletedTask;
         }
 
