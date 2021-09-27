@@ -48,12 +48,8 @@ namespace Neuroglia.AsyncApi
             services.AddYamlDotNetSerializer(
                 serializer => serializer
                     .IncludeNonPublicProperties()
-                    .WithTypeConverter(new JTokenSerializer())
                     .WithTypeConverter(new StringEnumSerializer())
-                    .WithTypeConverter(new UriTypeConverter())
-                    .WithEmissionPhaseObjectGraphVisitor(args => new ChainedObjectGraphVisitor(args.InnerVisitor)),
-                deserializer => deserializer
-                    .WithTypeConverter(new UriTypeConverter()));
+                    .WithEmissionPhaseObjectGraphVisitor(args => new ChainedObjectGraphVisitor(args.InnerVisitor)));
             services.AddHttpClient();
             services.TryAddSingleton<IAsyncApiDocumentReader, AsyncApiDocumentReader>();
             services.TryAddSingleton<IAsyncApiDocumentWriter, AsyncApiDocumentWriter>();

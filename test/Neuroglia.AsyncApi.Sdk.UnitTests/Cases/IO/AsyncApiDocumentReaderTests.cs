@@ -34,7 +34,7 @@ namespace Neuroglia.AsyncApi.UnitTests.Cases.IO
         public async Task Read_Yaml_ShouldWork()
         {
             //act
-            var document = await this.Reader.ReadAsync(File.OpenRead(Path.Combine("Resources", "streetlights.yaml")));
+            var document = await this.Reader.ReadAsync(File.OpenRead(Path.Combine("Resources", "email.yaml")));
 
             //assert
             document.Should().NotBeNull();
