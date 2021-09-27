@@ -9,7 +9,7 @@
     <RootNamespace>Neuroglia.AsyncApi</RootNamespace>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
-    <Version>2.1.0.3</Version>
+    <Version>2.1.0.4</Version>
     <Description>A .NET 5.0 library to render and serve AsyncAPI documents generated based on code</Description>
     <PackageLicenseFile>LICENSE</PackageLicenseFile>
     <PackageProjectUrl>https://github.com/neuroglia-io/AsyncApi</PackageProjectUrl>
