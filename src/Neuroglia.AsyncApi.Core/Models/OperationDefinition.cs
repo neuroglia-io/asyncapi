@@ -21,8 +21,8 @@ namespace Neuroglia.AsyncApi.Models
     /// <summary>
     /// Represents an object used to define a Async API operation
     /// </summary>
-    public class Operation
-        : OperationTrait
+    public class OperationDefinition
+        : OperationTraitDefinition
     {
 
         /// <summary>
@@ -31,7 +31,7 @@ namespace Neuroglia.AsyncApi.Models
         [Newtonsoft.Json.JsonProperty("traits")]
         [YamlDotNet.Serialization.YamlMember(Alias = "traits")]
         [System.Text.Json.Serialization.JsonPropertyName("traits")]
-        public virtual List<OperationTrait> Traits { get; set; }
+        public virtual List<OperationTraitDefinition> Traits { get; set; }
 
         /// <summary>
         /// Gets/sets a definition of the message that will be published or received on this channel.
@@ -39,7 +39,7 @@ namespace Neuroglia.AsyncApi.Models
         [Newtonsoft.Json.JsonProperty("message")]
         [YamlDotNet.Serialization.YamlMember(Alias = "message")]
         [System.Text.Json.Serialization.JsonPropertyName("message")]
-        public virtual Message Message { get; set; }
+        public virtual MessageDefinition Message { get; set; }
 
     }
 

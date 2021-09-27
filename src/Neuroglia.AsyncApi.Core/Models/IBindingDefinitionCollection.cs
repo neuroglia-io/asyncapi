@@ -14,23 +14,21 @@
  * limitations under the License.
  *
  */
+using Neuroglia.AsyncApi.Models.Bindings;
+using System.Collections.Generic;
 
 namespace Neuroglia.AsyncApi.Models
 {
     /// <summary>
-    /// Represents the base class for all <see cref="IReferenceable"/> Async API components
+    /// Defines the fundamentals of a collection of <see cref="IBinding"/>s
     /// </summary>
-    public abstract class ReferenceableComponent
-        : IReferenceable
+    /// <typeparam name="TBinding">The type of <see cref="IBinding"/> contained by the <see cref="IBindingDefinitionCollection{TBinding}"/></typeparam>
+    public interface IBindingDefinitionCollection<TBinding>
+        : IReferenceable, IEnumerable<TBinding>
+        where TBinding : IBinding
     {
 
-        /// <summary>
-        /// Gets/sets an an external definition of the <see cref="ReferenceableComponent"/>.
-        /// </summary>
-        [Newtonsoft.Json.JsonProperty("$ref")]
-        [YamlDotNet.Serialization.YamlMember(Alias = "$ref")]
-        [System.Text.Json.Serialization.JsonPropertyName("$ref")]
-        public virtual string Reference { get; set; }
+
 
     }
 

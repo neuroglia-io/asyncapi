@@ -23,8 +23,8 @@ namespace Neuroglia.AsyncApi.Models
     /// <summary>
     /// Represents an object used to define a security scheme
     /// </summary>
-    public class SecurityScheme
-        : ReferenceableComponent
+    public class SecuritySchemeDefinition
+        : ReferenceableComponentDefinition
     {
 
         /// <summary>
@@ -81,7 +81,7 @@ namespace Neuroglia.AsyncApi.Models
         [Newtonsoft.Json.JsonProperty("flows")]
         [YamlDotNet.Serialization.YamlMember(Alias = "flows")]
         [System.Text.Json.Serialization.JsonPropertyName("flows")]
-        public virtual OAuthFlowCollection Flows { get; set; }
+        public virtual OAuthFlowDefinitionCollection Flows { get; set; }
 
         /// <summary>
         /// Gets/sets the OpenId Connect <see cref="Uri"/> to discover OAuth2 configuration values.

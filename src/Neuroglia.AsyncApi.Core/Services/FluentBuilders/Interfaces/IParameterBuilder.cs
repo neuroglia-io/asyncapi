@@ -21,51 +21,51 @@ using System;
 namespace Neuroglia.AsyncApi.Services.FluentBuilders
 {
     /// <summary>
-    /// Defines the fundamentals of the service used to build <see cref="Parameter"/>s
+    /// Defines the fundamentals of the service used to build <see cref="ParameterDefinition"/>s
     /// </summary>
     public interface IParameterBuilder
     {
 
         /// <summary>
-        /// Configures the type of the <see cref="Parameter"/> to build
+        /// Configures the type of the <see cref="ParameterDefinition"/> to build
         /// </summary>
-        /// <typeparam name="TParameter">The type of the <see cref="Parameter"/> to build</typeparam>
+        /// <typeparam name="TParameter">The type of the <see cref="ParameterDefinition"/> to build</typeparam>
         /// <returns>The configured <see cref="IParameterBuilder"/></returns>
         IParameterBuilder OfType<TParameter>();
 
         /// <summary>
-        /// Configures the type of the <see cref="Parameter"/> to build
+        /// Configures the type of the <see cref="ParameterDefinition"/> to build
         /// </summary>
-        /// <param name="parameterType">The type of the <see cref="Parameter"/> to build</param>
+        /// <param name="parameterType">The type of the <see cref="ParameterDefinition"/> to build</param>
         /// <returns>The configured <see cref="IParameterBuilder"/></returns>
         IParameterBuilder OfType(Type parameterType);
 
         /// <summary>
-        /// Configures the <see cref="JSchema"/> of the <see cref="Parameter"/> to build
+        /// Configures the <see cref="JSchema"/> of the <see cref="ParameterDefinition"/> to build
         /// </summary>
-        /// <param name="schema">The <see cref="JSchema"/> of the <see cref="Parameter"/> to build</param>
+        /// <param name="schema">The <see cref="JSchema"/> of the <see cref="ParameterDefinition"/> to build</param>
         /// <returns>The configured <see cref="IParameterBuilder"/></returns>
         IParameterBuilder WithSchema(JSchema schema);
 
         /// <summary>
-        /// Configures the <see cref="Parameter"/> to build to use the specified description
+        /// Configures the <see cref="ParameterDefinition"/> to build to use the specified description
         /// </summary>
         /// <param name="description">The description to use</param>
         /// <returns>The configured <see cref="IParameterBuilder"/></returns>
         IParameterBuilder WithDescription(string description);
 
         /// <summary>
-        /// Sets the location of the <see cref="Parameter"/> to build
+        /// Sets the location of the <see cref="ParameterDefinition"/> to build
         /// </summary>
         /// <param name="location">A runtime expression that specifies the location of the parameter value</param>
         /// <returns>The configured <see cref="IParameterBuilder"/></returns>
         IParameterBuilder AtLocation(string location);
 
         /// <summary>
-        /// Builds a new <see cref="Parameter"/>
+        /// Builds a new <see cref="ParameterDefinition"/>
         /// </summary>
-        /// <returns>A new <see cref="Parameter"/></returns>
-        Parameter Build();
+        /// <returns>A new <see cref="ParameterDefinition"/></returns>
+        ParameterDefinition Build();
 
     }
 

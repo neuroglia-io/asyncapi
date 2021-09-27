@@ -22,7 +22,7 @@ namespace Neuroglia.AsyncApi.Models
     /// <summary>
     /// Represents an object used to define a tag assigned to an Async API component
     /// </summary>
-    public class Tag
+    public class TagDefinition
     {
 
         /// <summary>
@@ -48,7 +48,7 @@ namespace Neuroglia.AsyncApi.Models
         [Newtonsoft.Json.JsonProperty("externalDocs")]
         [YamlDotNet.Serialization.YamlMember(Alias = "externalDocs")]
         [System.Text.Json.Serialization.JsonPropertyName("externalDocs")]
-        public virtual List<ExternalDocumentation> ExternalDocs { get; set; }
+        public virtual List<ExternalDocumentationDefinition> ExternalDocs { get; set; }
 
         /// <inheritdoc/>
         public override string ToString()

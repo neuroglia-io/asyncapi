@@ -30,10 +30,10 @@ namespace Neuroglia.AsyncApi.Models
 {
 
     /// <summary>
-    /// Represents the object used to configure a <see cref="Channel"/>'s <see cref="IChannelBinding"/>s
+    /// Represents the object used to configure a <see cref="ChannelDefinition"/>'s <see cref="IChannelBinding"/>s
     /// </summary>
-    public class ChannelBindingCollection
-        : BindingCollection<IChannelBinding>, IEnumerable<IChannelBinding>
+    public class ChannelBindingDefinitionCollection
+        : BindingDefinitionCollection<IChannelBinding>, IEnumerable<IChannelBinding>
     {
 
         /// <summary>

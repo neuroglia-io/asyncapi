@@ -29,10 +29,10 @@ using System.Collections.Generic;
 namespace Neuroglia.AsyncApi.Models
 {
     /// <summary>
-    /// Represents the object used to configure a <see cref="Message"/>'s <see cref="IMessageBinding"/>s
+    /// Represents the object used to configure a <see cref="MessageDefinition"/>'s <see cref="IMessageBinding"/>s
     /// </summary>
     public class MessageBindingCollection
-        : BindingCollection<IMessageBinding>, IEnumerable<IMessageBinding>
+        : BindingDefinitionCollection<IMessageBinding>, IEnumerable<IMessageBinding>
     {
 
         /// <summary>

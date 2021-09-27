@@ -4,10 +4,10 @@ using Neuroglia.AsyncApi.Models;
 namespace Neuroglia.AsyncApi.Services.Validation
 {
     /// <summary>
-    /// Represents the service used to validate <see cref="Channel"/>s
+    /// Represents the service used to validate <see cref="ChannelDefinition"/>s
     /// </summary>
     public class ChannelValidator
-        : AbstractValidator<Channel>
+        : AbstractValidator<ChannelDefinition>
     {
 
         /// <summary>

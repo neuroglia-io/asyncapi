@@ -5,10 +5,10 @@ namespace Neuroglia.AsyncApi.Services.Validation
 {
 
     /// <summary>
-    /// Represents the service used to validate <see cref="MessageTrait"/>s
+    /// Represents the service used to validate <see cref="MessageTraitDefinition"/>s
     /// </summary>
     public class MessageTraitValidator
-        : AbstractValidator<MessageTrait>
+        : AbstractValidator<MessageTraitDefinition>
     {
 
         /// <summary>

@@ -21,27 +21,27 @@ namespace Neuroglia.AsyncApi.Services.FluentBuilders
 {
 
     /// <summary>
-    /// Defines the fundamentals of a service used to build <see cref="Tag"/>s
+    /// Defines the fundamentals of a service used to build <see cref="TagDefinition"/>s
     /// </summary>
     public interface ITagBuilder
     {
 
         /// <summary>
-        /// Configures the <see cref="Tag"/> to use the specified name
+        /// Configures the <see cref="TagDefinition"/> to use the specified name
         /// </summary>
         /// <param name="name">The name to use</param>
         /// <returns>The configured <see cref="ITagBuilder"/></returns>
         ITagBuilder WithName(string name);
 
         /// <summary>
-        /// Configures the <see cref="Tag"/> to use the specified description
+        /// Configures the <see cref="TagDefinition"/> to use the specified description
         /// </summary>
         /// <param name="description">The description to use</param>
         /// <returns>The configured <see cref="ITagBuilder"/></returns>
         ITagBuilder WithDescription(string description);
 
         /// <summary>
-        /// Adds the specified external documentation to the <see cref="Tag"/> to build
+        /// Adds the specified external documentation to the <see cref="TagDefinition"/> to build
         /// </summary>
         /// <param name="uri">The <see cref="Uri"/> to the documentation to add</param>
         /// <param name="description">The description of the documentation to add</param>
@@ -49,10 +49,10 @@ namespace Neuroglia.AsyncApi.Services.FluentBuilders
         ITagBuilder DocumentWith(Uri uri, string description = null);
 
         /// <summary>
-        /// Builds a new <see cref="Tag"/>
+        /// Builds a new <see cref="TagDefinition"/>
         /// </summary>
-        /// <returns>A new <see cref="Tag"/></returns>
-        Tag Build();
+        /// <returns>A new <see cref="TagDefinition"/></returns>
+        TagDefinition Build();
 
     }
 

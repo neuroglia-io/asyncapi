@@ -37,8 +37,8 @@ namespace Neuroglia.AsyncApi.Services.FluentBuilders
         /// Initializes a new <see cref="ServerBuilder"/>
         /// </summary>
         /// <param name="serviceProvider">The current <see cref="IServiceProvider"/></param>
-        /// <param name="validators">The services used to validate <see cref="Models.Server"/>s</param>
-        public ServerBuilder(IServiceProvider serviceProvider, IEnumerable<IValidator<Server>> validators)
+        /// <param name="validators">The services used to validate <see cref="Models.ServerDefinition"/>s</param>
+        public ServerBuilder(IServiceProvider serviceProvider, IEnumerable<IValidator<ServerDefinition>> validators)
         {
             this.ServiceProvider = serviceProvider;
             this.Validators = validators;
@@ -50,14 +50,14 @@ namespace Neuroglia.AsyncApi.Services.FluentBuilders
         protected virtual IServiceProvider ServiceProvider { get; }
 
         /// <summary>
-        /// Gets the services used to validate <see cref="Models.Server"/>s
+        /// Gets the services used to validate <see cref="Models.ServerDefinition"/>s
         /// </summary>
-        protected virtual IEnumerable<IValidator<Server>> Validators { get; }
+        protected virtual IEnumerable<IValidator<ServerDefinition>> Validators { get; }
 
         /// <summary>
-        /// Gets the <see cref="Models.Server"/> to configure
+        /// Gets the <see cref="Models.ServerDefinition"/> to configure
         /// </summary>
-        protected virtual Server Server { get; } = new();
+        protected virtual ServerDefinition Server { get; } = new();
 
         /// <inheritdoc/>
         public virtual IServerBuilder WithUrl(Uri uri)
@@ -115,7 +115,7 @@ namespace Neuroglia.AsyncApi.Services.FluentBuilders
         }
 
         /// <inheritdoc/>
-        public virtual Server Build()
+        public virtual ServerDefinition Build()
         {
             IEnumerable<ValidationResult> validationResults = this.Validators.Select(v => v.Validate(this.Server));
             if (!validationResults.All(r => r.IsValid))

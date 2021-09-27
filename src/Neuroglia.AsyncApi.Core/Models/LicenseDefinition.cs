@@ -19,23 +19,23 @@ using System.ComponentModel.DataAnnotations;
 
 namespace Neuroglia.AsyncApi.Models
 {
-
     /// <summary>
-    /// Represents an object used to define a reference to an external documentation
+    /// Represents an object used to provide license information for the exposed API
     /// </summary>
-    public class ExternalDocumentation
+    public class LicenseDefinition
     {
 
         /// <summary>
-        /// Gets/sets an optional description of this documentation. <see href="https://spec.commonmark.org/">CommonMark</see> syntax can be used for rich text representation.
+        /// Gets/sets the license name used for the API.
         /// </summary>
-        [Newtonsoft.Json.JsonProperty("description")]
-        [YamlDotNet.Serialization.YamlMember(Alias = "description")]
-        [System.Text.Json.Serialization.JsonPropertyName("description")]
-        public virtual string Description { get; set; }
+        [Required]
+        [Newtonsoft.Json.JsonProperty("name")]
+        [YamlDotNet.Serialization.YamlMember(Alias = "name")]
+        [System.Text.Json.Serialization.JsonPropertyName("name")]
+        public virtual string Name { get; set; }
 
         /// <summary>
-        /// Gets/sets the <see cref="Uri"/> for the target documentation.
+        /// Gets/sets the <see cref="Uri"/> to the license used for the API.
         /// </summary>
         [Required]
         [Newtonsoft.Json.JsonProperty("url")]
@@ -46,7 +46,7 @@ namespace Neuroglia.AsyncApi.Models
         /// <inheritdoc/>
         public override string ToString()
         {
-            return this.Url.ToString();
+            return this.Name;
         }
 
     }

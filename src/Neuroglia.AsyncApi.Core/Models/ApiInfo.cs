@@ -66,7 +66,7 @@ namespace Neuroglia.AsyncApi.Models
         [Newtonsoft.Json.JsonProperty("contact")]
         [YamlDotNet.Serialization.YamlMember(Alias = "contact")]
         [System.Text.Json.Serialization.JsonPropertyName("contact")]
-        public virtual Contact Contact { get; set; }
+        public virtual ContactDefinition Contact { get; set; }
 
         /// <summary>
         /// Gets/sets the license information for the exposed API.
@@ -74,7 +74,7 @@ namespace Neuroglia.AsyncApi.Models
         [Newtonsoft.Json.JsonProperty("license")]
         [YamlDotNet.Serialization.YamlMember(Alias = "license")]
         [System.Text.Json.Serialization.JsonPropertyName("license")]
-        public virtual License License { get; set; }
+        public virtual LicenseDefinition License { get; set; }
 
         /// <inheritdoc/>
         public override string ToString()

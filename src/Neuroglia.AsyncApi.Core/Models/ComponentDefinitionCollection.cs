@@ -24,7 +24,7 @@ namespace Neuroglia.AsyncApi.Models
     /// Represents a set of reusable objects for different aspects of the AsyncAPI specification. 
     /// All objects defined within the components object will have no effect on the API unless they are explicitly referenced from properties outside the components object.
     /// </summary>
-    public class ComponentCollection
+    public class ComponentDefinitionCollection
     {
 
         /// <summary>
@@ -36,76 +36,76 @@ namespace Neuroglia.AsyncApi.Models
         public virtual Dictionary<string, JSchema> Schemas { get; set; }
 
         /// <summary>
-        /// Gets/sets a <see cref="Dictionary{TKey, TValue}"/> used to hold reusable <see cref="Message"/>s
+        /// Gets/sets a <see cref="Dictionary{TKey, TValue}"/> used to hold reusable <see cref="MessageDefinition"/>s
         /// </summary>
         [Newtonsoft.Json.JsonProperty("messages")]
         [YamlDotNet.Serialization.YamlMember(Alias = "messages")]
         [System.Text.Json.Serialization.JsonPropertyName("messages")]
-        public virtual Dictionary<string, Message> Messages { get; set; }
+        public virtual Dictionary<string, MessageDefinition> Messages { get; set; }
 
         /// <summary>
-        /// Gets/sets a <see cref="Dictionary{TKey, TValue}"/> used to hold reusable <see cref="SecurityScheme"/>s
+        /// Gets/sets a <see cref="Dictionary{TKey, TValue}"/> used to hold reusable <see cref="SecuritySchemeDefinition"/>s
         /// </summary>
         [Newtonsoft.Json.JsonProperty("securitySchemes")]
         [YamlDotNet.Serialization.YamlMember(Alias = "securitySchemes")]
         [System.Text.Json.Serialization.JsonPropertyName("securitySchemes")]
-        public virtual Dictionary<string, SecurityScheme> SecuritySchemes { get; set; }
+        public virtual Dictionary<string, SecuritySchemeDefinition> SecuritySchemes { get; set; }
 
         /// <summary>
-        /// Gets/sets a <see cref="Dictionary{TKey, TValue}"/> used to hold reusable <see cref="Parameter"/>s
+        /// Gets/sets a <see cref="Dictionary{TKey, TValue}"/> used to hold reusable <see cref="ParameterDefinition"/>s
         /// </summary>
         [Newtonsoft.Json.JsonProperty("parameters")]
         [YamlDotNet.Serialization.YamlMember(Alias = "parameters")]
         [System.Text.Json.Serialization.JsonPropertyName("parameters")]
-        public virtual Dictionary<string, Parameter> Parameters { get; set; }
+        public virtual Dictionary<string, ParameterDefinition> Parameters { get; set; }
 
         /// <summary>
-        /// Gets/sets a <see cref="Dictionary{TKey, TValue}"/> used to hold reusable <see cref="CorrelationId"/>s
+        /// Gets/sets a <see cref="Dictionary{TKey, TValue}"/> used to hold reusable <see cref="CorrelationIdDefinition"/>s
         /// </summary>
         [Newtonsoft.Json.JsonProperty("correlationIds")]
         [YamlDotNet.Serialization.YamlMember(Alias = "correlationIds")]
         [System.Text.Json.Serialization.JsonPropertyName("correlationIds")]
-        public virtual Dictionary<string, CorrelationId> CorrelationIds { get; set; }
+        public virtual Dictionary<string, CorrelationIdDefinition> CorrelationIds { get; set; }
 
         /// <summary>
-        /// Gets/sets a <see cref="Dictionary{TKey, TValue}"/> used to hold reusable <see cref="OperationTrait"/>s
+        /// Gets/sets a <see cref="Dictionary{TKey, TValue}"/> used to hold reusable <see cref="OperationTraitDefinition"/>s
         /// </summary>
         [Newtonsoft.Json.JsonProperty("operationTraits")]
         [YamlDotNet.Serialization.YamlMember(Alias = "operationTraits")]
         [System.Text.Json.Serialization.JsonPropertyName("operationTraits")]
-        public virtual Dictionary<string, OperationTrait> OperationTraits { get; set; }
+        public virtual Dictionary<string, OperationTraitDefinition> OperationTraits { get; set; }
 
         /// <summary>
-        /// Gets/sets a <see cref="Dictionary{TKey, TValue}"/> used to hold reusable <see cref="MessageTrait"/>s
+        /// Gets/sets a <see cref="Dictionary{TKey, TValue}"/> used to hold reusable <see cref="MessageTraitDefinition"/>s
         /// </summary>
         [Newtonsoft.Json.JsonProperty("messageTraits")]
         [YamlDotNet.Serialization.YamlMember(Alias = "messageTraits")]
         [System.Text.Json.Serialization.JsonPropertyName("messageTraits")]
-        public virtual Dictionary<string, MessageTrait> MessageTraits { get; set; }
+        public virtual Dictionary<string, MessageTraitDefinition> MessageTraits { get; set; }
 
         /// <summary>
-        /// Gets/sets a <see cref="Dictionary{TKey, TValue}"/> used to hold reusable <see cref="ServerBindingCollection"/>s
+        /// Gets/sets a <see cref="Dictionary{TKey, TValue}"/> used to hold reusable <see cref="ServerBindingDefinitionCollection"/>s
         /// </summary>
         [Newtonsoft.Json.JsonProperty("serverBindings")]
         [YamlDotNet.Serialization.YamlMember(Alias = "serverBindings")]
         [System.Text.Json.Serialization.JsonPropertyName("serverBindings")]
-        public virtual Dictionary<string, ServerBindingCollection> ServerBindings { get; set; }
+        public virtual Dictionary<string, ServerBindingDefinitionCollection> ServerBindings { get; set; }
 
         /// <summary>
-        /// Gets/sets a <see cref="Dictionary{TKey, TValue}"/> used to hold reusable <see cref="ChannelBindingCollection"/>s
+        /// Gets/sets a <see cref="Dictionary{TKey, TValue}"/> used to hold reusable <see cref="ChannelBindingDefinitionCollection"/>s
         /// </summary>
         [Newtonsoft.Json.JsonProperty("channelBindings")]
         [YamlDotNet.Serialization.YamlMember(Alias = "channelBindings")]
         [System.Text.Json.Serialization.JsonPropertyName("channelBindings")]
-        public virtual Dictionary<string, ChannelBindingCollection> ChannelBindings { get; set; }
+        public virtual Dictionary<string, ChannelBindingDefinitionCollection> ChannelBindings { get; set; }
 
         /// <summary>
-        /// Gets/sets a <see cref="Dictionary{TKey, TValue}"/> used to hold reusable <see cref="OperationBindingCollection"/>s
+        /// Gets/sets a <see cref="Dictionary{TKey, TValue}"/> used to hold reusable <see cref="OperationBindingDefinitionCollection"/>s
         /// </summary>
         [Newtonsoft.Json.JsonProperty("operationBindings")]
         [YamlDotNet.Serialization.YamlMember(Alias = "operationBindings")]
         [System.Text.Json.Serialization.JsonPropertyName("operationBindings")]
-        public virtual Dictionary<string, OperationBindingCollection> OperationBindings { get; set; }
+        public virtual Dictionary<string, OperationBindingDefinitionCollection> OperationBindings { get; set; }
 
         /// <summary>
         /// Gets/sets a <see cref="Dictionary{TKey, TValue}"/> used to hold reusable <see cref="MessageBindingCollection"/>s

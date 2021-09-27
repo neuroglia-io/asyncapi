@@ -36,8 +36,8 @@ namespace Neuroglia.AsyncApi.Services.FluentBuilders
         /// Initializes a new <see cref="ParameterBuilder"/>
         /// </summary>
         /// <param name="serviceProvider">The current <see cref="IServiceProvider"/></param>
-        /// <param name="validators">The services used to validate <see cref="Models.Parameter"/>s</param>
-        public ParameterBuilder(IServiceProvider serviceProvider, IEnumerable<IValidator<Parameter>> validators)
+        /// <param name="validators">The services used to validate <see cref="Models.ParameterDefinition"/>s</param>
+        public ParameterBuilder(IServiceProvider serviceProvider, IEnumerable<IValidator<ParameterDefinition>> validators)
         {
             this.ServiceProvider = serviceProvider;
             this.Validators = validators;
@@ -49,14 +49,14 @@ namespace Neuroglia.AsyncApi.Services.FluentBuilders
         protected virtual IServiceProvider ServiceProvider { get; }
 
         /// <summary>
-        /// Gets the services used to validate <see cref="Models.Parameter"/>s
+        /// Gets the services used to validate <see cref="Models.ParameterDefinition"/>s
         /// </summary>
-        protected virtual IEnumerable<IValidator<Parameter>> Validators { get; }
+        protected virtual IEnumerable<IValidator<ParameterDefinition>> Validators { get; }
 
         /// <summary>
-        /// Gets the <see cref="Models.Parameter"/> to configure
+        /// Gets the <see cref="Models.ParameterDefinition"/> to configure
         /// </summary>
-        protected virtual Parameter Parameter { get; } = new();
+        protected virtual ParameterDefinition Parameter { get; } = new();
 
         /// <inheritdoc/>
         public virtual IParameterBuilder OfType<TParameter>()
@@ -96,7 +96,7 @@ namespace Neuroglia.AsyncApi.Services.FluentBuilders
         }
 
         /// <inheritdoc/>
-        public virtual Parameter Build()
+        public virtual ParameterDefinition Build()
         {
             IEnumerable<ValidationResult> validationResults = this.Validators.Select(v => v.Validate(this.Parameter));
             if (!validationResults.All(r => r.IsValid))

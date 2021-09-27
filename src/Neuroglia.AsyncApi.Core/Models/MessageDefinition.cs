@@ -22,12 +22,12 @@ namespace Neuroglia.AsyncApi.Models
     /// <summary>
     /// Represents an object used to define a Async API operation message
     /// </summary>
-    public class Message
-        : MessageTrait
+    public class MessageDefinition
+        : MessageTraitDefinition
     {
 
         /// <summary>
-        /// Gets/sets the definition of the message payload. It can be of any type but defaults to Schema object. It must match the <see cref="MessageTrait.SchemaFormat"/>, including encoding type - e.g Avro should be inlined as either a YAML or JSON object NOT a string to be parsed as YAML or JSON.
+        /// Gets/sets the definition of the message payload. It can be of any type but defaults to Schema object. It must match the <see cref="MessageTraitDefinition.SchemaFormat"/>, including encoding type - e.g Avro should be inlined as either a YAML or JSON object NOT a string to be parsed as YAML or JSON.
         /// </summary>
         [Newtonsoft.Json.JsonProperty("payload")]
         [YamlDotNet.Serialization.YamlMember(Alias = "payload")]
@@ -40,7 +40,7 @@ namespace Neuroglia.AsyncApi.Models
         [Newtonsoft.Json.JsonProperty("traits")]
         [YamlDotNet.Serialization.YamlMember(Alias = "traits")]
         [System.Text.Json.Serialization.JsonPropertyName("traits")]
-        public virtual List<MessageTrait> Traits { get; set; }
+        public virtual List<MessageTraitDefinition> Traits { get; set; }
 
     }
 

@@ -26,15 +26,15 @@ namespace Neuroglia.AsyncApi.Services.FluentBuilders
     /// Represents the base class for all <see cref="IOperationBuilder"/> implementations
     /// </summary>
     public class OperationBuilder
-        : OperationTraitBuilder<IOperationBuilder, Operation>, IOperationBuilder
+        : OperationTraitBuilder<IOperationBuilder, OperationDefinition>, IOperationBuilder
     {
 
         /// <summary>
         /// Initializes a new <see cref="OperationBuilder"/>
         /// </summary>
         /// <param name="serviceProvider">The current <see cref="IServiceProvider"/></param>
-        /// <param name="validators">An <see cref="IEnumerable{T}"/> containing the services used to validate <see cref="OperationTrait"/>s</param>
-        public OperationBuilder(IServiceProvider serviceProvider, IEnumerable<IValidator<OperationTrait>> validators)
+        /// <param name="validators">An <see cref="IEnumerable{T}"/> containing the services used to validate <see cref="OperationTraitDefinition"/>s</param>
+        public OperationBuilder(IServiceProvider serviceProvider, IEnumerable<IValidator<OperationTraitDefinition>> validators)
             : base(serviceProvider, validators)
         {
 

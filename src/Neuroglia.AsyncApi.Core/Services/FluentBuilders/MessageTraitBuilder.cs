@@ -33,18 +33,18 @@ namespace Neuroglia.AsyncApi.Services.FluentBuilders
     /// Represents the base class for all <see cref="IMessageTraitBuilder{TBuilder, TTrait}"/> implementations
     /// </summary>
     /// <typeparam name="TBuilder">The type of <see cref="IMessageTraitBuilder{TBuilder, TTrait}"/> to return for chaining purposes</typeparam>
-    /// <typeparam name="TTrait">The type of <see cref="MessageTrait"/> to build</typeparam>
+    /// <typeparam name="TTrait">The type of <see cref="MessageTraitDefinition"/> to build</typeparam>
     public abstract class MessageTraitBuilder<TBuilder, TTrait>
         : IMessageTraitBuilder<TBuilder, TTrait>
         where TBuilder : IMessageTraitBuilder<TBuilder, TTrait>
-        where TTrait : MessageTrait, new()
+        where TTrait : MessageTraitDefinition, new()
     {
 
         /// <summary>
         /// Initializes a new <see cref="MessageTraitBuilder{TBuilder, TTrait}"/>
         /// </summary>
         /// <param name="serviceProvider">The current <see cref="IServiceProvider"/></param>
-        /// <param name="validators">An <see cref="IEnumerable{T}"/> containing the services used to validate <see cref="MessageTrait"/>s</param>
+        /// <param name="validators">An <see cref="IEnumerable{T}"/> containing the services used to validate <see cref="MessageTraitDefinition"/>s</param>
         protected MessageTraitBuilder(IServiceProvider serviceProvider, IEnumerable<IValidator<TTrait>> validators)
         {
             this.ServiceProvider = serviceProvider;
@@ -57,12 +57,12 @@ namespace Neuroglia.AsyncApi.Services.FluentBuilders
         protected IServiceProvider ServiceProvider { get; }
 
         /// <summary>
-        /// Gets an <see cref="IEnumerable{T}"/> containing the services used to validate <see cref="MessageTrait"/>s
+        /// Gets an <see cref="IEnumerable{T}"/> containing the services used to validate <see cref="MessageTraitDefinition"/>s
         /// </summary>
         protected IEnumerable<IValidator<TTrait>> Validators { get; }
 
         /// <summary>
-        /// Gets the <see cref="MessageTrait"/> to configure
+        /// Gets the <see cref="MessageTraitDefinition"/> to configure
         /// </summary>
         protected virtual TTrait Trait { get; } = new();
 
@@ -86,7 +86,7 @@ namespace Neuroglia.AsyncApi.Services.FluentBuilders
                 throw new ArgumentNullException(nameof(uri));
             if (this.Trait.ExternalDocs == null)
                 this.Trait.ExternalDocs = new();
-            this.Trait.ExternalDocs.Add(new ExternalDocumentation() { Url = uri, Description = description });
+            this.Trait.ExternalDocs.Add(new ExternalDocumentationDefinition() { Url = uri, Description = description });
             return (TBuilder)(object)this;
         }
 
@@ -202,15 +202,15 @@ namespace Neuroglia.AsyncApi.Services.FluentBuilders
     /// Represents the default implementation of the <see cref="IMessageTraitBuilder"/> interface
     /// </summary>
     public class MessageTraitBuilder
-        : MessageTraitBuilder<IMessageTraitBuilder, MessageTrait>, IMessageTraitBuilder
+        : MessageTraitBuilder<IMessageTraitBuilder, MessageTraitDefinition>, IMessageTraitBuilder
     {
 
         /// <summary>
         /// Initializes a new <see cref="MessageTraitBuilder"/>
         /// </summary>
         /// <param name="serviceProvider">The current <see cref="IServiceProvider"/></param>
-        /// <param name="validators">An <see cref="IEnumerable{T}"/> containing the services used to validate <see cref="MessageTrait"/>s</param>
-        public MessageTraitBuilder(IServiceProvider serviceProvider, IEnumerable<IValidator<MessageTrait>> validators) 
+        /// <param name="validators">An <see cref="IEnumerable{T}"/> containing the services used to validate <see cref="MessageTraitDefinition"/>s</param>
+        public MessageTraitBuilder(IServiceProvider serviceProvider, IEnumerable<IValidator<MessageTraitDefinition>> validators) 
             : base(serviceProvider, validators)
         {
 

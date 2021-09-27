@@ -22,60 +22,60 @@ namespace Neuroglia.AsyncApi.Services.FluentBuilders
 {
 
     /// <summary>
-    /// Defines the fundamentals of a service used to build <see cref="Channel"/>s
+    /// Defines the fundamentals of a service used to build <see cref="ChannelDefinition"/>s
     /// </summary>
     public interface IChannelBuilder
     {
 
         /// <summary>
-        /// Configures the <see cref="Channel"/> to build to use the specified description
+        /// Configures the <see cref="ChannelDefinition"/> to build to use the specified description
         /// </summary>
-        /// <param name="description">The <see cref="Channel"/>'s description</param>
+        /// <param name="description">The <see cref="ChannelDefinition"/>'s description</param>
         /// <returns>The configured <see cref="IChannelBuilder"/></returns>
         IChannelBuilder WithDescription(string description);
 
         /// <summary>
-        /// Adds a new <see cref="Parameter"/> to the <see cref="Channel"/> to build
+        /// Adds a new <see cref="ParameterDefinition"/> to the <see cref="ChannelDefinition"/> to build
         /// </summary>
-        /// <param name="name">The name of the <see cref="Parameter"/> to add</param>
-        /// <param name="setup">An <see cref="Action{T}"/> used to setup the <see cref="Parameter"/> to add</param>
+        /// <param name="name">The name of the <see cref="ParameterDefinition"/> to add</param>
+        /// <param name="setup">An <see cref="Action{T}"/> used to setup the <see cref="ParameterDefinition"/> to add</param>
         /// <returns>The configured <see cref="IChannelBuilder"/></returns>
         IChannelBuilder AddParameter(string name, Action<IParameterBuilder> setup);
 
         /// <summary>
-        /// Adds the specified <see cref="IChannelBinding"/> to the <see cref="Channel"/> to build
+        /// Adds the specified <see cref="IChannelBinding"/> to the <see cref="ChannelDefinition"/> to build
         /// </summary>
         /// <param name="binding">The <see cref="IChannelBinding"/> to add</param>
         /// <returns>The configured <see cref="IChannelBuilder"/></returns>
         IChannelBuilder UseBinding(IChannelBinding binding);
 
         /// <summary>
-        /// Defines and configures an operation of the <see cref="Channel"/> to build
+        /// Defines and configures an operation of the <see cref="ChannelDefinition"/> to build
         /// </summary>
-        /// <param name="type">The <see cref="Operation"/>'s type</param>
-        /// <param name="setup">An <see cref="Action{T}"/> used to setup the Subscribe <see cref="Operation"/></param>
+        /// <param name="type">The <see cref="OperationDefinition"/>'s type</param>
+        /// <param name="setup">An <see cref="Action{T}"/> used to setup the Subscribe <see cref="OperationDefinition"/></param>
         /// <returns>The configured <see cref="IChannelBuilder"/></returns>
         IChannelBuilder DefineOperation(OperationType type, Action<IOperationBuilder> setup);
 
         /// <summary>
-        /// Defines and configures the Subscribe operation of the <see cref="Channel"/> to build
+        /// Defines and configures the Subscribe operation of the <see cref="ChannelDefinition"/> to build
         /// </summary>
-        /// <param name="setup">An <see cref="Action{T}"/> used to setup the Subscribe <see cref="Operation"/></param>
+        /// <param name="setup">An <see cref="Action{T}"/> used to setup the Subscribe <see cref="OperationDefinition"/></param>
         /// <returns>The configured <see cref="IChannelBuilder"/></returns>
         IChannelBuilder DefineSubscribeOperation(Action<IOperationBuilder> setup);
 
         /// <summary>
-        /// Defines and configures the Publish operation of the <see cref="Channel"/> to build
+        /// Defines and configures the Publish operation of the <see cref="ChannelDefinition"/> to build
         /// </summary>
-        /// <param name="setup">An <see cref="Action{T}"/> used to setup the Publish <see cref="Operation"/></param>
+        /// <param name="setup">An <see cref="Action{T}"/> used to setup the Publish <see cref="OperationDefinition"/></param>
         /// <returns>The configured <see cref="IChannelBuilder"/></returns>
         IChannelBuilder DefinePublishOperation(Action<IOperationBuilder> setup);
 
         /// <summary>
-        /// Builds a new <see cref="Channel"/>
+        /// Builds a new <see cref="ChannelDefinition"/>
         /// </summary>
-        /// <returns>A new <see cref="Channel"/></returns>
-        Channel Build();
+        /// <returns>A new <see cref="ChannelDefinition"/></returns>
+        ChannelDefinition Build();
 
     }
 

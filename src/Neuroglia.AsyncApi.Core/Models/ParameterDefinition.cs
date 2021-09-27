@@ -14,19 +14,21 @@
  * limitations under the License.
  *
  */
+using Newtonsoft.Json.Schema;
 using System.ComponentModel.DataAnnotations;
 
 namespace Neuroglia.AsyncApi.Models
 {
+
     /// <summary>
-    /// Represents an object used to define an Async API correlation ID
+    /// Represents an object used to define an Async API parameter
     /// </summary>
-    public class CorrelationId
-        : ReferenceableComponent
+    public class ParameterDefinition
+        : ReferenceableComponentDefinition
     {
 
         /// <summary>
-        /// Gets/sets a short description of the application. <see href="https://spec.commonmark.org/">CommonMark</see> syntax can be used for rich text representation.
+        /// Gets/sets a short description of the parameter. <see href="https://spec.commonmark.org/">CommonMark</see> syntax can be used for rich text representation.
         /// </summary>
         [Newtonsoft.Json.JsonProperty("description")]
         [YamlDotNet.Serialization.YamlMember(Alias = "description")]
@@ -34,13 +36,28 @@ namespace Neuroglia.AsyncApi.Models
         public virtual string Description { get; set; }
 
         /// <summary>
-        /// Gets/sets a runtime expression that specifies the location of the correlation ID.
+        /// Gets/sets the <see cref="ParameterDefinition"/>'s <see cref="JSchema"/>
+        /// </summary>
+        [Newtonsoft.Json.JsonProperty("schema")]
+        [YamlDotNet.Serialization.YamlMember(Alias = "schema")]
+        [System.Text.Json.Serialization.JsonPropertyName("schema")]
+        public virtual JSchema Schema { get; set; }
+
+        /// <summary>
+        /// Gets/sets a runtime expression that specifies the location of the parameter value. 
+        /// Even when a definition for the target field exists, it MUST NOT be used to validate this parameter but, instead, the <see cref="Schema"/> property MUST be used.
         /// </summary>
         [Required]
         [Newtonsoft.Json.JsonProperty("location")]
         [YamlDotNet.Serialization.YamlMember(Alias = "location")]
         [System.Text.Json.Serialization.JsonPropertyName("location")]
         public virtual string Location { get; set; }
+
+        /// <inheritdoc/>
+        public override string ToString()
+        {
+            return this.Location;
+        }
 
     }
 

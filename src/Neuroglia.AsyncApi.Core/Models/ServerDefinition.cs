@@ -30,7 +30,7 @@ namespace Neuroglia.AsyncApi.Models
     /// This object is used to capture details such as URIs, protocols and security configuration. 
     /// Variable substitution can be used so that some details, for example usernames and passwords, can be injected by code generation tools.
     /// </remarks>
-    public class Server
+    public class ServerDefinition
     {
 
         /// <summary>
@@ -75,7 +75,7 @@ namespace Neuroglia.AsyncApi.Models
         [Newtonsoft.Json.JsonProperty("variables")]
         [YamlDotNet.Serialization.YamlMember(Alias = "variables")]
         [System.Text.Json.Serialization.JsonPropertyName("variables")]
-        public virtual Dictionary<string, Variable> Variables { get; set; }
+        public virtual Dictionary<string, VariableDefinition> Variables { get; set; }
 
         /// <summary>
         /// Gets/sets an <see cref="IList{T}"/> of values that represent alternative security requirement objects that can be used. 
@@ -87,12 +87,12 @@ namespace Neuroglia.AsyncApi.Models
         public virtual Dictionary<string, JObject> Security { get; set; }
 
         /// <summary>
-        /// Gets/sets an object used to configure the <see cref="Server"/>'s <see cref="IServerBinding"/>s
+        /// Gets/sets an object used to configure the <see cref="ServerDefinition"/>'s <see cref="IServerBinding"/>s
         /// </summary>
         [Newtonsoft.Json.JsonProperty("bindings")]
         [YamlDotNet.Serialization.YamlMember(Alias = "bindings")]
         [System.Text.Json.Serialization.JsonPropertyName("bindings")]
-        public virtual ServerBindingCollection Bindings { get; set; }
+        public virtual ServerBindingDefinitionCollection Bindings { get; set; }
 
         /// <inheritdoc/>
         public override string ToString()

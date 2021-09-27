@@ -216,7 +216,7 @@ namespace Neuroglia.AsyncApi.Services.FluentBuilders
         }
 
         /// <inheritdoc/>
-        public virtual IAsyncApiDocumentBuilder AddMessage(string name, Message message)
+        public virtual IAsyncApiDocumentBuilder AddMessage(string name, MessageDefinition message)
         {
             if (string.IsNullOrWhiteSpace(name))
                 throw new ArgumentNullException(nameof(name));
@@ -243,7 +243,7 @@ namespace Neuroglia.AsyncApi.Services.FluentBuilders
         }
 
         /// <inheritdoc/>
-        public virtual IAsyncApiDocumentBuilder AddSecurityScheme(string name, SecurityScheme scheme)
+        public virtual IAsyncApiDocumentBuilder AddSecurityScheme(string name, SecuritySchemeDefinition scheme)
         {
             if (string.IsNullOrWhiteSpace(name))
                 throw new ArgumentNullException(nameof(name));
@@ -258,7 +258,7 @@ namespace Neuroglia.AsyncApi.Services.FluentBuilders
         }
 
         /// <inheritdoc/>
-        public virtual IAsyncApiDocumentBuilder AddParameter(string name, Parameter parameter)
+        public virtual IAsyncApiDocumentBuilder AddParameter(string name, ParameterDefinition parameter)
         {
             if (string.IsNullOrWhiteSpace(name))
                 throw new ArgumentNullException(nameof(name));
@@ -285,7 +285,7 @@ namespace Neuroglia.AsyncApi.Services.FluentBuilders
         }
 
         /// <inheritdoc/>
-        public virtual IAsyncApiDocumentBuilder AddCorrelationId(string name, CorrelationId correlationId)
+        public virtual IAsyncApiDocumentBuilder AddCorrelationId(string name, CorrelationIdDefinition correlationId)
         {
             if (string.IsNullOrWhiteSpace(name))
                 throw new ArgumentNullException(nameof(name));
@@ -300,7 +300,7 @@ namespace Neuroglia.AsyncApi.Services.FluentBuilders
         }
 
         /// <inheritdoc/>
-        public virtual IAsyncApiDocumentBuilder AddOperationTrait(string name, OperationTrait trait)
+        public virtual IAsyncApiDocumentBuilder AddOperationTrait(string name, OperationTraitDefinition trait)
         {
             if (string.IsNullOrWhiteSpace(name))
                 throw new ArgumentNullException(nameof(name));
@@ -327,7 +327,7 @@ namespace Neuroglia.AsyncApi.Services.FluentBuilders
         }
 
         /// <inheritdoc/>
-        public virtual IAsyncApiDocumentBuilder AddMessageTrait(string name, MessageTrait trait)
+        public virtual IAsyncApiDocumentBuilder AddMessageTrait(string name, MessageTraitDefinition trait)
         {
             if (string.IsNullOrWhiteSpace(name))
                 throw new ArgumentNullException(nameof(name));
@@ -354,7 +354,7 @@ namespace Neuroglia.AsyncApi.Services.FluentBuilders
         }
 
         /// <inheritdoc/>
-        public virtual IAsyncApiDocumentBuilder AddServerBinding(string name, ServerBindingCollection bindings)
+        public virtual IAsyncApiDocumentBuilder AddServerBinding(string name, ServerBindingDefinitionCollection bindings)
         {
             if (string.IsNullOrWhiteSpace(name))
                 throw new ArgumentNullException(nameof(name));
@@ -369,7 +369,7 @@ namespace Neuroglia.AsyncApi.Services.FluentBuilders
         }
 
         /// <inheritdoc/>
-        public virtual IAsyncApiDocumentBuilder AddChannelBinding(string name, ChannelBindingCollection bindings)
+        public virtual IAsyncApiDocumentBuilder AddChannelBinding(string name, ChannelBindingDefinitionCollection bindings)
         {
             if (string.IsNullOrWhiteSpace(name))
                 throw new ArgumentNullException(nameof(name));
@@ -384,7 +384,7 @@ namespace Neuroglia.AsyncApi.Services.FluentBuilders
         }
 
         /// <inheritdoc/>
-        public virtual IAsyncApiDocumentBuilder AddOperationBinding(string name, OperationBindingCollection bindings)
+        public virtual IAsyncApiDocumentBuilder AddOperationBinding(string name, OperationBindingDefinitionCollection bindings)
         {
             if (string.IsNullOrWhiteSpace(name))
                 throw new ArgumentNullException(nameof(name));

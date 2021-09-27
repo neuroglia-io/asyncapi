@@ -22,37 +22,37 @@ namespace Neuroglia.AsyncApi.Services.FluentBuilders
 {
 
     /// <summary>
-    /// Defines the fundamentals of a service used to build <see cref="Message"/>s
+    /// Defines the fundamentals of a service used to build <see cref="MessageDefinition"/>s
     /// </summary>
     public interface IMessageBuilder
-        : IMessageTraitBuilder<IMessageBuilder, Message>
+        : IMessageTraitBuilder<IMessageBuilder, MessageDefinition>
     {
 
         /// <summary>
-        /// Configures the <see cref="MessageTrait"/> to build to use the specified payload
+        /// Configures the <see cref="MessageTraitDefinition"/> to build to use the specified payload
         /// </summary>
-        /// <typeparam name="TPayload">The type used to define the <see cref="MessageTrait"/>'s payload</typeparam>
+        /// <typeparam name="TPayload">The type used to define the <see cref="MessageTraitDefinition"/>'s payload</typeparam>
         /// <returns>The configured <see cref="IMessageBuilder"/></returns>
         IMessageBuilder OfType<TPayload>();
 
         /// <summary>
-        /// Configures the <see cref="MessageTrait"/> to build to use the specified payload
+        /// Configures the <see cref="MessageTraitDefinition"/> to build to use the specified payload
         /// </summary>
-        /// <param name="payloadType">The type used to define the <see cref="MessageTrait"/>'s payload</param>
+        /// <param name="payloadType">The type used to define the <see cref="MessageTraitDefinition"/>'s payload</param>
         /// <returns>The configured <see cref="IMessageBuilder"/></returns>
         IMessageBuilder OfType(Type payloadType);
 
         /// <summary>
-        /// Configures the <see cref="MessageTrait"/> to build to use the specified payload
+        /// Configures the <see cref="MessageTraitDefinition"/> to build to use the specified payload
         /// </summary>
-        /// <param name="payloadSchema">The <see cref="JSchema"/> used to define the <see cref="MessageTrait"/>'s payload</param>
+        /// <param name="payloadSchema">The <see cref="JSchema"/> used to define the <see cref="MessageTraitDefinition"/>'s payload</param>
         /// <returns>The configured <see cref="IMessageBuilder"/></returns>
         IMessageBuilder WithPayloadSchema(JSchema payloadSchema);
 
         /// <summary>
-        /// Configures the <see cref="Message"/> to build to use the specified <see cref="MessageTrait"/>
+        /// Configures the <see cref="MessageDefinition"/> to build to use the specified <see cref="MessageTraitDefinition"/>
         /// </summary>
-        /// <param name="setup">An <see cref="Action{T}"/> used to setup the <see cref="MessageTrait"/> to use</param>
+        /// <param name="setup">An <see cref="Action{T}"/> used to setup the <see cref="MessageTraitDefinition"/> to use</param>
         /// <returns>The configured <see cref="IMessageBuilder"/></returns>
         IMessageBuilder WithTrait(Action<IMessageTraitBuilder> setup);
 

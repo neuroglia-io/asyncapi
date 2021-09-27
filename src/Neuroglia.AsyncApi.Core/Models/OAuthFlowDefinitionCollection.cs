@@ -20,10 +20,10 @@ using System.Collections.Generic;
 namespace Neuroglia.AsyncApi.Models
 {
     /// <summary>
-    /// Represents a collection of <see cref="OAuthFlow"/>s
+    /// Represents a collection of <see cref="OAuthFlowDefinition"/>s
     /// </summary>
-    public class OAuthFlowCollection
-        : IEnumerable<KeyValuePair<string, OAuthFlow>>
+    public class OAuthFlowDefinitionCollection
+        : IEnumerable<KeyValuePair<string, OAuthFlowDefinition>>
     {
 
         /// <summary>
@@ -32,7 +32,7 @@ namespace Neuroglia.AsyncApi.Models
         [Newtonsoft.Json.JsonProperty("implicit")]
         [YamlDotNet.Serialization.YamlMember(Alias = "implicit")]
         [System.Text.Json.Serialization.JsonPropertyName("implicit")]
-        public virtual OAuthFlow Implicit { get; set; }
+        public virtual OAuthFlowDefinition Implicit { get; set; }
 
         /// <summary>
         /// Gets/sets the configuration for the OAuth Resource Owner Protected Credentials flow
@@ -40,7 +40,7 @@ namespace Neuroglia.AsyncApi.Models
         [Newtonsoft.Json.JsonProperty("password")]
         [YamlDotNet.Serialization.YamlMember(Alias = "password")]
         [System.Text.Json.Serialization.JsonPropertyName("password")]
-        public virtual OAuthFlow Password { get; set; }
+        public virtual OAuthFlowDefinition Password { get; set; }
 
         /// <summary>
         /// Gets/sets the configuration for the OAuth Client Credentials flow
@@ -48,7 +48,7 @@ namespace Neuroglia.AsyncApi.Models
         [Newtonsoft.Json.JsonProperty("clientCredentials")]
         [YamlDotNet.Serialization.YamlMember(Alias = "clientCredentials")]
         [System.Text.Json.Serialization.JsonPropertyName("clientCredentials")]
-        public virtual OAuthFlow ClientCredentials { get; set; }
+        public virtual OAuthFlowDefinition ClientCredentials { get; set; }
 
         /// <summary>
         /// Gets/sets the configuration for the OAuth Authorization Code flow
@@ -56,10 +56,10 @@ namespace Neuroglia.AsyncApi.Models
         [Newtonsoft.Json.JsonProperty("authorizationCode")]
         [YamlDotNet.Serialization.YamlMember(Alias = "authorizationCode")]
         [System.Text.Json.Serialization.JsonPropertyName("authorizationCode")]
-        public virtual OAuthFlow AuthorizationCode { get; set; }
+        public virtual OAuthFlowDefinition AuthorizationCode { get; set; }
 
         /// <inheritdoc/>
-        public virtual IEnumerator<KeyValuePair<string, OAuthFlow>> GetEnumerator()
+        public virtual IEnumerator<KeyValuePair<string, OAuthFlowDefinition>> GetEnumerator()
         {
             if (this.Implicit != null)
                 yield return new(nameof(this.Implicit), this.Implicit);

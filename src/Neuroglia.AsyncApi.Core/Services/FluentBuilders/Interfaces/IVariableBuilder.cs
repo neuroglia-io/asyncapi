@@ -19,44 +19,44 @@ using Neuroglia.AsyncApi.Models;
 namespace Neuroglia.AsyncApi.Services.FluentBuilders
 {
     /// <summary>
-    /// Defines the fundamentals of a service used to build <see cref="Variable"/>s
+    /// Defines the fundamentals of a service used to build <see cref="VariableDefinition"/>s
     /// </summary>
     public interface IVariableBuilder
     {
 
         /// <summary>
-        /// Configures the <see cref="Variable"/> to build to use the specified enum values
+        /// Configures the <see cref="VariableDefinition"/> to build to use the specified enum values
         /// </summary>
         /// <param name="values">An array of values to be used if the substitution options are from a limited set.</param>
         /// <returns>The configured <see cref="IVariableBuilder"/></returns>
         IVariableBuilder WithEnumValues(params string[] values);
 
         /// <summary>
-        /// Configures the <see cref="Variable"/> to build to use the specified default value
+        /// Configures the <see cref="VariableDefinition"/> to build to use the specified default value
         /// </summary>
         /// <param name="value">The value to use by default for substitution, and to send, if an alternate value is not supplied.</param>
         /// <returns>The configured <see cref="IVariableBuilder"/></returns>
         IVariableBuilder WithDefaultValue(string value);
 
         /// <summary>
-        /// Configures the <see cref="Variable"/> to use the specified description
+        /// Configures the <see cref="VariableDefinition"/> to use the specified description
         /// </summary>
         /// <param name="description">The description to use</param>
         /// <returns>The configured <see cref="IVariableBuilder"/></returns>
         IVariableBuilder WithDescription(string description);
 
         /// <summary>
-        /// Adds the specified example to the <see cref="Variable"/> to build
+        /// Adds the specified example to the <see cref="VariableDefinition"/> to build
         /// </summary>
         /// <param name="example">The example to add</param>
         /// <returns>The configured <see cref="IVariableBuilder"/></returns>
         IVariableBuilder AddExample(string example);
 
         /// <summary>
-        /// Builds a new <see cref="Variable"/>
+        /// Builds a new <see cref="VariableDefinition"/>
         /// </summary>
-        /// <returns>A new <see cref="Variable"/></returns>
-        Variable Build();
+        /// <returns>A new <see cref="VariableDefinition"/></returns>
+        VariableDefinition Build();
 
     }
 

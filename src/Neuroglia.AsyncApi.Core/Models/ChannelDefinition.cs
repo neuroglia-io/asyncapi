@@ -24,8 +24,8 @@ namespace Neuroglia.AsyncApi.Models
     /// <summary>
     /// Represents an object used to define an Async API channel
     /// </summary>
-    public class Channel
-        : ReferenceableComponent
+    public class ChannelDefinition
+        : ReferenceableComponentDefinition
     {
 
         /// <summary>
@@ -42,7 +42,7 @@ namespace Neuroglia.AsyncApi.Models
         [Newtonsoft.Json.JsonProperty("subscribe")]
         [YamlDotNet.Serialization.YamlMember(Alias = "subscribe")]
         [System.Text.Json.Serialization.JsonPropertyName("subscribe")]
-        public virtual Operation Subscribe { get; set; }
+        public virtual OperationDefinition Subscribe { get; set; }
 
         /// <summary>
         /// Gets/sets a definition of the PUBLISH operation, which defines the messages consumed by the application from the channel.
@@ -50,7 +50,7 @@ namespace Neuroglia.AsyncApi.Models
         [Newtonsoft.Json.JsonProperty("publish")]
         [YamlDotNet.Serialization.YamlMember(Alias = "publish")]
         [System.Text.Json.Serialization.JsonPropertyName("publish")]
-        public virtual Operation Publish { get; set; }
+        public virtual OperationDefinition Publish { get; set; }
 
         /// <summary>
         /// Gets/sets a <see cref="Dictionary{TKey, TValue}"/> of the parameters included in the channel name. It SHOULD be present only when using channels with expressions (as defined by RFC 6570 section 2.2).
@@ -58,23 +58,23 @@ namespace Neuroglia.AsyncApi.Models
         [Newtonsoft.Json.JsonProperty("parameters")]
         [YamlDotNet.Serialization.YamlMember(Alias = "parameters")]
         [System.Text.Json.Serialization.JsonPropertyName("parameters")]
-        public virtual Dictionary<string, Parameter> Parameters { get; set; }
+        public virtual Dictionary<string, ParameterDefinition> Parameters { get; set; }
 
         /// <summary>
-        /// Gets/sets an object used to configure the <see cref="Channel"/>'s <see cref="IChannelBinding"/>s
+        /// Gets/sets an object used to configure the <see cref="ChannelDefinition"/>'s <see cref="IChannelBinding"/>s
         /// </summary>
         [Newtonsoft.Json.JsonProperty("bindings")]
         [YamlDotNet.Serialization.YamlMember(Alias = "bindings")]
         [System.Text.Json.Serialization.JsonPropertyName("bindings")]
-        public virtual ChannelBindingCollection Bindings { get; set; }
+        public virtual ChannelBindingDefinitionCollection Bindings { get; set; }
 
         /// <summary>
-        /// Gets an <see cref="IEnumerable{T}"/> containing the <see cref="Channel"/>'s <see cref="Operation"/>s
+        /// Gets an <see cref="IEnumerable{T}"/> containing the <see cref="ChannelDefinition"/>'s <see cref="OperationDefinition"/>s
         /// </summary>
         [Newtonsoft.Json.JsonIgnore]
         [System.Text.Json.Serialization.JsonIgnore]
         [YamlDotNet.Serialization.YamlIgnore]
-        public virtual IEnumerable<Operation> Operations
+        public virtual IEnumerable<OperationDefinition> Operations
         {
             get
             {
@@ -84,10 +84,10 @@ namespace Neuroglia.AsyncApi.Models
         }
 
         /// <summary>
-        /// Determines whether or not the <see cref="Channel"/> defines an <see cref="Operation"/> with the specified id
+        /// Determines whether or not the <see cref="ChannelDefinition"/> defines an <see cref="OperationDefinition"/> with the specified id
         /// </summary>
         /// <param name="operationId">The id of the operation to check</param>
-        /// <returns>A boolean indicating whether or not the <see cref="Channel"/> defines an <see cref="Operation"/> with the specified id</returns>
+        /// <returns>A boolean indicating whether or not the <see cref="ChannelDefinition"/> defines an <see cref="OperationDefinition"/> with the specified id</returns>
         public virtual bool DefinesOperationWithId(string operationId)
         {
             if (string.IsNullOrWhiteSpace(operationId))
@@ -96,10 +96,10 @@ namespace Neuroglia.AsyncApi.Models
         }
 
         /// <summary>
-        /// Determines whether or not the <see cref="Channel"/> defines an <see cref="Operation"/> of the specified type
+        /// Determines whether or not the <see cref="ChannelDefinition"/> defines an <see cref="OperationDefinition"/> of the specified type
         /// </summary>
         /// <param name="type">The type of the operation to check</param>
-        /// <returns>A boolean indicating whether or not the <see cref="Channel"/> defines an <see cref="Operation"/> of the specified type</returns>
+        /// <returns>A boolean indicating whether or not the <see cref="ChannelDefinition"/> defines an <see cref="OperationDefinition"/> of the specified type</returns>
         public virtual bool DefinesOperationOfType(OperationType type)
         {
             return type switch
@@ -111,11 +111,11 @@ namespace Neuroglia.AsyncApi.Models
         }
 
         /// <summary>
-        /// Gets the <see cref="Operation"/> with the specified id
+        /// Gets the <see cref="OperationDefinition"/> with the specified id
         /// </summary>
-        /// <param name="operationId">The id of the <see cref="Operation"/> to get</param>
-        /// <returns>The <see cref="Operation"/> with the specified id, if any</returns>
-        public virtual Operation GetOperationById(string operationId)
+        /// <param name="operationId">The id of the <see cref="OperationDefinition"/> to get</param>
+        /// <returns>The <see cref="OperationDefinition"/> with the specified id, if any</returns>
+        public virtual OperationDefinition GetOperationById(string operationId)
         {
             if (string.IsNullOrWhiteSpace(operationId))
                 throw new ArgumentNullException(nameof(operationId));
@@ -127,12 +127,12 @@ namespace Neuroglia.AsyncApi.Models
         }
 
         /// <summary>
-        /// Attempts to retrieve an <see cref="Operation"/> by id
+        /// Attempts to retrieve an <see cref="OperationDefinition"/> by id
         /// </summary>
-        /// <param name="operationId">The id of the <see cref="Operation"/> to get</param>
-        /// <param name="operation">The <see cref="Operation"/> with the specified id</param>
-        /// <returns>A boolean indicating whether or not the <see cref="Operation"/> with the specified id could be found</returns>
-        public virtual bool TryGetOperationById(string operationId, out Operation operation)
+        /// <param name="operationId">The id of the <see cref="OperationDefinition"/> to get</param>
+        /// <param name="operation">The <see cref="OperationDefinition"/> with the specified id</param>
+        /// <returns>A boolean indicating whether or not the <see cref="OperationDefinition"/> with the specified id could be found</returns>
+        public virtual bool TryGetOperationById(string operationId, out OperationDefinition operation)
         {
             if (string.IsNullOrWhiteSpace(operationId))
                 throw new ArgumentNullException(nameof(operationId));
@@ -141,11 +141,11 @@ namespace Neuroglia.AsyncApi.Models
         }
 
         /// <summary>
-        /// Gets the <see cref="Operation"/> of the specified type
+        /// Gets the <see cref="OperationDefinition"/> of the specified type
         /// </summary>
-        /// <param name="type">The type of the <see cref="Operation"/> to get</param>
-        /// <returns>The <see cref="Operation"/> of the specified type, if any</returns>
-        public virtual Operation GetOperationByType(OperationType type)
+        /// <param name="type">The type of the <see cref="OperationDefinition"/> to get</param>
+        /// <returns>The <see cref="OperationDefinition"/> of the specified type, if any</returns>
+        public virtual OperationDefinition GetOperationByType(OperationType type)
         {
             return type switch
             {
@@ -156,12 +156,12 @@ namespace Neuroglia.AsyncApi.Models
         }
 
         /// <summary>
-        /// Attempts to retrieve an <see cref="Operation"/> by type
+        /// Attempts to retrieve an <see cref="OperationDefinition"/> by type
         /// </summary>
-        /// <param name="type">The type of the <see cref="Operation"/> to get</param>
-        /// <param name="operation">The <see cref="Operation"/> of the specified type</param>
-        /// <returns>A boolean indicating whether or not the <see cref="Operation"/> of the specified type could be found</returns>
-        public virtual bool TryGetOperationById(OperationType type, out Operation operation)
+        /// <param name="type">The type of the <see cref="OperationDefinition"/> to get</param>
+        /// <param name="operation">The <see cref="OperationDefinition"/> of the specified type</param>
+        /// <returns>A boolean indicating whether or not the <see cref="OperationDefinition"/> of the specified type could be found</returns>
+        public virtual bool TryGetOperationById(OperationType type, out OperationDefinition operation)
         {
             operation = this.GetOperationByType(type);
             return operation != null;

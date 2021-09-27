@@ -20,7 +20,7 @@ using System;
 namespace Neuroglia.AsyncApi
 {
     /// <summary>
-    /// Represents an <see cref="Attribute"/> used to mark a class or a method as a <see cref="Channel"/>
+    /// Represents an <see cref="Attribute"/> used to mark a class or a method as a <see cref="ChannelDefinition"/>
     /// </summary>
     [AttributeUsage(AttributeTargets.Class | AttributeTargets.Method, AllowMultiple = true)]
     public class ChannelAttribute
@@ -30,8 +30,8 @@ namespace Neuroglia.AsyncApi
         /// <summary>
         /// Initializes a new <see cref="ChannelAttribute"/>
         /// </summary>
-        /// <param name="name">The <see cref="Channel"/>'s name</param>
-        /// <param name="description">The <see cref="Channel"/>'s description</param>
+        /// <param name="name">The <see cref="ChannelDefinition"/>'s name</param>
+        /// <param name="description">The <see cref="ChannelDefinition"/>'s description</param>
         public ChannelAttribute(string name, string description)
         {
             if (string.IsNullOrWhiteSpace(name))
@@ -43,7 +43,7 @@ namespace Neuroglia.AsyncApi
         /// <summary>
         /// Initializes a new <see cref="ChannelAttribute"/>
         /// </summary>
-        /// <param name="name">The <see cref="Channel"/>'s name</param>
+        /// <param name="name">The <see cref="ChannelDefinition"/>'s name</param>
         public ChannelAttribute(string name)
             : this(name, null)
         {
@@ -51,12 +51,12 @@ namespace Neuroglia.AsyncApi
         }
 
         /// <summary>
-        /// Gets the <see cref="Channel"/>'s name
+        /// Gets the <see cref="ChannelDefinition"/>'s name
         /// </summary>
         public virtual string Name { get; }
 
         /// <summary>
-        /// Gets/sets the <see cref="Channel"/>'s description
+        /// Gets/sets the <see cref="ChannelDefinition"/>'s description
         /// </summary>
         public virtual string Description { get; set; }
 

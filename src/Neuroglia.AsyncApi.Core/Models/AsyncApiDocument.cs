@@ -65,7 +65,7 @@ namespace Neuroglia.AsyncApi.Models
         [Newtonsoft.Json.JsonProperty("servers")]
         [YamlDotNet.Serialization.YamlMember(Alias = "servers")]
         [System.Text.Json.Serialization.JsonPropertyName("servers")]
-        public virtual Dictionary<string, Server> Servers { get; set; }
+        public virtual Dictionary<string, ServerDefinition> Servers { get; set; }
 
         /// <summary>
         /// Gets/sets the default content type to use when encoding/decoding a message's payload.
@@ -82,7 +82,7 @@ namespace Neuroglia.AsyncApi.Models
         [Newtonsoft.Json.JsonProperty("channels")]
         [YamlDotNet.Serialization.YamlMember(Alias = "channels")]
         [System.Text.Json.Serialization.JsonPropertyName("channels")]
-        public virtual Dictionary<string, Channel> Channels { get; set; }
+        public virtual Dictionary<string, ChannelDefinition> Channels { get; set; }
 
         /// <summary>
         /// Gets/sets an object used to hold various schemas for the specification.
@@ -90,7 +90,7 @@ namespace Neuroglia.AsyncApi.Models
         [Newtonsoft.Json.JsonProperty("components")]
         [YamlDotNet.Serialization.YamlMember(Alias = "components")]
         [System.Text.Json.Serialization.JsonPropertyName("components")]
-        public virtual ComponentCollection Components { get; set; }
+        public virtual ComponentDefinitionCollection Components { get; set; }
 
         /// <summary>
         /// Gets/sets a <see cref="List{T}"/> of tags used by the specification with additional metadata. Each tag name in the list MUST be unique.
@@ -98,7 +98,7 @@ namespace Neuroglia.AsyncApi.Models
         [Newtonsoft.Json.JsonProperty("tags")]
         [YamlDotNet.Serialization.YamlMember(Alias = "tags")]
         [System.Text.Json.Serialization.JsonPropertyName("tags")]
-        public virtual List<Tag> Tags { get; set; }
+        public virtual List<TagDefinition> Tags { get; set; }
 
         /// <summary>
         /// Gets/sets a <see cref="List{T}"/> containing additional external documentation.
@@ -106,24 +106,24 @@ namespace Neuroglia.AsyncApi.Models
         [Newtonsoft.Json.JsonProperty("externalDocs")]
         [YamlDotNet.Serialization.YamlMember(Alias = "externalDocs")]
         [System.Text.Json.Serialization.JsonPropertyName("externalDocs")]
-        public virtual List<ExternalDocumentation> ExternalDocs { get; set; }
+        public virtual List<ExternalDocumentationDefinition> ExternalDocs { get; set; }
 
         /// <summary>
-        /// Attempts to get the <see cref="Operation"/> with the specified id
+        /// Attempts to get the <see cref="OperationDefinition"/> with the specified id
         /// </summary>
-        /// <param name="operationId">The id of the <see cref="Operation"/> to get</param>
-        /// <param name="operation">The resulting <see cref="Operation"/>, if any</param>
-        /// <param name="channelName">The name of the <see cref="Channel"/> the <see cref="Operation"/> belongs to, if any</param>
-        /// <returns>A boolean indicating whether or not the <see cref="Operation"/> with the specified id could be found</returns>
-        public virtual bool TryGetOperation(string operationId, out Operation operation, out string channelName)
+        /// <param name="operationId">The id of the <see cref="OperationDefinition"/> to get</param>
+        /// <param name="operation">The resulting <see cref="OperationDefinition"/>, if any</param>
+        /// <param name="channelName">The name of the <see cref="ChannelDefinition"/> the <see cref="OperationDefinition"/> belongs to, if any</param>
+        /// <returns>A boolean indicating whether or not the <see cref="OperationDefinition"/> with the specified id could be found</returns>
+        public virtual bool TryGetOperation(string operationId, out OperationDefinition operation, out string channelName)
         {
             if (string.IsNullOrWhiteSpace(operationId))
                 throw new ArgumentNullException(nameof(operationId));
             operation = null;
             channelName = null;
-            KeyValuePair<string, Channel>? channel = this.Channels?.FirstOrDefault(c => c.Value.DefinesOperationWithId(operationId));
+            KeyValuePair<string, ChannelDefinition>? channel = this.Channels?.FirstOrDefault(c => c.Value.DefinesOperationWithId(operationId));
             if (!channel.HasValue
-                || channel.Value.Equals(default(KeyValuePair<string, Channel>)))
+                || channel.Value.Equals(default(KeyValuePair<string, ChannelDefinition>)))
                 return false;
             operation = channel.Value.Value.GetOperationById(operationId);
             channelName = channel.Value.Key;
@@ -131,12 +131,12 @@ namespace Neuroglia.AsyncApi.Models
         }
 
         /// <summary>
-        /// Attempts to get the <see cref="Operation"/> with the specified id
+        /// Attempts to get the <see cref="OperationDefinition"/> with the specified id
         /// </summary>
-        /// <param name="operationId">The id of the <see cref="Operation"/> to get</param>
-        /// <param name="operation">The resulting <see cref="Operation"/>, if any</param>
-        /// <returns>A boolean indicating whether or not the <see cref="Operation"/> with the specified id could be found</returns>
-        public virtual bool TryGetOperation(string operationId, out Operation operation)
+        /// <param name="operationId">The id of the <see cref="OperationDefinition"/> to get</param>
+        /// <param name="operation">The resulting <see cref="OperationDefinition"/>, if any</param>
+        /// <returns>A boolean indicating whether or not the <see cref="OperationDefinition"/> with the specified id could be found</returns>
+        public virtual bool TryGetOperation(string operationId, out OperationDefinition operation)
         {
             if (string.IsNullOrWhiteSpace(operationId))
                 throw new ArgumentNullException(nameof(operationId));

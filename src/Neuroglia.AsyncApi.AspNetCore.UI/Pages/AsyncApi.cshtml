@@ -42,7 +42,7 @@
             <div id="servers" class="card-body">
                 @if (document.Servers != null)
                 {
-                    foreach (KeyValuePair<string, Server> server in document.Servers)
+                    foreach (KeyValuePair<string, ServerDefinition> server in document.Servers)
                     {
                         <partial name="_Server" model="server" />
                     }
@@ -55,16 +55,16 @@
                 <h3 class="card-title"><a data-toggle="collapse" href="#operations" role="button" aria-expanded="false">Operations</a></h3>
             </div>
             <div id="operations" class="card-body">
-                @foreach (KeyValuePair<string, Channel> channel in document.Channels)
+                @foreach (KeyValuePair<string, ChannelDefinition> channel in document.Channels)
                 {
                     <p class="mb-2"><span class="h4">@channel.Key </span><span>@channel.Value.Description</span></p>
                     if (channel.Value.Publish != null)
                     {
-                        <partial name="_Operation" model="new KeyValuePair<OperationType, Operation>(OperationType.Publish, channel.Value.Publish)" />
+                        <partial name="_Operation" model="new KeyValuePair<OperationType, OperationDefinition>(OperationType.Publish, channel.Value.Publish)" />
                     }
                     if (channel.Value.Subscribe != null)
                     {
-                        <partial name="_Operation" model="new KeyValuePair<OperationType, Operation>(OperationType.Subscribe, channel.Value.Subscribe)" />
+                        <partial name="_Operation" model="new KeyValuePair<OperationType, OperationDefinition>(OperationType.Subscribe, channel.Value.Subscribe)" />
                     }
                 }
             </div>

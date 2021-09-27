@@ -37,8 +37,8 @@ namespace Neuroglia.AsyncApi.Services.FluentBuilders
         /// Initializes a new <see cref="ChannelBuilder"/>
         /// </summary>
         /// <param name="serviceProvider">The current <see cref="IServiceProvider"/></param>
-        /// <param name="validators">The services used to validate <see cref="Models.Channel"/>s</param>
-        public ChannelBuilder(IServiceProvider serviceProvider, IEnumerable<IValidator<Channel>> validators)
+        /// <param name="validators">The services used to validate <see cref="Models.ChannelDefinition"/>s</param>
+        public ChannelBuilder(IServiceProvider serviceProvider, IEnumerable<IValidator<ChannelDefinition>> validators)
         {
             this.ServiceProvider = serviceProvider;
             this.Validators = validators;
@@ -50,14 +50,14 @@ namespace Neuroglia.AsyncApi.Services.FluentBuilders
         protected virtual IServiceProvider ServiceProvider { get; }
 
         /// <summary>
-        /// Gets the services used to validate <see cref="Models.Channel"/>s
+        /// Gets the services used to validate <see cref="Models.ChannelDefinition"/>s
         /// </summary>
-        protected virtual IEnumerable<IValidator<Channel>> Validators { get; }
+        protected virtual IEnumerable<IValidator<ChannelDefinition>> Validators { get; }
 
         /// <summary>
-        /// Gets the <see cref="Models.Channel"/> to build
+        /// Gets the <see cref="Models.ChannelDefinition"/> to build
         /// </summary>
-        protected virtual Channel Channel { get; } = new();
+        protected virtual ChannelDefinition Channel { get; } = new();
 
         /// <inheritdoc/>
         public virtual IChannelBuilder WithDescription(string description)
@@ -126,7 +126,7 @@ namespace Neuroglia.AsyncApi.Services.FluentBuilders
         }
 
         /// <inheritdoc/>
-        public virtual Channel Build()
+        public virtual ChannelDefinition Build()
         {
             IEnumerable<ValidationResult> validationResults = this.Validators.Select(v => v.Validate(this.Channel));
             if (!validationResults.All(r => r.IsValid))

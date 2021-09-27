@@ -29,15 +29,15 @@ namespace Neuroglia.AsyncApi.Services.FluentBuilders
     /// Represents the default implementation of the <see cref="IMessageBuilder"/> interface
     /// </summary>
     public class MessageBuilder
-        : MessageTraitBuilder<IMessageBuilder, Message>, IMessageBuilder
+        : MessageTraitBuilder<IMessageBuilder, MessageDefinition>, IMessageBuilder
     {
 
         /// <summary>
         /// Initializes a new <see cref="MessageBuilder"/>
         /// </summary>
         /// <param name="serviceProvider">The current <see cref="IServiceProvider"/></param>
-        /// <param name="validators">An <see cref="IEnumerable{T}"/> containing the services used to validate <see cref="MessageTrait"/>s</param>
-        public MessageBuilder(IServiceProvider serviceProvider, IEnumerable<IValidator<Message>> validators) 
+        /// <param name="validators">An <see cref="IEnumerable{T}"/> containing the services used to validate <see cref="MessageTraitDefinition"/>s</param>
+        public MessageBuilder(IServiceProvider serviceProvider, IEnumerable<IValidator<MessageDefinition>> validators) 
             : base(serviceProvider, validators)
         {
 

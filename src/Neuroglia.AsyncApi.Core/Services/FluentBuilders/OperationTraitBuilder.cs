@@ -30,18 +30,18 @@ namespace Neuroglia.AsyncApi.Services.FluentBuilders
     /// Represents the base class for all <see cref="IOperationTraitBuilder{TBuilder, TTrait}"/> implementations
     /// </summary>
     /// <typeparam name="TBuilder">The type of <see cref="IOperationTraitBuilder{TBuilder, TTrait}"/> to return for chaining purposes</typeparam>
-    /// <typeparam name="TTrait">The type of <see cref="OperationTrait"/> to build</typeparam>
+    /// <typeparam name="TTrait">The type of <see cref="OperationTraitDefinition"/> to build</typeparam>
     public abstract class OperationTraitBuilder<TBuilder, TTrait>
         : IOperationTraitBuilder<TBuilder, TTrait>
         where TBuilder : IOperationTraitBuilder<TBuilder, TTrait>
-        where TTrait : OperationTrait, new()
+        where TTrait : OperationTraitDefinition, new()
     {
 
         /// <summary>
         /// Initializes a new <see cref="OperationTraitBuilder{TBuilder, TTrait}"/>
         /// </summary>
         /// <param name="serviceProvider">The current <see cref="IServiceProvider"/></param>
-        /// <param name="validators">An <see cref="IEnumerable{T}"/> containing the services used to validate <see cref="OperationTrait"/>s</param>
+        /// <param name="validators">An <see cref="IEnumerable{T}"/> containing the services used to validate <see cref="OperationTraitDefinition"/>s</param>
         protected OperationTraitBuilder(IServiceProvider serviceProvider, IEnumerable<IValidator<TTrait>> validators)
         {
             this.ServiceProvider = serviceProvider;
@@ -54,12 +54,12 @@ namespace Neuroglia.AsyncApi.Services.FluentBuilders
         protected IServiceProvider ServiceProvider { get; }
 
         /// <summary>
-        /// Gets an <see cref="IEnumerable{T}"/> containing the services used to validate <see cref="OperationTrait"/>s
+        /// Gets an <see cref="IEnumerable{T}"/> containing the services used to validate <see cref="OperationTraitDefinition"/>s
         /// </summary>
         protected IEnumerable<IValidator<TTrait>> Validators { get; }
 
         /// <summary>
-        /// Gets the <see cref="MessageTrait"/> to configure
+        /// Gets the <see cref="MessageTraitDefinition"/> to configure
         /// </summary>
         protected virtual TTrait Trait { get; } = new();
 
@@ -70,7 +70,7 @@ namespace Neuroglia.AsyncApi.Services.FluentBuilders
                 throw new ArgumentNullException(nameof(uri));
             if (this.Trait.ExternalDocs == null)
                 this.Trait.ExternalDocs = new();
-            this.Trait.ExternalDocs.Add(new ExternalDocumentation() { Url = uri, Description = description });
+            this.Trait.ExternalDocs.Add(new ExternalDocumentationDefinition() { Url = uri, Description = description });
             return (TBuilder)(object)this;
         }
 
@@ -134,15 +134,15 @@ namespace Neuroglia.AsyncApi.Services.FluentBuilders
     /// Represents the base class for all <see cref="IOperationTraitBuilder"/> implementations
     /// </summary>
     public class OperationTraitBuilder
-        : OperationTraitBuilder<IOperationTraitBuilder, OperationTrait>, IOperationTraitBuilder
+        : OperationTraitBuilder<IOperationTraitBuilder, OperationTraitDefinition>, IOperationTraitBuilder
     {
 
         /// <summary>
         /// Initializes a new <see cref="OperationTraitBuilder"/>
         /// </summary>
         /// <param name="serviceProvider">The current <see cref="IServiceProvider"/></param>
-        /// <param name="validators">An <see cref="IEnumerable{T}"/> containing the services used to validate <see cref="OperationTrait"/>s</param>
-        public OperationTraitBuilder(IServiceProvider serviceProvider, IEnumerable<IValidator<OperationTrait>> validators)
+        /// <param name="validators">An <see cref="IEnumerable{T}"/> containing the services used to validate <see cref="OperationTraitDefinition"/>s</param>
+        public OperationTraitBuilder(IServiceProvider serviceProvider, IEnumerable<IValidator<OperationTraitDefinition>> validators)
             : base(serviceProvider, validators)
         {
 

@@ -4,10 +4,10 @@ using Neuroglia.AsyncApi.Models;
 namespace Neuroglia.AsyncApi.Services.Validation
 {
     /// <summary>
-    /// Represents the service used to validate <see cref="Server"/>s
+    /// Represents the service used to validate <see cref="ServerDefinition"/>s
     /// </summary>
     public class ServerValidator
-        : AbstractValidator<Server>
+        : AbstractValidator<ServerDefinition>
     {
 
         /// <summary>

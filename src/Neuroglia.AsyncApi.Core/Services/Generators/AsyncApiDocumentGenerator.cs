@@ -116,11 +116,11 @@ namespace Neuroglia.AsyncApi.Services.Generators
         }
 
         /// <summary>
-        /// Builds a new <see cref="Channel"/>
+        /// Builds a new <see cref="ChannelDefinition"/>
         /// </summary>
         /// <param name="builder">The <see cref="IAsyncApiDocumentBuilder"/> to configure</param>
-        /// <param name="channel">The attribute used to describe the <see cref="Channel"/> to configure</param>
-        /// <param name="methods">A <see cref="List{T}"/> containing the <see cref="Channel"/>'s <see cref="Operation"/>s <see cref="MethodInfo"/>s</param>
+        /// <param name="channel">The attribute used to describe the <see cref="ChannelDefinition"/> to configure</param>
+        /// <param name="methods">A <see cref="List{T}"/> containing the <see cref="ChannelDefinition"/>'s <see cref="OperationDefinition"/>s <see cref="MethodInfo"/>s</param>
         /// <param name="options">The <see cref="AsyncApiDocumentGenerationOptions"/> to use</param>
         /// <param name="cancellationToken">A <see cref="CancellationToken"/></param>
         /// <returns>A new awaitable <see cref="Task"/></returns>
@@ -167,11 +167,11 @@ namespace Neuroglia.AsyncApi.Services.Generators
         }
 
         /// <summary>
-        /// Configures and builds a new <see cref="Message"/> for the specified <see cref="Operation"/>
+        /// Configures and builds a new <see cref="MessageDefinition"/> for the specified <see cref="OperationDefinition"/>
         /// </summary>
         /// <param name="messageBuilder">The <see cref="IMessageBuilder"/> to configure</param>
-        /// <param name="operation">The attribute used to describe the <see cref="Operation"/> to configure</param>
-        /// <param name="operationMethod">The <see cref="MethodInfo"/> marked with the specified <see cref="Operation"/> attribute</param>
+        /// <param name="operation">The attribute used to describe the <see cref="OperationDefinition"/> to configure</param>
+        /// <param name="operationMethod">The <see cref="MethodInfo"/> marked with the specified <see cref="OperationDefinition"/> attribute</param>
         /// <param name="options">The <see cref="AsyncApiDocumentGenerationOptions"/> to use</param>
         protected virtual void ConfigureOperationMessageFor(IMessageBuilder messageBuilder, OperationAttribute operation, MethodInfo operationMethod, AsyncApiDocumentGenerationOptions options)
         {

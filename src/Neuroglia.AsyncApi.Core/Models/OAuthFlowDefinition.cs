@@ -22,7 +22,7 @@ namespace Neuroglia.AsyncApi.Models
     /// <summary>
     /// Represents an object used to define a supported OAuth Flow
     /// </summary>
-    public class OAuthFlow
+    public class OAuthFlowDefinition
     {
 
         /// <summary>

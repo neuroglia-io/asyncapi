@@ -3,7 +3,7 @@
 @{
     OperationType operationType = this.Model.Key;
     Operation operation = this.Model.Value;
-    Message message = this.Model.Value.Message;
+    MessageDefinition message = this.Model.Value.Message;
     JSchema schema = message.Payload?.ToObject<JSchema>();
     string operationRef = $"{operation.OperationId}{operationType}".Slugify();
     string pubTooltip = "An operation used to publish a message to the specified channel";

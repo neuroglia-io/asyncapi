@@ -25,8 +25,8 @@ namespace Neuroglia.AsyncApi.Models
     /// <summary>
     /// Represents an object used to define a Async API operation message trait
     /// </summary>
-    public class MessageTrait
-        : ReferenceableComponent
+    public class MessageTraitDefinition
+        : ReferenceableComponentDefinition
     {
 
         /// <summary>
@@ -43,7 +43,7 @@ namespace Neuroglia.AsyncApi.Models
         [Newtonsoft.Json.JsonProperty("correlationId")]
         [YamlDotNet.Serialization.YamlMember(Alias = "correlationId")]
         [System.Text.Json.Serialization.JsonPropertyName("correlationId")]
-        public virtual CorrelationId CorrelationId { get; set; }
+        public virtual CorrelationIdDefinition CorrelationId { get; set; }
 
         /// <summary>
         /// Gets/sets a string containing the name of the schema format used to define the message payload. 
@@ -101,7 +101,7 @@ namespace Neuroglia.AsyncApi.Models
         [Newtonsoft.Json.JsonProperty("tags")]
         [YamlDotNet.Serialization.YamlMember(Alias = "tags")]
         [System.Text.Json.Serialization.JsonPropertyName("tags")]
-        public virtual List<Tag> Tags { get; set; }
+        public virtual List<TagDefinition> Tags { get; set; }
 
         /// <summary>
         /// Gets/sets a <see cref="List{T}"/> containing additional external documentation for this message.
@@ -109,10 +109,10 @@ namespace Neuroglia.AsyncApi.Models
         [Newtonsoft.Json.JsonProperty("externalDocs")]
         [YamlDotNet.Serialization.YamlMember(Alias = "externalDocs")]
         [System.Text.Json.Serialization.JsonPropertyName("externalDocs")]
-        public virtual List<ExternalDocumentation> ExternalDocs { get; set; }
+        public virtual List<ExternalDocumentationDefinition> ExternalDocs { get; set; }
 
         /// <summary>
-        /// Gets/sets an object used to configure the <see cref="MessageTrait"/>'s <see cref="IMessageBinding"/>s
+        /// Gets/sets an object used to configure the <see cref="MessageTraitDefinition"/>'s <see cref="IMessageBinding"/>s
         /// </summary>
         [Newtonsoft.Json.JsonProperty("bindings")]
         [YamlDotNet.Serialization.YamlMember(Alias = "bindings")]
