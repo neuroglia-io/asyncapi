@@ -21,7 +21,7 @@ namespace Neuroglia.AsyncApi.Models.Bindings.Mqtt5
     /// Represents the object used to configure an MQTT V5+ channel binding
     /// </summary>
     public class MqttV5ChannelBinding
-        : IChannelBinding
+        : MqttV5BindingDefinition, IChannelBindingDefinition
     {
 
 

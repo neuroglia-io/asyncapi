@@ -22,7 +22,7 @@ namespace Neuroglia.AsyncApi.Models.Bindings.Kafka
     /// Represents the object used to configure a Kafka operation binding
     /// </summary>
     public class KafkaOperationBinding
-        : IOperationBinding
+        : KafkaBindingDefinition, IOperationBindingDefinition
     {
 
         /// <summary>

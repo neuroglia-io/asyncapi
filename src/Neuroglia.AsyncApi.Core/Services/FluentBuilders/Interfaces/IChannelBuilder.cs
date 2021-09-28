@@ -43,11 +43,11 @@ namespace Neuroglia.AsyncApi.Services.FluentBuilders
         IChannelBuilder AddParameter(string name, Action<IParameterBuilder> setup);
 
         /// <summary>
-        /// Adds the specified <see cref="IChannelBinding"/> to the <see cref="ChannelDefinition"/> to build
+        /// Adds the specified <see cref="IChannelBindingDefinition"/> to the <see cref="ChannelDefinition"/> to build
         /// </summary>
-        /// <param name="binding">The <see cref="IChannelBinding"/> to add</param>
+        /// <param name="binding">The <see cref="IChannelBindingDefinition"/> to add</param>
         /// <returns>The configured <see cref="IChannelBuilder"/></returns>
-        IChannelBuilder UseBinding(IChannelBinding binding);
+        IChannelBuilder UseBinding(IChannelBindingDefinition binding);
 
         /// <summary>
         /// Defines and configures an operation of the <see cref="ChannelDefinition"/> to build

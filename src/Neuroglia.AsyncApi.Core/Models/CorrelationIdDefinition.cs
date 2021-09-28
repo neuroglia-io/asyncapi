@@ -42,6 +42,24 @@ namespace Neuroglia.AsyncApi.Models
         [System.Text.Json.Serialization.JsonPropertyName("location")]
         public virtual string Location { get; set; }
 
+        private RuntimeExpression _LocationExpression;
+        /// <summary>
+        /// Gets the location's <see cref="RuntimeExpression"/>
+        /// </summary>
+        [Newtonsoft.Json.JsonIgnore]
+        [System.Text.Json.Serialization.JsonIgnore]
+        [YamlDotNet.Serialization.YamlIgnore]
+        public virtual RuntimeExpression LocationExpression
+        {
+            get
+            {
+                if (this._LocationExpression == null
+                    && !string.IsNullOrWhiteSpace(this.Location))
+                    this._LocationExpression = RuntimeExpression.Parse(this.Location);
+                return this._LocationExpression;
+            }
+        }
+
     }
 
 }

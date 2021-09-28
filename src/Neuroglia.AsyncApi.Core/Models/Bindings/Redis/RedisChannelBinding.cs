@@ -21,7 +21,7 @@ namespace Neuroglia.AsyncApi.Models.Bindings.Redis
     /// Represents the object used to configure a <see href="https://redis.io/">Redis</see> channel binding
     /// </summary>
     public class RedisChannelBinding
-        : IChannelBinding
+        : RedisBindingDefinition, IChannelBindingDefinition
     {
 
 

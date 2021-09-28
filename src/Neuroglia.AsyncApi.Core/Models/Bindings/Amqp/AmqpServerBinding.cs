@@ -21,7 +21,7 @@ namespace Neuroglia.AsyncApi.Models.Bindings.Amqp
     /// Represents the object used to configure an AMQP 0.9+ server binding
     /// </summary>
     public class AmqpServerBinding
-        : IServerBinding
+        : AmqpBindingDefinition, IServerBindingDefinition
     {
 
 

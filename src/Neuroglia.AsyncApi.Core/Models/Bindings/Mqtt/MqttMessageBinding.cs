@@ -21,7 +21,7 @@ namespace Neuroglia.AsyncApi.Models.Bindings.Mqtt
     /// Represents the object used to configure an MQTT message binding
     /// </summary>
     public class MqttMessageBinding
-        : IMessageBinding
+        : MqttBindingDefinition, IMessageBindingDefinition
     {
 
         /// <summary>

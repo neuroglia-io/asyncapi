@@ -14,13 +14,14 @@
  * limitations under the License.
  *
  */
+
 namespace Neuroglia.AsyncApi.Models.Bindings.Nats
 {
     /// <summary>
     /// Represents the object used to configure a <see href="https://nats.io/">NATS</see> channel binding
     /// </summary>
     public class NatsChannelBinding
-        : IChannelBinding
+        : NatsBindingDefinition, IChannelBindingDefinition
     {
 
 

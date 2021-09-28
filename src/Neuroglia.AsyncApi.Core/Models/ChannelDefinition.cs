@@ -61,7 +61,7 @@ namespace Neuroglia.AsyncApi.Models
         public virtual Dictionary<string, ParameterDefinition> Parameters { get; set; }
 
         /// <summary>
-        /// Gets/sets an object used to configure the <see cref="ChannelDefinition"/>'s <see cref="IChannelBinding"/>s
+        /// Gets/sets an object used to configure the <see cref="ChannelDefinition"/>'s <see cref="IChannelBindingDefinition"/>s
         /// </summary>
         [Newtonsoft.Json.JsonProperty("bindings")]
         [YamlDotNet.Serialization.YamlMember(Alias = "bindings")]
@@ -78,10 +78,28 @@ namespace Neuroglia.AsyncApi.Models
         {
             get
             {
-                yield return this.Subscribe;
-                yield return this.Publish;
+                if(this.Subscribe != null)
+                    yield return this.Subscribe;
+                if (this.Publish != null)
+                    yield return this.Publish;
             }
         }
+
+        /// <summary>
+        /// Gets a boolean indicating whether or not the <see cref="ChannelDefinition"/> defines an <see cref="OperationDefinition"/> of type <see cref="OperationType.Subscribe"/>
+        /// </summary>
+        [Newtonsoft.Json.JsonIgnore]
+        [System.Text.Json.Serialization.JsonIgnore]
+        [YamlDotNet.Serialization.YamlIgnore]
+        public virtual bool DefinesSubscribeOperation => this.DefinesOperationOfType(OperationType.Subscribe);
+
+        /// <summary>
+        /// Gets a boolean indicating whether or not the <see cref="ChannelDefinition"/> defines an <see cref="OperationDefinition"/> of type <see cref="OperationType.Publish"/>
+        /// </summary>
+        [Newtonsoft.Json.JsonIgnore]
+        [System.Text.Json.Serialization.JsonIgnore]
+        [YamlDotNet.Serialization.YamlIgnore]
+        public virtual bool DefinesPublishOperation => this.DefinesOperationOfType(OperationType.Publish);
 
         /// <summary>
         /// Determines whether or not the <see cref="ChannelDefinition"/> defines an <see cref="OperationDefinition"/> with the specified id

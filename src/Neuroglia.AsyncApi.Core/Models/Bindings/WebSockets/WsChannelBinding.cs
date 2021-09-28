@@ -22,7 +22,7 @@ namespace Neuroglia.AsyncApi.Models.Bindings.WebSockets
     /// Represents the object used to configure an WebSocket channel binding
     /// </summary>
     public class WsChannelBinding
-        : IChannelBinding
+        : WsBindingDefinition, IChannelBindingDefinition
     {
 
         /// <summary>

@@ -64,11 +64,11 @@ namespace Neuroglia.AsyncApi.Services.FluentBuilders
         IServerBuilder UseSecurityScheme(string name);
 
         /// <summary>
-        /// Adds the specified <see cref="IServerBinding"/> to the <see cref="ServerDefinition"/> to build
+        /// Adds the specified <see cref="IServerBindingDefinition"/> to the <see cref="ServerDefinition"/> to build
         /// </summary>
-        /// <param name="binding">The <see cref="IServerBinding"/> to add</param>
+        /// <param name="binding">The <see cref="IServerBindingDefinition"/> to add</param>
         /// <returns>The configured <see cref="IServerBuilder"/></returns>
-        IServerBuilder UseBinding(IServerBinding binding);
+        IServerBuilder UseBinding(IServerBindingDefinition binding);
 
         /// <summary>
         /// Builds a new <see cref="ServerDefinition"/>

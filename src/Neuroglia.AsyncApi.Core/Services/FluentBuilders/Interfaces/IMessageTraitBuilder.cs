@@ -128,11 +128,11 @@ namespace Neuroglia.AsyncApi.Services.FluentBuilders
         TBuilder DocumentWith(Uri uri, string description = null);
 
         /// <summary>
-        /// Adds the specified <see cref="IMessageBinding"/> to the <see cref="MessageTraitDefinition"/> to build
+        /// Adds the specified <see cref="IMessageBindingDefinition"/> to the <see cref="MessageTraitDefinition"/> to build
         /// </summary>
-        /// <param name="binding">The <see cref="IMessageBinding"/> to add</param>
+        /// <param name="binding">The <see cref="IMessageBindingDefinition"/> to add</param>
         /// <returns>The configured <see cref="IMessageTraitBuilder{TBuilder, TTrait}"/></returns>
-        TBuilder UseBinding(IMessageBinding binding);
+        TBuilder UseBinding(IMessageBindingDefinition binding);
 
         /// <summary>
         /// Builds a new <see cref="MessageTraitDefinition"/>

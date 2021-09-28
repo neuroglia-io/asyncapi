@@ -82,7 +82,7 @@ namespace Neuroglia.AsyncApi.Services.FluentBuilders
         }
 
         /// <inheritdoc/>
-        public virtual IChannelBuilder UseBinding(IChannelBinding binding)
+        public virtual IChannelBuilder UseBinding(IChannelBindingDefinition binding)
         {
             if (binding == null)
                 throw new ArgumentNullException(nameof(binding));

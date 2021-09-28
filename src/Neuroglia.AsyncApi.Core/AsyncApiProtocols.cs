@@ -34,7 +34,7 @@ namespace Neuroglia.AsyncApi
         /// <summary>
         /// Gets the kafka Async API protocol
         /// </summary>
-        public const string Kakfa = "kafka";
+        public const string Kafka = "kafka";
         /// <summary>
         /// Gets the amqp Async API protocol
         /// </summary>

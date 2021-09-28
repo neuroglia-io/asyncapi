@@ -14,17 +14,29 @@
  * limitations under the License.
  *
  */
-namespace Neuroglia.AsyncApi.Models.Bindings
-{
 
+using System.Collections.Generic;
+
+namespace Neuroglia.AsyncApi.Models.Bindings.Mqtt
+{
     /// <summary>
-    /// Defines the fundamentals of a channel binding
+    /// Represents the base class for all Mqtt implementations of the <see cref="IBindingDefinition"/> interface
     /// </summary>
-    public interface IChannelBinding
-        : IBinding
+    public abstract class MqttBindingDefinition
+        : IBindingDefinition
     {
 
-
+        /// <inheritdoc/>
+        [Newtonsoft.Json.JsonIgnore]
+        [System.Text.Json.Serialization.JsonIgnore]
+        [YamlDotNet.Serialization.YamlIgnore]
+        public IEnumerable<string> Protocols
+        {
+            get
+            {
+                yield return AsyncApiProtocols.Mqtt;
+            }
+        }
 
     }
 

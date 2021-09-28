@@ -20,7 +20,7 @@ namespace Neuroglia.AsyncApi.Models.Bindings.WebSockets
     /// Represents the object used to configure a WebSocket message binding
     /// </summary>
     public class WsMessageBinding
-        : IMessageBinding
+        : WsBindingDefinition, IMessageBindingDefinition
     {
 
 

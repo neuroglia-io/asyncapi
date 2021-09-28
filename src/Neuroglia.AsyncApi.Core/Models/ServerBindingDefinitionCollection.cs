@@ -31,10 +31,10 @@ namespace Neuroglia.AsyncApi.Models
 {
 
     /// <summary>
-    /// Represents the object used to configure a <see cref="ServerDefinition"/>'s <see cref="IServerBinding"/>s
+    /// Represents the object used to configure a <see cref="ServerDefinition"/>'s <see cref="IServerBindingDefinition"/>s
     /// </summary>
     public class ServerBindingDefinitionCollection
-        : BindingDefinitionCollection<IServerBinding>, IEnumerable<IServerBinding>
+        : BindingDefinitionCollection<IServerBindingDefinition>, IEnumerable<IServerBindingDefinition>
     {
 
         /// <summary>

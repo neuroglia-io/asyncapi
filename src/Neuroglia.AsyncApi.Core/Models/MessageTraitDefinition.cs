@@ -112,7 +112,7 @@ namespace Neuroglia.AsyncApi.Models
         public virtual List<ExternalDocumentationDefinition> ExternalDocs { get; set; }
 
         /// <summary>
-        /// Gets/sets an object used to configure the <see cref="MessageTraitDefinition"/>'s <see cref="IMessageBinding"/>s
+        /// Gets/sets an object used to configure the <see cref="MessageTraitDefinition"/>'s <see cref="IMessageBindingDefinition"/>s
         /// </summary>
         [Newtonsoft.Json.JsonProperty("bindings")]
         [YamlDotNet.Serialization.YamlMember(Alias = "bindings")]

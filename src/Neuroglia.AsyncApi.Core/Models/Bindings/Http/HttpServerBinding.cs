@@ -21,7 +21,7 @@ namespace Neuroglia.AsyncApi.Models.Bindings.Http
     /// Represents the object used to configure an http server binding
     /// </summary>
     public class HttpServerBinding
-        : IServerBinding
+        : HttpBindingDefinition, IServerBindingDefinition
     {
 
 

@@ -31,10 +31,10 @@ namespace Neuroglia.AsyncApi.Models
 {
 
     /// <summary>
-    /// Represents the object used to configure a <see cref="OperationDefinition"/>'s <see cref="IOperationBinding"/>s
+    /// Represents the object used to configure a <see cref="OperationDefinition"/>'s <see cref="IOperationBindingDefinition"/>s
     /// </summary>
     public class OperationBindingDefinitionCollection
-        : BindingDefinitionCollection<IOperationBinding>, IEnumerable<IOperationBinding>
+        : BindingDefinitionCollection<IOperationBindingDefinition>, IEnumerable<IOperationBindingDefinition>
     {
 
         /// <summary>

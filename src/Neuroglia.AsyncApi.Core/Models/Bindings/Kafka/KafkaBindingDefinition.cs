@@ -14,15 +14,28 @@
  * limitations under the License.
  *
  */
-namespace Neuroglia.AsyncApi.Models.Bindings
-{
+using System.Collections.Generic;
 
+namespace Neuroglia.AsyncApi.Models.Bindings.Kafka
+{
     /// <summary>
-    /// Defines the fundamentals of a server binding
+    /// Represents the base class for all Kafka implementations of the <see cref="IBindingDefinition"/> interface
     /// </summary>
-    public interface IServerBinding
-        : IBinding
+    public abstract class KafkaBindingDefinition
+        : IBindingDefinition
     {
+
+        /// <inheritdoc/>
+        [Newtonsoft.Json.JsonIgnore]
+        [System.Text.Json.Serialization.JsonIgnore]
+        [YamlDotNet.Serialization.YamlIgnore]
+        public IEnumerable<string> Protocols
+        {
+            get
+            {
+                yield return AsyncApiProtocols.Kafka;
+            }
+        }
 
     }
 

@@ -1,0 +1,216 @@
+﻿/*
+ * Copyright © 2021 Neuroglia SPRL. All rights reserved.
+ * <p>
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ * <p>
+ * http://www.apache.org/licenses/LICENSE-2.0
+ * <p>
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ *
+ */
+using Microsoft.Extensions.Logging;
+using Neuroglia.AsyncApi.Models;
+using Neuroglia.Serialization;
+using Newtonsoft.Json.Linq;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Reactive.Subjects;
+using System.Text.RegularExpressions;
+using System.Threading;
+using System.Threading.Tasks;
+
+namespace Neuroglia.AsyncApi.Client.Services
+{
+
+    /// <summary>
+    /// Represents the base class for all implementations of the <see cref="IChannelBinding"/> interface
+    /// </summary>
+    public abstract class ChannelBindingBase
+        : IChannelBinding
+    {
+
+        /// <summary>
+        /// Initializes a new <see cref="ChannelBindingBase"/>
+        /// </summary>
+        /// <param name="loggerFactory">The service used to create <see cref="ILogger"/>s</param>
+        /// <param name="serializers">The service used to provide <see cref="ISerializer"/>s</param>
+        /// <param name="channel">The <see cref="IChannel"/> the <see cref="ChannelBindingBase"/> belongs to</param>
+        protected ChannelBindingBase(ILoggerFactory loggerFactory, ISerializerProvider serializers, IChannel channel)
+        {
+            this.Logger = loggerFactory.CreateLogger(this.GetType());
+            this.Serializers = serializers;
+            this.Channel = channel;
+            this.OnMessageSubject = new();
+            this.CancellationTokenSource = new();
+        }
+
+        /// <summary>
+        /// Gets the service used to perform logging
+        /// </summary>
+        protected ILogger Logger { get; }
+
+        /// <summary>
+        /// Gets the service used to provide <see cref="ISerializer"/>s
+        /// </summary>
+        protected ISerializerProvider Serializers { get; }
+
+        /// <summary>
+        /// Gets the <see cref="IChannel"/> the <see cref="ChannelBindingBase"/> belongs to
+        /// </summary>
+        protected IChannel Channel { get; }
+
+        /// <summary>
+        /// Gets the <see cref="Subject{T}"/> used to observe <see cref="IMessage"/>s produced or consumed by the <see cref="ChannelBindingBase"/>
+        /// </summary>
+        protected Subject<IMessage> OnMessageSubject { get; }
+
+        /// <summary>
+        /// Gets the <see cref="ChannelBindingBase"/>'s <see cref="System.Threading.CancellationTokenSource"/>
+        /// </summary>
+        protected CancellationTokenSource CancellationTokenSource { get; }
+
+        /// <inheritdoc/>
+        public abstract Task PublishAsync(IMessage message, CancellationToken cancellationToken = default);
+
+        /// <inheritdoc/>
+        public virtual IDisposable Subscribe(IObserver<IMessage> observer)
+        {
+            if (observer == null)
+                throw new ArgumentNullException(nameof(observer));
+            return this.OnMessageSubject.Subscribe(observer);
+        }
+
+        /// <summary>
+        /// Serializes the specified object
+        /// </summary>
+        /// <param name="graph">The object to serialize</param>
+        /// <param name="cancellationToken">A <see cref="CancellationToken"/></param>
+        /// <returns>The serialized object</returns>
+        protected virtual async Task<byte[]> SerializeAsync(object graph, CancellationToken cancellationToken = default)
+        {
+            if (graph == null)
+                return Array.Empty<byte>();
+            string contentType = this.Channel.Definition.Publish.Message.ContentType;
+            if (string.IsNullOrWhiteSpace(contentType))
+                contentType = this.Channel.DefaultContentType;
+            if (string.IsNullOrWhiteSpace(contentType))
+                throw new NullReferenceException($"Failed to determine the content type for messages published on the channel with key '{this.Channel.Key}'");
+            ISerializer serializer = this.Serializers.GetSerializerFor(contentType);
+            if (serializer == null)
+                throw new NullReferenceException($"Failed to find a serializer for the specified content type '{contentType}'");
+            return await serializer.SerializeAsync(graph, cancellationToken);
+        }
+
+        /// <summary>
+        /// Deserializes the specified data
+        /// </summary>
+        /// <param name="data">The data to deserialize</param>
+        /// <param name="cancellationToken">A <see cref="CancellationToken"/></param>
+        /// <returns>The deserialized data</returns>
+        protected virtual async Task<object> DeserializeAsync(byte[] data, CancellationToken cancellationToken = default)
+        {
+            if (data == null)
+                return null;
+            string contentType = this.Channel.Definition.Subscribe.Message.ContentType;
+            if (string.IsNullOrWhiteSpace(contentType))
+                contentType = this.Channel.DefaultContentType;
+            if (string.IsNullOrWhiteSpace(contentType))
+                throw new NullReferenceException($"Failed to determine the content type for messages subscribed on the channel with key '{this.Channel.Key}'");
+            ISerializer serializer = this.Serializers.GetSerializerFor(contentType);
+            if (serializer == null)
+                throw new NullReferenceException($"Failed to find a serializer for the specified content type '{contentType}'");
+            return await serializer.DeserializeAsync<JToken>(data, cancellationToken);
+        }
+
+        /// <summary>
+        /// Computes the channel key for the specified <see cref="IMessage"/>
+        /// </summary>
+        /// <param name="message">The <see cref="IMessage"/> to compute the channel key for</param>
+        /// <returns>The channel key computed for the specified <see cref="IMessage"/></returns>
+        protected virtual string ComputeChannelKeyFor(IMessage message)
+        {
+            if (message == null)
+                throw new ArgumentNullException(nameof(message));
+            string channelKey = this.Channel.Key;
+            if (this.Channel.Definition.Parameters == null
+                || !this.Channel.Definition.Parameters.Any())
+                return channelKey;
+            foreach (KeyValuePair<string, ParameterDefinition> parameterDefinition in this.Channel.Definition.Parameters)
+            {
+                string[] components = parameterDefinition.Value.LocationExpression.Fragment.Split("/", StringSplitOptions.RemoveEmptyEntries);
+                JToken parameter = null;
+                switch (parameterDefinition.Value.LocationExpression.Source)
+                {
+                    case RuntimeExpressionSource.Header:
+                        if (!message.Headers.TryGetValue(components.First(), out object value))
+                            break;
+                        parameter = (JToken)value;
+                        for (int i = 1; i < components.Length; i++)
+                        {
+                            if (parameter is not JObject jobject)
+                                break;
+                            JProperty property = jobject.Property(components[i]);
+                            if (property == null)
+                                break;
+                            parameter = property.Value;
+                        }
+                        break;
+                    case RuntimeExpressionSource.Payload:
+                        parameter = message.Payload as JToken;
+                        for (int i = 0; i < components.Length; i++)
+                        {
+                            if (parameter is not JObject jobject)
+                                break;
+                            JProperty property = jobject.Property(components[i]);
+                            if (property == null)
+                                break;
+                            parameter = property.Value;
+                        }
+                        break;
+                    default:
+                        throw new NotSupportedException($"The specified {nameof(RuntimeExpressionSource)} '{this.Channel.Definition.Subscribe.Message.CorrelationId.LocationExpression.Source}' is not supported");
+                }
+                if (parameter == null)
+                    continue;
+                channelKey = channelKey.Replace($"{{{parameterDefinition.Key}}}", parameter.ToString());
+            }
+            return channelKey;
+        }
+
+        private bool _Disposed;
+        /// <summary>
+        /// Disposes of the <see cref="ChannelBindingBase"/>
+        /// </summary>
+        /// <param name="disposing">A boolean indicating whether or not the <see cref="ChannelBindingBase"/> is being disposed of</param>
+        protected virtual void Dispose(bool disposing)
+        {
+            if (!this._Disposed)
+            {
+                if (disposing)
+                {
+                    this.OnMessageSubject.OnCompleted();
+                    this.OnMessageSubject.Dispose();
+                    this.CancellationTokenSource.Cancel();
+                    this.CancellationTokenSource.Dispose();
+                }
+                this._Disposed = true;
+            }
+        }
+
+        /// <inheritdoc/>
+        public void Dispose()
+        {
+            this.Dispose(disposing: true);
+            GC.SuppressFinalize(this);
+        }
+
+    }
+
+}

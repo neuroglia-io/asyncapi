@@ -23,7 +23,7 @@ namespace Neuroglia.AsyncApi.Models.Bindings.Http
     /// Represents the object used to configure an http message binding
     /// </summary>
     public class HttpMessageBinding
-        : IMessageBinding
+        : HttpBindingDefinition, IMessageBindingDefinition
     {
 
         /// <summary>

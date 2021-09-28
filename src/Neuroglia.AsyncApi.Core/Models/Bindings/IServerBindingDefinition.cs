@@ -16,11 +16,12 @@
  */
 namespace Neuroglia.AsyncApi.Models.Bindings
 {
+
     /// <summary>
-    /// Defines the fundamentals of an operation binding
+    /// Defines the fundamentals of a server binding
     /// </summary>
-    public interface IOperationBinding
-        : IBinding
+    public interface IServerBindingDefinition
+        : IBindingDefinition
     {
 
     }

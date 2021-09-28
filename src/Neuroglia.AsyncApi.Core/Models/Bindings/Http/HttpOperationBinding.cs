@@ -22,7 +22,7 @@ namespace Neuroglia.AsyncApi.Models.Bindings.Http
     /// Represents the object used to configure an http operation binding
     /// </summary>
     public class HttpOperationBinding
-        : IOperationBinding
+        : HttpBindingDefinition, IOperationBindingDefinition
     {
 
         /// <summary>

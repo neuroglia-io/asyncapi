@@ -21,7 +21,7 @@ namespace Neuroglia.AsyncApi.Models.Bindings.WebSockets
     /// Represents the object used to configure a WebSocket operation binding
     /// </summary>
     public class WsOperationBinding
-        : IOperationBinding
+        : WsBindingDefinition, IOperationBindingDefinition
     {
 
 

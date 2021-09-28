@@ -23,7 +23,7 @@ namespace Neuroglia.AsyncApi.Models.Bindings.Kafka
     /// Represents the object used to configure a Kafka message binding
     /// </summary>
     public class KafkaMessageBinding
-        : IMessageBinding
+        : KafkaBindingDefinition, IMessageBindingDefinition
     {
 
         /// <summary>

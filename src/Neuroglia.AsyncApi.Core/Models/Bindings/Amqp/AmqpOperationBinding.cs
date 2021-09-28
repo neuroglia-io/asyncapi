@@ -16,11 +16,12 @@
  */
 namespace Neuroglia.AsyncApi.Models.Bindings.Amqp
 {
+
     /// <summary>
     /// Represents the object used to configure an AMQP 0.9+ operation binding
     /// </summary>
     public class AmqpOperationBinding
-        : IOperationBinding
+        : AmqpBindingDefinition, IOperationBindingDefinition
     {
 
 

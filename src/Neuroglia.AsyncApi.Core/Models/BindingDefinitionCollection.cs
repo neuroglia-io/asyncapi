@@ -27,10 +27,10 @@ namespace Neuroglia.AsyncApi.Models
     /// <summary>
     /// Represents the base class for all <see cref="IBindingDefinitionCollection{TBinding}"/> implementations
     /// </summary>
-    /// <typeparam name="TBinding">The type of <see cref="IBinding"/> contained by the <see cref="BindingDefinitionCollection{TBinding}"/></typeparam>
+    /// <typeparam name="TBinding">The type of <see cref="IBindingDefinition"/> contained by the <see cref="BindingDefinitionCollection{TBinding}"/></typeparam>
     public abstract class BindingDefinitionCollection<TBinding>
         : ReferenceableComponentDefinition, IBindingDefinitionCollection<TBinding>
-        where TBinding : IBinding
+        where TBinding : IBindingDefinition
     {
 
         private List<PropertyInfo> _BindingProperties;
@@ -45,9 +45,9 @@ namespace Neuroglia.AsyncApi.Models
         }
 
         /// <summary>
-        /// Adds the specified <see cref="IBinding"/> to the <see cref="BindingDefinitionCollection{TBinding}"/>
+        /// Adds the specified <see cref="IBindingDefinition"/> to the <see cref="BindingDefinitionCollection{TBinding}"/>
         /// </summary>
-        /// <param name="binding">The <see cref="IBinding"/> to add</param>
+        /// <param name="binding">The <see cref="IBindingDefinition"/> to add</param>
         public virtual void Add(TBinding binding)
         {
             if (binding == null)

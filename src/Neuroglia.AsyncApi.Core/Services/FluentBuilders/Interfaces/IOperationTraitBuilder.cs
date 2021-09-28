@@ -68,11 +68,11 @@ namespace Neuroglia.AsyncApi.Services.FluentBuilders
         TBuilder DocumentWith(Uri uri, string description = null);
 
         /// <summary>
-        /// Adds the specified <see cref="IOperationBinding"/> to the <see cref="OperationTraitDefinition"/> to build
+        /// Adds the specified <see cref="IOperationBindingDefinition"/> to the <see cref="OperationTraitDefinition"/> to build
         /// </summary>
-        /// <param name="binding">The <see cref="IOperationBinding"/> to add</param>
+        /// <param name="binding">The <see cref="IOperationBindingDefinition"/> to add</param>
         /// <returns>The configured <see cref="IOperationTraitBuilder{TBuilder, TTrait}"/></returns>
-        TBuilder UseBinding(IOperationBinding binding);
+        TBuilder UseBinding(IOperationBindingDefinition binding);
 
         /// <summary>
         /// Builds a new <see cref="OperationTraitDefinition"/>

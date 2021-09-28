@@ -21,7 +21,7 @@ namespace Neuroglia.AsyncApi.Models.Bindings.Nats
     /// Represents the object used to configure a <see href="https://nats.io/">NATS</see> server binding
     /// </summary>
     public class NatsServerBinding
-        : IServerBinding
+        : NatsBindingDefinition, IServerBindingDefinition
     {
 
 

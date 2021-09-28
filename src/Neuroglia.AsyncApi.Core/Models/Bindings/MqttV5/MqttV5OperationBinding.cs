@@ -21,7 +21,7 @@ namespace Neuroglia.AsyncApi.Models.Bindings.Mqtt5
     /// Represents the object used to configure an MQTT V5+ operation binding
     /// </summary>
     public class MqttV5OperationBinding
-        : IOperationBinding
+        : MqttV5BindingDefinition, IOperationBindingDefinition
     {
 
 

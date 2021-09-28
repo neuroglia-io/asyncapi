@@ -20,7 +20,7 @@ namespace Neuroglia.AsyncApi.Models.Bindings.Amqp
     /// Represents the object used to configure an AMQP 0.9+ message binding
     /// </summary>
     public class AmqpMessageBinding
-        : IMessageBinding
+        : AmqpBindingDefinition, IMessageBindingDefinition
     {
 
 

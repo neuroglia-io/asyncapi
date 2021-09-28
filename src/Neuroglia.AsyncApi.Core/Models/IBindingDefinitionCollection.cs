@@ -20,12 +20,12 @@ using System.Collections.Generic;
 namespace Neuroglia.AsyncApi.Models
 {
     /// <summary>
-    /// Defines the fundamentals of a collection of <see cref="IBinding"/>s
+    /// Defines the fundamentals of a collection of <see cref="IBindingDefinition"/>s
     /// </summary>
-    /// <typeparam name="TBinding">The type of <see cref="IBinding"/> contained by the <see cref="IBindingDefinitionCollection{TBinding}"/></typeparam>
+    /// <typeparam name="TBinding">The type of <see cref="IBindingDefinition"/> contained by the <see cref="IBindingDefinitionCollection{TBinding}"/></typeparam>
     public interface IBindingDefinitionCollection<TBinding>
         : IReferenceable, IEnumerable<TBinding>
-        where TBinding : IBinding
+        where TBinding : IBindingDefinition
     {
 
 

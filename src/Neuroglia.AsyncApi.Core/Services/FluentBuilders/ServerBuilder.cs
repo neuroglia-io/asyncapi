@@ -95,7 +95,7 @@ namespace Neuroglia.AsyncApi.Services.FluentBuilders
         }
 
         /// <inheritdoc/>
-        public virtual IServerBuilder UseBinding(IServerBinding binding)
+        public virtual IServerBuilder UseBinding(IServerBindingDefinition binding)
         {
             if (binding == null)
                 throw new ArgumentNullException(nameof(binding));

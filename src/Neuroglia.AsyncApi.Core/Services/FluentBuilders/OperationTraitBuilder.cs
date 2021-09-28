@@ -88,7 +88,7 @@ namespace Neuroglia.AsyncApi.Services.FluentBuilders
         }
 
         /// <inheritdoc/>
-        public virtual TBuilder UseBinding(IOperationBinding binding)
+        public virtual TBuilder UseBinding(IOperationBindingDefinition binding)
         {
             if (binding == null)
                 throw new ArgumentNullException(nameof(binding));

@@ -19,6 +19,10 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Neuroglia.AsyncApi.AspNetCo
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Neuroglia.AsyncApi.Core", "Neuroglia.AsyncApi.Core\Neuroglia.AsyncApi.Core.csproj", "{ED054553-E0F5-4D6E-A4FE-6EDB5A5003CC}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Neuroglia.AsyncApi.Client", "Neuroglia.AsyncApi.Client\Neuroglia.AsyncApi.Client.csproj", "{F4F99715-CA3D-4827-919C-DF6098D3E1F8}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Neuroglia.AsyncApi.Client.Kafka", "Neuroglia.AsyncApi.Client.Kafka\Neuroglia.AsyncApi.Client.Kafka.csproj", "{434530F2-AE09-47E8-AC5C-8FCB16612FDE}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -45,6 +49,14 @@ Global
 		{ED054553-E0F5-4D6E-A4FE-6EDB5A5003CC}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{ED054553-E0F5-4D6E-A4FE-6EDB5A5003CC}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{ED054553-E0F5-4D6E-A4FE-6EDB5A5003CC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F4F99715-CA3D-4827-919C-DF6098D3E1F8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F4F99715-CA3D-4827-919C-DF6098D3E1F8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F4F99715-CA3D-4827-919C-DF6098D3E1F8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F4F99715-CA3D-4827-919C-DF6098D3E1F8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{434530F2-AE09-47E8-AC5C-8FCB16612FDE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{434530F2-AE09-47E8-AC5C-8FCB16612FDE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{434530F2-AE09-47E8-AC5C-8FCB16612FDE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{434530F2-AE09-47E8-AC5C-8FCB16612FDE}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -55,6 +67,8 @@ Global
 		{9FFAD2FD-038F-4786-8A52-68013C02F8B2} = {080FE7CB-B102-4F1C-BE48-340027524D14}
 		{2B6DA3C0-88B1-40B8-A2B1-13ABF5D703EB} = {817C6554-6E96-457C-BDF1-F3455A146E8F}
 		{ED054553-E0F5-4D6E-A4FE-6EDB5A5003CC} = {817C6554-6E96-457C-BDF1-F3455A146E8F}
+		{F4F99715-CA3D-4827-919C-DF6098D3E1F8} = {817C6554-6E96-457C-BDF1-F3455A146E8F}
+		{434530F2-AE09-47E8-AC5C-8FCB16612FDE} = {817C6554-6E96-457C-BDF1-F3455A146E8F}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {292C0290-D369-4B77-9EEC-1C41DCAF2781}

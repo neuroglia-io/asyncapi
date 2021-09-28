@@ -20,7 +20,7 @@ namespace Neuroglia.AsyncApi.Models.Bindings.Kafka
     /// Represents the object used to configure a Kafka server binding
     /// </summary>
     public class KafkaServerBinding
-        : IServerBinding
+        : KafkaBindingDefinition, IServerBindingDefinition
     {
 
 

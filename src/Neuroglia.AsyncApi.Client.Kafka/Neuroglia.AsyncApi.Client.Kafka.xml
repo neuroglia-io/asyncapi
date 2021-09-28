@@ -1,0 +1,48 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Neuroglia.AsyncApi.Client.Kafka</name>
+    </assembly>
+    <members>
+        <member name="T:Neuroglia.AsyncApi.Client.KafkaChannelBinding">
+            <summary>
+            Represents the Kafka implementation of the <see cref="T:Neuroglia.AsyncApi.Client.Services.IChannelBinding"/> interface
+            </summary>
+        </member>
+        <member name="M:Neuroglia.AsyncApi.Client.KafkaChannelBinding.#ctor(Microsoft.Extensions.Logging.ILoggerFactory,Neuroglia.Serialization.ISerializerProvider,Neuroglia.AsyncApi.Client.Services.IChannel)">
+            <summary>
+            Initializes a new <see cref="T:Neuroglia.AsyncApi.Client.Services.ChannelBindingBase"/>
+            </summary>
+            <param name="loggerFactory">The service used to create <see cref="T:Microsoft.Extensions.Logging.ILogger"/>s</param>
+            <param name="serializers">The service used to provide <see cref="T:Neuroglia.Serialization.ISerializer"/>s</param>
+            <param name="channel">The <see cref="T:Neuroglia.AsyncApi.Client.Services.IChannel"/> the <see cref="T:Neuroglia.AsyncApi.Client.Services.ChannelBindingBase"/> belongs to</param>
+        </member>
+        <member name="P:Neuroglia.AsyncApi.Client.KafkaChannelBinding.KafkaProducer">
+            <summary>
+            Gets the service used to produce Kafka messages
+            </summary>
+        </member>
+        <member name="P:Neuroglia.AsyncApi.Client.KafkaChannelBinding.KafkaConsumer">
+            <summary>
+            Gets the service used to consume Kafka messages
+            </summary>
+        </member>
+        <member name="P:Neuroglia.AsyncApi.Client.KafkaChannelBinding.ConsumeTask">
+            <summary>
+            Gets the <see cref="T:System.Threading.Tasks.Task"/> used to consume messages from the <see cref="P:Neuroglia.AsyncApi.Client.KafkaChannelBinding.KafkaConsumer"/>
+            </summary>
+        </member>
+        <member name="M:Neuroglia.AsyncApi.Client.KafkaChannelBinding.PublishAsync(Neuroglia.AsyncApi.Client.IMessage,System.Threading.CancellationToken)">
+            <inheritdoc/>
+        </member>
+        <member name="M:Neuroglia.AsyncApi.Client.KafkaChannelBinding.ConsumeMessagesAsync">
+            <summary>
+            Polls and consumes messages from the <see cref="P:Neuroglia.AsyncApi.Client.KafkaChannelBinding.KafkaConsumer"/>
+            </summary>
+            <returns>A new awaitable <see cref="T:System.Threading.Tasks.Task"/></returns>
+        </member>
+        <member name="M:Neuroglia.AsyncApi.Client.KafkaChannelBinding.Dispose(System.Boolean)">
+            <inheritdoc/>
+        </member>
+    </members>
+</doc>
