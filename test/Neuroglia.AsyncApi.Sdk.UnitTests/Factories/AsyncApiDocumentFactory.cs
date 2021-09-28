@@ -34,10 +34,10 @@ namespace Neuroglia.AsyncApi.UnitTests.Factories
                     .WithUrl(new Uri("https://fake.server.com"))
                     .WithProtocol(AsyncApiProtocols.Http, "2.0")
                     .WithDescription("Fake Description")
-                    .UseBinding(new HttpServerBinding()))
+                    .UseBinding(new HttpServerBindingDefinition()))
                 .UseChannel("fake channel", channel => channel
                     .WithDescription("Fake Channel Description")
-                    .UseBinding(new HttpChannelBinding())
+                    .UseBinding(new HttpChannelBindingDefinition())
                     .DefineSubscribeOperation(operation => operation
                         .WithOperationId("fake operation")
                         .WithDescription("fake operation description")
@@ -46,7 +46,7 @@ namespace Neuroglia.AsyncApi.UnitTests.Factories
                             .WithName("fake pub operation name")
                             .WithTitle("fake pub operation title")
                             .WithHeaders<TestMessageHeaders>()
-                            .UseBinding(new HttpMessageBinding()))))
+                            .UseBinding(new HttpMessageBindingDefinition()))))
                 .Build();
         }
 

@@ -36,7 +36,7 @@ namespace StreetLightsApi.Server
                                 .WithUrl(new Uri("mqtt://test.mosquitto.org"))
                                 .WithProtocol(AsyncApiProtocols.Mqtt)
                                 .WithDescription("The Mosquitto test MQTT server")
-                                .UseBinding(new MqttServerBinding()
+                                .UseBinding(new MqttServerBindingDefinition()
                                 {
                                     ClientId = "StreetLightsAPI:1.0.0",
                                     CleanSession = true

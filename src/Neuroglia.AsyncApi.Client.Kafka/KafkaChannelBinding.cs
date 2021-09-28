@@ -17,6 +17,7 @@
 using Confluent.Kafka;
 using Microsoft.Extensions.Logging;
 using Neuroglia.AsyncApi.Client.Services;
+using Neuroglia.AsyncApi.Models.Bindings.Kafka;
 using Neuroglia.Serialization;
 using Newtonsoft.Json.Linq;
 using System;
@@ -44,6 +45,8 @@ namespace Neuroglia.AsyncApi.Client
         public KafkaChannelBinding(ILoggerFactory loggerFactory, ISerializerProvider serializers, IChannel channel) 
             : base(loggerFactory, serializers, channel)
         {
+            KafkaServerBindingDefinition x;
+            
             ClientConfig clientConfig = new()
             {
                 BootstrapServers = "",

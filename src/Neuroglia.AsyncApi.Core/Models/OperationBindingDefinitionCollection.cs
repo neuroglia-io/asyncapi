@@ -43,7 +43,7 @@ namespace Neuroglia.AsyncApi.Models
         [Newtonsoft.Json.JsonProperty("http")]
         [YamlDotNet.Serialization.YamlMember(Alias = "http")]
         [System.Text.Json.Serialization.JsonPropertyName("http")]
-        public virtual HttpOperationBinding Http { get; set; }
+        public virtual HttpOperationBindingDefinition Http { get; set; }
 
         /// <summary>
         /// Gets/sets the protocol-specific information for an WebSockets server.
@@ -51,7 +51,7 @@ namespace Neuroglia.AsyncApi.Models
         [Newtonsoft.Json.JsonProperty("ws")]
         [YamlDotNet.Serialization.YamlMember(Alias = "ws")]
         [System.Text.Json.Serialization.JsonPropertyName("ws")]
-        public virtual WsOperationBinding Ws { get; set; }
+        public virtual WsOperationBindingDefinition Ws { get; set; }
 
         /// <summary>
         /// Gets/sets the protocol-specific information for a Kafka server.
@@ -59,7 +59,7 @@ namespace Neuroglia.AsyncApi.Models
         [Newtonsoft.Json.JsonProperty("kafka")]
         [YamlDotNet.Serialization.YamlMember(Alias = "kafka")]
         [System.Text.Json.Serialization.JsonPropertyName("kafka")]
-        public virtual KafkaOperationBinding Kafka { get; set; }
+        public virtual KafkaOperationBindingDefinition Kafka { get; set; }
 
         /// <summary>
         /// Gets/sets the protocol-specific information for an AMQP 0-9-1 server.
@@ -67,7 +67,7 @@ namespace Neuroglia.AsyncApi.Models
         [Newtonsoft.Json.JsonProperty("amqp")]
         [YamlDotNet.Serialization.YamlMember(Alias = "amqp")]
         [System.Text.Json.Serialization.JsonPropertyName("amqp")]
-        public virtual AmqpOperationBinding Amqp { get; set; }
+        public virtual AmqpOperationBindingDefinition Amqp { get; set; }
 
         /// <summary>
         /// Gets/sets the protocol-specific information for an information for an AMQP 1.0 server.
@@ -75,7 +75,7 @@ namespace Neuroglia.AsyncApi.Models
         [Newtonsoft.Json.JsonProperty("amqp1")]
         [YamlDotNet.Serialization.YamlMember(Alias = "amqp1")]
         [System.Text.Json.Serialization.JsonPropertyName("amqp1")]
-        public virtual AmqpV1OperationBinding Amqp1 { get; set; }
+        public virtual AmqpV1OperationBindingDefinition Amqp1 { get; set; }
 
         /// <summary>
         /// Gets/sets the protocol-specific information for an information for an MQTT server.
@@ -83,7 +83,7 @@ namespace Neuroglia.AsyncApi.Models
         [Newtonsoft.Json.JsonProperty("mqtt")]
         [YamlDotNet.Serialization.YamlMember(Alias = "mqtt")]
         [System.Text.Json.Serialization.JsonPropertyName("mqtt")]
-        public virtual MqttOperationBinding Mqtt { get; set; }
+        public virtual MqttOperationBindingDefinition Mqtt { get; set; }
 
         /// <summary>
         /// Gets/sets the protocol-specific information for an information for an MQTT 5 server.
@@ -91,7 +91,7 @@ namespace Neuroglia.AsyncApi.Models
         [Newtonsoft.Json.JsonProperty("mqtt5")]
         [YamlDotNet.Serialization.YamlMember(Alias = "mqtt5")]
         [System.Text.Json.Serialization.JsonPropertyName("mqtt5")]
-        public virtual MqttV5OperationBinding Mqtt5 { get; set; }
+        public virtual MqttV5OperationBindingDefinition Mqtt5 { get; set; }
 
         /// <summary>
         /// Gets/sets the protocol-specific information for an information for a NATS server.
@@ -99,7 +99,7 @@ namespace Neuroglia.AsyncApi.Models
         [Newtonsoft.Json.JsonProperty("nats")]
         [YamlDotNet.Serialization.YamlMember(Alias = "nats")]
         [System.Text.Json.Serialization.JsonPropertyName("nats")]
-        public virtual NatsOperationBinding Nats { get; set; }
+        public virtual NatsOperationBindingDefinition Nats { get; set; }
 
         /// <summary>
         /// Gets/sets the protocol-specific information for an information for a Redis server.
@@ -107,7 +107,7 @@ namespace Neuroglia.AsyncApi.Models
         [Newtonsoft.Json.JsonProperty("redis")]
         [YamlDotNet.Serialization.YamlMember(Alias = "redis")]
         [System.Text.Json.Serialization.JsonPropertyName("redis")]
-        public virtual RedisOperationBinding Redis { get; set; }
+        public virtual RedisOperationBindingDefinition Redis { get; set; }
 
     }
 

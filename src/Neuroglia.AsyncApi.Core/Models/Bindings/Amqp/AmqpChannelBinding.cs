@@ -38,7 +38,7 @@ namespace Neuroglia.AsyncApi.Models.Bindings.Amqp
         [Newtonsoft.Json.JsonProperty("exchange")]
         [YamlDotNet.Serialization.YamlMember(Alias = "exchange")]
         [System.Text.Json.Serialization.JsonPropertyName("exchange")]
-        public virtual AmqpExchange Exchange { get; set; }
+        public virtual AmqpExchangeDefinition Exchange { get; set; }
 
         /// <summary>
         /// Gets/sets the object used to configure the AMQP queue, when <see cref="Type"/> is set to <see cref="AmqpChannelType.Queue"/>
@@ -46,7 +46,7 @@ namespace Neuroglia.AsyncApi.Models.Bindings.Amqp
         [Newtonsoft.Json.JsonProperty("queue")]
         [YamlDotNet.Serialization.YamlMember(Alias = "queue")]
         [System.Text.Json.Serialization.JsonPropertyName("queue")]
-        public virtual AmqpQueue Queue { get; set; }
+        public virtual AmqpQueueDefinition Queue { get; set; }
 
         /// <summary>
         /// Gets/sets the version of this binding. Defaults to 'latest'.
