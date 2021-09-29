@@ -23,52 +23,52 @@ namespace Neuroglia.AsyncApi.Services.FluentBuilders
     /// <summary>
     /// Defines the fundamentals of a service used to build <see cref="ServerDefinition"/>s
     /// </summary>
-    public interface IServerBuilder
+    public interface IServerDefinitionBuilder
     {
 
         /// <summary>
         /// Configures the <see cref="ServerDefinition"/> to use the specified url
         /// </summary>
         /// <param name="uri">The <see cref="Uri"/> of the <see cref="ServerDefinition"/> to build</param>
-        /// <returns>The configured <see cref="IServerBuilder"/></returns>
-        IServerBuilder WithUrl(Uri uri);
+        /// <returns>The configured <see cref="IServerDefinitionBuilder"/></returns>
+        IServerDefinitionBuilder WithUrl(Uri uri);
 
         /// <summary>
         /// Configures the <see cref="ServerDefinition"/> to use the specified protocol
         /// </summary>
         /// <param name="protocol">The protocol to use</param>
         /// <param name="version">The protocol version to use</param>
-        /// <returns>The configured <see cref="IServerBuilder"/></returns>
-        IServerBuilder WithProtocol(string protocol, string version = null);
+        /// <returns>The configured <see cref="IServerDefinitionBuilder"/></returns>
+        IServerDefinitionBuilder WithProtocol(string protocol, string version = null);
 
         /// <summary>
         /// Configures the <see cref="ServerDefinition"/> to use the specified description
         /// </summary>
         /// <param name="description">The description to use</param>
-        /// <returns>The configured <see cref="IServerBuilder"/></returns>
-        IServerBuilder WithDescription(string description);
+        /// <returns>The configured <see cref="IServerDefinitionBuilder"/></returns>
+        IServerDefinitionBuilder WithDescription(string description);
 
         /// <summary>
         /// Adds the specified <see cref="VariableDefinition"/> to the <see cref="ServerDefinition"/> to build
         /// </summary>
         /// <param name="name">The name of the <see cref="VariableDefinition"/> to add</param>
         /// <param name="setup">An <see cref="Action{T}"/> used to setup the <see cref="VariableDefinition"/> to add</param>
-        /// <returns>The configured <see cref="IServerBuilder"/></returns>
-        IServerBuilder AddVariable(string name, Action<IVariableBuilder> setup);
+        /// <returns>The configured <see cref="IServerDefinitionBuilder"/></returns>
+        IServerDefinitionBuilder AddVariable(string name, Action<IVariableDefinitionBuilder> setup);
 
         /// <summary>
         /// Configures the <see cref="ServerDefinition"/> to build to use the specified <see cref="SecuritySchemeDefinition"/>
         /// </summary>
         /// <param name="name">The name of the <see cref="SecuritySchemeDefinition"/> to add</param>
-        /// <returns>The configured <see cref="IServerBuilder"/></returns>
-        IServerBuilder UseSecurityScheme(string name);
+        /// <returns>The configured <see cref="IServerDefinitionBuilder"/></returns>
+        IServerDefinitionBuilder UseSecurityScheme(string name);
 
         /// <summary>
         /// Adds the specified <see cref="IServerBindingDefinition"/> to the <see cref="ServerDefinition"/> to build
         /// </summary>
         /// <param name="binding">The <see cref="IServerBindingDefinition"/> to add</param>
-        /// <returns>The configured <see cref="IServerBuilder"/></returns>
-        IServerBuilder UseBinding(IServerBindingDefinition binding);
+        /// <returns>The configured <see cref="IServerDefinitionBuilder"/></returns>
+        IServerDefinitionBuilder UseBinding(IServerBindingDefinition binding);
 
         /// <summary>
         /// Builds a new <see cref="ServerDefinition"/>

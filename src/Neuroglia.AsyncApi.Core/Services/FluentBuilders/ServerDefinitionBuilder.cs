@@ -27,18 +27,18 @@ namespace Neuroglia.AsyncApi.Services.FluentBuilders
 {
 
     /// <summary>
-    /// Represents the default implementation of the <see cref="IServerBuilder"/>
+    /// Represents the default implementation of the <see cref="IServerDefinitionBuilder"/>
     /// </summary>
-    public class ServerBuilder
-        : IServerBuilder
+    public class ServerDefinitionBuilder
+        : IServerDefinitionBuilder
     {
 
         /// <summary>
-        /// Initializes a new <see cref="ServerBuilder"/>
+        /// Initializes a new <see cref="ServerDefinitionBuilder"/>
         /// </summary>
         /// <param name="serviceProvider">The current <see cref="IServiceProvider"/></param>
         /// <param name="validators">The services used to validate <see cref="Models.ServerDefinition"/>s</param>
-        public ServerBuilder(IServiceProvider serviceProvider, IEnumerable<IValidator<ServerDefinition>> validators)
+        public ServerDefinitionBuilder(IServiceProvider serviceProvider, IEnumerable<IValidator<ServerDefinition>> validators)
         {
             this.ServiceProvider = serviceProvider;
             this.Validators = validators;
@@ -60,14 +60,14 @@ namespace Neuroglia.AsyncApi.Services.FluentBuilders
         protected virtual ServerDefinition Server { get; } = new();
 
         /// <inheritdoc/>
-        public virtual IServerBuilder WithUrl(Uri uri)
+        public virtual IServerDefinitionBuilder WithUrl(Uri uri)
         {
             this.Server.Url = uri ?? throw new ArgumentNullException(nameof(uri));
             return this;
         }
 
         /// <inheritdoc/>
-        public virtual IServerBuilder WithProtocol(string protocol, string version = null)
+        public virtual IServerDefinitionBuilder WithProtocol(string protocol, string version = null)
         {
             if (string.IsNullOrWhiteSpace(protocol))
                 throw new ArgumentNullException(nameof(protocol));
@@ -77,25 +77,25 @@ namespace Neuroglia.AsyncApi.Services.FluentBuilders
         }
 
         /// <inheritdoc/>
-        public virtual IServerBuilder WithDescription(string description)
+        public virtual IServerDefinitionBuilder WithDescription(string description)
         {
             this.Server.Description = description;
             return this;
         }
 
         /// <inheritdoc/>
-        public virtual IServerBuilder AddVariable(string name, Action<IVariableBuilder> setup)
+        public virtual IServerDefinitionBuilder AddVariable(string name, Action<IVariableDefinitionBuilder> setup)
         {
             if (string.IsNullOrWhiteSpace(name))
                 throw new ArgumentNullException(nameof(name));
-            IVariableBuilder builder = ActivatorUtilities.CreateInstance<VariableBuilder>(this.ServiceProvider);
+            IVariableDefinitionBuilder builder = ActivatorUtilities.CreateInstance<VariableDefinitionBuilder>(this.ServiceProvider);
             setup(builder);
             this.Server.Variables.Add(name, builder.Build());
             return this;
         }
 
         /// <inheritdoc/>
-        public virtual IServerBuilder UseBinding(IServerBindingDefinition binding)
+        public virtual IServerDefinitionBuilder UseBinding(IServerBindingDefinition binding)
         {
             if (binding == null)
                 throw new ArgumentNullException(nameof(binding));
@@ -106,7 +106,7 @@ namespace Neuroglia.AsyncApi.Services.FluentBuilders
         }
 
         /// <inheritdoc/>
-        public virtual IServerBuilder UseSecurityScheme(string name)
+        public virtual IServerDefinitionBuilder UseSecurityScheme(string name)
         {
             if (string.IsNullOrWhiteSpace(name))
                 throw new ArgumentNullException(nameof(name));

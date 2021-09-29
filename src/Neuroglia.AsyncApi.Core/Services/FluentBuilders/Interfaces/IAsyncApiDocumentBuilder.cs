@@ -98,7 +98,7 @@ namespace Neuroglia.AsyncApi.Services.FluentBuilders
         /// </summary>
         /// <param name="setup">An <see cref="Action{T}"/> used to setup the tag to use</param>
         /// <returns>The configured <see cref="IAsyncApiDocumentBuilder"/></returns>
-        IAsyncApiDocumentBuilder TagWith(Action<ITagBuilder> setup);
+        IAsyncApiDocumentBuilder TagWith(Action<ITagDefinitionBuilder> setup);
 
         /// <summary>
         /// Adds the specified external documentation to the <see cref="AsyncApiDocument"/> to build
@@ -114,7 +114,7 @@ namespace Neuroglia.AsyncApi.Services.FluentBuilders
         /// <param name="name">The name of the <see cref="ServerDefinition"/> to add</param>
         /// <param name="setup">An <see cref="Action{T}"/> used to setup the <see cref="ServerDefinition"/> to add</param>
         /// <returns>The configured <see cref="IAsyncApiDocumentBuilder"/></returns>
-        IAsyncApiDocumentBuilder UseServer(string name, Action<IServerBuilder> setup);
+        IAsyncApiDocumentBuilder UseServer(string name, Action<IServerDefinitionBuilder> setup);
 
         /// <summary>
         /// Adds the specified <see cref="ChannelDefinition"/> to the <see cref="AsyncApiDocument"/> to build
@@ -122,7 +122,7 @@ namespace Neuroglia.AsyncApi.Services.FluentBuilders
         /// <param name="name">The name of the <see cref="ChannelDefinition"/> to add</param>
         /// <param name="setup">An <see cref="Action{T}"/> used to setup the <see cref="ChannelDefinition"/> to add</param>
         /// <returns>The configured <see cref="IAsyncApiDocumentBuilder"/></returns>
-        IAsyncApiDocumentBuilder UseChannel(string name, Action<IChannelBuilder> setup);
+        IAsyncApiDocumentBuilder UseChannel(string name, Action<IChannelDefinitionBuilder> setup);
 
         /// <summary>
         /// Adds the specified <see cref="JSchema"/>
@@ -146,7 +146,7 @@ namespace Neuroglia.AsyncApi.Services.FluentBuilders
         /// <param name="name">The name of the <see cref="MessageDefinition"/> to add</param>
         /// <param name="setup">An <see cref="Action{T}"/> used to setup the <see cref="MessageDefinition"/> to add</param>
         /// <returns>The configured <see cref="IAsyncApiDocumentBuilder"/></returns>
-        IAsyncApiDocumentBuilder AddMessage(string name, Action<IMessageBuilder> setup);
+        IAsyncApiDocumentBuilder AddMessage(string name, Action<IMessageDefinitionBuilder> setup);
 
         /// <summary>
         /// Adds the specified <see cref="SecuritySchemeDefinition"/>
@@ -170,7 +170,7 @@ namespace Neuroglia.AsyncApi.Services.FluentBuilders
         /// <param name="name">The name of the <see cref="ParameterDefinition"/> to add</param>
         /// <param name="setup">An <see cref="Action{T}"/> used to setup the <see cref="ParameterDefinition"/> to add</param>
         /// <returns>The configured <see cref="IAsyncApiDocumentBuilder"/></returns>
-        IAsyncApiDocumentBuilder AddParameter(string name, Action<IParameterBuilder> setup);
+        IAsyncApiDocumentBuilder AddParameter(string name, Action<IParameterDefinitionBuilder> setup);
 
         /// <summary>
         /// Adds the specified <see cref="CorrelationIdDefinition"/>

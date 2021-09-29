@@ -38,8 +38,8 @@ namespace Neuroglia.AsyncApi.Client.Services
         /// <param name="key">The <see cref="IChannel"/>'s key</param>
         /// <param name="definition">The <see cref="IChannel"/>'s <see cref="ChannelDefinition"/></param>
         /// <param name="document">The <see cref="AsyncApiDocument"/> that defines the <see cref="IChannel"/></param>
-        /// <param name="bindingFactory">The service used to create <see cref="IChannelBinding"/>s</param>
-        public Channel(string key, ChannelDefinition definition, AsyncApiDocument document, IChannelBindingFactory bindingFactory)
+        /// <param name="bindingFactories">An <see cref="IEnumerable{T}"/> containing all available <see cref="IChannelBindingFactory"/> services</param>
+        public Channel(string key, ChannelDefinition definition, AsyncApiDocument document, IEnumerable<IChannelBindingFactory> bindingFactories)
         {
             if (string.IsNullOrWhiteSpace(key))
                 throw new ArgumentNullException(nameof(key));
@@ -50,7 +50,7 @@ namespace Neuroglia.AsyncApi.Client.Services
             this.Key = key;
             this.Document = document;
             this.Definition = definition;
-            this.BindingFactory = bindingFactory;
+            this.BindingFactories = bindingFactories;
             this.Initialize();
         }
 
@@ -60,15 +60,13 @@ namespace Neuroglia.AsyncApi.Client.Services
         /// <inheritdoc/>
         public ChannelDefinition Definition { get; }
 
-        /// <summary>
-        /// Gets the <see cref="AsyncApiDocument"/> that defines the <see cref="IChannel"/>
-        /// </summary>
+        /// <inheritdoc/>
         public virtual AsyncApiDocument Document { get; }
 
         /// <summary>
-        /// Gets the service used to create <see cref="IChannelBinding"/>s
+        /// Gets an <see cref="IEnumerable{T}"/> containing all available <see cref="IChannelBindingFactory"/> services
         /// </summary>
-        protected IChannelBindingFactory BindingFactory { get; }
+        protected IEnumerable<IChannelBindingFactory> BindingFactories { get; }
 
         private readonly List<IChannelBinding> _Bindings = new();
         /// <summary>
@@ -91,28 +89,18 @@ namespace Neuroglia.AsyncApi.Client.Services
             {
                 IChannelBindingDefinition bindingDefinition = null;
                 if (this.Definition.Bindings != null
-                    || this.Definition.Bindings.Any())
+                    && this.Definition.Bindings.Any())
                 {
                     bindingDefinition = this.Definition.Bindings.FirstOrDefault(b => b.Protocols.Contains(serversPerProtocol.Key, StringComparer.OrdinalIgnoreCase));
                     if (bindingDefinition == null)
                         continue;
                 }
-                IChannelBinding binding = this.BindingFactory.CreateBindingFor(this, bindingDefinition, serversPerProtocol);
+                IChannelBindingFactory bindingFactory = this.BindingFactories.FirstOrDefault(b => b.SupportsProtocol(serversPerProtocol.Key));
+                if (bindingFactory == null)
+                    continue;
+                IChannelBinding binding = bindingFactory.CreateBinding(this, serversPerProtocol);
                 this._Bindings.Add(binding);
             }
-        }
-
-        /// <inheritdoc/>
-        public virtual IDisposable Subscribe(IObserver<IMessage> observer)
-        {
-            if (observer == null)
-                throw new ArgumentNullException(nameof(observer));
-            if (!this.Definition.DefinesSubscribeOperation)
-                throw new NotSupportedException($"The channel with key '{this.Key}' does not support operations of type 'SUB'");
-            IChannelBinding binding = this.Bindings.FirstOrDefault(); //todo
-            if (binding == null)
-                throw new NullReferenceException($"Failed to find a binding for channel with key '{this.Key}'");
-            return binding.Subscribe(observer);
         }
 
         /// <inheritdoc/>
@@ -122,10 +110,23 @@ namespace Neuroglia.AsyncApi.Client.Services
                 throw new ArgumentNullException(nameof(message));
             if (!this.Definition.DefinesPublishOperation)
                 throw new NotSupportedException($"The channel with key '{this.Key}' does not support operations of type 'PUB'");
-            IChannelBinding binding = this.Bindings.FirstOrDefault(); //todo
+            IChannelBinding binding = this.Bindings.FirstOrDefault(); //todo: check prefered binding based on specified protocol
             if (binding == null)
                 throw new NullReferenceException($"Failed to find a binding for channel with key '{this.Key}'");
             await binding.PublishAsync(message, cancellationToken);
+        }
+
+        /// <inheritdoc/>
+        public virtual async Task<IDisposable> SubscribeAsync(IObserver<IMessage> observer, CancellationToken cancellationToken = default)
+        {
+            if (observer == null)
+                throw new ArgumentNullException(nameof(observer));
+            if (!this.Definition.DefinesSubscribeOperation)
+                throw new NotSupportedException($"The channel with key '{this.Key}' does not support operations of type 'SUB'");
+            IChannelBinding binding = this.Bindings.FirstOrDefault(); //todo: check prefered binding based on specified protocol
+            if (binding == null)
+                throw new NullReferenceException($"Failed to find a binding for channel with key '{this.Key}'");
+            return await binding.SubscribeAsync(observer, cancellationToken);
         }
 
         private bool _Disposed;

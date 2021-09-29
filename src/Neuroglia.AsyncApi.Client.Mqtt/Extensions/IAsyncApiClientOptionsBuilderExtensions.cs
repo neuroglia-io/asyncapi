@@ -28,13 +28,13 @@ namespace Neuroglia.AsyncApi
     {
 
         /// <summary>
-        /// Adds a Kafka implementation of the <see cref="IChannelBinding"/> interface
+        /// Adds an MQTT implementation of the <see cref="IChannelBinding"/> interface
         /// </summary>
         /// <param name="builder">The <see cref="IAsyncApiClientOptionsBuilder"/> to configure</param>
         /// <returns>The configured <see cref="IAsyncApiClientOptionsBuilder"/></returns>
-        public static IAsyncApiClientOptionsBuilder AddKafkaBinding(this IAsyncApiClientOptionsBuilder builder)
+        public static IAsyncApiClientOptionsBuilder AddMqttBinding(this IAsyncApiClientOptionsBuilder builder)
         {
-            builder.WithChannelBindingFactory<KafkaChannelBindingFactory>();
+            builder.WithChannelBindingFactory<MqttChannelBindingFactory>();
             return builder;
         }
 

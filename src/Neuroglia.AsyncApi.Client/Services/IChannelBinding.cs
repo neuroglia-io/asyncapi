@@ -25,7 +25,7 @@ namespace Neuroglia.AsyncApi.Client.Services
     /// Defines the fundamentals of an <see cref="IChannel"/>'s binding
     /// </summary>
     public interface IChannelBinding
-        : IObservable<IMessage>, IDisposable
+        : IDisposable
     {
 
         /// <summary>
@@ -35,6 +35,14 @@ namespace Neuroglia.AsyncApi.Client.Services
         /// <param name="cancellationToken">A <see cref="CancellationToken"/></param>
         /// <returns>A new awaitable <see cref="Task"/></returns>
         Task PublishAsync(IMessage message, CancellationToken cancellationToken = default);
+
+        /// <summary>
+        /// Subscribes to <see cref="IMessage"/>s consumed by the <see cref="IChannelBinding"/>
+        /// </summary>
+        /// <param name="observer">The subscribing <see cref="IObserver{T}"/></param>
+        /// <param name="cancellationToken"></param>
+        /// <returns>An <see cref="IDisposable"/> object used to unsubscribe from the observable sequence</returns>
+        Task<IDisposable> SubscribeAsync(IObserver<IMessage> observer, CancellationToken cancellationToken = default);
 
     }
 

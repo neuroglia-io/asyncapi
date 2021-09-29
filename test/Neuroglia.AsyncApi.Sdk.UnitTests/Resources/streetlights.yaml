@@ -15,7 +15,27 @@ servers:
 channels:
   light/measured:
     publish:
-      summary: Inform about environmental lighting conditions for a particular streetlight.
+      summary: Informs about environmental lighting conditions for a particular streetlight.
+      operationId: notifyLightMeasured
+      message:
+        name: LightMeasured
+        payload:
+          type: object
+          properties:
+            id:
+              type: integer
+              minimum: 0
+              description: Id of the streetlight.
+            lumens:
+              type: integer
+              minimum: 0
+              description: Light intensity measured in lumens.
+            sentAt:
+              type: string
+              format: date-time
+              description: Date and time when the message was sent.
+    subscribe:
+      summary: Informs about environmental lighting conditions for a particular streetlight.
       operationId: onLightMeasured
       message:
         name: LightMeasured

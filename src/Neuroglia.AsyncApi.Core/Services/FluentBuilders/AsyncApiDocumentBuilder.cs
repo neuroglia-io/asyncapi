@@ -147,13 +147,13 @@ namespace Neuroglia.AsyncApi.Services.FluentBuilders
         }
 
         /// <inheritdoc/>
-        public virtual IAsyncApiDocumentBuilder TagWith(Action<ITagBuilder> setup)
+        public virtual IAsyncApiDocumentBuilder TagWith(Action<ITagDefinitionBuilder> setup)
         {
             if (setup == null)
                 throw new ArgumentNullException(nameof(setup));
             if (this.Document.Tags == null)
                 this.Document.Tags = new();
-            ITagBuilder builder = ActivatorUtilities.CreateInstance<TagBuilder>(this.ServiceProvider);
+            ITagDefinitionBuilder builder = ActivatorUtilities.CreateInstance<TagDefinitionBuilder>(this.ServiceProvider);
             setup(builder);
             this.Document.Tags.Add(builder.Build());
             return this;
@@ -171,7 +171,7 @@ namespace Neuroglia.AsyncApi.Services.FluentBuilders
         }
 
         /// <inheritdoc/>
-        public virtual IAsyncApiDocumentBuilder UseServer(string name, Action<IServerBuilder> setup)
+        public virtual IAsyncApiDocumentBuilder UseServer(string name, Action<IServerDefinitionBuilder> setup)
         {
             if (string.IsNullOrWhiteSpace(name))
                 throw new ArgumentNullException(nameof(name));
@@ -179,14 +179,14 @@ namespace Neuroglia.AsyncApi.Services.FluentBuilders
                 throw new ArgumentNullException(nameof(setup));
             if (this.Document.Servers == null)
                 this.Document.Servers = new();
-            IServerBuilder builder = ActivatorUtilities.CreateInstance<ServerBuilder>(this.ServiceProvider);
+            IServerDefinitionBuilder builder = ActivatorUtilities.CreateInstance<ServerDefinitionBuilder>(this.ServiceProvider);
             setup(builder);
             this.Document.Servers.Add(name, builder.Build());
             return this;
         }
 
         /// <inheritdoc/>
-        public virtual IAsyncApiDocumentBuilder UseChannel(string name, Action<IChannelBuilder> setup)
+        public virtual IAsyncApiDocumentBuilder UseChannel(string name, Action<IChannelDefinitionBuilder> setup)
         {
             if (string.IsNullOrWhiteSpace(name))
                 throw new ArgumentNullException(nameof(name));
@@ -194,7 +194,7 @@ namespace Neuroglia.AsyncApi.Services.FluentBuilders
                 throw new ArgumentNullException(nameof(setup));
             if (this.Document.Channels == null)
                 this.Document.Channels = new();
-            IChannelBuilder builder = ActivatorUtilities.CreateInstance<ChannelBuilder>(this.ServiceProvider);
+            IChannelDefinitionBuilder builder = ActivatorUtilities.CreateInstance<ChannelDefinitionBuilder>(this.ServiceProvider);
             setup(builder);
             this.Document.Channels.Add(name, builder.Build());
             return this;
@@ -231,13 +231,13 @@ namespace Neuroglia.AsyncApi.Services.FluentBuilders
         }
 
         /// <inheritdoc/>
-        public virtual IAsyncApiDocumentBuilder AddMessage(string name, Action<IMessageBuilder> setup)
+        public virtual IAsyncApiDocumentBuilder AddMessage(string name, Action<IMessageDefinitionBuilder> setup)
         {
             if (string.IsNullOrWhiteSpace(name))
                 throw new ArgumentNullException(nameof(name));
             if (setup == null)
                 throw new ArgumentNullException(nameof(setup));
-            IMessageBuilder builder = ActivatorUtilities.CreateInstance<MessageBuilder>(this.ServiceProvider);
+            IMessageDefinitionBuilder builder = ActivatorUtilities.CreateInstance<MessageDefinitionBuilder>(this.ServiceProvider);
             setup(builder);
             return this.AddMessage(name, builder.Build());
         }
@@ -273,13 +273,13 @@ namespace Neuroglia.AsyncApi.Services.FluentBuilders
         }
 
         /// <inheritdoc/>
-        public virtual IAsyncApiDocumentBuilder AddParameter(string name, Action<IParameterBuilder> setup)
+        public virtual IAsyncApiDocumentBuilder AddParameter(string name, Action<IParameterDefinitionBuilder> setup)
         {
             if (string.IsNullOrWhiteSpace(name))
                 throw new ArgumentNullException(nameof(name));
             if (setup == null)
                 throw new ArgumentNullException(nameof(setup));
-            IParameterBuilder builder = ActivatorUtilities.CreateInstance<ParameterBuilder>(this.ServiceProvider);
+            IParameterDefinitionBuilder builder = ActivatorUtilities.CreateInstance<ParameterDefinitionBuilder>(this.ServiceProvider);
             setup(builder);
             return this.AddParameter(name, builder.Build());
         }

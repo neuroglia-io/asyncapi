@@ -27,18 +27,18 @@ namespace Neuroglia.AsyncApi.Services.FluentBuilders
 {
 
     /// <summary>
-    /// Represents the default implementation of the <see cref="IChannelBuilder"/>
+    /// Represents the default implementation of the <see cref="IChannelDefinitionBuilder"/>
     /// </summary>
-    public class ChannelBuilder
-        : IChannelBuilder
+    public class ChannelDefinitionBuilder
+        : IChannelDefinitionBuilder
     {
 
         /// <summary>
-        /// Initializes a new <see cref="ChannelBuilder"/>
+        /// Initializes a new <see cref="ChannelDefinitionBuilder"/>
         /// </summary>
         /// <param name="serviceProvider">The current <see cref="IServiceProvider"/></param>
         /// <param name="validators">The services used to validate <see cref="Models.ChannelDefinition"/>s</param>
-        public ChannelBuilder(IServiceProvider serviceProvider, IEnumerable<IValidator<ChannelDefinition>> validators)
+        public ChannelDefinitionBuilder(IServiceProvider serviceProvider, IEnumerable<IValidator<ChannelDefinition>> validators)
         {
             this.ServiceProvider = serviceProvider;
             this.Validators = validators;
@@ -60,14 +60,14 @@ namespace Neuroglia.AsyncApi.Services.FluentBuilders
         protected virtual ChannelDefinition Channel { get; } = new();
 
         /// <inheritdoc/>
-        public virtual IChannelBuilder WithDescription(string description)
+        public virtual IChannelDefinitionBuilder WithDescription(string description)
         {
             this.Channel.Description = description;
             return this;
         }
 
         /// <inheritdoc/>
-        public virtual IChannelBuilder AddParameter(string name, Action<IParameterBuilder> setup)
+        public virtual IChannelDefinitionBuilder AddParameter(string name, Action<IParameterDefinitionBuilder> setup)
         {
             if (string.IsNullOrWhiteSpace(name))
                 throw new ArgumentNullException(nameof(name));
@@ -75,14 +75,14 @@ namespace Neuroglia.AsyncApi.Services.FluentBuilders
                 throw new ArgumentNullException(nameof(setup));
             if (this.Channel.Parameters == null)
                 this.Channel.Parameters = new();
-            IParameterBuilder builder = ActivatorUtilities.CreateInstance<ParameterBuilder>(this.ServiceProvider);
+            IParameterDefinitionBuilder builder = ActivatorUtilities.CreateInstance<ParameterDefinitionBuilder>(this.ServiceProvider);
             setup(builder);
             this.Channel.Parameters.Add(name, builder.Build());
             return this;
         }
 
         /// <inheritdoc/>
-        public virtual IChannelBuilder UseBinding(IChannelBindingDefinition binding)
+        public virtual IChannelDefinitionBuilder UseBinding(IChannelBindingDefinition binding)
         {
             if (binding == null)
                 throw new ArgumentNullException(nameof(binding));
@@ -93,11 +93,11 @@ namespace Neuroglia.AsyncApi.Services.FluentBuilders
         }
 
         /// <inheritdoc/>
-        public virtual IChannelBuilder DefineOperation(OperationType type, Action<IOperationBuilder> setup)
+        public virtual IChannelDefinitionBuilder DefineOperation(OperationType type, Action<IOperationDefinitionBuilder> setup)
         {
             if (setup == null)
                 throw new ArgumentNullException(nameof(setup));
-            IOperationBuilder builder = ActivatorUtilities.CreateInstance<OperationBuilder>(this.ServiceProvider);
+            IOperationDefinitionBuilder builder = ActivatorUtilities.CreateInstance<OperationDefinitionBuilder>(this.ServiceProvider);
             setup(builder);
             switch (type)
             {
@@ -114,13 +114,13 @@ namespace Neuroglia.AsyncApi.Services.FluentBuilders
         }
 
         /// <inheritdoc/>
-        public virtual IChannelBuilder DefineSubscribeOperation(Action<IOperationBuilder> setup)
+        public virtual IChannelDefinitionBuilder DefineSubscribeOperation(Action<IOperationDefinitionBuilder> setup)
         {
             return this.DefineOperation(OperationType.Subscribe, setup);
         }
 
         /// <inheritdoc/>
-        public virtual IChannelBuilder DefinePublishOperation(Action<IOperationBuilder> setup)
+        public virtual IChannelDefinitionBuilder DefinePublishOperation(Action<IOperationDefinitionBuilder> setup)
         {
             return this.DefineOperation(OperationType.Publish, setup);
         }

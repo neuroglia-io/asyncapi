@@ -15,42 +15,37 @@
  *
  */
 using Neuroglia.AsyncApi.Client.Services;
+using Neuroglia.AsyncApi.Models;
 using System;
 using System.Collections.Generic;
 
-namespace Neuroglia.AsyncApi.Client
+namespace Neuroglia.AsyncApi.Client.Configuration
 {
-
     /// <summary>
-    /// Defines the fundamentals of an Async API message
+    /// Represents the options used to configure an <see cref="IAsyncApiClient"/>
     /// </summary>
-    public interface IMessage
+    public class AsyncApiClientOptions
     {
 
         /// <summary>
-        /// Gets the <see cref="IMessage"/>'s timestamp
+        /// Gets/sets the <see cref="AsyncApiDocument"/> to build a new <see cref="IAsyncApiClient"/> for
         /// </summary>
-        DateTime Timestamp { get; }
+        public virtual AsyncApiDocument Document { get; set; }
 
         /// <summary>
-        /// Gets the key of the <see cref="IChannel"/> the <see cref="IMessage"/> is bound to
+        /// Gets/sets an <see cref="Uri"/> referencing the <see cref="AsyncApiDocument"/> to build a new <see cref="IAsyncApiClient"/> for
         /// </summary>
-        string ChannelKey { get; }
+        public virtual Uri DocumentUri { get; set; }
 
         /// <summary>
-        /// Gets the <see cref="IMessage"/>'s correlation key, if any
+        /// Gets/sets the type of <see cref="IChannelFactory"/> to use
         /// </summary>
-        object CorrelationKey { get; }
+        public virtual Type ChannelFactoryType { get; set; } = typeof(ChannelFactory);
 
         /// <summary>
-        /// Gets an <see cref="IDictionary{TKey, TValue}"/> containing the <see cref="IMessage"/>'s headers
+        /// Gets a <see cref="List{T}"/> containing the <see cref="IChannelBindingFactory"/> types to use
         /// </summary>
-        IDictionary<string, object> Headers { get; }
-
-        /// <summary>
-        /// Gets the <see cref="IMessage"/>'s payload
-        /// </summary>
-        object Payload { get; }
+        public virtual List<Type> ChannelBindingFactoryTypes { get; set; } = new();
 
     }
 

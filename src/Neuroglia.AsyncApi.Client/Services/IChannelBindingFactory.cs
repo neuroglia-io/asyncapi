@@ -15,11 +15,11 @@
  *
  */
 using Neuroglia.AsyncApi.Models;
-using Neuroglia.AsyncApi.Models.Bindings;
 using System.Collections.Generic;
 
 namespace Neuroglia.AsyncApi.Client.Services
 {
+
     /// <summary>
     /// Defines the fundamentals of a service used to create <see cref="IChannelBinding"/>s
     /// </summary>
@@ -27,13 +27,19 @@ namespace Neuroglia.AsyncApi.Client.Services
     {
 
         /// <summary>
+        /// Gets a boolean indicating whether or not the <see cref="IChannelBindingFactory"/> can create bindings for the specified protocol
+        /// </summary>
+        /// <param name="protocol">The protocol for which to create a new <see cref="IChannelBinding"/></param>
+        /// <returns>A boolean indicating whether or not the <see cref="IChannelBindingFactory"/> can create bindings for the specified protocol</returns>
+        bool SupportsProtocol(string protocol);
+
+        /// <summary>
         /// Creates a new <see cref="IChannelBinding"/> for the specified <see cref="IChannel"/>
         /// </summary>
         /// <param name="channel">The <see cref="IChannel"/> to create the <see cref="IChannelBinding"/> for</param>
-        /// <param name="bindingDefinition">The <see cref="IChannelBindingDefinition"/> of the <see cref="IChannelBinding"/> to create</param>
         /// <param name="servers">An <see cref="IEnumerable{T}"/> containing the mappings of the <see cref="ServerDefinition"/>s supported by the <see cref="IChannelBinding"/> to create</param>
         /// <returns>A new <see cref="IChannelBinding"/></returns>
-        IChannelBinding CreateBindingFor(IChannel channel, IChannelBindingDefinition bindingDefinition, IEnumerable<KeyValuePair<string, ServerDefinition>> servers);
+        IChannelBinding CreateBinding(IChannel channel, IEnumerable<KeyValuePair<string, ServerDefinition>> servers);
 
     }
 

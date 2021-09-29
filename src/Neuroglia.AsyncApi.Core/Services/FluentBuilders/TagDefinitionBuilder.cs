@@ -25,17 +25,17 @@ namespace Neuroglia.AsyncApi.Services.FluentBuilders
 {
 
     /// <summary>
-    /// Represents the default implementation of the <see cref="ITagBuilder"/>
+    /// Represents the default implementation of the <see cref="ITagDefinitionBuilder"/>
     /// </summary>
-    public class TagBuilder
-        : ITagBuilder
+    public class TagDefinitionBuilder
+        : ITagDefinitionBuilder
     {
 
         /// <summary>
-        /// Initializes a new <see cref="TagBuilder"/>
+        /// Initializes a new <see cref="TagDefinitionBuilder"/>
         /// </summary>
         /// <param name="validators">An <see cref="IEnumerable{T}"/> containing the services used to validate <see cref="Models.TagDefinition"/>s</param>
-        public TagBuilder(IEnumerable<IValidator<TagDefinition>> validators)
+        public TagDefinitionBuilder(IEnumerable<IValidator<TagDefinition>> validators)
         {
             this.Validators = validators;
         }
@@ -51,7 +51,7 @@ namespace Neuroglia.AsyncApi.Services.FluentBuilders
         protected virtual TagDefinition Tag { get; } = new();
 
         /// <inheritdoc/>
-        public virtual ITagBuilder WithName(string name)
+        public virtual ITagDefinitionBuilder WithName(string name)
         {
             if (string.IsNullOrWhiteSpace(name))
                 throw new ArgumentNullException(nameof(name));
@@ -60,14 +60,14 @@ namespace Neuroglia.AsyncApi.Services.FluentBuilders
         }
 
         /// <inheritdoc/>
-        public virtual ITagBuilder WithDescription(string description)
+        public virtual ITagDefinitionBuilder WithDescription(string description)
         {
             this.Tag.Description = description;
             return this;
         }
 
         /// <inheritdoc/>
-        public virtual ITagBuilder DocumentWith(Uri uri, string description = null)
+        public virtual ITagDefinitionBuilder DocumentWith(Uri uri, string description = null)
         {
             if (uri == null)
                 throw new ArgumentNullException(nameof(uri));

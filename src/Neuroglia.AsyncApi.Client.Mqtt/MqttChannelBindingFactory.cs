@@ -26,17 +26,17 @@ namespace Neuroglia.AsyncApi.Client
 {
 
     /// <summary>
-    /// Represents the Kafka implementation of the <see cref="IChannelBindingFactory"/> interface
+    /// Represents the MQTT implementation of the <see cref="IChannelBindingFactory"/> interface
     /// </summary>
-    public class KafkaChannelBindingFactory
+    public class MqttChannelBindingFactory
         : IChannelBindingFactory
     {
 
         /// <summary>
-        /// Initializes a new <see cref="KafkaChannelBindingFactory"/>
+        /// Initializes a new <see cref="MqttChannelBindingFactory"/>
         /// </summary>
         /// <param name="serviceProvider">The current <see cref="ISerializerProvider"/></param>
-        public KafkaChannelBindingFactory(IServiceProvider serviceProvider)
+        public MqttChannelBindingFactory(IServiceProvider serviceProvider)
         {
             this.ServiceProvider = serviceProvider;
         }
@@ -51,7 +51,7 @@ namespace Neuroglia.AsyncApi.Client
         {
             if (string.IsNullOrWhiteSpace(protocol))
                 throw new ArgumentNullException(nameof(protocol));
-            return protocol.Equals(AsyncApiProtocols.Kafka, StringComparison.OrdinalIgnoreCase);
+            return protocol.Equals(AsyncApiProtocols.Mqtt, StringComparison.OrdinalIgnoreCase);
         }
 
         /// <inheritdoc/>
@@ -63,7 +63,7 @@ namespace Neuroglia.AsyncApi.Client
                 throw new ArgumentNullException(nameof(servers));
             if (!servers.Any())
                 throw new ArgumentOutOfRangeException(nameof(servers));
-            return ActivatorUtilities.CreateInstance<KafkaChannelBinding>(this.ServiceProvider, channel, servers);
+            return ActivatorUtilities.CreateInstance<MqttChannelBinding>(this.ServiceProvider, channel, servers);
         }
 
     }

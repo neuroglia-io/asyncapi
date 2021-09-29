@@ -23,23 +23,23 @@ namespace Neuroglia.AsyncApi.Services.FluentBuilders
     /// <summary>
     /// Defines the fundamentals of a service used to build <see cref="OperationDefinition"/>s
     /// </summary>
-    public interface IOperationBuilder
-        : IOperationTraitBuilder<IOperationBuilder, OperationDefinition>
+    public interface IOperationDefinitionBuilder
+        : IOperationTraitDefinitionBuilder<IOperationDefinitionBuilder, OperationDefinition>
     {
 
         /// <summary>
         /// Configures the <see cref="OperationDefinition"/> to build to use the specified <see cref="OperationTraitDefinition"/>
         /// </summary>
         /// <param name="setup">An <see cref="Action{T}"/> used to setup the <see cref="OperationTraitDefinition"/> to use</param>
-        /// <returns>The configured <see cref="IOperationBuilder"/></returns>
-        IOperationBuilder WithTrait(Action<IOperationTraitBuilder> setup);
+        /// <returns>The configured <see cref="IOperationDefinitionBuilder"/></returns>
+        IOperationDefinitionBuilder WithTrait(Action<IOperationTraitBuilder> setup);
 
         /// <summary>
         /// Configures the <see cref="OperationDefinition"/> to build to use the specified <see cref="MessageDefinition"/>
         /// </summary>
         /// <param name="setup">An <see cref="Action{T}"/> used to setup the <see cref="MessageDefinition"/> to use</param>
-        /// <returns>The configured <see cref="IOperationBuilder"/></returns>
-        IOperationBuilder UseMessage(Action<IMessageBuilder> setup);
+        /// <returns>The configured <see cref="IOperationDefinitionBuilder"/></returns>
+        IOperationDefinitionBuilder UseMessage(Action<IMessageDefinitionBuilder> setup);
 
     }
 

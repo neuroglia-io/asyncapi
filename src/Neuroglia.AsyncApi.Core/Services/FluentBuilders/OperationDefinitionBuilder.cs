@@ -23,36 +23,36 @@ using System.Collections.Generic;
 namespace Neuroglia.AsyncApi.Services.FluentBuilders
 {
     /// <summary>
-    /// Represents the base class for all <see cref="IOperationBuilder"/> implementations
+    /// Represents the base class for all <see cref="IOperationDefinitionBuilder"/> implementations
     /// </summary>
-    public class OperationBuilder
-        : OperationTraitBuilder<IOperationBuilder, OperationDefinition>, IOperationBuilder
+    public class OperationDefinitionBuilder
+        : OperationTraitDefinitionBuilder<IOperationDefinitionBuilder, OperationDefinition>, IOperationDefinitionBuilder
     {
 
         /// <summary>
-        /// Initializes a new <see cref="OperationBuilder"/>
+        /// Initializes a new <see cref="OperationDefinitionBuilder"/>
         /// </summary>
         /// <param name="serviceProvider">The current <see cref="IServiceProvider"/></param>
         /// <param name="validators">An <see cref="IEnumerable{T}"/> containing the services used to validate <see cref="OperationTraitDefinition"/>s</param>
-        public OperationBuilder(IServiceProvider serviceProvider, IEnumerable<IValidator<OperationTraitDefinition>> validators)
+        public OperationDefinitionBuilder(IServiceProvider serviceProvider, IEnumerable<IValidator<OperationTraitDefinition>> validators)
             : base(serviceProvider, validators)
         {
 
         }
 
         /// <inheritdoc/>
-        public virtual IOperationBuilder UseMessage(Action<IMessageBuilder> setup)
+        public virtual IOperationDefinitionBuilder UseMessage(Action<IMessageDefinitionBuilder> setup)
         {
             if (setup == null)
                 throw new ArgumentNullException(nameof(setup));
-            IMessageBuilder builder = ActivatorUtilities.CreateInstance<MessageBuilder>(this.ServiceProvider);
+            IMessageDefinitionBuilder builder = ActivatorUtilities.CreateInstance<MessageDefinitionBuilder>(this.ServiceProvider);
             setup(builder);
             this.Trait.Message = builder.Build();
             return this;
         }
 
         /// <inheritdoc/>
-        public virtual IOperationBuilder WithTrait(Action<IOperationTraitBuilder> setup)
+        public virtual IOperationDefinitionBuilder WithTrait(Action<IOperationTraitBuilder> setup)
         {
             if (setup == null)
                 throw new ArgumentNullException(nameof(setup));

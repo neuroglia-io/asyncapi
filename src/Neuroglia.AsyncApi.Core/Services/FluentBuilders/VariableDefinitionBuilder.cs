@@ -22,17 +22,17 @@ using System.Collections.Generic;
 namespace Neuroglia.AsyncApi.Services.FluentBuilders
 {
     /// <summary>
-    /// Represents the default implementation of the <see cref="IVariableBuilder"/> interface
+    /// Represents the default implementation of the <see cref="IVariableDefinitionBuilder"/> interface
     /// </summary>
-    public class VariableBuilder
-        : IVariableBuilder
+    public class VariableDefinitionBuilder
+        : IVariableDefinitionBuilder
     {
 
         /// <summary>
-        /// Initializes a new <see cref="VariableBuilder"/>
+        /// Initializes a new <see cref="VariableDefinitionBuilder"/>
         /// </summary>
         /// <param name="validators">The services used to validate <see cref="Models.VariableDefinition"/>s</param>
-        public VariableBuilder(IEnumerable<IValidator<VariableDefinition>> validators)
+        public VariableDefinitionBuilder(IEnumerable<IValidator<VariableDefinition>> validators)
         {
             this.Validators = validators;
         }
@@ -48,28 +48,28 @@ namespace Neuroglia.AsyncApi.Services.FluentBuilders
         protected VariableDefinition Variable { get; } = new();
 
         /// <inheritdoc/>
-        public virtual IVariableBuilder WithEnumValues(params string[] values)
+        public virtual IVariableDefinitionBuilder WithEnumValues(params string[] values)
         {
             this.Variable.Enum = values;
             return this;
         }
 
         /// <inheritdoc/>
-        public virtual IVariableBuilder WithDefaultValue(string value)
+        public virtual IVariableDefinitionBuilder WithDefaultValue(string value)
         {
             this.Variable.Default = value;
             return this;
         }
 
         /// <inheritdoc/>
-        public virtual IVariableBuilder WithDescription(string description)
+        public virtual IVariableDefinitionBuilder WithDescription(string description)
         {
             this.Variable.Description = description;
             return this;
         }
 
         /// <inheritdoc/>
-        public virtual IVariableBuilder AddExample(string example)
+        public virtual IVariableDefinitionBuilder AddExample(string example)
         {
             if (string.IsNullOrWhiteSpace(example))
                 throw new ArgumentNullException(nameof(example));

@@ -14,25 +14,28 @@
  * limitations under the License.
  *
  */
-using FluentValidation;
-using Neuroglia.AsyncApi.Models;
-
-namespace Neuroglia.AsyncApi.Services.Validation
+namespace Neuroglia.AsyncApi.Client.Configuration
 {
+
+
     /// <summary>
-    /// Represents the service used to validate <see cref="ChannelDefinition"/>s
+    /// Defines the fundamentals of a service used to build <see cref="IPublishOperationOptions"/>
     /// </summary>
-    public class ChannelValidator
-        : AbstractValidator<ChannelDefinition>
+    public interface IPublishOperationOptionsBuilder
     {
 
         /// <summary>
-        /// Initializes a new <see cref="ChannelValidator"/>
+        /// Uses the specified Async API protocol when executing the publish operation
         /// </summary>
-        public ChannelValidator()
-        {
+        /// <param name="protocol">The protocol to use</param>
+        /// <returns></returns>
+        IPublishOperationOptionsBuilder UseProtocol(string protocol);
 
-        }
+        /// <summary>
+        /// Builds the configured <see cref="IPublishOperationOptions"/>
+        /// </summary>
+        /// <returns>New <see cref="IPublishOperationOptions"/></returns>
+        IPublishOperationOptions Build();
 
     }
 

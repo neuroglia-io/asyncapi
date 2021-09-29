@@ -21,8 +21,9 @@ using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Mime;
 using System.Reactive.Subjects;
-using System.Text.RegularExpressions;
+using System.Reflection;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -42,11 +43,13 @@ namespace Neuroglia.AsyncApi.Client.Services
         /// <param name="loggerFactory">The service used to create <see cref="ILogger"/>s</param>
         /// <param name="serializers">The service used to provide <see cref="ISerializer"/>s</param>
         /// <param name="channel">The <see cref="IChannel"/> the <see cref="ChannelBindingBase"/> belongs to</param>
-        protected ChannelBindingBase(ILoggerFactory loggerFactory, ISerializerProvider serializers, IChannel channel)
+        /// <param name="servers">An <see cref="IEnumerable{T}"/> containing the mappings of the <see cref="ServerDefinition"/>s available to the <see cref="IChannelBinding"/></param>
+        protected ChannelBindingBase(ILoggerFactory loggerFactory, ISerializerProvider serializers, IChannel channel, IEnumerable<KeyValuePair<string, ServerDefinition>> servers)
         {
             this.Logger = loggerFactory.CreateLogger(this.GetType());
             this.Serializers = serializers;
             this.Channel = channel;
+            this.Servers = servers;
             this.OnMessageSubject = new();
             this.CancellationTokenSource = new();
         }
@@ -67,6 +70,11 @@ namespace Neuroglia.AsyncApi.Client.Services
         protected IChannel Channel { get; }
 
         /// <summary>
+        /// Gets an <see cref="IEnumerable{T}"/> containing the mappings of the <see cref="ServerDefinition"/>s available to the <see cref="IChannelBinding"/>
+        /// </summary>
+        protected IEnumerable<KeyValuePair<string, ServerDefinition>> Servers { get; }
+
+        /// <summary>
         /// Gets the <see cref="Subject{T}"/> used to observe <see cref="IMessage"/>s produced or consumed by the <see cref="ChannelBindingBase"/>
         /// </summary>
         protected Subject<IMessage> OnMessageSubject { get; }
@@ -80,12 +88,7 @@ namespace Neuroglia.AsyncApi.Client.Services
         public abstract Task PublishAsync(IMessage message, CancellationToken cancellationToken = default);
 
         /// <inheritdoc/>
-        public virtual IDisposable Subscribe(IObserver<IMessage> observer)
-        {
-            if (observer == null)
-                throw new ArgumentNullException(nameof(observer));
-            return this.OnMessageSubject.Subscribe(observer);
-        }
+        public abstract Task<IDisposable> SubscribeAsync(IObserver<IMessage> observer, CancellationToken cancellationToken = default);
 
         /// <summary>
         /// Serializes the specified object
@@ -101,7 +104,10 @@ namespace Neuroglia.AsyncApi.Client.Services
             if (string.IsNullOrWhiteSpace(contentType))
                 contentType = this.Channel.DefaultContentType;
             if (string.IsNullOrWhiteSpace(contentType))
-                throw new NullReferenceException($"Failed to determine the content type for messages published on the channel with key '{this.Channel.Key}'");
+            {
+                contentType = MediaTypeNames.Application.Json;
+                this.Logger.LogWarning($"Failed to determine the content type for messages published on the channel with key '{{channelKey}}'. Defaulting to '{contentType}'", this.Channel.Key);
+            }   
             ISerializer serializer = this.Serializers.GetSerializerFor(contentType);
             if (serializer == null)
                 throw new NullReferenceException($"Failed to find a serializer for the specified content type '{contentType}'");
@@ -122,7 +128,10 @@ namespace Neuroglia.AsyncApi.Client.Services
             if (string.IsNullOrWhiteSpace(contentType))
                 contentType = this.Channel.DefaultContentType;
             if (string.IsNullOrWhiteSpace(contentType))
-                throw new NullReferenceException($"Failed to determine the content type for messages subscribed on the channel with key '{this.Channel.Key}'");
+            {
+                contentType = MediaTypeNames.Application.Json;
+                this.Logger.LogWarning($"Failed to determine the content type for messages published on the channel with key '{{channelKey}}'. Defaulting to '{contentType}'", this.Channel.Key);
+            }
             ISerializer serializer = this.Serializers.GetSerializerFor(contentType);
             if (serializer == null)
                 throw new NullReferenceException($"Failed to find a serializer for the specified content type '{contentType}'");
@@ -182,6 +191,92 @@ namespace Neuroglia.AsyncApi.Client.Services
                 channelKey = channelKey.Replace($"{{{parameterDefinition.Key}}}", parameter.ToString());
             }
             return channelKey;
+        }
+
+        /// <summary>
+        /// Computes the correlation key for the specified published <see cref="IMessage"/>
+        /// </summary>
+        /// <param name="message">The published <see cref="IMessage"/> to compute the correlation key for</param>
+        /// <returns>The computed correlation key</returns>
+        protected virtual object ComputeProducedMessageCorrelationKey(IMessage message)
+        {
+            if (message == null)
+                throw new ArgumentNullException(nameof(message));
+            if (message.CorrelationKey != null)
+                return message.CorrelationKey;
+            object correlationKey = null;
+            if (this.Channel.Definition.Publish.Message.CorrelationId != null)
+            {
+                string[] components = this.Channel.Definition.Publish.Message.CorrelationId.LocationExpression.Fragment.Split("/", StringSplitOptions.RemoveEmptyEntries);
+                switch (this.Channel.Definition.Publish.Message.CorrelationId.LocationExpression.Source)
+                {
+                    case RuntimeExpressionSource.Header:
+                        if (!message.Headers.TryGetValue(components.First(), out correlationKey))
+                            break;
+                        break;
+                    case RuntimeExpressionSource.Payload:
+                        correlationKey = message.Payload;
+                        break;
+                    default:
+                        throw new NotSupportedException($"The specified {nameof(RuntimeExpressionSource)} '{this.Channel.Definition.Subscribe.Message.CorrelationId.LocationExpression.Source}' is not supported");
+                }
+                if(correlationKey != null)
+                {
+                    for (int i = 0; i < components.Length; i++)
+                    {
+                        if (correlationKey == null)
+                            break;
+                        PropertyInfo property = correlationKey.GetType().GetProperty(components[i], BindingFlags.Default | BindingFlags.Public | BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.IgnoreCase);
+                        if (property == null)
+                            break;
+                        correlationKey = property.GetValue(correlationKey);
+                    }
+                }
+            }
+            return correlationKey;
+        }
+
+        /// <summary>
+        /// Computes the correlation key for the specified consumed <see cref="IMessage"/>
+        /// </summary>
+        /// <param name="message">The consumed <see cref="IMessage"/> to compute the correlation key for</param>
+        /// <returns>The computed correlation key</returns>
+        protected virtual JToken ComputeConsumedMessageCorrelationKey(IMessage message)
+        {
+            if (message == null)
+                throw new ArgumentNullException(nameof(message));
+            JToken correlationKey = null;
+            if (this.Channel.Definition.Subscribe.Message.CorrelationId != null)
+            {
+                string[] components = this.Channel.Definition.Subscribe.Message.CorrelationId.LocationExpression.Fragment.Split("/", StringSplitOptions.RemoveEmptyEntries);
+                switch (this.Channel.Definition.Subscribe.Message.CorrelationId.LocationExpression.Source)
+                {
+                    case RuntimeExpressionSource.Header:
+                        if (!message.Headers.TryGetValue(components.First(), out object value))
+                            break;
+                        correlationKey = (JToken)value;
+                        break;
+                    case RuntimeExpressionSource.Payload:
+                        correlationKey = message.Payload as JToken;
+                        break;
+                    default:
+                        throw new NotSupportedException($"The specified {nameof(RuntimeExpressionSource)} '{this.Channel.Definition.Subscribe.Message.CorrelationId.LocationExpression.Source}' is not supported");
+                }
+                if(correlationKey != null)
+                {
+                    for (int i = 1; i < components.Length; i++)
+                    {
+                        if (correlationKey == null 
+                            || correlationKey is not JObject jobject)
+                            break;
+                        JProperty property = jobject.Property(components[i]);
+                        if (property == null)
+                            break;
+                        correlationKey = property.Value;
+                    }
+                }
+            }
+            return correlationKey;
         }
 
         private bool _Disposed;

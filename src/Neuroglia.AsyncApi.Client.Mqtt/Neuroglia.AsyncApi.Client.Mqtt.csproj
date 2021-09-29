@@ -10,39 +10,39 @@
 		<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
 		<PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
 		<Version>2.1.0.4</Version>
-		<Description>A .NET 5.0 library that provides an Async API channel binding implementation for Kafka</Description>
+		<Description>A .NET 5.0 library that provides an Async API channel binding implementation for MQTT</Description>
 		<PackageLicenseFile>LICENSE</PackageLicenseFile>
 		<PackageProjectUrl>https://github.com/neuroglia-io/AsyncApi</PackageProjectUrl>
 		<PackageIcon>logo_white_on_blue_256.png</PackageIcon>
 		<PackageIconUrl />
 		<RepositoryUrl>https://github.com/neuroglia-io/AsyncApi</RepositoryUrl>
-		<PackageTags>neuroglia asyncapi client kafka</PackageTags>
+		<PackageTags>neuroglia asyncapi client mqtt</PackageTags>
 		<NeutralLanguage>English</NeutralLanguage>
 		<IsPackable>True</IsPackable>
 		<OutputType>Library</OutputType>
 	</PropertyGroup>
 
 	<PropertyGroup>
-		<DocumentationFile>Neuroglia.AsyncApi.Client.Kafka.xml</DocumentationFile>
+		<DocumentationFile>Neuroglia.AsyncApi.Client.Mqtt.xml</DocumentationFile>
 	</PropertyGroup>
 
-	<ItemGroup>
-	  <None Include="..\..\assets\img\logo_white_on_blue_256.png" Link="logo_white_on_blue_256.png">
-	    <PackagePath></PackagePath>
-	    <Pack>True</Pack>
-	  </None>
-	  <None Include="..\..\LICENSE" Link="LICENSE">
-	    <PackagePath></PackagePath>
-	    <Pack>True</Pack>
-	  </None>
-	</ItemGroup>
+  <ItemGroup>
+    <None Include="..\..\assets\img\logo_white_on_blue_256.png" Link="logo_white_on_blue_256.png">
+      <PackagePath></PackagePath>
+      <Pack>True</Pack>
+    </None>
+    <None Include="..\..\LICENSE" Link="LICENSE">
+      <PackagePath></PackagePath>
+      <Pack>True</Pack>
+    </None>
+  </ItemGroup>
 
-	<ItemGroup>
-	  <PackageReference Include="Confluent.Kafka" Version="1.8.1" />
-	</ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="MQTTnet" Version="3.0.16" />
+  </ItemGroup>
 
-	<ItemGroup>
-	  <ProjectReference Include="..\Neuroglia.AsyncApi.Client\Neuroglia.AsyncApi.Client.csproj" />
-	</ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Neuroglia.AsyncApi.Client\Neuroglia.AsyncApi.Client.csproj" />
+  </ItemGroup>
 
 </Project>

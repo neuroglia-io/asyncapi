@@ -1,8 +1,8 @@
 ﻿@using Newtonsoft.Json.Linq
-@model KeyValuePair<OperationType, Operation>
+@model KeyValuePair<OperationType, OperationDefinition>
 @{
     OperationType operationType = this.Model.Key;
-    Operation operation = this.Model.Value;
+    OperationDefinition operation = this.Model.Value;
     MessageDefinition message = this.Model.Value.Message;
     JSchema schema = message.Payload?.ToObject<JSchema>();
     string operationRef = $"{operation.OperationId}{operationType}".Slugify();

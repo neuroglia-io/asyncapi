@@ -14,6 +14,8 @@
  * limitations under the License.
  *
  */
+using Neuroglia.AsyncApi.Models;
+
 namespace Neuroglia.AsyncApi.Client.Services
 {
 
@@ -26,8 +28,11 @@ namespace Neuroglia.AsyncApi.Client.Services
         /// <summary>
         /// Creates a new <see cref="IChannel"/>
         /// </summary>
+        /// <param name="key">The key of the <see cref="IChannel"/> to create</param>
+        /// <param name="definition">The <see cref="ChannelDefinition"/> of the <see cref="IChannel"/> to create</param>
+        /// <param name="document">The <see cref="AsyncApiDocument"/> that defines the <see cref="IChannel"/> to create</param>
         /// <returns>A new <see cref="IChannel"/></returns>
-        IChannel CreateChannel();
+        IChannel CreateChannel(string key, ChannelDefinition definition, AsyncApiDocument document);
 
     }
 

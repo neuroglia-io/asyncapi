@@ -21,11 +21,12 @@ using System.Threading.Tasks;
 
 namespace Neuroglia.AsyncApi.Client.Services
 {
+
     /// <summary>
     /// Defines the fundamentals of an Async API channel
     /// </summary>
     public interface IChannel
-        : IObservable<IMessage>, IDisposable
+        : IDisposable
     {
 
         /// <summary>
@@ -39,6 +40,11 @@ namespace Neuroglia.AsyncApi.Client.Services
         ChannelDefinition Definition { get; }
 
         /// <summary>
+        /// Gets the <see cref="AsyncApiDocument"/> that defines the <see cref="IChannel"/>
+        /// </summary>
+        AsyncApiDocument Document { get; }
+
+        /// <summary>
         /// Gets the <see cref="IChannel"/>'s default content type
         /// </summary>
         string DefaultContentType { get; }
@@ -50,6 +56,14 @@ namespace Neuroglia.AsyncApi.Client.Services
         /// <param name="cancellationToken">A <see cref="CancellationToken"/></param>
         /// <returns>A new awaitable <see cref="Task"/></returns>
         Task PublishAsync(IMessage message, CancellationToken cancellationToken = default);
+
+        /// <summary>
+        /// Subscribes to <see cref="IMessage"/>s consumed by the <see cref="IChannel"/>
+        /// </summary>
+        /// <param name="observer">The subscribing <see cref="IObserver{T}"/></param>
+        /// <param name="cancellationToken"></param>
+        /// <returns>An <see cref="IDisposable"/> object used to unsubscribe from the observable sequence</returns>
+        Task<IDisposable> SubscribeAsync(IObserver<IMessage> observer, CancellationToken cancellationToken = default);
 
     }
 

@@ -30,22 +30,22 @@ namespace Neuroglia.AsyncApi.Services.FluentBuilders
 {
 
     /// <summary>
-    /// Represents the base class for all <see cref="IMessageTraitBuilder{TBuilder, TTrait}"/> implementations
+    /// Represents the base class for all <see cref="IMessageTraitDefinitionBuilder{TBuilder, TTrait}"/> implementations
     /// </summary>
-    /// <typeparam name="TBuilder">The type of <see cref="IMessageTraitBuilder{TBuilder, TTrait}"/> to return for chaining purposes</typeparam>
+    /// <typeparam name="TBuilder">The type of <see cref="IMessageTraitDefinitionBuilder{TBuilder, TTrait}"/> to return for chaining purposes</typeparam>
     /// <typeparam name="TTrait">The type of <see cref="MessageTraitDefinition"/> to build</typeparam>
-    public abstract class MessageTraitBuilder<TBuilder, TTrait>
-        : IMessageTraitBuilder<TBuilder, TTrait>
-        where TBuilder : IMessageTraitBuilder<TBuilder, TTrait>
+    public abstract class MessageTraitDefinitionBuilder<TBuilder, TTrait>
+        : IMessageTraitDefinitionBuilder<TBuilder, TTrait>
+        where TBuilder : IMessageTraitDefinitionBuilder<TBuilder, TTrait>
         where TTrait : MessageTraitDefinition, new()
     {
 
         /// <summary>
-        /// Initializes a new <see cref="MessageTraitBuilder{TBuilder, TTrait}"/>
+        /// Initializes a new <see cref="MessageTraitDefinitionBuilder{TBuilder, TTrait}"/>
         /// </summary>
         /// <param name="serviceProvider">The current <see cref="IServiceProvider"/></param>
         /// <param name="validators">An <see cref="IEnumerable{T}"/> containing the services used to validate <see cref="MessageTraitDefinition"/>s</param>
-        protected MessageTraitBuilder(IServiceProvider serviceProvider, IEnumerable<IValidator<TTrait>> validators)
+        protected MessageTraitDefinitionBuilder(IServiceProvider serviceProvider, IEnumerable<IValidator<TTrait>> validators)
         {
             this.ServiceProvider = serviceProvider;
             this.Validators = validators;
@@ -91,13 +91,13 @@ namespace Neuroglia.AsyncApi.Services.FluentBuilders
         }
 
         /// <inheritdoc/>
-        public virtual TBuilder TagWith(Action<ITagBuilder> setup)
+        public virtual TBuilder TagWith(Action<ITagDefinitionBuilder> setup)
         {
             if (setup == null)
                 throw new ArgumentNullException(nameof(setup));
             if (this.Trait.Tags == null)
                 this.Trait.Tags = new();
-            ITagBuilder builder = ActivatorUtilities.CreateInstance<TagBuilder>(this.ServiceProvider);
+            ITagDefinitionBuilder builder = ActivatorUtilities.CreateInstance<TagDefinitionBuilder>(this.ServiceProvider);
             setup(builder);
             this.Trait.Tags.Add(builder.Build());
             return (TBuilder)(object)this;
@@ -202,7 +202,7 @@ namespace Neuroglia.AsyncApi.Services.FluentBuilders
     /// Represents the default implementation of the <see cref="IMessageTraitBuilder"/> interface
     /// </summary>
     public class MessageTraitBuilder
-        : MessageTraitBuilder<IMessageTraitBuilder, MessageTraitDefinition>, IMessageTraitBuilder
+        : MessageTraitDefinitionBuilder<IMessageTraitBuilder, MessageTraitDefinition>, IMessageTraitBuilder
     {
 
         /// <summary>

@@ -26,31 +26,31 @@ using System.Collections.Generic;
 namespace Neuroglia.AsyncApi.Services.FluentBuilders
 {
     /// <summary>
-    /// Represents the default implementation of the <see cref="IMessageBuilder"/> interface
+    /// Represents the default implementation of the <see cref="IMessageDefinitionBuilder"/> interface
     /// </summary>
-    public class MessageBuilder
-        : MessageTraitBuilder<IMessageBuilder, MessageDefinition>, IMessageBuilder
+    public class MessageDefinitionBuilder
+        : MessageTraitDefinitionBuilder<IMessageDefinitionBuilder, MessageDefinition>, IMessageDefinitionBuilder
     {
 
         /// <summary>
-        /// Initializes a new <see cref="MessageBuilder"/>
+        /// Initializes a new <see cref="MessageDefinitionBuilder"/>
         /// </summary>
         /// <param name="serviceProvider">The current <see cref="IServiceProvider"/></param>
         /// <param name="validators">An <see cref="IEnumerable{T}"/> containing the services used to validate <see cref="MessageTraitDefinition"/>s</param>
-        public MessageBuilder(IServiceProvider serviceProvider, IEnumerable<IValidator<MessageDefinition>> validators) 
+        public MessageDefinitionBuilder(IServiceProvider serviceProvider, IEnumerable<IValidator<MessageDefinition>> validators) 
             : base(serviceProvider, validators)
         {
 
         }
 
         /// <inheritdoc/>
-        public virtual IMessageBuilder OfType<TPayload>()
+        public virtual IMessageDefinitionBuilder OfType<TPayload>()
         {
             return this.OfType(typeof(TPayload));
         }
 
         /// <inheritdoc/>
-        public virtual IMessageBuilder OfType(Type payloadType)
+        public virtual IMessageDefinitionBuilder OfType(Type payloadType)
         {
             if (payloadType == null)
                 throw new ArgumentNullException(nameof(payloadType));
@@ -58,7 +58,7 @@ namespace Neuroglia.AsyncApi.Services.FluentBuilders
         }
 
         /// <inheritdoc/>
-        public virtual IMessageBuilder WithPayloadSchema(JSchema payloadSchema)
+        public virtual IMessageDefinitionBuilder WithPayloadSchema(JSchema payloadSchema)
         {
             if (payloadSchema == null)
                 throw new ArgumentNullException(nameof(payloadSchema));
@@ -67,7 +67,7 @@ namespace Neuroglia.AsyncApi.Services.FluentBuilders
         }
 
         /// <inheritdoc/>
-        public virtual IMessageBuilder WithTrait(Action<IMessageTraitBuilder> setup)
+        public virtual IMessageDefinitionBuilder WithTrait(Action<IMessageTraitBuilder> setup)
         {
             if (setup == null)
                 throw new ArgumentNullException(nameof(setup));

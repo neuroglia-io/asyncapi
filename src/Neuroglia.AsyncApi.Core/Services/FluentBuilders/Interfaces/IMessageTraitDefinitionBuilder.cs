@@ -25,10 +25,10 @@ namespace Neuroglia.AsyncApi.Services.FluentBuilders
     /// <summary>
     /// Defines the fundamentals of a service used to build <see cref="MessageTraitDefinition"/>s
     /// </summary>
-    /// <typeparam name="TBuilder">The type of <see cref="IMessageTraitBuilder{TBuilder, TTrait}"/> to return for chaining purposes</typeparam>
+    /// <typeparam name="TBuilder">The type of <see cref="IMessageTraitDefinitionBuilder{TBuilder, TTrait}"/> to return for chaining purposes</typeparam>
     /// <typeparam name="TTrait">The type of <see cref="MessageTraitDefinition"/> to build</typeparam>
-    public interface IMessageTraitBuilder<TBuilder, TTrait>
-        where TBuilder : IMessageTraitBuilder<TBuilder, TTrait>
+    public interface IMessageTraitDefinitionBuilder<TBuilder, TTrait>
+        where TBuilder : IMessageTraitDefinitionBuilder<TBuilder, TTrait>
         where TTrait : MessageTraitDefinition
     {
 
@@ -36,7 +36,7 @@ namespace Neuroglia.AsyncApi.Services.FluentBuilders
         /// Configures the <see cref="MessageTraitDefinition"/> to build to use the specified headers
         /// </summary>
         /// <typeparam name="THeaders">The type used to define the <see cref="MessageTraitDefinition"/>'s headers</typeparam>
-        /// <returns>The configured <see cref="IMessageTraitBuilder{TBuilder, TTrait}"/></returns>
+        /// <returns>The configured <see cref="IMessageTraitDefinitionBuilder{TBuilder, TTrait}"/></returns>
         TBuilder WithHeaders<THeaders>()
             where THeaders : class;
 
@@ -44,14 +44,14 @@ namespace Neuroglia.AsyncApi.Services.FluentBuilders
         /// Configures the <see cref="MessageTraitDefinition"/> to build to use the specified headers
         /// </summary>
         /// <param name="headersType">The type used to define the <see cref="MessageTraitDefinition"/>'s headers</param>
-        /// <returns>The configured <see cref="IMessageTraitBuilder{TBuilder, TTrait}"/></returns>
+        /// <returns>The configured <see cref="IMessageTraitDefinitionBuilder{TBuilder, TTrait}"/></returns>
         TBuilder WithHeaders(Type headersType);
 
         /// <summary>
         /// Configures the <see cref="MessageTraitDefinition"/> to build to use the specified headers
         /// </summary>
         /// <param name="headersSchema">The <see cref="JSchema"/> used to define the <see cref="MessageTraitDefinition"/>'s headers</param>
-        /// <returns>The configured <see cref="IMessageTraitBuilder{TBuilder, TTrait}"/></returns>
+        /// <returns>The configured <see cref="IMessageTraitDefinitionBuilder{TBuilder, TTrait}"/></returns>
         TBuilder WithHeaders(JSchema headersSchema);
 
         /// <summary>
@@ -59,49 +59,49 @@ namespace Neuroglia.AsyncApi.Services.FluentBuilders
         /// </summary>
         /// <param name="location">The location of the correlation id to use</param>
         /// <param name="description">The description of the correlation id to use</param>
-        /// <returns>The configured <see cref="IMessageTraitBuilder{TBuilder, TTrait}"/></returns>
+        /// <returns>The configured <see cref="IMessageTraitDefinitionBuilder{TBuilder, TTrait}"/></returns>
         TBuilder WithCorrelationId(string location, string description = null);
 
         /// <summary>
         /// Configures the <see cref="MessageTraitDefinition"/> to build to use the specified schema format
         /// </summary>
         /// <param name="schemaFormat">The schema format to use</param>
-        /// <returns>The configured <see cref="IMessageTraitBuilder{TBuilder, TTrait}"/></returns>
+        /// <returns>The configured <see cref="IMessageTraitDefinitionBuilder{TBuilder, TTrait}"/></returns>
         TBuilder WithSchemaFormat(string schemaFormat);
 
         /// <summary>
         /// Configures the <see cref="MessageTraitDefinition"/> to build to use the specified content type
         /// </summary>
         /// <param name="contentType">The content type to use</param>
-        /// <returns>The configured <see cref="IMessageTraitBuilder{TBuilder, TTrait}"/></returns>
+        /// <returns>The configured <see cref="IMessageTraitDefinitionBuilder{TBuilder, TTrait}"/></returns>
         TBuilder WithContentType(string contentType);
 
         /// <summary>
         /// Configures the <see cref="MessageTraitDefinition"/> to build to use the specified content type
         /// </summary>
         /// <param name="name">The name to use</param>
-        /// <returns>The configured <see cref="IMessageTraitBuilder{TBuilder, TTrait}"/></returns>
+        /// <returns>The configured <see cref="IMessageTraitDefinitionBuilder{TBuilder, TTrait}"/></returns>
         TBuilder WithName(string name);
 
         /// <summary>
         /// Configures the <see cref="MessageTraitDefinition"/> to build to use the specified title
         /// </summary>
         /// <param name="title">The title to use</param>
-        /// <returns>The configured <see cref="IMessageTraitBuilder{TBuilder, TTrait}"/></returns>
+        /// <returns>The configured <see cref="IMessageTraitDefinitionBuilder{TBuilder, TTrait}"/></returns>
         TBuilder WithTitle(string title);
 
         /// <summary>
         /// Configures the <see cref="MessageTraitDefinition"/> to build to use the specified summary
         /// </summary>
         /// <param name="summary">The summary to use</param>
-        /// <returns>The configured <see cref="IMessageTraitBuilder{TBuilder, TTrait}"/></returns>
+        /// <returns>The configured <see cref="IMessageTraitDefinitionBuilder{TBuilder, TTrait}"/></returns>
         TBuilder WithSummary(string summary);
 
         /// <summary>
         /// Configures the <see cref="MessageTraitDefinition"/> to build to use the specified description
         /// </summary>
         /// <param name="description">The description to use</param>
-        /// <returns>The configured <see cref="IMessageTraitBuilder{TBuilder, TTrait}"/></returns>
+        /// <returns>The configured <see cref="IMessageTraitDefinitionBuilder{TBuilder, TTrait}"/></returns>
         TBuilder WithDescription(string description);
 
         /// <summary>
@@ -109,29 +109,29 @@ namespace Neuroglia.AsyncApi.Services.FluentBuilders
         /// </summary>
         /// <param name="name">The name of the example to add</param>
         /// <param name="example">The example to use</param>
-        /// <returns>The configured <see cref="IMessageTraitBuilder{TBuilder, TTrait}"/></returns>
+        /// <returns>The configured <see cref="IMessageTraitDefinitionBuilder{TBuilder, TTrait}"/></returns>
         TBuilder AddExample(string name, object example);
 
         /// <summary>
         /// Marks the <see cref="MessageTraitDefinition"/> to build with the specified tag
         /// </summary>
         /// <param name="setup">An <see cref="Action{T}"/> used to setup the tag to use</param>
-        /// <returns>The configured <see cref="IMessageTraitBuilder{TBuilder, TTrait}"/></returns>
-        TBuilder TagWith(Action<ITagBuilder> setup);
+        /// <returns>The configured <see cref="IMessageTraitDefinitionBuilder{TBuilder, TTrait}"/></returns>
+        TBuilder TagWith(Action<ITagDefinitionBuilder> setup);
 
         /// <summary>
         /// Adds the specified external documentation to the <see cref="MessageTraitDefinition"/> to build
         /// </summary>
         /// <param name="uri">The <see cref="Uri"/> to the documentation to add</param>
         /// <param name="description">The description of the documentation to add</param>
-        /// <returns>The configured <see cref="IMessageTraitBuilder{TBuilder, TTrait}"/></returns>
+        /// <returns>The configured <see cref="IMessageTraitDefinitionBuilder{TBuilder, TTrait}"/></returns>
         TBuilder DocumentWith(Uri uri, string description = null);
 
         /// <summary>
         /// Adds the specified <see cref="IMessageBindingDefinition"/> to the <see cref="MessageTraitDefinition"/> to build
         /// </summary>
         /// <param name="binding">The <see cref="IMessageBindingDefinition"/> to add</param>
-        /// <returns>The configured <see cref="IMessageTraitBuilder{TBuilder, TTrait}"/></returns>
+        /// <returns>The configured <see cref="IMessageTraitDefinitionBuilder{TBuilder, TTrait}"/></returns>
         TBuilder UseBinding(IMessageBindingDefinition binding);
 
         /// <summary>
@@ -146,7 +146,7 @@ namespace Neuroglia.AsyncApi.Services.FluentBuilders
     /// Defines the fundamentals of a service used to build <see cref="MessageTraitDefinition"/>s
     /// </summary>
     public interface IMessageTraitBuilder
-        : IMessageTraitBuilder<IMessageTraitBuilder, MessageTraitDefinition>
+        : IMessageTraitDefinitionBuilder<IMessageTraitBuilder, MessageTraitDefinition>
     {
 
 

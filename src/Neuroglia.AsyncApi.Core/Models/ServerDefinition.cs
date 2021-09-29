@@ -19,6 +19,7 @@ using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.Linq;
 
 namespace Neuroglia.AsyncApi.Models
 {
@@ -93,6 +94,28 @@ namespace Neuroglia.AsyncApi.Models
         [YamlDotNet.Serialization.YamlMember(Alias = "bindings")]
         [System.Text.Json.Serialization.JsonPropertyName("bindings")]
         public virtual ServerBindingDefinitionCollection Bindings { get; set; }
+
+        /// <summary>
+        /// Interpolates the defined server's url variables
+        /// </summary>
+        /// <returns>The interpolated server url</returns>
+        public virtual Uri InterpolateUrlVariables()
+        {
+            if (this.Variables == null
+                || !this.Variables.Any())
+                return this.Url;
+            string rawUrl = this.Url.ToString();
+            foreach (KeyValuePair<string, VariableDefinition> variable in this.Variables)
+            {
+                string value = variable.Value.Default;
+                if (string.IsNullOrWhiteSpace(value))
+                    value = variable.Value.Enum?.FirstOrDefault();
+                if (string.IsNullOrWhiteSpace(value))
+                    continue;
+                rawUrl = rawUrl.Replace($"{{{variable.Key}}}", value);
+            }
+            return new Uri(rawUrl, UriKind.RelativeOrAbsolute);
+        }
 
         /// <inheritdoc/>
         public override string ToString()

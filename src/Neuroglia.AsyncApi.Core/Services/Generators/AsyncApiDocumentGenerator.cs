@@ -169,11 +169,11 @@ namespace Neuroglia.AsyncApi.Services.Generators
         /// <summary>
         /// Configures and builds a new <see cref="MessageDefinition"/> for the specified <see cref="OperationDefinition"/>
         /// </summary>
-        /// <param name="messageBuilder">The <see cref="IMessageBuilder"/> to configure</param>
+        /// <param name="messageBuilder">The <see cref="IMessageDefinitionBuilder"/> to configure</param>
         /// <param name="operation">The attribute used to describe the <see cref="OperationDefinition"/> to configure</param>
         /// <param name="operationMethod">The <see cref="MethodInfo"/> marked with the specified <see cref="OperationDefinition"/> attribute</param>
         /// <param name="options">The <see cref="AsyncApiDocumentGenerationOptions"/> to use</param>
-        protected virtual void ConfigureOperationMessageFor(IMessageBuilder messageBuilder, OperationAttribute operation, MethodInfo operationMethod, AsyncApiDocumentGenerationOptions options)
+        protected virtual void ConfigureOperationMessageFor(IMessageDefinitionBuilder messageBuilder, OperationAttribute operation, MethodInfo operationMethod, AsyncApiDocumentGenerationOptions options)
         {
             if (messageBuilder == null)
                 throw new ArgumentNullException(nameof(messageBuilder));

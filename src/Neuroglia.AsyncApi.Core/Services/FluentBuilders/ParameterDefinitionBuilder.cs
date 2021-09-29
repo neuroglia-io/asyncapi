@@ -26,18 +26,18 @@ using System.Linq;
 namespace Neuroglia.AsyncApi.Services.FluentBuilders
 {
     /// <summary>
-    /// Represents the default implementation of the <see cref="IParameterBuilder"/> interface
+    /// Represents the default implementation of the <see cref="IParameterDefinitionBuilder"/> interface
     /// </summary>
-    public class ParameterBuilder
-        : IParameterBuilder
+    public class ParameterDefinitionBuilder
+        : IParameterDefinitionBuilder
     {
 
         /// <summary>
-        /// Initializes a new <see cref="ParameterBuilder"/>
+        /// Initializes a new <see cref="ParameterDefinitionBuilder"/>
         /// </summary>
         /// <param name="serviceProvider">The current <see cref="IServiceProvider"/></param>
         /// <param name="validators">The services used to validate <see cref="Models.ParameterDefinition"/>s</param>
-        public ParameterBuilder(IServiceProvider serviceProvider, IEnumerable<IValidator<ParameterDefinition>> validators)
+        public ParameterDefinitionBuilder(IServiceProvider serviceProvider, IEnumerable<IValidator<ParameterDefinition>> validators)
         {
             this.ServiceProvider = serviceProvider;
             this.Validators = validators;
@@ -59,13 +59,13 @@ namespace Neuroglia.AsyncApi.Services.FluentBuilders
         protected virtual ParameterDefinition Parameter { get; } = new();
 
         /// <inheritdoc/>
-        public virtual IParameterBuilder OfType<TParameter>()
+        public virtual IParameterDefinitionBuilder OfType<TParameter>()
         {
             return this.OfType(typeof(TParameter));
         }
 
         /// <inheritdoc/>
-        public virtual IParameterBuilder OfType(Type parameterType)
+        public virtual IParameterDefinitionBuilder OfType(Type parameterType)
         {
             if (parameterType == null)
                 throw new ArgumentNullException(nameof(parameterType));
@@ -73,21 +73,21 @@ namespace Neuroglia.AsyncApi.Services.FluentBuilders
         }
 
         /// <inheritdoc/>
-        public virtual IParameterBuilder WithSchema(JSchema schema)
+        public virtual IParameterDefinitionBuilder WithSchema(JSchema schema)
         {
             this.Parameter.Schema = schema ?? throw new ArgumentNullException(nameof(schema));
             return this;
         }
 
         /// <inheritdoc/>
-        public virtual IParameterBuilder WithDescription(string description)
+        public virtual IParameterDefinitionBuilder WithDescription(string description)
         {
             this.Parameter.Description = description;
             return this;
         }
 
         /// <inheritdoc/>
-        public virtual IParameterBuilder AtLocation(string location)
+        public virtual IParameterDefinitionBuilder AtLocation(string location)
         {
             if (string.IsNullOrWhiteSpace(location))
                 throw new ArgumentNullException(nameof(location));

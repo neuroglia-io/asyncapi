@@ -17,9 +17,9 @@
 using Confluent.Kafka;
 using Microsoft.Extensions.Logging;
 using Neuroglia.AsyncApi.Client.Services;
+using Neuroglia.AsyncApi.Models;
 using Neuroglia.AsyncApi.Models.Bindings.Kafka;
 using Neuroglia.Serialization;
-using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -42,19 +42,29 @@ namespace Neuroglia.AsyncApi.Client
         /// <param name="loggerFactory">The service used to create <see cref="ILogger"/>s</param>
         /// <param name="serializers">The service used to provide <see cref="ISerializer"/>s</param>
         /// <param name="channel">The <see cref="IChannel"/> the <see cref="ChannelBindingBase"/> belongs to</param>
-        public KafkaChannelBinding(ILoggerFactory loggerFactory, ISerializerProvider serializers, IChannel channel) 
-            : base(loggerFactory, serializers, channel)
+        /// <param name="servers">An <see cref="IEnumerable{T}"/> containing the mappings of the <see cref="ServerDefinition"/>s available to the <see cref="IChannelBinding"/></param>
+        public KafkaChannelBinding(ILoggerFactory loggerFactory, ISerializerProvider serializers, IChannel channel, IEnumerable<KeyValuePair<string, ServerDefinition>> servers) 
+            : base(loggerFactory, serializers, channel, servers)
         {
-            KafkaServerBindingDefinition x;
-            
             ClientConfig clientConfig = new()
             {
-                BootstrapServers = "",
-                ClientId = ""
+                BootstrapServers = this.Servers.First().Value.InterpolateUrlVariables().ToString(),
             };
             if (this.Channel.Definition.DefinesSubscribeOperation)
             {
                 ConsumerConfig consumerConfig = new(clientConfig);
+                KafkaOperationBindingDefinition operationBinding = this.Channel.Definition.Subscribe.Bindings
+                    .OfType<KafkaOperationBindingDefinition>()
+                    .FirstOrDefault();
+                if(operationBinding != null)
+                {
+                    clientConfig.ClientId = operationBinding.ClientId?.Default?.ToString();
+                    if (string.IsNullOrWhiteSpace(clientConfig.ClientId))
+                        clientConfig.ClientId = operationBinding.ClientId?.Enum?.FirstOrDefault()?.ToString();
+                    consumerConfig.GroupId = operationBinding.GroupId?.Default?.ToString();
+                    if (string.IsNullOrWhiteSpace(consumerConfig.GroupId))
+                        consumerConfig.ClientId = operationBinding.GroupId?.Enum?.FirstOrDefault()?.ToString();
+                }
                 this.KafkaProducer = new ProducerBuilder<Null, byte[]>(consumerConfig)
                     .Build();
                 this.ConsumeTask = Task.Run(() => this.ConsumeMessagesAsync(), this.CancellationTokenSource.Token);
@@ -62,6 +72,15 @@ namespace Neuroglia.AsyncApi.Client
             if (this.Channel.Definition.DefinesPublishOperation)
             {
                 ProducerConfig producerConfig = new(clientConfig);
+                KafkaOperationBindingDefinition operationBinding = this.Channel.Definition.Publish.Bindings
+                   .OfType<KafkaOperationBindingDefinition>()
+                   .FirstOrDefault();
+                if (operationBinding != null)
+                {
+                    clientConfig.ClientId = operationBinding.ClientId?.Default?.ToString();
+                    if (string.IsNullOrWhiteSpace(clientConfig.ClientId))
+                        clientConfig.ClientId = operationBinding.ClientId?.Enum?.FirstOrDefault()?.ToString();
+                }
                 this.KafkaConsumer = new ConsumerBuilder<Null, byte[]>(producerConfig)
                     .Build();
             }
@@ -96,6 +115,15 @@ namespace Neuroglia.AsyncApi.Client
             await this.KafkaProducer.ProduceAsync(this.ComputeChannelKeyFor(message), kafkaMessage, cancellationToken);
         }
 
+        /// <inheritdoc/>
+        public override async Task<IDisposable> SubscribeAsync(IObserver<IMessage> observer, CancellationToken cancellationToken = default)
+        {
+            if (observer == null)
+                throw new ArgumentNullException(nameof(observer));
+            this.KafkaConsumer.Subscribe(this.Channel.Key);
+            return await Task.FromResult(this.OnMessageSubject.Subscribe(observer));
+        }
+
         /// <summary>
         /// Polls and consumes messages from the <see cref="KafkaConsumer"/>
         /// </summary>
@@ -118,43 +146,7 @@ namespace Neuroglia.AsyncApi.Client
                         message.Headers.Add(header.Key, await this.DeserializeAsync(header.GetValueBytes(), this.CancellationTokenSource.Token));
                     }
                 }
-                if (this.Channel.Definition.Subscribe.Message.CorrelationId != null)
-                {
-                    JToken correlationKey = null;
-                    string[] components = this.Channel.Definition.Subscribe.Message.CorrelationId.LocationExpression.Fragment.Split("/", StringSplitOptions.RemoveEmptyEntries);
-                    switch (this.Channel.Definition.Subscribe.Message.CorrelationId.LocationExpression.Source)
-                    {
-                        case RuntimeExpressionSource.Header:
-                            if (!message.Headers.TryGetValue(components.First(), out object value))
-                                break;
-                            correlationKey = (JToken)value;
-                            for (int i = 1; i < components.Length; i++)
-                            {
-                                if (correlationKey is not JObject jobject)
-                                    break;
-                                JProperty property = jobject.Property(components[i]);
-                                if (property == null)
-                                    break;
-                                correlationKey = property.Value;
-                            }
-                            break;
-                        case RuntimeExpressionSource.Payload:
-                            correlationKey = message.Payload as JToken;
-                            for (int i = 0; i < components.Length; i++)
-                            {
-                                if (correlationKey is not JObject jobject)
-                                    break;
-                                JProperty property = jobject.Property(components[i]);
-                                if (property == null)
-                                    break;
-                                correlationKey = property.Value;
-                            }
-                            break;
-                        default:
-                            throw new NotSupportedException($"The specified {nameof(RuntimeExpressionSource)} '{this.Channel.Definition.Subscribe.Message.CorrelationId.LocationExpression.Source}' is not supported");
-                    }
-                    message.CorrelationKey = correlationKey;
-                }
+                message.CorrelationKey = this.ComputeConsumedMessageCorrelationKey(message);
             }
             this.KafkaConsumer.Close();
         }

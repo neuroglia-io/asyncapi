@@ -85,6 +85,26 @@ namespace Neuroglia.AsyncApi.Services.IO
             }
         }
 
+        /// <inheritdoc/>
+        public virtual void Write(AsyncApiDocument document, Stream stream, AsyncApiDocumentFormat format = AsyncApiDocumentFormat.Yaml)
+        {
+            if (document == null)
+                throw new ArgumentNullException(nameof(document));
+            if (stream == null)
+                throw new ArgumentNullException(nameof(stream));
+            switch (format)
+            {
+                case AsyncApiDocumentFormat.Json:
+                    this.JsonSerializer.Serialize(document, stream);
+                    break;
+                case AsyncApiDocumentFormat.Yaml:
+                    this.YamlSerializer.Serialize(document, stream);
+                    break;
+                default:
+                    throw new NotSupportedException($"The specified async api document format '{format}' is not supported");
+            }
+        }
+
     }
 
 }

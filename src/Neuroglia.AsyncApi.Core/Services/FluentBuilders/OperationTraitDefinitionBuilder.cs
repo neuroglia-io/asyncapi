@@ -27,22 +27,22 @@ namespace Neuroglia.AsyncApi.Services.FluentBuilders
 {
 
     /// <summary>
-    /// Represents the base class for all <see cref="IOperationTraitBuilder{TBuilder, TTrait}"/> implementations
+    /// Represents the base class for all <see cref="IOperationTraitDefinitionBuilder{TBuilder, TTrait}"/> implementations
     /// </summary>
-    /// <typeparam name="TBuilder">The type of <see cref="IOperationTraitBuilder{TBuilder, TTrait}"/> to return for chaining purposes</typeparam>
+    /// <typeparam name="TBuilder">The type of <see cref="IOperationTraitDefinitionBuilder{TBuilder, TTrait}"/> to return for chaining purposes</typeparam>
     /// <typeparam name="TTrait">The type of <see cref="OperationTraitDefinition"/> to build</typeparam>
-    public abstract class OperationTraitBuilder<TBuilder, TTrait>
-        : IOperationTraitBuilder<TBuilder, TTrait>
-        where TBuilder : IOperationTraitBuilder<TBuilder, TTrait>
+    public abstract class OperationTraitDefinitionBuilder<TBuilder, TTrait>
+        : IOperationTraitDefinitionBuilder<TBuilder, TTrait>
+        where TBuilder : IOperationTraitDefinitionBuilder<TBuilder, TTrait>
         where TTrait : OperationTraitDefinition, new()
     {
 
         /// <summary>
-        /// Initializes a new <see cref="OperationTraitBuilder{TBuilder, TTrait}"/>
+        /// Initializes a new <see cref="OperationTraitDefinitionBuilder{TBuilder, TTrait}"/>
         /// </summary>
         /// <param name="serviceProvider">The current <see cref="IServiceProvider"/></param>
         /// <param name="validators">An <see cref="IEnumerable{T}"/> containing the services used to validate <see cref="OperationTraitDefinition"/>s</param>
-        protected OperationTraitBuilder(IServiceProvider serviceProvider, IEnumerable<IValidator<TTrait>> validators)
+        protected OperationTraitDefinitionBuilder(IServiceProvider serviceProvider, IEnumerable<IValidator<TTrait>> validators)
         {
             this.ServiceProvider = serviceProvider;
             this.Validators = validators;
@@ -75,13 +75,13 @@ namespace Neuroglia.AsyncApi.Services.FluentBuilders
         }
 
         /// <inheritdoc/>
-        public virtual TBuilder TagWith(Action<ITagBuilder> setup)
+        public virtual TBuilder TagWith(Action<ITagDefinitionBuilder> setup)
         {
             if (setup == null)
                 throw new ArgumentNullException(nameof(setup));
             if (this.Trait.Tags == null)
                 this.Trait.Tags = new();
-            ITagBuilder builder = ActivatorUtilities.CreateInstance<TagBuilder>(this.ServiceProvider);
+            ITagDefinitionBuilder builder = ActivatorUtilities.CreateInstance<TagDefinitionBuilder>(this.ServiceProvider);
             setup(builder);
             this.Trait.Tags.Add(builder.Build());
             return (TBuilder)(object)this;
@@ -134,7 +134,7 @@ namespace Neuroglia.AsyncApi.Services.FluentBuilders
     /// Represents the base class for all <see cref="IOperationTraitBuilder"/> implementations
     /// </summary>
     public class OperationTraitBuilder
-        : OperationTraitBuilder<IOperationTraitBuilder, OperationTraitDefinition>, IOperationTraitBuilder
+        : OperationTraitDefinitionBuilder<IOperationTraitBuilder, OperationTraitDefinition>, IOperationTraitBuilder
     {
 
         /// <summary>

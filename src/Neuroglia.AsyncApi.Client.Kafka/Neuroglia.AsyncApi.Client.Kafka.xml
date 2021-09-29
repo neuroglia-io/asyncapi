@@ -4,18 +4,31 @@
         <name>Neuroglia.AsyncApi.Client.Kafka</name>
     </assembly>
     <members>
+        <member name="T:Neuroglia.AsyncApi.IAsyncApiClientOptionsBuilderExtensions">
+            <summary>
+            Defines extensions for <see cref="T:Neuroglia.AsyncApi.Client.Services.IAsyncApiClient"/>s
+            </summary>
+        </member>
+        <member name="M:Neuroglia.AsyncApi.IAsyncApiClientOptionsBuilderExtensions.AddKafkaBinding(Neuroglia.AsyncApi.Client.Configuration.IAsyncApiClientOptionsBuilder)">
+            <summary>
+            Adds a Kafka implementation of the <see cref="T:Neuroglia.AsyncApi.Client.Services.IChannelBinding"/> interface
+            </summary>
+            <param name="builder">The <see cref="T:Neuroglia.AsyncApi.Client.Configuration.IAsyncApiClientOptionsBuilder"/> to configure</param>
+            <returns>The configured <see cref="T:Neuroglia.AsyncApi.Client.Configuration.IAsyncApiClientOptionsBuilder"/></returns>
+        </member>
         <member name="T:Neuroglia.AsyncApi.Client.KafkaChannelBinding">
             <summary>
             Represents the Kafka implementation of the <see cref="T:Neuroglia.AsyncApi.Client.Services.IChannelBinding"/> interface
             </summary>
         </member>
-        <member name="M:Neuroglia.AsyncApi.Client.KafkaChannelBinding.#ctor(Microsoft.Extensions.Logging.ILoggerFactory,Neuroglia.Serialization.ISerializerProvider,Neuroglia.AsyncApi.Client.Services.IChannel)">
+        <member name="M:Neuroglia.AsyncApi.Client.KafkaChannelBinding.#ctor(Microsoft.Extensions.Logging.ILoggerFactory,Neuroglia.Serialization.ISerializerProvider,Neuroglia.AsyncApi.Client.Services.IChannel,System.Collections.Generic.IEnumerable{System.Collections.Generic.KeyValuePair{System.String,Neuroglia.AsyncApi.Models.ServerDefinition}})">
             <summary>
             Initializes a new <see cref="T:Neuroglia.AsyncApi.Client.Services.ChannelBindingBase"/>
             </summary>
             <param name="loggerFactory">The service used to create <see cref="T:Microsoft.Extensions.Logging.ILogger"/>s</param>
             <param name="serializers">The service used to provide <see cref="T:Neuroglia.Serialization.ISerializer"/>s</param>
             <param name="channel">The <see cref="T:Neuroglia.AsyncApi.Client.Services.IChannel"/> the <see cref="T:Neuroglia.AsyncApi.Client.Services.ChannelBindingBase"/> belongs to</param>
+            <param name="servers">An <see cref="T:System.Collections.Generic.IEnumerable`1"/> containing the mappings of the <see cref="T:Neuroglia.AsyncApi.Models.ServerDefinition"/>s available to the <see cref="T:Neuroglia.AsyncApi.Client.Services.IChannelBinding"/></param>
         </member>
         <member name="P:Neuroglia.AsyncApi.Client.KafkaChannelBinding.KafkaProducer">
             <summary>
@@ -35,6 +48,9 @@
         <member name="M:Neuroglia.AsyncApi.Client.KafkaChannelBinding.PublishAsync(Neuroglia.AsyncApi.Client.IMessage,System.Threading.CancellationToken)">
             <inheritdoc/>
         </member>
+        <member name="M:Neuroglia.AsyncApi.Client.KafkaChannelBinding.SubscribeAsync(System.IObserver{Neuroglia.AsyncApi.Client.IMessage},System.Threading.CancellationToken)">
+            <inheritdoc/>
+        </member>
         <member name="M:Neuroglia.AsyncApi.Client.KafkaChannelBinding.ConsumeMessagesAsync">
             <summary>
             Polls and consumes messages from the <see cref="P:Neuroglia.AsyncApi.Client.KafkaChannelBinding.KafkaConsumer"/>
@@ -42,6 +58,28 @@
             <returns>A new awaitable <see cref="T:System.Threading.Tasks.Task"/></returns>
         </member>
         <member name="M:Neuroglia.AsyncApi.Client.KafkaChannelBinding.Dispose(System.Boolean)">
+            <inheritdoc/>
+        </member>
+        <member name="T:Neuroglia.AsyncApi.Client.KafkaChannelBindingFactory">
+            <summary>
+            Represents the Kafka implementation of the <see cref="T:Neuroglia.AsyncApi.Client.Services.IChannelBindingFactory"/> interface
+            </summary>
+        </member>
+        <member name="M:Neuroglia.AsyncApi.Client.KafkaChannelBindingFactory.#ctor(System.IServiceProvider)">
+            <summary>
+            Initializes a new <see cref="T:Neuroglia.AsyncApi.Client.KafkaChannelBindingFactory"/>
+            </summary>
+            <param name="serviceProvider">The current <see cref="T:Neuroglia.Serialization.ISerializerProvider"/></param>
+        </member>
+        <member name="P:Neuroglia.AsyncApi.Client.KafkaChannelBindingFactory.ServiceProvider">
+            <summary>
+            Gets the current <see cref="T:System.IServiceProvider"/>
+            </summary>
+        </member>
+        <member name="M:Neuroglia.AsyncApi.Client.KafkaChannelBindingFactory.SupportsProtocol(System.String)">
+            <inheritdoc/>
+        </member>
+        <member name="M:Neuroglia.AsyncApi.Client.KafkaChannelBindingFactory.CreateBinding(Neuroglia.AsyncApi.Client.Services.IChannel,System.Collections.Generic.IEnumerable{System.Collections.Generic.KeyValuePair{System.String,Neuroglia.AsyncApi.Models.ServerDefinition}})">
             <inheritdoc/>
         </member>
     </members>

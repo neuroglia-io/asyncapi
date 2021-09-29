@@ -14,34 +14,17 @@
  * limitations under the License.
  *
  */
-using System;
-using System.Collections.Generic;
-
-namespace Neuroglia.AsyncApi.Client
+namespace Neuroglia.AsyncApi.Client.Configuration
 {
     /// <summary>
-    /// Reoresents the default implementation of the <see cref="IMessage"/> interface
+    /// Represents the default implementation of the <see cref="IPublishOperationOptionsBuilder"/> interface
     /// </summary>
-    public class Message
-        : IMessage
+    public class PublishOperationOptions
+        : IPublishOperationOptions
     {
 
         /// <inheritdoc/>
-        public virtual DateTime Timestamp { get; set; } = DateTime.UtcNow;
-
-        /// <inheritdoc/>
-        public virtual string ChannelKey { get; set; }
-
-        /// <inheritdoc/>
-        public virtual object CorrelationKey { get; set; }
-
-        /// <inheritdoc/>
-        public virtual Dictionary<string, object> Headers { get; set; } = new();
-
-        IDictionary<string, object> IMessage.Headers => this.Headers;
-
-        /// <inheritdoc/>
-        public virtual object Payload { get; set; }
+        public virtual string Protocol { get; set; }
 
     }
 
