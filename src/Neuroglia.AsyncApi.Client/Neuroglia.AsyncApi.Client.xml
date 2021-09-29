@@ -104,6 +104,58 @@
             </summary>
             <returns>New <see cref="T:Neuroglia.AsyncApi.Client.Configuration.AsyncApiClientOptions"/></returns>
         </member>
+        <member name="T:Neuroglia.AsyncApi.Client.Configuration.IPublishOperationOptions">
+            <summary>
+            Defines the fundamentals of options used to configure an Async API operation of type <see cref="F:Neuroglia.AsyncApi.OperationType.Publish"/>
+            </summary>
+        </member>
+        <member name="P:Neuroglia.AsyncApi.Client.Configuration.IPublishOperationOptions.Protocol">
+            <summary>
+            Gets the protocol to use
+            </summary>
+        </member>
+        <member name="T:Neuroglia.AsyncApi.Client.Configuration.IPublishOperationOptionsBuilder">
+            <summary>
+            Defines the fundamentals of a service used to build <see cref="T:Neuroglia.AsyncApi.Client.Configuration.IPublishOperationOptions"/>
+            </summary>
+        </member>
+        <member name="M:Neuroglia.AsyncApi.Client.Configuration.IPublishOperationOptionsBuilder.UseProtocol(System.String)">
+            <summary>
+            Uses the specified Async API protocol when executing the publish operation
+            </summary>
+            <param name="protocol">The protocol to use</param>
+            <returns></returns>
+        </member>
+        <member name="M:Neuroglia.AsyncApi.Client.Configuration.IPublishOperationOptionsBuilder.Build">
+            <summary>
+            Builds the configured <see cref="T:Neuroglia.AsyncApi.Client.Configuration.IPublishOperationOptions"/>
+            </summary>
+            <returns>New <see cref="T:Neuroglia.AsyncApi.Client.Configuration.IPublishOperationOptions"/></returns>
+        </member>
+        <member name="T:Neuroglia.AsyncApi.Client.Configuration.PublishOperationOptions">
+            <summary>
+            Represents the default implementation of the <see cref="T:Neuroglia.AsyncApi.Client.Configuration.IPublishOperationOptionsBuilder"/> interface
+            </summary>
+        </member>
+        <member name="P:Neuroglia.AsyncApi.Client.Configuration.PublishOperationOptions.Protocol">
+            <inheritdoc/>
+        </member>
+        <member name="T:Neuroglia.AsyncApi.Client.Configuration.PublishOperationOptionsBuilder">
+            <summary>
+            Represents the default implementation of the <see cref="T:Neuroglia.AsyncApi.Client.Configuration.IPublishOperationOptionsBuilder"/> interface
+            </summary>
+        </member>
+        <member name="P:Neuroglia.AsyncApi.Client.Configuration.PublishOperationOptionsBuilder.Options">
+            <summary>
+            Gets the <see cref="T:Neuroglia.AsyncApi.Client.Configuration.PublishOperationOptions"/> to configure
+            </summary>
+        </member>
+        <member name="M:Neuroglia.AsyncApi.Client.Configuration.PublishOperationOptionsBuilder.UseProtocol(System.String)">
+            <inheritdoc/>
+        </member>
+        <member name="M:Neuroglia.AsyncApi.Client.Configuration.PublishOperationOptionsBuilder.Build">
+            <inheritdoc/>
+        </member>
         <member name="T:Neuroglia.AsyncApi.Client.IMessage">
             <summary>
             Defines the fundamentals of an Async API message

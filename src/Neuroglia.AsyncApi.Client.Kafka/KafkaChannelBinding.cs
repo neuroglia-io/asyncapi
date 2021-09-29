@@ -52,8 +52,8 @@ namespace Neuroglia.AsyncApi.Client
             };
             if (this.Channel.Definition.DefinesSubscribeOperation)
             {
-                ConsumerConfig consumerConfig = new(clientConfig);
-                KafkaOperationBindingDefinition operationBinding = this.Channel.Definition.Subscribe.Bindings
+                ConsumerConfig consumerConfig = new(clientConfig) { AllowAutoCreateTopics = true, AutoOffsetReset = AutoOffsetReset.Latest };
+                KafkaOperationBindingDefinition operationBinding = this.Channel.Definition.Subscribe.Bindings?
                     .OfType<KafkaOperationBindingDefinition>()
                     .FirstOrDefault();
                 if(operationBinding != null)
@@ -65,14 +65,14 @@ namespace Neuroglia.AsyncApi.Client
                     if (string.IsNullOrWhiteSpace(consumerConfig.GroupId))
                         consumerConfig.ClientId = operationBinding.GroupId?.Enum?.FirstOrDefault()?.ToString();
                 }
-                this.KafkaProducer = new ProducerBuilder<Null, byte[]>(consumerConfig)
+                this.KafkaConsumer = new ConsumerBuilder<Null, byte[]>(consumerConfig)
                     .Build();
                 this.ConsumeTask = Task.Run(() => this.ConsumeMessagesAsync(), this.CancellationTokenSource.Token);
             }
             if (this.Channel.Definition.DefinesPublishOperation)
             {
                 ProducerConfig producerConfig = new(clientConfig);
-                KafkaOperationBindingDefinition operationBinding = this.Channel.Definition.Publish.Bindings
+                KafkaOperationBindingDefinition operationBinding = this.Channel.Definition.Publish.Bindings?
                    .OfType<KafkaOperationBindingDefinition>()
                    .FirstOrDefault();
                 if (operationBinding != null)
@@ -81,7 +81,7 @@ namespace Neuroglia.AsyncApi.Client
                     if (string.IsNullOrWhiteSpace(clientConfig.ClientId))
                         clientConfig.ClientId = operationBinding.ClientId?.Enum?.FirstOrDefault()?.ToString();
                 }
-                this.KafkaConsumer = new ConsumerBuilder<Null, byte[]>(producerConfig)
+                this.KafkaProducer = new ProducerBuilder<Null, byte[]>(producerConfig)
                     .Build();
             }
         }
@@ -108,11 +108,12 @@ namespace Neuroglia.AsyncApi.Client
                 throw new ArgumentNullException(nameof(message));
             cancellationToken = CancellationTokenSource.CreateLinkedTokenSource(this.CancellationTokenSource.Token, cancellationToken).Token;
             Message<Null, byte[]> kafkaMessage = new() { Value = await this.SerializeAsync(message.Payload, cancellationToken) };
+            kafkaMessage.Headers = new();
             foreach(KeyValuePair<string, object> header in message.Headers)
             {
                 kafkaMessage.Headers.Add(new Header(header.Key, await this.SerializeAsync(header.Value, cancellationToken)));
             }
-            await this.KafkaProducer.ProduceAsync(this.ComputeChannelKeyFor(message), kafkaMessage, cancellationToken);
+            await this.KafkaProducer.ProduceAsync(this.ComputeChannelKeyFor(message).Replace("/", "_"), kafkaMessage, cancellationToken);
         }
 
         /// <inheritdoc/>
@@ -120,7 +121,7 @@ namespace Neuroglia.AsyncApi.Client
         {
             if (observer == null)
                 throw new ArgumentNullException(nameof(observer));
-            this.KafkaConsumer.Subscribe(this.Channel.Key);
+            this.KafkaConsumer.Subscribe(this.Channel.Key.Replace("/", "_"));
             return await Task.FromResult(this.OnMessageSubject.Subscribe(observer));
         }
 
@@ -130,23 +131,32 @@ namespace Neuroglia.AsyncApi.Client
         /// <returns>A new awaitable <see cref="Task"/></returns>
         protected virtual async Task ConsumeMessagesAsync()
         {
+
             while (!this.CancellationTokenSource.IsCancellationRequested)
             {
-                ConsumeResult<Null, byte[]> consumeResult = this.KafkaConsumer.Consume(this.CancellationTokenSource.Token);
-                Message message = new()
+                try
                 {
-                    ChannelKey = consumeResult.Topic,
-                    Timestamp = consumeResult.Message.Timestamp.UtcDateTime,
-                    Payload = await this.DeserializeAsync(consumeResult.Message.Value, this.CancellationTokenSource.Token)
-                };
-                if(consumeResult.Message.Headers != null)
-                {
-                    foreach (IHeader header in consumeResult.Message.Headers)
+                    ConsumeResult<Null, byte[]> consumeResult = this.KafkaConsumer.Consume(this.CancellationTokenSource.Token);
+                    Message message = new()
                     {
-                        message.Headers.Add(header.Key, await this.DeserializeAsync(header.GetValueBytes(), this.CancellationTokenSource.Token));
+                        ChannelKey = consumeResult.Topic,
+                        Timestamp = consumeResult.Message.Timestamp.UtcDateTime,
+                        Payload = await this.DeserializeAsync(consumeResult.Message.Value, this.CancellationTokenSource.Token)
+                    };
+                    if (consumeResult.Message.Headers != null)
+                    {
+                        foreach (IHeader header in consumeResult.Message.Headers)
+                        {
+                            message.Headers.Add(header.Key, await this.DeserializeAsync(header.GetValueBytes(), this.CancellationTokenSource.Token));
+                        }
                     }
+                    message.CorrelationKey = this.ComputeConsumedMessageCorrelationKey(message);
+                    this.OnMessageSubject.OnNext(message);
                 }
-                message.CorrelationKey = this.ComputeConsumedMessageCorrelationKey(message);
+                catch (Exception ex)
+                {
+
+                }
             }
             this.KafkaConsumer.Close();
         }
