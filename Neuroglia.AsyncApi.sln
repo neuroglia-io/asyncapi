@@ -19,7 +19,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Neuroglia.AsyncApi.AspNetCo
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Neuroglia.AsyncApi.Core", "src\Neuroglia.AsyncApi.Core\Neuroglia.AsyncApi.Core.csproj", "{ED054553-E0F5-4D6E-A4FE-6EDB5A5003CC}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Neuroglia.AsyncApi.Client", "src\Neuroglia.AsyncApi.Client\Neuroglia.AsyncApi.Client.csproj", "{553DF982-0CDD-4BE8-ACCE-6535BE5879A6}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Neuroglia.AsyncApi.Client", "src\Neuroglia.AsyncApi.Client\Neuroglia.AsyncApi.Client.csproj", "{553DF982-0CDD-4BE8-ACCE-6535BE5879A6}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Neuroglia.AsyncApi.Client.Kafka", "src\Neuroglia.AsyncApi.Client.Kafka\Neuroglia.AsyncApi.Client.Kafka.csproj", "{346C6C9F-6779-4E14-B3DB-2865620683B9}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Neuroglia.AsyncApi.Client.Mqtt", "src\Neuroglia.AsyncApi.Client.Mqtt\Neuroglia.AsyncApi.Client.Mqtt.csproj", "{81EC536C-3BFF-4B04-8390-ABE6BA91D1DD}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -51,6 +55,14 @@ Global
 		{553DF982-0CDD-4BE8-ACCE-6535BE5879A6}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{553DF982-0CDD-4BE8-ACCE-6535BE5879A6}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{553DF982-0CDD-4BE8-ACCE-6535BE5879A6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{346C6C9F-6779-4E14-B3DB-2865620683B9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{346C6C9F-6779-4E14-B3DB-2865620683B9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{346C6C9F-6779-4E14-B3DB-2865620683B9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{346C6C9F-6779-4E14-B3DB-2865620683B9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{81EC536C-3BFF-4B04-8390-ABE6BA91D1DD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{81EC536C-3BFF-4B04-8390-ABE6BA91D1DD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{81EC536C-3BFF-4B04-8390-ABE6BA91D1DD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{81EC536C-3BFF-4B04-8390-ABE6BA91D1DD}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -62,6 +74,8 @@ Global
 		{2B6DA3C0-88B1-40B8-A2B1-13ABF5D703EB} = {817C6554-6E96-457C-BDF1-F3455A146E8F}
 		{ED054553-E0F5-4D6E-A4FE-6EDB5A5003CC} = {817C6554-6E96-457C-BDF1-F3455A146E8F}
 		{553DF982-0CDD-4BE8-ACCE-6535BE5879A6} = {817C6554-6E96-457C-BDF1-F3455A146E8F}
+		{346C6C9F-6779-4E14-B3DB-2865620683B9} = {817C6554-6E96-457C-BDF1-F3455A146E8F}
+		{81EC536C-3BFF-4B04-8390-ABE6BA91D1DD} = {817C6554-6E96-457C-BDF1-F3455A146E8F}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {292C0290-D369-4B77-9EEC-1C41DCAF2781}

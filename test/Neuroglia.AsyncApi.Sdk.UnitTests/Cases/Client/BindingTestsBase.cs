@@ -26,6 +26,7 @@ namespace Neuroglia.AsyncApi.Sdk.UnitTests.Cases.Client
 
         protected BindingTestsBase(Action<IServerDefinitionBuilder> serverSetup)
         {
+            this.Initialize();
             var services = new ServiceCollection();
             services = new ServiceCollection();
             services.AddAsyncApiClient("test", builder =>
@@ -37,12 +38,17 @@ namespace Neuroglia.AsyncApi.Sdk.UnitTests.Cases.Client
 
         protected IAsyncApiClient AsyncApiClient { get; }
 
+        protected virtual void Initialize()
+        {
+
+        }
+
         [Fact]
         public virtual async Task SubscribeAndPublish()
         {
             //arrange
             var channelKey = ChannelKey;
-            var cancellationTokenSource = new CancellationTokenSource(5000);
+            CancellationTokenSource cancellationTokenSource = null;
             IMessage consumedMessage = null;
             IDisposable subscription = null;
             var observer = Observer.Create<IMessage>(message =>
@@ -60,15 +66,20 @@ namespace Neuroglia.AsyncApi.Sdk.UnitTests.Cases.Client
             //act
             subscription = await this.AsyncApiClient.SubscribeToAsync(channelKey, observer);
             await this.AsyncApiClient.PublishAsync(channelKey, producedMessage);
+            cancellationTokenSource = new(5000);
             while (!cancellationTokenSource.IsCancellationRequested) { }
 
             //assert
             consumedMessage.Should().NotBeNull();
             consumedMessage.Payload.As<JObject>().ToObject<TestUser>().Should().BeEquivalentTo(producedMessage.Payload);
+
             consumedMessage.Headers.First().Key.Should().Be(producedMessage.Headers.First().Key);
             consumedMessage.Headers.First().Value.As<JToken>().ToString().Should().Be(producedMessage.Headers.First().Value as string);
+
             consumedMessage.Headers.Last().Key.Should().Be(producedMessage.Headers.Last().Key);
             consumedMessage.Headers.Last().Value.As<JToken>().ToString().Should().Be(producedMessage.Headers.Last().Value as string);
+
+            consumedMessage.CorrelationKey.Should().NotBeNull();
             consumedMessage.CorrelationKey.As<JToken>().ToObject<Guid>().Should().Be((Guid)producedMessage.CorrelationKey);
         }
 

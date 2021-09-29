@@ -198,7 +198,7 @@ namespace Neuroglia.AsyncApi.Client.Services
         /// </summary>
         /// <param name="message">The published <see cref="IMessage"/> to compute the correlation key for</param>
         /// <returns>The computed correlation key</returns>
-        protected virtual object ComputeProducedMessageCorrelationKey(IMessage message)
+        protected virtual object ComputeProducedMessageCorrelationKey(IMessage message) //todo: when producing, correlation key should be set according to definition
         {
             if (message == null)
                 throw new ArgumentNullException(nameof(message));
@@ -241,7 +241,7 @@ namespace Neuroglia.AsyncApi.Client.Services
         /// </summary>
         /// <param name="message">The consumed <see cref="IMessage"/> to compute the correlation key for</param>
         /// <returns>The computed correlation key</returns>
-        protected virtual JToken ComputeConsumedMessageCorrelationKey(IMessage message)
+        protected virtual JToken ComputeConsumedMessageCorrelationKey(IMessage message) //todo: when consuming, correlation key should be retrieved according to definition
         {
             if (message == null)
                 throw new ArgumentNullException(nameof(message));

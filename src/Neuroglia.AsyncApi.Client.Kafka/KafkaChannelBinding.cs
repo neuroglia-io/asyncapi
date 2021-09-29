@@ -15,6 +15,7 @@
  *
  */
 using Confluent.Kafka;
+using Confluent.Kafka.Admin;
 using Microsoft.Extensions.Logging;
 using Neuroglia.AsyncApi.Client.Services;
 using Neuroglia.AsyncApi.Models;
@@ -50,6 +51,8 @@ namespace Neuroglia.AsyncApi.Client
             {
                 BootstrapServers = this.Servers.First().Value.InterpolateUrlVariables().ToString(),
             };
+            this.KafkaAdmin = new AdminClientBuilder(clientConfig)
+                .Build();
             if (this.Channel.Definition.DefinesSubscribeOperation)
             {
                 ConsumerConfig consumerConfig = new(clientConfig) { AllowAutoCreateTopics = true, AutoOffsetReset = AutoOffsetReset.Latest };
@@ -67,7 +70,8 @@ namespace Neuroglia.AsyncApi.Client
                 }
                 this.KafkaConsumer = new ConsumerBuilder<Null, byte[]>(consumerConfig)
                     .Build();
-                this.ConsumeTask = Task.Run(() => this.ConsumeMessagesAsync(), this.CancellationTokenSource.Token);
+                this.KafkaConsumer.Subscribe(this.KafkaTopic);
+                this.ConsumeTask = Task.Factory.StartNew(this.ConsumeMessagesAsync, this.CancellationTokenSource.Token, TaskCreationOptions.LongRunning, TaskScheduler.Default);
             }
             if (this.Channel.Definition.DefinesPublishOperation)
             {
@@ -87,6 +91,11 @@ namespace Neuroglia.AsyncApi.Client
         }
 
         /// <summary>
+        /// Gets the service used to administer Kafka
+        /// </summary>
+        protected IAdminClient KafkaAdmin { get; }
+
+        /// <summary>
         /// Gets the service used to produce Kafka messages
         /// </summary>
         protected IProducer<Null, byte[]> KafkaProducer { get; }
@@ -97,9 +106,20 @@ namespace Neuroglia.AsyncApi.Client
         protected IConsumer<Null, byte[]> KafkaConsumer { get; }
 
         /// <summary>
+        /// Gets the Kafka topic
+        /// </summary>
+        protected virtual string KafkaTopic => this.Channel.Key.Slugify();
+
+        /// <summary>
         /// Gets the <see cref="Task"/> used to consume messages from the <see cref="KafkaConsumer"/>
         /// </summary>
         protected Task ConsumeTask { get; private set; }
+
+        /// <inheritdoc/>
+        protected override string ComputeChannelKeyFor(IMessage message)
+        {
+            return base.ComputeChannelKeyFor(message).Slugify();
+        }
 
         /// <inheritdoc/>
         public override async Task PublishAsync(IMessage message, CancellationToken cancellationToken = default)
@@ -113,7 +133,7 @@ namespace Neuroglia.AsyncApi.Client
             {
                 kafkaMessage.Headers.Add(new Header(header.Key, await this.SerializeAsync(header.Value, cancellationToken)));
             }
-            await this.KafkaProducer.ProduceAsync(this.ComputeChannelKeyFor(message).Replace("/", "_"), kafkaMessage, cancellationToken);
+            await this.KafkaProducer.ProduceAsync(this.ComputeChannelKeyFor(message).Slugify(), kafkaMessage, cancellationToken);
         }
 
         /// <inheritdoc/>
@@ -121,7 +141,6 @@ namespace Neuroglia.AsyncApi.Client
         {
             if (observer == null)
                 throw new ArgumentNullException(nameof(observer));
-            this.KafkaConsumer.Subscribe(this.Channel.Key.Replace("/", "_"));
             return await Task.FromResult(this.OnMessageSubject.Subscribe(observer));
         }
 
@@ -131,7 +150,18 @@ namespace Neuroglia.AsyncApi.Client
         /// <returns>A new awaitable <see cref="Task"/></returns>
         protected virtual async Task ConsumeMessagesAsync()
         {
-
+            try
+            {
+                await this.KafkaAdmin.CreateTopicsAsync(new TopicSpecification[] { new() { Name = this.KafkaTopic } });
+            }
+            catch (CreateTopicsException ex)
+            when (ex.Results.First().Error.Code == ErrorCode.TopicAlreadyExists)
+            { }
+            catch (Exception ex)
+            {
+                this.Logger.LogError($"An error occured attempting to create the channel's topic '{{topic}}':{Environment.NewLine}{{ex}}", this.KafkaTopic, ex.ToString());
+                throw;
+            }
             while (!this.CancellationTokenSource.IsCancellationRequested)
             {
                 try
@@ -155,7 +185,7 @@ namespace Neuroglia.AsyncApi.Client
                 }
                 catch (Exception ex)
                 {
-
+                    this.Logger.LogError($"An error occured while consuming an inbound message on channel with key {{channel}}.{Environment.NewLine}{{ex}}", this.Channel.Key, ex.ToString());
                 }
             }
             this.KafkaConsumer.Close();
@@ -167,6 +197,7 @@ namespace Neuroglia.AsyncApi.Client
             base.Dispose(disposing);
             if (!disposing)
                 return;
+            this.KafkaAdmin.Dispose();
             this.KafkaConsumer.Dispose();
             this.KafkaProducer.Dispose();
             this.ConsumeTask.Dispose();

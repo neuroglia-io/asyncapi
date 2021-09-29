@@ -20,6 +20,13 @@ namespace Neuroglia.AsyncApi.Sdk.UnitTests.Cases.Client
         public KafkaBindingTests()
             : base(ServerSetup)
         {
+  
+        }
+
+        TestcontainersContainer Container { get; set; }
+
+        protected override void Initialize()
+        {
             var port = 9092;
             var containerBuilder = new TestcontainersBuilder<TestcontainersContainer>()
                 .WithImage("bashj79/kafka-kraft")
@@ -28,9 +35,8 @@ namespace Neuroglia.AsyncApi.Sdk.UnitTests.Cases.Client
                 .WithPortBinding(KafkaContainerPort, KafkaContainerPort)
                 .WithWaitStrategy(Wait.ForUnixContainer().UntilPortIsAvailable(port));
             this.Container = containerBuilder.Build();
+            base.Initialize();
         }
-
-        TestcontainersContainer Container { get; }
 
         protected override void ConfigureSubscribeOperation(IOperationDefinitionBuilder operation)
         {
@@ -59,10 +65,7 @@ namespace Neuroglia.AsyncApi.Sdk.UnitTests.Cases.Client
         {
             server.WithProtocol(AsyncApiProtocols.Kafka)
                 .WithUrl(new Uri($"localhost:{KafkaContainerPort}", UriKind.RelativeOrAbsolute))
-                .UseBinding(new KafkaServerBindingDefinition()
-                {
-                    
-                });
+                .UseBinding(new KafkaServerBindingDefinition());
         }
 
     }

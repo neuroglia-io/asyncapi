@@ -30,6 +30,11 @@
             <param name="channel">The <see cref="T:Neuroglia.AsyncApi.Client.Services.IChannel"/> the <see cref="T:Neuroglia.AsyncApi.Client.Services.ChannelBindingBase"/> belongs to</param>
             <param name="servers">An <see cref="T:System.Collections.Generic.IEnumerable`1"/> containing the mappings of the <see cref="T:Neuroglia.AsyncApi.Models.ServerDefinition"/>s available to the <see cref="T:Neuroglia.AsyncApi.Client.Services.IChannelBinding"/></param>
         </member>
+        <member name="P:Neuroglia.AsyncApi.Client.KafkaChannelBinding.KafkaAdmin">
+            <summary>
+            Gets the service used to administer Kafka
+            </summary>
+        </member>
         <member name="P:Neuroglia.AsyncApi.Client.KafkaChannelBinding.KafkaProducer">
             <summary>
             Gets the service used to produce Kafka messages
@@ -40,10 +45,18 @@
             Gets the service used to consume Kafka messages
             </summary>
         </member>
+        <member name="P:Neuroglia.AsyncApi.Client.KafkaChannelBinding.KafkaTopic">
+            <summary>
+            Gets the Kafka topic
+            </summary>
+        </member>
         <member name="P:Neuroglia.AsyncApi.Client.KafkaChannelBinding.ConsumeTask">
             <summary>
             Gets the <see cref="T:System.Threading.Tasks.Task"/> used to consume messages from the <see cref="P:Neuroglia.AsyncApi.Client.KafkaChannelBinding.KafkaConsumer"/>
             </summary>
+        </member>
+        <member name="M:Neuroglia.AsyncApi.Client.KafkaChannelBinding.ComputeChannelKeyFor(Neuroglia.AsyncApi.Client.IMessage)">
+            <inheritdoc/>
         </member>
         <member name="M:Neuroglia.AsyncApi.Client.KafkaChannelBinding.PublishAsync(Neuroglia.AsyncApi.Client.IMessage,System.Threading.CancellationToken)">
             <inheritdoc/>

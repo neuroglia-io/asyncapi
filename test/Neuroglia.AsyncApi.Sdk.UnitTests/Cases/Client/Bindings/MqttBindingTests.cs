@@ -17,6 +17,15 @@ namespace Neuroglia.AsyncApi.Sdk.UnitTests.Cases.Client
         public MqttBindingTests()
             : base(ServerSetup)
         {
+            
+        }
+
+        IMqttServerOptions MqttServerOptions { get; set; }
+
+        IMqttServer MqttServer { get; set; }
+
+        protected override void Initialize()
+        {
             this.MqttServerOptions = new MqttServerOptionsBuilder()
                 .WithConnectionValidator(context =>
                 {
@@ -24,11 +33,8 @@ namespace Neuroglia.AsyncApi.Sdk.UnitTests.Cases.Client
                 })
                 .Build();
             this.MqttServer = new MqttFactory().CreateMqttServer();
+            base.Initialize();
         }
-
-        IMqttServerOptions MqttServerOptions { get; }
-
-        IMqttServer MqttServer { get; }
 
         [Fact]
         public override async Task SubscribeAndPublish()
