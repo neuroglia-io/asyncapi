@@ -35,11 +35,15 @@ namespace Neuroglia.AsyncApi.Sdk.UnitTests.Cases.Client
                     .AddAmqpBinding()
                     .AddKafkaBinding()
                     .AddMqttBinding()
-                    .AddNatsBinding());
+                    .AddNatsBinding()
+                    .AddRedisBinding()
+                    .AddWebSocketBinding());
             this.AsyncApiClient = services.BuildServiceProvider().GetRequiredService<IAsyncApiClient>();
         }
 
         protected IAsyncApiClient AsyncApiClient { get; }
+
+        protected virtual bool SupportsHeaders => true;
 
         protected virtual void Initialize()
         {
@@ -76,11 +80,14 @@ namespace Neuroglia.AsyncApi.Sdk.UnitTests.Cases.Client
             consumedMessage.Should().NotBeNull();
             consumedMessage.Payload.As<JObject>().ToObject<TestUser>().Should().BeEquivalentTo(producedMessage.Payload);
 
-            consumedMessage.Headers.ElementAt(0).Key.Should().Be(producedMessage.Headers.ElementAt(0).Key);
-            consumedMessage.Headers.ElementAt(0).Value.As<JToken>().ToString().Should().Be(producedMessage.Headers.ElementAt(0).Value as string);
+            if (this.SupportsHeaders)
+            {
+                consumedMessage.Headers.ElementAt(0).Key.Should().Be(producedMessage.Headers.ElementAt(0).Key);
+                consumedMessage.Headers.ElementAt(0).Value.As<JToken>().ToString().Should().Be(producedMessage.Headers.ElementAt(0).Value as string);
 
-            consumedMessage.Headers.ElementAt(1).Key.Should().Be(producedMessage.Headers.ElementAt(1).Key);
-            consumedMessage.Headers.ElementAt(1).Value.As<JToken>().ToString().Should().Be(producedMessage.Headers.ElementAt(1).Value as string);
+                consumedMessage.Headers.ElementAt(1).Key.Should().Be(producedMessage.Headers.ElementAt(1).Key);
+                consumedMessage.Headers.ElementAt(1).Value.As<JToken>().ToString().Should().Be(producedMessage.Headers.ElementAt(1).Value as string);
+            }
 
             consumedMessage.CorrelationKey.Should().NotBeNull();
             consumedMessage.CorrelationKey.As<JToken>().ToObject<Guid>().Should().Be((Guid)producedMessage.CorrelationKey);
@@ -150,22 +157,28 @@ namespace Neuroglia.AsyncApi.Sdk.UnitTests.Cases.Client
         {
             operation
                 .WithOperationId("Fake Subscribe")
-                .UseMessage(msg => msg
-                    .OfType<TestUser>()
-                    .WithCorrelationId(correlationId => correlationId
-                        .In(RuntimeExpressionSource.Header)
-                        .At("correlation-id")));
+                .UseMessage(this.ConfigureMessage);
         }
 
         protected virtual void ConfigurePublishOperation(IOperationDefinitionBuilder operation)
         {
             operation
                 .WithOperationId("Fake Publish")
-                .UseMessage(msg => msg
-                    .OfType<TestUser>()
-                    .WithCorrelationId(correlationId => correlationId
-                        .In(RuntimeExpressionSource.Header)
-                        .At("correlation-id")));
+                .UseMessage(this.ConfigureMessage);
+        }
+
+        protected virtual void ConfigureMessage(IMessageDefinitionBuilder message)
+        {
+            message
+                .OfType<TestUser>()
+                .WithCorrelationId(ConfigureCorrelationId);
+        }
+
+        protected virtual void ConfigureCorrelationId(IRuntimeExpressionBuilder correlationId)
+        {
+            correlationId
+                .In(RuntimeExpressionSource.Header)
+                .At("correlation-id");
         }
 
     }

@@ -26,17 +26,17 @@ namespace Neuroglia.AsyncApi.Client
 {
 
     /// <summary>
-    /// Represents the MQTT implementation of the <see cref="IChannelBindingFactory"/> interface
+    /// Represents the NATS implementation of the <see cref="IChannelBindingFactory"/> interface
     /// </summary>
-    public class MqttChannelBindingFactory
+    public class WebSocketChannelBindingFactory
         : IChannelBindingFactory
     {
 
         /// <summary>
-        /// Initializes a new <see cref="MqttChannelBindingFactory"/>
+        /// Initializes a new <see cref="WebSocketChannelBindingFactory"/>
         /// </summary>
         /// <param name="serviceProvider">The current <see cref="ISerializerProvider"/></param>
-        public MqttChannelBindingFactory(IServiceProvider serviceProvider)
+        public WebSocketChannelBindingFactory(IServiceProvider serviceProvider)
         {
             this.ServiceProvider = serviceProvider;
         }
@@ -51,8 +51,8 @@ namespace Neuroglia.AsyncApi.Client
         {
             if (string.IsNullOrWhiteSpace(protocol))
                 throw new ArgumentNullException(nameof(protocol));
-            return protocol.Equals(AsyncApiProtocols.Mqtt, StringComparison.OrdinalIgnoreCase)
-                || protocol.Equals(AsyncApiProtocols.MqttV5, StringComparison.OrdinalIgnoreCase);
+            return protocol.Equals(AsyncApiProtocols.Ws, StringComparison.OrdinalIgnoreCase)
+                || protocol.Equals(AsyncApiProtocols.Wss, StringComparison.OrdinalIgnoreCase);
         }
 
         /// <inheritdoc/>
@@ -64,7 +64,7 @@ namespace Neuroglia.AsyncApi.Client
                 throw new ArgumentNullException(nameof(servers));
             if (!servers.Any())
                 throw new ArgumentOutOfRangeException(nameof(servers));
-            return ActivatorUtilities.CreateInstance<MqttChannelBinding>(this.ServiceProvider, channel, servers);
+            return ActivatorUtilities.CreateInstance<WebSocketChannelBinding>(this.ServiceProvider, channel, servers);
         }
 
     }

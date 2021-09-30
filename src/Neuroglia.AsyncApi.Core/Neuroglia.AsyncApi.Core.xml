@@ -89,9 +89,19 @@
             Gets the http Async API protocol
             </summary>
         </member>
+        <member name="F:Neuroglia.AsyncApi.AsyncApiProtocols.Https">
+            <summary>
+            Gets the https Async API protocol
+            </summary>
+        </member>
         <member name="F:Neuroglia.AsyncApi.AsyncApiProtocols.Ws">
             <summary>
             Gets the ws Async API protocol
+            </summary>
+        </member>
+        <member name="F:Neuroglia.AsyncApi.AsyncApiProtocols.Wss">
+            <summary>
+            Gets the wss Async API protocol
             </summary>
         </member>
         <member name="F:Neuroglia.AsyncApi.AsyncApiProtocols.Kafka">

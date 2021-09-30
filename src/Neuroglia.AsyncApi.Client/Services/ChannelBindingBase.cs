@@ -266,6 +266,7 @@ namespace Neuroglia.AsyncApi.Client.Services
             if (message == null)
                 throw new ArgumentNullException(nameof(message));
             JToken correlationKey = null;
+            int index = 0;
             if (this.Channel.Definition.Subscribe.Message.CorrelationId != null)
             {
                 string[] components = this.Channel.Definition.Subscribe.Message.CorrelationId.LocationExpression.Fragment.Split("/", StringSplitOptions.RemoveEmptyEntries);
@@ -275,6 +276,7 @@ namespace Neuroglia.AsyncApi.Client.Services
                         if (!message.Headers.TryGetValue(components.First(), out object value))
                             break;
                         correlationKey = (JToken)value;
+                        index = 1;
                         break;
                     case RuntimeExpressionSource.Payload:
                         correlationKey = message.Payload as JToken;
@@ -284,7 +286,7 @@ namespace Neuroglia.AsyncApi.Client.Services
                 }
                 if(correlationKey != null)
                 {
-                    for (int i = 1; i < components.Length; i++)
+                    for (int i = index; i < components.Length; i++)
                     {
                         if (correlationKey == null 
                             || correlationKey is not JObject jobject)
