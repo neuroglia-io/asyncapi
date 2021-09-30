@@ -45,7 +45,7 @@ namespace Neuroglia.AsyncApi.Sdk.UnitTests.Cases.Client
 
         static void ServerSetup(IServerDefinitionBuilder server)
         {
-            server.WithProtocol(AsyncApiProtocols.Mqtt)
+            server.WithProtocol(AsyncApiProtocols.Mqtt, "5")
                 .WithUrl(new Uri("mqtt://localhost", UriKind.RelativeOrAbsolute))
                 .UseBinding(new MqttServerBindingDefinition()
                 {

@@ -21,7 +21,9 @@ namespace Neuroglia.AsyncApi.Sdk.UnitTests.Cases.Client
     {
 
         protected const string ChannelKey = "light/measured";
+#pragma warning disable CA2211 // Non-constant fields should not be visible
         protected static string ClientId = Guid.NewGuid().ToString();
+#pragma warning restore CA2211 // Non-constant fields should not be visible
 
         protected BindingTestsBase(Action<IServerDefinitionBuilder> serverSetup)
         {
@@ -32,7 +34,8 @@ namespace Neuroglia.AsyncApi.Sdk.UnitTests.Cases.Client
                 builder.For(this.BuildDocument(serverSetup))
                     .AddAmqpBinding()
                     .AddKafkaBinding()
-                    .AddMqttBinding());
+                    .AddMqttBinding()
+                    .AddNatsBinding());
             this.AsyncApiClient = services.BuildServiceProvider().GetRequiredService<IAsyncApiClient>();
         }
 
@@ -73,11 +76,11 @@ namespace Neuroglia.AsyncApi.Sdk.UnitTests.Cases.Client
             consumedMessage.Should().NotBeNull();
             consumedMessage.Payload.As<JObject>().ToObject<TestUser>().Should().BeEquivalentTo(producedMessage.Payload);
 
-            consumedMessage.Headers.First().Key.Should().Be(producedMessage.Headers.First().Key);
-            consumedMessage.Headers.First().Value.As<JToken>().ToString().Should().Be(producedMessage.Headers.First().Value as string);
+            consumedMessage.Headers.ElementAt(0).Key.Should().Be(producedMessage.Headers.ElementAt(0).Key);
+            consumedMessage.Headers.ElementAt(0).Value.As<JToken>().ToString().Should().Be(producedMessage.Headers.ElementAt(0).Value as string);
 
-            consumedMessage.Headers.Last().Key.Should().Be(producedMessage.Headers.Last().Key);
-            consumedMessage.Headers.Last().Value.As<JToken>().ToString().Should().Be(producedMessage.Headers.Last().Value as string);
+            consumedMessage.Headers.ElementAt(1).Key.Should().Be(producedMessage.Headers.ElementAt(1).Key);
+            consumedMessage.Headers.ElementAt(1).Value.As<JToken>().ToString().Should().Be(producedMessage.Headers.ElementAt(1).Value as string);
 
             consumedMessage.CorrelationKey.Should().NotBeNull();
             consumedMessage.CorrelationKey.As<JToken>().ToObject<Guid>().Should().Be((Guid)producedMessage.CorrelationKey);
@@ -121,7 +124,6 @@ namespace Neuroglia.AsyncApi.Sdk.UnitTests.Cases.Client
         public async ValueTask DisposeAsync()
         {
             await this.DisposeAsync(true);
-            GC.SuppressFinalize(this);
         }
 
         protected virtual AsyncApiDocument BuildDocument(Action<IServerDefinitionBuilder> serverSetup)
@@ -149,7 +151,10 @@ namespace Neuroglia.AsyncApi.Sdk.UnitTests.Cases.Client
             operation
                 .WithOperationId("Fake Subscribe")
                 .UseMessage(msg => msg
-                    .OfType<TestUser>());
+                    .OfType<TestUser>()
+                    .WithCorrelationId(correlationId => correlationId
+                        .In(RuntimeExpressionSource.Header)
+                        .At("correlation-id")));
         }
 
         protected virtual void ConfigurePublishOperation(IOperationDefinitionBuilder operation)
@@ -157,7 +162,10 @@ namespace Neuroglia.AsyncApi.Sdk.UnitTests.Cases.Client
             operation
                 .WithOperationId("Fake Publish")
                 .UseMessage(msg => msg
-                    .OfType<TestUser>());
+                    .OfType<TestUser>()
+                    .WithCorrelationId(correlationId => correlationId
+                        .In(RuntimeExpressionSource.Header)
+                        .At("correlation-id")));
         }
 
     }

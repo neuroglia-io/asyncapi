@@ -21,6 +21,7 @@ using Newtonsoft.Json.Linq;
 using Newtonsoft.Json.Schema;
 using System;
 using System.Collections.Generic;
+using System.Dynamic;
 using System.Linq;
 using System.Net.Mime;
 using System.Reactive.Subjects;
@@ -200,54 +201,67 @@ namespace Neuroglia.AsyncApi.Client.Services
         }
 
         /// <summary>
-        /// Computes the correlation key for the specified published <see cref="IMessage"/>
+        /// Injects the correlation key into the specified published <see cref="IMessage"/>
         /// </summary>
-        /// <param name="message">The published <see cref="IMessage"/> to compute the correlation key for</param>
-        /// <returns>The computed correlation key</returns>
-        protected virtual object ComputeProducedMessageCorrelationKey(IMessage message) //todo: when producing, correlation key should be set according to definition
+        /// <param name="message">The published <see cref="IMessage"/> to inject the correlation key into</param>
+        protected virtual void InjectCorrelationKeyInto(IMessage message)
         {
             if (message == null)
                 throw new ArgumentNullException(nameof(message));
-            if (message.CorrelationKey != null)
-                return message.CorrelationKey;
-            object correlationKey = null;
-            if (this.Channel.Definition.Publish.Message.CorrelationId != null)
+            if (message.CorrelationKey == null
+                || this.Channel.Definition.Publish.Message.CorrelationId == null)
+                return;
+            string[] components = this.Channel.Definition.Publish.Message.CorrelationId.LocationExpression.Fragment.Split("/", StringSplitOptions.RemoveEmptyEntries);
+            object destination = null;
+            switch (this.Channel.Definition.Publish.Message.CorrelationId.LocationExpression.Source)
             {
-                string[] components = this.Channel.Definition.Publish.Message.CorrelationId.LocationExpression.Fragment.Split("/", StringSplitOptions.RemoveEmptyEntries);
-                switch (this.Channel.Definition.Publish.Message.CorrelationId.LocationExpression.Source)
-                {
-                    case RuntimeExpressionSource.Header:
-                        if (!message.Headers.TryGetValue(components.First(), out correlationKey))
-                            break;
-                        break;
-                    case RuntimeExpressionSource.Payload:
-                        correlationKey = message.Payload;
-                        break;
-                    default:
-                        throw new NotSupportedException($"The specified {nameof(RuntimeExpressionSource)} '{this.Channel.Definition.Subscribe.Message.CorrelationId.LocationExpression.Source}' is not supported");
-                }
-                if(correlationKey != null)
-                {
-                    for (int i = 0; i < components.Length; i++)
+                case RuntimeExpressionSource.Header:
+                    if (!message.Headers.TryGetValue(components.First(), out destination))
                     {
-                        if (correlationKey == null)
-                            break;
-                        PropertyInfo property = correlationKey.GetType().GetProperty(components[i], BindingFlags.Default | BindingFlags.Public | BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.IgnoreCase);
-                        if (property == null)
-                            break;
-                        correlationKey = property.GetValue(correlationKey);
+                        string headerKey = components.First();
+                        object headerValue = message.CorrelationKey;
+                        if (components.Length > 1)
+                        {
+                            for(int i = 0; i < components.Length - 1; i++)
+                            {
+                                string property = components.Reverse().ElementAt(i);
+                                ExpandoObject expando = new();
+                                expando.TryAdd(property, headerValue);
+                                headerValue = expando;
+                            }
+                        }
+                        message.Headers.Add(headerKey, headerValue);
                     }
+                    break;
+                case RuntimeExpressionSource.Payload:
+                    destination = message.Payload;
+                    break;
+                default:
+                    throw new NotSupportedException($"The specified {nameof(RuntimeExpressionSource)} '{this.Channel.Definition.Subscribe.Message.CorrelationId.LocationExpression.Source}' is not supported");
+            }
+            if(destination != null)
+            {
+                for (int i = 0; i < components.Length; i++)
+                {
+                    if (destination == null)
+                        break;
+                    PropertyInfo property = destination.GetType().GetProperty(components[i], BindingFlags.Default | BindingFlags.Public | BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.IgnoreCase);
+                    if (property == null)
+                        break;
+                    if (i == components.Length - 1)
+                        property.SetValue(destination, message.CorrelationKey);
+                    else
+                        destination = property.GetValue(destination);
                 }
             }
-            return correlationKey;
         }
 
         /// <summary>
-        /// Computes the correlation key for the specified consumed <see cref="IMessage"/>
+        /// Extracts the correlation key for the specified consumed <see cref="IMessage"/>
         /// </summary>
-        /// <param name="message">The consumed <see cref="IMessage"/> to compute the correlation key for</param>
-        /// <returns>The computed correlation key</returns>
-        protected virtual JToken ComputeConsumedMessageCorrelationKey(IMessage message) //todo: when consuming, correlation key should be retrieved according to definition
+        /// <param name="message">The consumed <see cref="IMessage"/> to extract the correlation key from</param>
+        /// <returns>The extracted correlation key</returns>
+        protected virtual JToken ExtractCorrelationKeyFrom(IMessage message)
         {
             if (message == null)
                 throw new ArgumentNullException(nameof(message));

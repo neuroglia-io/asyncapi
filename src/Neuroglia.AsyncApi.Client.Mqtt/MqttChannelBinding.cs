@@ -56,7 +56,9 @@ namespace Neuroglia.AsyncApi.Client
             KeyValuePair<string, ServerDefinition> server = servers.First();
             MqttClientOptionsBuilder optionsBuilder = new();
             optionsBuilder.WithTcpServer(server.Value.InterpolateUrlVariables().Host);
-            optionsBuilder.WithProtocolVersion(MQTTnet.Formatter.MqttProtocolVersion.V500); //todo: change if chosen protocol is not 5.0
+            if(server.Value.Protocol == AsyncApiProtocols.MqttV5
+                || (!string.IsNullOrWhiteSpace(server.Value.ProtocolVersion) && server.Value.ProtocolVersion.StartsWith("5")))
+                optionsBuilder.WithProtocolVersion(MQTTnet.Formatter.MqttProtocolVersion.V500);
             MqttServerBindingDefinition serverBindingDefinition = server.Value.Bindings?.OfType<MqttServerBindingDefinition>().FirstOrDefault();
             if(serverBindingDefinition != null)
             {
@@ -120,11 +122,10 @@ namespace Neuroglia.AsyncApi.Client
             mqttMessage.UserProperties = new();
             foreach(KeyValuePair<string, object> header in message.Headers)
             {
-                mqttMessage.UserProperties.Add(new(header.Key, header.Value is string str ? str : Encoding.UTF8.GetString(await this.SerializeAsync(header.Value))));
+                mqttMessage.UserProperties.Add(new(header.Key, header.Value is string str ? str : Encoding.UTF8.GetString(await SerializeAsync(header.Value, cancellationToken))));
             }
-            object correlationKey = this.ComputeProducedMessageCorrelationKey(message);
-            if (correlationKey != null)
-                mqttMessage.CorrelationData = await this.SerializeAsync(correlationKey, cancellationToken);
+            if (message.CorrelationKey != null)
+                mqttMessage.CorrelationData = await this.SerializeAsync(message.CorrelationKey, cancellationToken);
             await this.MqttClient.PublishAsync(mqttMessage, cancellationToken);
         }
 
@@ -162,20 +163,36 @@ namespace Neuroglia.AsyncApi.Client
         /// <returns>A new awaitable <see cref="Task"/></returns>
         protected virtual async Task OnMessageAsync(MqttApplicationMessageReceivedEventArgs e)
         {
-            Message message = new()
+            try
             {
-                ChannelKey = e.ApplicationMessage.Topic,
-                Payload = await this.DeserializeAsync(e.ApplicationMessage.Payload, this.CancellationTokenSource.Token)
-            };
-            if (e.ApplicationMessage.UserProperties != null)
-            {
-                foreach (MqttUserProperty userProperty in e.ApplicationMessage.UserProperties)
+                Message message = new()
                 {
-                    message.Headers.Add(userProperty.Name, JToken.FromObject(userProperty.Value));
+                    ChannelKey = e.ApplicationMessage.Topic,
+                    Payload = await this.DeserializeAsync(e.ApplicationMessage.Payload, this.CancellationTokenSource.Token)
+                };
+                if (e.ApplicationMessage.UserProperties != null)
+                {
+                    foreach (MqttUserProperty userProperty in e.ApplicationMessage.UserProperties)
+                    {
+                        message.Headers.Add(userProperty.Name, JToken.FromObject(userProperty.Value));
+                    }
                 }
+                message.CorrelationKey = await this.DeserializeAsync(e.ApplicationMessage.CorrelationData);
+                this.OnMessageSubject.OnNext(message);
             }
-            message.CorrelationKey = await this.DeserializeAsync(e.ApplicationMessage.CorrelationData);
-            this.OnMessageSubject.OnNext(message);
+            catch(Exception ex)
+            {
+                this.Logger.LogError($"An error occured while consuming an inbound message on channel with key {{channel}}.{Environment.NewLine}{{ex}}", this.Channel.Key, ex.ToString());
+            }
+        }
+
+        /// <inheritdoc/>
+        protected override void Dispose(bool disposing)
+        {
+            base.Dispose(disposing);
+            if (!disposing)
+                return;
+            this.MqttClient.Dispose();
         }
 
     }

@@ -52,6 +52,10 @@ namespace Neuroglia.AsyncApi.Client
                 BootstrapServers = this.Servers.First().Value.InterpolateUrlVariables().ToString(),
             };
             this.KafkaAdmin = new AdminClientBuilder(clientConfig)
+                .SetErrorHandler((client, e) =>
+                {
+
+                })
                 .Build();
             if (this.Channel.Definition.DefinesSubscribeOperation)
             {
@@ -70,8 +74,6 @@ namespace Neuroglia.AsyncApi.Client
                 }
                 this.KafkaConsumer = new ConsumerBuilder<Null, byte[]>(consumerConfig)
                     .Build();
-                this.KafkaConsumer.Subscribe(this.KafkaTopic);
-                this.ConsumeTask = Task.Factory.StartNew(this.ConsumeMessagesAsync, this.CancellationTokenSource.Token, TaskCreationOptions.LongRunning, TaskScheduler.Default);
             }
             if (this.Channel.Definition.DefinesPublishOperation)
             {
@@ -125,6 +127,7 @@ namespace Neuroglia.AsyncApi.Client
         public override async Task PublishAsync(IMessage message, CancellationToken cancellationToken = default)
         {
             this.ValidateMessage(message);
+            this.InjectCorrelationKeyInto(message);
             cancellationToken = CancellationTokenSource.CreateLinkedTokenSource(this.CancellationTokenSource.Token, cancellationToken).Token;
             Message<Null, byte[]> kafkaMessage = new() { Value = await this.SerializeAsync(message.Payload, cancellationToken) };
             kafkaMessage.Headers = new();
@@ -135,24 +138,34 @@ namespace Neuroglia.AsyncApi.Client
             await this.KafkaProducer.ProduceAsync(this.ComputeChannelKeyFor(message).Slugify(), kafkaMessage, cancellationToken);
         }
 
+        /// <inheritdoc/>
+        public override async Task<IDisposable> SubscribeAsync(IObserver<IMessage> observer, CancellationToken cancellationToken = default)
+        {
+            if (this.ConsumeTask == null)
+            {
+                try
+                {
+                    await this.KafkaAdmin.CreateTopicsAsync(new TopicSpecification[] { new() { Name = this.KafkaTopic } });
+                }
+                catch (CreateTopicsException ex)
+                when (ex.Results.First().Error.Code == ErrorCode.TopicAlreadyExists){ }
+                catch (Exception ex)
+                {
+                    this.Logger.LogError($"An error occured attempting to create the channel's topic '{{topic}}':{Environment.NewLine}{{ex}}", this.KafkaTopic, ex.ToString());
+                    throw;
+                }
+                this.KafkaConsumer.Subscribe(this.KafkaTopic);
+                this.ConsumeTask = Task.Factory.StartNew(this.ConsumeMessagesAsync, this.CancellationTokenSource.Token, TaskCreationOptions.LongRunning, TaskScheduler.Default);
+            }
+            return await base.SubscribeAsync(observer, cancellationToken);
+        }
+
         /// <summary>
         /// Polls and consumes messages from the <see cref="KafkaConsumer"/>
         /// </summary>
         /// <returns>A new awaitable <see cref="Task"/></returns>
         protected virtual async Task ConsumeMessagesAsync()
         {
-            try
-            {
-                await this.KafkaAdmin.CreateTopicsAsync(new TopicSpecification[] { new() { Name = this.KafkaTopic } });
-            }
-            catch (CreateTopicsException ex)
-            when (ex.Results.First().Error.Code == ErrorCode.TopicAlreadyExists)
-            { }
-            catch (Exception ex)
-            {
-                this.Logger.LogError($"An error occured attempting to create the channel's topic '{{topic}}':{Environment.NewLine}{{ex}}", this.KafkaTopic, ex.ToString());
-                throw;
-            }
             while (!this.CancellationTokenSource.IsCancellationRequested)
             {
                 try
@@ -171,7 +184,7 @@ namespace Neuroglia.AsyncApi.Client
                             message.Headers.Add(header.Key, await this.DeserializeAsync(header.GetValueBytes(), this.CancellationTokenSource.Token));
                         }
                     }
-                    message.CorrelationKey = this.ComputeConsumedMessageCorrelationKey(message);
+                    message.CorrelationKey = this.ExtractCorrelationKeyFrom(message);
                     this.OnMessageSubject.OnNext(message);
                 }
                 catch (Exception ex)

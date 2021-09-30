@@ -63,6 +63,14 @@ namespace Neuroglia.AsyncApi.Services.FluentBuilders
         TBuilder WithCorrelationId(string location, string description = null);
 
         /// <summary>
+        /// Configures the <see cref="MessageTraitDefinition"/> to build to use the specified correlation id
+        /// </summary>
+        /// <param name="locationSetup">An <see cref="Action{T}"/> used to build the runtime expression referencing the location of the correlation id to use</param>
+        /// <param name="description">The description of the correlation id to use</param>
+        /// <returns>The configured <see cref="IMessageTraitDefinitionBuilder{TBuilder, TTrait}"/></returns>
+        TBuilder WithCorrelationId(Action<IRuntimeExpressionBuilder> locationSetup, string description = null);
+
+        /// <summary>
         /// Configures the <see cref="MessageTraitDefinition"/> to build to use the specified schema format
         /// </summary>
         /// <param name="schemaFormat">The schema format to use</param>

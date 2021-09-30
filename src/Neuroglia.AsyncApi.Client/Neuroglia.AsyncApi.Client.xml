@@ -414,19 +414,18 @@
             <param name="message">The <see cref="T:Neuroglia.AsyncApi.Client.IMessage"/> to compute the channel key for</param>
             <returns>The channel key computed for the specified <see cref="T:Neuroglia.AsyncApi.Client.IMessage"/></returns>
         </member>
-        <member name="M:Neuroglia.AsyncApi.Client.Services.ChannelBindingBase.ComputeProducedMessageCorrelationKey(Neuroglia.AsyncApi.Client.IMessage)">
+        <member name="M:Neuroglia.AsyncApi.Client.Services.ChannelBindingBase.InjectCorrelationKeyInto(Neuroglia.AsyncApi.Client.IMessage)">
             <summary>
-            Computes the correlation key for the specified published <see cref="T:Neuroglia.AsyncApi.Client.IMessage"/>
+            Injects the correlation key into the specified published <see cref="T:Neuroglia.AsyncApi.Client.IMessage"/>
             </summary>
-            <param name="message">The published <see cref="T:Neuroglia.AsyncApi.Client.IMessage"/> to compute the correlation key for</param>
-            <returns>The computed correlation key</returns>
+            <param name="message">The published <see cref="T:Neuroglia.AsyncApi.Client.IMessage"/> to inject the correlation key into</param>
         </member>
-        <member name="M:Neuroglia.AsyncApi.Client.Services.ChannelBindingBase.ComputeConsumedMessageCorrelationKey(Neuroglia.AsyncApi.Client.IMessage)">
+        <member name="M:Neuroglia.AsyncApi.Client.Services.ChannelBindingBase.ExtractCorrelationKeyFrom(Neuroglia.AsyncApi.Client.IMessage)">
             <summary>
-            Computes the correlation key for the specified consumed <see cref="T:Neuroglia.AsyncApi.Client.IMessage"/>
+            Extracts the correlation key for the specified consumed <see cref="T:Neuroglia.AsyncApi.Client.IMessage"/>
             </summary>
-            <param name="message">The consumed <see cref="T:Neuroglia.AsyncApi.Client.IMessage"/> to compute the correlation key for</param>
-            <returns>The computed correlation key</returns>
+            <param name="message">The consumed <see cref="T:Neuroglia.AsyncApi.Client.IMessage"/> to extract the correlation key from</param>
+            <returns>The extracted correlation key</returns>
         </member>
         <member name="M:Neuroglia.AsyncApi.Client.Services.ChannelBindingBase.ValidateMessage(Neuroglia.AsyncApi.Client.IMessage)">
             <summary>

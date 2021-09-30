@@ -32,9 +32,9 @@ namespace Neuroglia.AsyncApi.Models
         /// <summary>
         /// Initializes a new <see cref="RuntimeExpression"/>
         /// </summary>
-        protected RuntimeExpression()
+        public RuntimeExpression()
         {
-
+            this.Expression = DefaultExpression;
         }
 
         /// <summary>
@@ -55,19 +55,25 @@ namespace Neuroglia.AsyncApi.Models
         }
 
         /// <summary>
-        /// Gets the <see cref="RuntimeExpression"/>'s expression component (ex: 'message')
+        /// Gets/sets the <see cref="RuntimeExpression"/>'s expression component (ex: 'message')
         /// </summary>
-        public virtual string Expression { get; }
+        public virtual string Expression { get; set; }
 
         /// <summary>
-        /// Gets the <see cref="RuntimeExpression"/>'s source component (ex: 'header')
+        /// Gets/sets the <see cref="RuntimeExpression"/>'s source component (ex: 'header')
         /// </summary>
-        public virtual RuntimeExpressionSource Source { get; }
+        public virtual RuntimeExpressionSource Source { get; set; }
 
         /// <summary>
-        /// Gets the <see cref="RuntimeExpression"/>'s fragment component (ex: '#/property')
+        /// Gets/sets the <see cref="RuntimeExpression"/>'s fragment component (ex: '#/property')
         /// </summary>
-        public virtual string Fragment { get; }
+        public virtual string Fragment { get; set; }
+
+        /// <inheritdoc/>
+        public override string ToString()
+        {
+            return $"{this.Expression}.{EnumHelper.Stringify(this.Source)}#{this.Fragment}";
+        }
 
         /// <summary>
         /// Parses the specified input

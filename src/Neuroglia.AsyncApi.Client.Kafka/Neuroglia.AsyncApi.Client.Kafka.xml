@@ -61,6 +61,9 @@
         <member name="M:Neuroglia.AsyncApi.Client.KafkaChannelBinding.PublishAsync(Neuroglia.AsyncApi.Client.IMessage,System.Threading.CancellationToken)">
             <inheritdoc/>
         </member>
+        <member name="M:Neuroglia.AsyncApi.Client.KafkaChannelBinding.SubscribeAsync(System.IObserver{Neuroglia.AsyncApi.Client.IMessage},System.Threading.CancellationToken)">
+            <inheritdoc/>
+        </member>
         <member name="M:Neuroglia.AsyncApi.Client.KafkaChannelBinding.ConsumeMessagesAsync">
             <summary>
             Polls and consumes messages from the <see cref="P:Neuroglia.AsyncApi.Client.KafkaChannelBinding.KafkaConsumer"/>

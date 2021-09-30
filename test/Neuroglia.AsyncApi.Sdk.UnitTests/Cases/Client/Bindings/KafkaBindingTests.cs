@@ -34,6 +34,7 @@ namespace Neuroglia.AsyncApi.Sdk.UnitTests.Cases.Client
                 .WithPortBinding(ContainerPort, ContainerPort)
                 .WithWaitStrategy(Wait.ForUnixContainer().UntilPortIsAvailable(ContainerPort));
             this.Container = containerBuilder.Build();
+            this.Container.StartAsync().GetAwaiter().GetResult();
             base.Initialize();
         }
 
@@ -46,13 +47,6 @@ namespace Neuroglia.AsyncApi.Sdk.UnitTests.Cases.Client
             });
         }
 
-        [Fact]
-        public override async Task SubscribeAndPublish()
-        {
-            await this.Container.StartAsync();
-            await base.SubscribeAndPublish();
-        }
-
         protected override async ValueTask DisposeAsync(bool disposing)
         {
             await base.DisposeAsync();
@@ -63,7 +57,7 @@ namespace Neuroglia.AsyncApi.Sdk.UnitTests.Cases.Client
         static void ServerSetup(IServerDefinitionBuilder server)
         {
             server.WithProtocol(AsyncApiProtocols.Kafka)
-                .WithUrl(new Uri($"kafka://localhost:{ContainerPort}", UriKind.RelativeOrAbsolute))
+                .WithUrl(new Uri($"localhost:{ContainerPort}", UriKind.RelativeOrAbsolute))
                 .UseBinding(new KafkaServerBindingDefinition());
         }
 

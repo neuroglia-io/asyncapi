@@ -65,6 +65,9 @@
             <param name="e">The <see cref="T:MQTTnet.MqttApplicationMessageReceivedEventArgs"/> to handle</param>
             <returns>A new awaitable <see cref="T:System.Threading.Tasks.Task"/></returns>
         </member>
+        <member name="M:Neuroglia.AsyncApi.Client.MqttChannelBinding.Dispose(System.Boolean)">
+            <inheritdoc/>
+        </member>
         <member name="T:Neuroglia.AsyncApi.Client.MqttChannelBindingFactory">
             <summary>
             Represents the MQTT implementation of the <see cref="T:Neuroglia.AsyncApi.Client.Services.IChannelBindingFactory"/> interface

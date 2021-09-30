@@ -131,6 +131,14 @@ namespace Neuroglia.AsyncApi.Services.FluentBuilders
         }
 
         /// <inheritdoc/>
+        public virtual TBuilder WithCorrelationId(Action<IRuntimeExpressionBuilder> locationSetup, string description = null)
+        {
+            IRuntimeExpressionBuilder expressionBuilder = new RuntimeExpressionBuilder();
+            locationSetup(expressionBuilder);
+            return this.WithCorrelationId(expressionBuilder.Build().ToString(), description);
+        }
+
+        /// <inheritdoc/>
         public virtual TBuilder WithDescription(string description)
         {
             this.Trait.Description = description;

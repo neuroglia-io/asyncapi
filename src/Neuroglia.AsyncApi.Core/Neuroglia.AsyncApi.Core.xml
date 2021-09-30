@@ -1162,6 +1162,11 @@
             Represents the object used to configure a <see href="https://nats.io/">NATS</see> operation binding
             </summary>
         </member>
+        <member name="P:Neuroglia.AsyncApi.Models.Bindings.Nats.NatsOperationBindingDefinition.Queue">
+            <summary>
+            Gets/sets the name of the queue to use. It MUST NOT exceed 255 characters.
+            </summary>
+        </member>
         <member name="T:Neuroglia.AsyncApi.Models.Bindings.Nats.NatsServerBindingDefinition">
             <summary>
             Represents the object used to configure a <see href="https://nats.io/">NATS</see> server binding
@@ -1882,18 +1887,21 @@
         </member>
         <member name="P:Neuroglia.AsyncApi.Models.RuntimeExpression.Expression">
             <summary>
-            Gets the <see cref="T:Neuroglia.AsyncApi.Models.RuntimeExpression"/>'s expression component (ex: 'message')
+            Gets/sets the <see cref="T:Neuroglia.AsyncApi.Models.RuntimeExpression"/>'s expression component (ex: 'message')
             </summary>
         </member>
         <member name="P:Neuroglia.AsyncApi.Models.RuntimeExpression.Source">
             <summary>
-            Gets the <see cref="T:Neuroglia.AsyncApi.Models.RuntimeExpression"/>'s source component (ex: 'header')
+            Gets/sets the <see cref="T:Neuroglia.AsyncApi.Models.RuntimeExpression"/>'s source component (ex: 'header')
             </summary>
         </member>
         <member name="P:Neuroglia.AsyncApi.Models.RuntimeExpression.Fragment">
             <summary>
-            Gets the <see cref="T:Neuroglia.AsyncApi.Models.RuntimeExpression"/>'s fragment component (ex: '#/property')
+            Gets/sets the <see cref="T:Neuroglia.AsyncApi.Models.RuntimeExpression"/>'s fragment component (ex: '#/property')
             </summary>
+        </member>
+        <member name="M:Neuroglia.AsyncApi.Models.RuntimeExpression.ToString">
+            <inheritdoc/>
         </member>
         <member name="M:Neuroglia.AsyncApi.Models.RuntimeExpression.Parse(System.String)">
             <summary>
@@ -2745,6 +2753,14 @@
             <param name="description">The description of the correlation id to use</param>
             <returns>The configured <see cref="T:Neuroglia.AsyncApi.Services.FluentBuilders.IMessageTraitDefinitionBuilder`2"/></returns>
         </member>
+        <member name="M:Neuroglia.AsyncApi.Services.FluentBuilders.IMessageTraitDefinitionBuilder`2.WithCorrelationId(System.Action{Neuroglia.AsyncApi.Services.FluentBuilders.IRuntimeExpressionBuilder},System.String)">
+            <summary>
+            Configures the <see cref="T:Neuroglia.AsyncApi.Models.MessageTraitDefinition"/> to build to use the specified correlation id
+            </summary>
+            <param name="locationSetup">An <see cref="T:System.Action`1"/> used to build the runtime expression referencing the location of the correlation id to use</param>
+            <param name="description">The description of the correlation id to use</param>
+            <returns>The configured <see cref="T:Neuroglia.AsyncApi.Services.FluentBuilders.IMessageTraitDefinitionBuilder`2"/></returns>
+        </member>
         <member name="M:Neuroglia.AsyncApi.Services.FluentBuilders.IMessageTraitDefinitionBuilder`2.WithSchemaFormat(System.String)">
             <summary>
             Configures the <see cref="T:Neuroglia.AsyncApi.Models.MessageTraitDefinition"/> to build to use the specified schema format
@@ -2954,6 +2970,35 @@
             </summary>
             <returns>A new <see cref="T:Neuroglia.AsyncApi.Models.ParameterDefinition"/></returns>
         </member>
+        <member name="T:Neuroglia.AsyncApi.Services.FluentBuilders.IRuntimeExpressionBuilder">
+            <summary>
+            Defines the fundamentals of a service used to build <see cref="T:Neuroglia.AsyncApi.Models.RuntimeExpression"/>s
+            </summary>
+        </member>
+        <member name="M:Neuroglia.AsyncApi.Services.FluentBuilders.IRuntimeExpressionBuilder.In(Neuroglia.AsyncApi.RuntimeExpressionSource)">
+            <summary>
+            Configures the <see cref="T:Neuroglia.AsyncApi.RuntimeExpressionSource"/> of the <see cref="T:Neuroglia.AsyncApi.Models.RuntimeExpression"/> to build
+            </summary>
+            <param name="source">The <see cref="T:Neuroglia.AsyncApi.RuntimeExpressionSource"/> of the <see cref="T:Neuroglia.AsyncApi.Models.RuntimeExpression"/> to build</param>
+            <returns>A new <see cref="T:Neuroglia.AsyncApi.Services.FluentBuilders.IRuntimeExpressionFragmentBuilder"/>, used to configure the <see cref="T:Neuroglia.AsyncApi.Models.RuntimeExpression"/>'s fragment</returns>
+        </member>
+        <member name="M:Neuroglia.AsyncApi.Services.FluentBuilders.IRuntimeExpressionBuilder.Build">
+            <summary>
+            Builds the configured runtime expression
+            </summary>
+            <returns>A new runtime expression</returns>
+        </member>
+        <member name="T:Neuroglia.AsyncApi.Services.FluentBuilders.IRuntimeExpressionFragmentBuilder">
+            <summary>
+            Defines the fundamentals of a service used to build <see cref="T:Neuroglia.AsyncApi.Models.RuntimeExpression"/> fragments
+            </summary>
+        </member>
+        <member name="M:Neuroglia.AsyncApi.Services.FluentBuilders.IRuntimeExpressionFragmentBuilder.At(System.String)">
+            <summary>
+            Configures the source's path referenced by the <see cref="T:Neuroglia.AsyncApi.Models.RuntimeExpression"/>'s fragment
+            </summary>
+            <param name="path">The source's path referenced by the <see cref="T:Neuroglia.AsyncApi.Models.RuntimeExpression"/>'s fragment</param>
+        </member>
         <member name="T:Neuroglia.AsyncApi.Services.FluentBuilders.IServerDefinitionBuilder">
             <summary>
             Defines the fundamentals of a service used to build <see cref="T:Neuroglia.AsyncApi.Models.ServerDefinition"/>s
@@ -3081,6 +3126,25 @@
             </summary>
             <returns>A new <see cref="T:Neuroglia.AsyncApi.Models.VariableDefinition"/></returns>
         </member>
+        <member name="T:Neuroglia.AsyncApi.Services.FluentBuilders.RuntimeExpressionBuilder">
+            <summary>
+            Represents the default implementation of the <see cref="T:Neuroglia.AsyncApi.Services.FluentBuilders.IRuntimeExpressionBuilder"/> interface
+            </summary>
+        </member>
+        <member name="P:Neuroglia.AsyncApi.Services.FluentBuilders.RuntimeExpressionBuilder.Expression">
+            <summary>
+            Gets the <see cref="T:Neuroglia.AsyncApi.Models.RuntimeExpression"/> to configure
+            </summary>
+        </member>
+        <member name="M:Neuroglia.AsyncApi.Services.FluentBuilders.RuntimeExpressionBuilder.In(Neuroglia.AsyncApi.RuntimeExpressionSource)">
+            <inheritdoc/>
+        </member>
+        <member name="M:Neuroglia.AsyncApi.Services.FluentBuilders.RuntimeExpressionBuilder.At(System.String)">
+            <inheritdoc/>
+        </member>
+        <member name="M:Neuroglia.AsyncApi.Services.FluentBuilders.RuntimeExpressionBuilder.Build">
+            <inheritdoc/>
+        </member>
         <member name="T:Neuroglia.AsyncApi.Services.FluentBuilders.MessageDefinitionBuilder">
             <summary>
             Represents the default implementation of the <see cref="T:Neuroglia.AsyncApi.Services.FluentBuilders.IMessageDefinitionBuilder"/> interface
@@ -3150,6 +3214,9 @@
             <inheritdoc/>
         </member>
         <member name="M:Neuroglia.AsyncApi.Services.FluentBuilders.MessageTraitDefinitionBuilder`2.WithCorrelationId(System.String,System.String)">
+            <inheritdoc/>
+        </member>
+        <member name="M:Neuroglia.AsyncApi.Services.FluentBuilders.MessageTraitDefinitionBuilder`2.WithCorrelationId(System.Action{Neuroglia.AsyncApi.Services.FluentBuilders.IRuntimeExpressionBuilder},System.String)">
             <inheritdoc/>
         </member>
         <member name="M:Neuroglia.AsyncApi.Services.FluentBuilders.MessageTraitDefinitionBuilder`2.WithDescription(System.String)">

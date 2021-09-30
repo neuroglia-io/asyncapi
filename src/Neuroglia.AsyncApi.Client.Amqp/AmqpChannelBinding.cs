@@ -192,31 +192,38 @@ namespace Neuroglia.AsyncApi.Client
         /// <returns>A new awaitable <see cref="Task"/></returns>
         protected virtual async Task OnMessageAsync(object sender, BasicDeliverEventArgs e)
         {
-            Message message = new()
+            try
             {
-                ChannelKey = e.RoutingKey,
-                Payload = await this.DeserializeAsync(e.Body.ToArray())
-            };
-            if(e.BasicProperties != null)
-            {
-                message.Timestamp = UnixTimeStamp.ToDateTime(e.BasicProperties.Timestamp.UnixTime);
-                if (e.BasicProperties.Headers != null)
+                Message message = new()
                 {
-                    foreach (KeyValuePair<string, object> header in e.BasicProperties.Headers)
+                    ChannelKey = e.RoutingKey,
+                    Payload = await this.DeserializeAsync(e.Body.ToArray())
+                };
+                if (e.BasicProperties != null)
+                {
+                    message.Timestamp = UnixTimeStamp.ToDateTime(e.BasicProperties.Timestamp.UnixTime);
+                    if (e.BasicProperties.Headers != null)
                     {
-                        message.Headers.Add(header.Key, await this.DeserializeAsync(header.Value as byte[]));
+                        foreach (KeyValuePair<string, object> header in e.BasicProperties.Headers)
+                        {
+                            message.Headers.Add(header.Key, await this.DeserializeAsync(header.Value as byte[]));
+                        }
                     }
+                    if (!string.IsNullOrWhiteSpace(e.BasicProperties.CorrelationId))
+                        message.CorrelationKey = await this.DeserializeAsync(Encoding.UTF8.GetBytes(e.BasicProperties.CorrelationId));
                 }
-                if (!string.IsNullOrWhiteSpace(e.BasicProperties.CorrelationId))
-                    message.CorrelationKey = await this.DeserializeAsync(Encoding.UTF8.GetBytes(e.BasicProperties.CorrelationId));
+                AmqpOperationBindingDefinition operationBindingDefinition = this.Channel.Definition.Subscribe.Bindings?
+                     .OfType<AmqpOperationBindingDefinition>()
+                     .FirstOrDefault();
+                if (operationBindingDefinition != null
+                    && operationBindingDefinition.Ack)
+                    this.RabbitMQChannel.BasicAck(e.DeliveryTag, false);
+                this.OnMessageSubject.OnNext(message);
             }
-            AmqpOperationBindingDefinition operationBindingDefinition = this.Channel.Definition.Subscribe.Bindings?
-                 .OfType<AmqpOperationBindingDefinition>()
-                 .FirstOrDefault();
-            if (operationBindingDefinition != null
-                && operationBindingDefinition.Ack)
-                this.RabbitMQChannel.BasicAck(e.DeliveryTag, false);
-            this.OnMessageSubject.OnNext(message);
+            catch(Exception ex)
+            {
+                this.Logger.LogError($"An error occured while consuming an inbound message on channel with key {{channel}}.{Environment.NewLine}{{ex}}", this.Channel.Key, ex.ToString());
+            } 
         }
 
         /// <inheritdoc/>

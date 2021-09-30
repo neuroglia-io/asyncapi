@@ -14,22 +14,21 @@
  * limitations under the License.
  *
  */
-namespace Neuroglia.AsyncApi.Models.Bindings.Nats
+using Neuroglia.AsyncApi.Models;
+
+namespace Neuroglia.AsyncApi.Services.FluentBuilders
 {
     /// <summary>
-    /// Represents the object used to configure a <see href="https://nats.io/">NATS</see> operation binding
+    /// Defines the fundamentals of a service used to build <see cref="RuntimeExpression"/> fragments
     /// </summary>
-    public class NatsOperationBindingDefinition
-        : NatsBindingDefinition, IOperationBindingDefinition
+    public interface IRuntimeExpressionFragmentBuilder
     {
 
         /// <summary>
-        /// Gets/sets the name of the queue to use. It MUST NOT exceed 255 characters.
+        /// Configures the source's path referenced by the <see cref="RuntimeExpression"/>'s fragment
         /// </summary>
-        [Newtonsoft.Json.JsonProperty("queue")]
-        [YamlDotNet.Serialization.YamlMember(Alias = "queue")]
-        [System.Text.Json.Serialization.JsonPropertyName("queue")]
-        public virtual string Queue { get; set; }
+        /// <param name="path">The source's path referenced by the <see cref="RuntimeExpression"/>'s fragment</param>
+        void At(string path);
 
     }
 
