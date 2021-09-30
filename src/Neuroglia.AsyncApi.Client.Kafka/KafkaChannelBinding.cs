@@ -136,14 +136,6 @@ namespace Neuroglia.AsyncApi.Client
             await this.KafkaProducer.ProduceAsync(this.ComputeChannelKeyFor(message).Slugify(), kafkaMessage, cancellationToken);
         }
 
-        /// <inheritdoc/>
-        public override async Task<IDisposable> SubscribeAsync(IObserver<IMessage> observer, CancellationToken cancellationToken = default)
-        {
-            if (observer == null)
-                throw new ArgumentNullException(nameof(observer));
-            return await Task.FromResult(this.OnMessageSubject.Subscribe(observer));
-        }
-
         /// <summary>
         /// Polls and consumes messages from the <see cref="KafkaConsumer"/>
         /// </summary>

@@ -19,6 +19,21 @@
             Indicates a queue based AMQP channel
             </summary>
         </member>
+        <member name="T:Neuroglia.AsyncApi.AmqpDeliveryMode">
+            <summary>
+            Enumerates all supported AMQP delivery modes
+            </summary>
+        </member>
+        <member name="F:Neuroglia.AsyncApi.AmqpDeliveryMode.Transient">
+            <summary>
+            Indicates a transient delivert mode
+            </summary>
+        </member>
+        <member name="F:Neuroglia.AsyncApi.AmqpDeliveryMode.Persistent">
+            <summary>
+            Indicates a persistent delivery mode
+            </summary>
+        </member>
         <member name="T:Neuroglia.AsyncApi.AmqpExchangeType">
             <summary>
             Enumerates all supported AMQP exchange types
@@ -697,27 +712,27 @@
         <member name="P:Neuroglia.AsyncApi.Models.Bindings.Amqp.AmqpBindingDefinition.Protocols">
             <inheritdoc/>
         </member>
-        <member name="T:Neuroglia.AsyncApi.Models.Bindings.Amqp.AmqpChannelBinding">
+        <member name="T:Neuroglia.AsyncApi.Models.Bindings.Amqp.AmqpChannelBindingDefinition">
             <summary>
             Represents the object used to configure an AMQP channel binding
             </summary>
         </member>
-        <member name="P:Neuroglia.AsyncApi.Models.Bindings.Amqp.AmqpChannelBinding.Type">
+        <member name="P:Neuroglia.AsyncApi.Models.Bindings.Amqp.AmqpChannelBindingDefinition.Type">
             <summary>
             Gets/sets AMQP channel's type
             </summary>
         </member>
-        <member name="P:Neuroglia.AsyncApi.Models.Bindings.Amqp.AmqpChannelBinding.Exchange">
+        <member name="P:Neuroglia.AsyncApi.Models.Bindings.Amqp.AmqpChannelBindingDefinition.Exchange">
             <summary>
-            Gets/sets the object used to configure the AMQP exchange, when <see cref="P:Neuroglia.AsyncApi.Models.Bindings.Amqp.AmqpChannelBinding.Type"/> is set to <see cref="F:Neuroglia.AsyncApi.AmqpChannelType.RoutingKey"/>
+            Gets/sets the object used to configure the AMQP exchange, when <see cref="P:Neuroglia.AsyncApi.Models.Bindings.Amqp.AmqpChannelBindingDefinition.Type"/> is set to <see cref="F:Neuroglia.AsyncApi.AmqpChannelType.RoutingKey"/>
             </summary>
         </member>
-        <member name="P:Neuroglia.AsyncApi.Models.Bindings.Amqp.AmqpChannelBinding.Queue">
+        <member name="P:Neuroglia.AsyncApi.Models.Bindings.Amqp.AmqpChannelBindingDefinition.Queue">
             <summary>
-            Gets/sets the object used to configure the AMQP queue, when <see cref="P:Neuroglia.AsyncApi.Models.Bindings.Amqp.AmqpChannelBinding.Type"/> is set to <see cref="F:Neuroglia.AsyncApi.AmqpChannelType.Queue"/>
+            Gets/sets the object used to configure the AMQP queue, when <see cref="P:Neuroglia.AsyncApi.Models.Bindings.Amqp.AmqpChannelBindingDefinition.Type"/> is set to <see cref="F:Neuroglia.AsyncApi.AmqpChannelType.Queue"/>
             </summary>
         </member>
-        <member name="P:Neuroglia.AsyncApi.Models.Bindings.Amqp.AmqpChannelBinding.BindingVersion">
+        <member name="P:Neuroglia.AsyncApi.Models.Bindings.Amqp.AmqpChannelBindingDefinition.BindingVersion">
             <summary>
             Gets/sets the version of this binding. Defaults to 'latest'.
             </summary>
@@ -757,9 +772,69 @@
             Represents the object used to configure an AMQP 0.9+ message binding
             </summary>
         </member>
+        <member name="P:Neuroglia.AsyncApi.Models.Bindings.Amqp.AmqpMessageBindingDefinition.ContentEncoding">
+            <summary>
+            Gets/sets a MIME encoding for the message content.
+            </summary>
+        </member>
+        <member name="P:Neuroglia.AsyncApi.Models.Bindings.Amqp.AmqpMessageBindingDefinition.MessageType">
+            <summary>
+            Gets/sets a string that represents an application-specific message type.
+            </summary>
+        </member>
         <member name="T:Neuroglia.AsyncApi.Models.Bindings.Amqp.AmqpOperationBindingDefinition">
             <summary>
             Represents the object used to configure an AMQP 0.9+ operation binding
+            </summary>
+        </member>
+        <member name="P:Neuroglia.AsyncApi.Models.Bindings.Amqp.AmqpOperationBindingDefinition.Expiration">
+            <summary>
+            Gets/sets the TTL (Time-To-Live) for the message. It MUST be greater than or equal to zero.
+            </summary>
+        </member>
+        <member name="P:Neuroglia.AsyncApi.Models.Bindings.Amqp.AmqpOperationBindingDefinition.UserId">
+            <summary>
+            Gets/sets a string that identifies the user who has sent the message.
+            </summary>
+        </member>
+        <member name="P:Neuroglia.AsyncApi.Models.Bindings.Amqp.AmqpOperationBindingDefinition.Cc">
+            <summary>
+            Gets/sets the routing keys the message should be routed to at the time of publishing.
+            </summary>
+        </member>
+        <member name="P:Neuroglia.AsyncApi.Models.Bindings.Amqp.AmqpOperationBindingDefinition.Priority">
+            <summary>
+            Gets/sets a priority for the message.
+            </summary>
+        </member>
+        <member name="P:Neuroglia.AsyncApi.Models.Bindings.Amqp.AmqpOperationBindingDefinition.DeliveryMode">
+            <summary>
+            Gets/sets the delivery mode of the message
+            </summary>
+        </member>
+        <member name="P:Neuroglia.AsyncApi.Models.Bindings.Amqp.AmqpOperationBindingDefinition.Mandatory">
+            <summary>
+            Gets/sets a boolean indicating whether the message is mandatory or not.
+            </summary>
+        </member>
+        <member name="P:Neuroglia.AsyncApi.Models.Bindings.Amqp.AmqpOperationBindingDefinition.Bcc">
+            <summary>
+            Gets/sets the routing keys the message should be routed to at the time of publishing, undisclosed to consumers
+            </summary>
+        </member>
+        <member name="P:Neuroglia.AsyncApi.Models.Bindings.Amqp.AmqpOperationBindingDefinition.ReplyTo">
+            <summary>
+            Gets/sets the name of the queue where the consumer should send the response.
+            </summary>
+        </member>
+        <member name="P:Neuroglia.AsyncApi.Models.Bindings.Amqp.AmqpOperationBindingDefinition.Timestamp">
+            <summary>
+            Gets/sets a boolean indicating whether the message should include a timestamp or not.
+            </summary>
+        </member>
+        <member name="P:Neuroglia.AsyncApi.Models.Bindings.Amqp.AmqpOperationBindingDefinition.Ack">
+            <summary>
+            Gets/sets a boolean indicating whether the consumer should ack the message or not.
             </summary>
         </member>
         <member name="T:Neuroglia.AsyncApi.Models.Bindings.Amqp.AmqpQueueDefinition">

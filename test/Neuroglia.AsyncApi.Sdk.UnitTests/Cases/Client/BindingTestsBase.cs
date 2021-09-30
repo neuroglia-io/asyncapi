@@ -3,7 +3,6 @@ using Microsoft.Extensions.DependencyInjection;
 using Neuroglia.AsyncApi.Client;
 using Neuroglia.AsyncApi.Client.Services;
 using Neuroglia.AsyncApi.Models;
-using Neuroglia.AsyncApi.Models.Bindings.Mqtt;
 using Neuroglia.AsyncApi.Services.FluentBuilders;
 using Neuroglia.AsyncApi.UnitTests.Data;
 using Newtonsoft.Json.Linq;
@@ -30,9 +29,10 @@ namespace Neuroglia.AsyncApi.Sdk.UnitTests.Cases.Client
             var services = new ServiceCollection();
             services = new ServiceCollection();
             services.AddAsyncApiClient("test", builder =>
-               builder.For(this.BuildDocument(serverSetup))
-                   .AddKafkaBinding()
-                   .AddMqttBinding());
+                builder.For(this.BuildDocument(serverSetup))
+                    .AddAmqpBinding()
+                    .AddKafkaBinding()
+                    .AddMqttBinding());
             this.AsyncApiClient = services.BuildServiceProvider().GetRequiredService<IAsyncApiClient>();
         }
 
@@ -130,10 +130,15 @@ namespace Neuroglia.AsyncApi.Sdk.UnitTests.Cases.Client
                 .WithId("Fake API")
                 .WithVersion("1.0.0")
                 .UseServer("Fake Server", server => serverSetup(server))
-                .UseChannel(ChannelKey, channel => channel
-                    .DefineSubscribeOperation(ConfigureSubscribeOperation)
-                    .DefinePublishOperation(ConfigurePublishOperation))
+                .UseChannel(ChannelKey, ConfigureChannel)
                 .Build();
+        }
+
+        protected virtual void ConfigureChannel(IChannelDefinitionBuilder channel)
+        {
+            channel
+                .DefineSubscribeOperation(ConfigureSubscribeOperation)
+                .DefinePublishOperation(ConfigurePublishOperation);
         }
 
         protected virtual void ConfigureSubscribeOperation(IOperationDefinitionBuilder operation)

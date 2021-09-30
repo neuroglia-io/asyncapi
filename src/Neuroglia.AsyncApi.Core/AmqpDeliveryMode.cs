@@ -18,24 +18,23 @@ using System.Runtime.Serialization;
 
 namespace Neuroglia.AsyncApi
 {
-
     /// <summary>
-    /// Enumerates all supported AMQP channel types
+    /// Enumerates all supported AMQP delivery modes
     /// </summary>
     [Newtonsoft.Json.JsonConverter(typeof(Newtonsoft.Json.Converters.StringEnumConverter))]
     [System.Text.Json.Serialization.JsonConverter(typeof(System.Text.Json.Serialization.StringEnumConverterFactory))]
-    public enum AmqpChannelType
+    public enum AmqpDeliveryMode
     {
         /// <summary>
-        /// Indicates a routing key based AMQP channel
+        /// Indicates a transient delivert mode
         /// </summary>
-        [EnumMember(Value = "routingKey")]
-        RoutingKey,
+        [EnumMember(Value = "transient")]
+        Transient = 1,
         /// <summary>
-        /// Indicates a queue based AMQP channel
+        /// Indicates a persistent delivery mode
         /// </summary>
-        [EnumMember(Value = "queue")]
-        Queue
+        [EnumMember(Value = "persistent")]
+        Persistent = 2
     }
 
 }

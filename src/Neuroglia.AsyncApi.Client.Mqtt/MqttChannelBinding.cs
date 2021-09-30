@@ -90,6 +90,11 @@ namespace Neuroglia.AsyncApi.Client
         /// </summary>
         protected IMqttClient MqttClient { get; }
 
+        /// <summary>
+        /// Gets a boolean indicating whether or not the <see cref="MqttChannelBinding"/> has subscribed to the channel's topic and is consuming messages
+        /// </summary>
+        protected bool ConsumingMessages { get; private set; }
+
         /// <inheritdoc/>
         public override async Task PublishAsync(IMessage message, CancellationToken cancellationToken = default)
         {
@@ -130,8 +135,12 @@ namespace Neuroglia.AsyncApi.Client
             if (observer == null)
                 throw new ArgumentNullException(nameof(observer));
             await this.EnsureConnectedAsync(cancellationToken);
-            MqttClientSubscribeOptions subscribeOptions = new() { TopicFilters = new() { new MqttTopicFilter() { Topic = this.Channel.Key } } };
-            await this.MqttClient.SubscribeAsync(subscribeOptions, cancellationToken);
+            if (!this.ConsumingMessages)
+            {
+                MqttClientSubscribeOptions subscribeOptions = new() { TopicFilters = new() { new MqttTopicFilter() { Topic = this.Channel.Key } } };
+                await this.MqttClient.SubscribeAsync(subscribeOptions, cancellationToken);
+                this.ConsumingMessages = true;
+            }
             return this.OnMessageSubject.Subscribe(observer);
         }
 

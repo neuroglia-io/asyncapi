@@ -14,28 +14,30 @@
  * limitations under the License.
  *
  */
-using System.Runtime.Serialization;
+using Neuroglia.AsyncApi.Client;
+using Neuroglia.AsyncApi.Client.Configuration;
+using Neuroglia.AsyncApi.Client.Services;
 
 namespace Neuroglia.AsyncApi
 {
 
     /// <summary>
-    /// Enumerates all supported AMQP channel types
+    /// Defines extensions for <see cref="IAsyncApiClient"/>s
     /// </summary>
-    [Newtonsoft.Json.JsonConverter(typeof(Newtonsoft.Json.Converters.StringEnumConverter))]
-    [System.Text.Json.Serialization.JsonConverter(typeof(System.Text.Json.Serialization.StringEnumConverterFactory))]
-    public enum AmqpChannelType
+    public static class IAsyncApiClientOptionsBuilderExtensions
     {
+
         /// <summary>
-        /// Indicates a routing key based AMQP channel
+        /// Adds an AMQP implementation of the <see cref="IChannelBinding"/> interface
         /// </summary>
-        [EnumMember(Value = "routingKey")]
-        RoutingKey,
-        /// <summary>
-        /// Indicates a queue based AMQP channel
-        /// </summary>
-        [EnumMember(Value = "queue")]
-        Queue
+        /// <param name="builder">The <see cref="IAsyncApiClientOptionsBuilder"/> to configure</param>
+        /// <returns>The configured <see cref="IAsyncApiClientOptionsBuilder"/></returns>
+        public static IAsyncApiClientOptionsBuilder AddAmqpBinding(this IAsyncApiClientOptionsBuilder builder)
+        {
+            builder.WithChannelBindingFactory<AmqpChannelBindingFactory>();
+            return builder;
+        }
+
     }
 
 }

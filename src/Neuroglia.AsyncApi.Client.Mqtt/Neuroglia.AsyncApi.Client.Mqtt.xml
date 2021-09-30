@@ -40,6 +40,11 @@
             Gets the service used to interact with the remote MQTT server
             </summary>
         </member>
+        <member name="P:Neuroglia.AsyncApi.Client.MqttChannelBinding.ConsumingMessages">
+            <summary>
+            Gets a boolean indicating whether or not the <see cref="T:Neuroglia.AsyncApi.Client.MqttChannelBinding"/> has subscribed to the channel's topic and is consuming messages
+            </summary>
+        </member>
         <member name="M:Neuroglia.AsyncApi.Client.MqttChannelBinding.PublishAsync(Neuroglia.AsyncApi.Client.IMessage,System.Threading.CancellationToken)">
             <inheritdoc/>
         </member>

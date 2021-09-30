@@ -88,7 +88,12 @@ namespace Neuroglia.AsyncApi.Client.Services
         public abstract Task PublishAsync(IMessage message, CancellationToken cancellationToken = default);
 
         /// <inheritdoc/>
-        public abstract Task<IDisposable> SubscribeAsync(IObserver<IMessage> observer, CancellationToken cancellationToken = default);
+        public virtual async Task<IDisposable> SubscribeAsync(IObserver<IMessage> observer, CancellationToken cancellationToken = default)
+        {
+            if (observer == null)
+                throw new ArgumentNullException(nameof(observer));
+            return await Task.FromResult(this.OnMessageSubject.Subscribe(observer));
+        }
 
         /// <summary>
         /// Serializes the specified object

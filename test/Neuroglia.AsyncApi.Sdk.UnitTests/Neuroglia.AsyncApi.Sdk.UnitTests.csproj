@@ -26,6 +26,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\src\Neuroglia.AsyncApi.Client.Amqp\Neuroglia.AsyncApi.Client.Amqp.csproj" />
     <ProjectReference Include="..\..\src\Neuroglia.AsyncApi.Client.Kafka\Neuroglia.AsyncApi.Client.Kafka.csproj" />
     <ProjectReference Include="..\..\src\Neuroglia.AsyncApi.Client.Mqtt\Neuroglia.AsyncApi.Client.Mqtt.csproj" />
   </ItemGroup>

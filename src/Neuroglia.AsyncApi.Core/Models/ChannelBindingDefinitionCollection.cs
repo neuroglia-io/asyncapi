@@ -66,7 +66,7 @@ namespace Neuroglia.AsyncApi.Models
         [Newtonsoft.Json.JsonProperty("amqp")]
         [YamlDotNet.Serialization.YamlMember(Alias = "amqp")]
         [System.Text.Json.Serialization.JsonPropertyName("amqp")]
-        public virtual AmqpChannelBinding Amqp { get; set; }
+        public virtual AmqpChannelBindingDefinition Amqp { get; set; }
 
         /// <summary>
         /// Gets/sets the protocol-specific information for an information for an AMQP 1.0 server.

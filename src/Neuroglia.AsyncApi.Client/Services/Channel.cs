@@ -19,6 +19,7 @@ using Neuroglia.AsyncApi.Models.Bindings;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Mime;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -77,7 +78,7 @@ namespace Neuroglia.AsyncApi.Client.Services
         /// <summary>
         /// Gets the <see cref="Channel"/>'s default content type
         /// </summary>
-        public string DefaultContentType => this.Document.DefaultContentType;
+        public string DefaultContentType => string.IsNullOrWhiteSpace(this.Document.DefaultContentType) ? MediaTypeNames.Application.Json : this.Document.DefaultContentType;
 
         /// <summary>
         /// Initializes the <see cref="Channel"/>

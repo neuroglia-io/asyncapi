@@ -16,6 +16,7 @@
  */
 namespace Neuroglia.AsyncApi.Models.Bindings.Amqp
 {
+
     /// <summary>
     /// Represents the object used to configure an AMQP 0.9+ message binding
     /// </summary>
@@ -23,7 +24,21 @@ namespace Neuroglia.AsyncApi.Models.Bindings.Amqp
         : AmqpBindingDefinition, IMessageBindingDefinition
     {
 
+        /// <summary>
+        /// Gets/sets a MIME encoding for the message content.
+        /// </summary>
+        [Newtonsoft.Json.JsonProperty("contentEncoding")]
+        [YamlDotNet.Serialization.YamlMember(Alias = "contentEncoding")]
+        [System.Text.Json.Serialization.JsonPropertyName("contentEncoding")]
+        public virtual string ContentEncoding { get; set; }
 
+        /// <summary>
+        /// Gets/sets a string that represents an application-specific message type.
+        /// </summary>
+        [Newtonsoft.Json.JsonProperty("messageType")]
+        [YamlDotNet.Serialization.YamlMember(Alias = "messageType")]
+        [System.Text.Json.Serialization.JsonPropertyName("messageType")]
+        public virtual string MessageType { get; set; }
 
     }
 
