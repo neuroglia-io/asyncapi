@@ -124,8 +124,7 @@ namespace Neuroglia.AsyncApi.Client
         /// <inheritdoc/>
         public override async Task PublishAsync(IMessage message, CancellationToken cancellationToken = default)
         {
-            if (message == null)
-                throw new ArgumentNullException(nameof(message));
+            this.ValidateMessage(message);
             cancellationToken = CancellationTokenSource.CreateLinkedTokenSource(this.CancellationTokenSource.Token, cancellationToken).Token;
             Message<Null, byte[]> kafkaMessage = new() { Value = await this.SerializeAsync(message.Payload, cancellationToken) };
             kafkaMessage.Headers = new();

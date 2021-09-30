@@ -105,8 +105,7 @@ namespace Neuroglia.AsyncApi.Client
         /// <inheritdoc/>
         public override async Task PublishAsync(IMessage message, CancellationToken cancellationToken = default)
         {
-            if (message == null)
-                throw new ArgumentNullException(nameof(message));
+            this.ValidateMessage(message);
             string exchange = string.Empty;
             string routingKey = this.ComputeChannelKeyFor(message);
             bool mandatory = false;

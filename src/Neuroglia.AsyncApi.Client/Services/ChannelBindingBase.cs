@@ -18,6 +18,7 @@ using Microsoft.Extensions.Logging;
 using Neuroglia.AsyncApi.Models;
 using Neuroglia.Serialization;
 using Newtonsoft.Json.Linq;
+using Newtonsoft.Json.Schema;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -282,6 +283,20 @@ namespace Neuroglia.AsyncApi.Client.Services
                 }
             }
             return correlationKey;
+        }
+
+        /// <summary>
+        /// Validates the specified <see cref="IMessage"/>
+        /// </summary>
+        /// <param name="message">The <see cref="IMessage"/> to validate</param>
+        protected virtual void ValidateMessage(IMessage message)
+        {
+            if (message == null)
+                throw new ArgumentNullException(nameof(message));
+            JToken payload = JToken.FromObject(message.Payload);
+            JSchema schema = this.Channel.Definition.Publish.Message.Payload.ToObject<JSchema>();
+            if (!payload.IsValid(schema, out IList<string> errors))
+                throw new FormatException($"The specified message is invalid:{Environment.NewLine}{string.Join(Environment.NewLine, errors)}");
         }
 
         private bool _Disposed;

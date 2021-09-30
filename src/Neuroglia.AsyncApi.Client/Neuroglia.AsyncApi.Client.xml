@@ -428,6 +428,12 @@
             <param name="message">The consumed <see cref="T:Neuroglia.AsyncApi.Client.IMessage"/> to compute the correlation key for</param>
             <returns>The computed correlation key</returns>
         </member>
+        <member name="M:Neuroglia.AsyncApi.Client.Services.ChannelBindingBase.ValidateMessage(Neuroglia.AsyncApi.Client.IMessage)">
+            <summary>
+            Validates the specified <see cref="T:Neuroglia.AsyncApi.Client.IMessage"/>
+            </summary>
+            <param name="message">The <see cref="T:Neuroglia.AsyncApi.Client.IMessage"/> to validate</param>
+        </member>
         <member name="M:Neuroglia.AsyncApi.Client.Services.ChannelBindingBase.Dispose(System.Boolean)">
             <summary>
             Disposes of the <see cref="T:Neuroglia.AsyncApi.Client.Services.ChannelBindingBase"/>

@@ -81,6 +81,9 @@ namespace Neuroglia.AsyncApi.Sdk.UnitTests.Cases.Client
 
             consumedMessage.CorrelationKey.Should().NotBeNull();
             consumedMessage.CorrelationKey.As<JToken>().ToObject<Guid>().Should().Be((Guid)producedMessage.CorrelationKey);
+
+            Func<Task> act = () => this.AsyncApiClient.PublishAsync(ChannelKey, message => message.WithPayload(new { Message = "This should fail" }));
+            await act.Should().ThrowAsync<FormatException>();
         }
 
         private bool _Disposed;
