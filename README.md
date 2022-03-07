@@ -11,20 +11,21 @@
   - [Reading an AsyncAPI Document](#reading-an-asyncapi-document)
   - [Generating code-first AsyncAPI documents](#generating-code-first-asyncapi-documents)
   - [Using the AsyncAPI UI](#using-the-asyncapi-ui)
+  - [Using the AsyncAPI client](#using-the-asyncapi-client)
 - [Samples](#samples)
   - [Streetlights API - Server](#streetlights-api---server)
 
 ## Summary
-A .NET 5.0 library used to visualize and interact with [AsyncAPI](https://www.asyncapi.com/docs/specifications/v2.1.0) documents. The UI is built using Razor Pages and Boostrap 4.0
+A .NET used to visualize and interact with [AsyncAPI](https://www.asyncapi.com/docs/specifications/v2.1.0) documents. The UI is built using Razor Pages and Boostrap 4.0
 
 ## Status
 
 | Name | Description | Latest Release | Spec version |
 | :---: | :---: | :---: | :---: |
-| [Neuroglia.AsyncApi.Core](http://www.nuget.org/packages/Neuroglia.AsyncApi.Core) | Contains `AsyncAPI` models and core services such as fluent builders, validators, reader, writer and code-first generator | [2.1.0.1](https://github.com/neuroglia-io/asyncapi/releases/) | [v2.1.0](https://www.asyncapi.com/docs/specifications/v2.1.0) |
-[Neuroglia.AsyncApi.AspNetCore](http://www.nuget.org/packages/Neuroglia.AsyncApi.AspNetCore) | Contains `ASP.NET 5.0` extensions, services for code-first generation and middleware for serving `AsyncAPI` documents | [2.1.0.1](https://github.com/neuroglia-io/asyncapi/releases/) | [v2.1.0](https://www.asyncapi.com/docs/specifications/v2.1.0) |
-[Neuroglia.AsyncApi.AspNetCore.UI](http://www.nuget.org/packages/Neuroglia.AsyncApi.AspNetCore.UI) | Contains `ASP.NET 5.0` extensions, services for code-first generation and middleware for serving `AsyncAPI` documents | [2.1.0.1](https://github.com/neuroglia-io/asyncapi/releases/) | [v2.1.0](https://www.asyncapi.com/docs/specifications/v2.1.0) |
-Neuroglia.AsyncApi.Client | Contains services to build clients at runtime based on `AsyncAPI` documents | WIP | [v2.1.0](https://www.asyncapi.com/docs/specifications/v2.1.0) |
+| [Neuroglia.AsyncApi.Core](https://www.nuget.org/packages/Neuroglia.AsyncApi.Core) | Contains `AsyncAPI` models and core services such as fluent builders, validators, reader, writer and code-first generator | [2.1.0.1](https://github.com/neuroglia-io/asyncapi/releases/) | [v2.1.0](https://www.asyncapi.com/docs/specifications/v2.1.0) |
+[Neuroglia.AsyncApi.AspNetCore](https://www.nuget.org/packages/Neuroglia.AsyncApi.AspNetCore) | Contains `ASP.NET` extensions, services for code-first generation and middleware for serving `AsyncAPI` documents | [2.1.0.1](https://github.com/neuroglia-io/asyncapi/releases/) | [v2.1.0](https://www.asyncapi.com/docs/specifications/v2.1.0) |
+[Neuroglia.AsyncApi.AspNetCore.UI](https://www.nuget.org/packages/Neuroglia.AsyncApi.AspNetCore.UI) | Contains `ASP.NET` extensions, services for code-first generation and middleware for serving `AsyncAPI` documents | [2.1.0.1](https://github.com/neuroglia-io/asyncapi/releases/) | [v2.1.0](https://www.asyncapi.com/docs/specifications/v2.1.0) |
+[Neuroglia.AsyncApi.Client](https://www.nuget.org/packages/Neuroglia.AsyncApi.Client) | Contains services to build clients at runtime based on `AsyncAPI` documents | WIP | [v2.1.0](https://www.asyncapi.com/docs/specifications/v2.1.0) |
 
 ## Installation
 
@@ -195,6 +196,51 @@ services.AddAsyncApiUI();
 Launch your ASP project, then navigate to `http://localhost:44236/asyncapi`. You should see something like this:
 
 ![AsyncAPI UI - Screenshot](/assets/img/ui.png)
+
+### Using the AsyncAPI Client
+
+Go to your ASP project's `Startup.cs` file and add the following line to your `ConfigureServices` method:
+
+```csharp
+services.AddAsyncApiClient("test", builder =>
+  builder.For(new Uri("https://example.com/asyncapi.yaml"))
+      .AddAmqpBinding() //needs to add Neuroglia.AsyncApi.Client.Amqp package
+      .AddKafkaBinding() //needs to add Neuroglia.AsyncApi.Client.Kafka package
+      .AddMqttBinding() //needs to add Neuroglia.AsyncApi.Client.Mqtt package
+      .AddNatsBinding() //needs to add Neuroglia.AsyncApi.Client.Nats package
+      .AddRedisBinding() //needs to add Neuroglia.AsyncApi.Client.Redis package
+      .AddWebSocketBinding()); //needs to add Neuroglia.AsyncApi.Client.WebSockets package
+```
+
+Then use the `IAsyncApiClient` as follows:
+
+```csharp
+//PUB
+await this.AsyncApiClient.PublishAsync("ligth/measured", message);
+//SUB
+subscription = await this.AsyncApiClient.SubscribeToAsync("light/measured", Observer.Create<IMessage>(this.OnLightMeasured));
+```
+
+To build messages to publish, you can use the MessageBuilder service:
+
+```csharp
+var message = new MessageBuilder()
+  .WithPayload(new User() { FirstName = "Fake First Name", LastName = "Fake Last Name" })
+  .WithHeader("Fake Header 1", "Fake Value 1")
+  .WithHeader("Fake Header 2", "Fake Value 2")
+  .WithCorrelationKey(Guid.NewGuid())
+  .Build()
+```
+
+or manually create a new `Message` instance:
+
+```csharp
+var message = new Message() 
+{ 
+  Payload = new User() { FirstName = "Fake First Name", LastName = "Fake Last Name" },
+  ...
+};
+```
 
 ## Samples
 
