@@ -22,7 +22,7 @@ namespace Neuroglia.AsyncApi
     /// <summary>
     /// Represents an <see cref="Attribute"/> used to mark a method as an <see cref="OperationDefinition"/>
     /// </summary>
-    [AttributeUsage(AttributeTargets.Method, AllowMultiple = false)]
+    [AttributeUsage(AttributeTargets.Method, AllowMultiple = true)]
     public abstract class OperationAttribute
         : Attribute
     {

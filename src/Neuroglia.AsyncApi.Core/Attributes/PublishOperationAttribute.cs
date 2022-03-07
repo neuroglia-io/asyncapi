@@ -19,6 +19,7 @@ using System;
 
 namespace Neuroglia.AsyncApi
 {
+
     /// <summary>
     /// Represents an <see cref="Attribute"/> used to mark a method as an <see cref="OperationDefinition"/> of type <see cref="OperationType.Publish"/>
     /// </summary>
