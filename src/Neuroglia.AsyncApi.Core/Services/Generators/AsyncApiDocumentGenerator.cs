@@ -15,13 +15,12 @@
  *
  */
 using Microsoft.Extensions.DependencyInjection;
-using Neuroglia;
 using Neuroglia.AsyncApi.Configuration;
 using Neuroglia.AsyncApi.Models;
 using Neuroglia.AsyncApi.Services.FluentBuilders;
+using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
-using Newtonsoft.Json.Schema;
-using Newtonsoft.Json.Schema.Generation;
+using NJsonSchema;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -116,11 +115,11 @@ namespace Neuroglia.AsyncApi.Services.Generators
         }
 
         /// <summary>
-        /// Builds a new <see cref="Channel"/>
+        /// Builds a new <see cref="ChannelDefinition"/>
         /// </summary>
         /// <param name="builder">The <see cref="IAsyncApiDocumentBuilder"/> to configure</param>
-        /// <param name="channel">The attribute used to describe the <see cref="Channel"/> to configure</param>
-        /// <param name="methods">A <see cref="List{T}"/> containing the <see cref="Channel"/>'s <see cref="Operation"/>s <see cref="MethodInfo"/>s</param>
+        /// <param name="channel">The attribute used to describe the <see cref="ChannelDefinition"/> to configure</param>
+        /// <param name="methods">A <see cref="List{T}"/> containing the <see cref="ChannelDefinition"/>'s <see cref="OperationDefinition"/>s <see cref="MethodInfo"/>s</param>
         /// <param name="options">The <see cref="AsyncApiDocumentGenerationOptions"/> to use</param>
         /// <param name="cancellationToken">A <see cref="CancellationToken"/></param>
         /// <returns>A new awaitable <see cref="Task"/></returns>
@@ -167,13 +166,13 @@ namespace Neuroglia.AsyncApi.Services.Generators
         }
 
         /// <summary>
-        /// Configures and builds a new <see cref="Message"/> for the specified <see cref="Operation"/>
+        /// Configures and builds a new <see cref="MessageDefinition"/> for the specified <see cref="OperationDefinition"/>
         /// </summary>
-        /// <param name="messageBuilder">The <see cref="IMessageBuilder"/> to configure</param>
-        /// <param name="operation">The attribute used to describe the <see cref="Operation"/> to configure</param>
-        /// <param name="operationMethod">The <see cref="MethodInfo"/> marked with the specified <see cref="Operation"/> attribute</param>
+        /// <param name="messageBuilder">The <see cref="IMessageDefinitionBuilder"/> to configure</param>
+        /// <param name="operation">The attribute used to describe the <see cref="OperationDefinition"/> to configure</param>
+        /// <param name="operationMethod">The <see cref="MethodInfo"/> marked with the specified <see cref="OperationDefinition"/> attribute</param>
         /// <param name="options">The <see cref="AsyncApiDocumentGenerationOptions"/> to use</param>
-        protected virtual void ConfigureOperationMessageFor(IMessageBuilder messageBuilder, OperationAttribute operation, MethodInfo operationMethod, AsyncApiDocumentGenerationOptions options)
+        protected virtual void ConfigureOperationMessageFor(IMessageDefinitionBuilder messageBuilder, OperationAttribute operation, MethodInfo operationMethod, AsyncApiDocumentGenerationOptions options)
         {
             if (messageBuilder == null)
                 throw new ArgumentNullException(nameof(messageBuilder));
@@ -183,33 +182,32 @@ namespace Neuroglia.AsyncApi.Services.Generators
                 throw new ArgumentNullException(nameof(operationMethod));
             Type messageType = operation.MessageType;
             ParameterInfo[] parameters = operationMethod.GetParameters();
-            JSchemaGenerator schemaGenerator = new();
-            JSchema messageSchema;
+            JsonSchema messageSchema;
             if (messageType == null)
             {
                 if (parameters.Length == 1)
                 {
                     messageType = parameters.First().ParameterType;
-                    messageSchema = schemaGenerator.Generate(parameters.First());
+                    messageSchema = JsonSchema.FromType(parameters.First().ParameterType);
                 }
                 else
                 {
                     messageType = typeof(object);
-                    messageSchema = new() { Type = JSchemaType.Object };
+                    messageSchema = new() { Type = JsonObjectType.Object };
                     foreach (ParameterInfo parameter in parameters)
                     {
-                        JSchema parameterSchema = schemaGenerator.Generate(parameter);
+                        var parameterSchema = JsonConvert.DeserializeObject<JsonSchemaProperty>(JsonSchema.FromType(parameter.ParameterType).ToJson());
                         messageSchema.Properties.Add(parameter.Name, parameterSchema);
                         if (parameter.TryGetCustomAttribute<RequiredAttribute>(out _)
                             || !parameter.ParameterType.IsNullable()
                             || parameter.DefaultValue == DBNull.Value)
-                            messageSchema.Required.Add(parameter.Name);
+                            messageSchema.RequiredProperties.Add(parameter.Name);
                     }
                 }
             }
             else
             {
-                messageSchema = schemaGenerator.Generate(messageType);
+                messageSchema = JsonSchema.FromType(messageType);
             }
             messageBuilder.WithPayloadSchema(messageSchema);
             MessageAttribute message = operationMethod.GetCustomAttribute<MessageAttribute>();

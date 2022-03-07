@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>net5.0</TargetFramework>
+    <TargetFramework>net6.0</TargetFramework>
 
     <IsPackable>false</IsPackable>
   </PropertyGroup>
@@ -11,21 +11,27 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="FluentAssertions" Version="6.1.0" />
-    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.11.0" />
+    <PackageReference Include="DotNet.Testcontainers" Version="1.5.0" />
+    <PackageReference Include="FluentAssertions" Version="6.5.1" />
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.1.0" />
     <PackageReference Include="xunit" Version="2.4.1" />
     <PackageReference Include="xunit.runner.visualstudio" Version="2.4.3">
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
       <PrivateAssets>all</PrivateAssets>
     </PackageReference>
-    <PackageReference Include="coverlet.collector" Version="3.1.0">
+    <PackageReference Include="coverlet.collector" Version="3.1.2">
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
       <PrivateAssets>all</PrivateAssets>
     </PackageReference>
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\src\Neuroglia.AsyncApi.Core\Neuroglia.AsyncApi.Core.csproj" />
+    <ProjectReference Include="..\..\src\Neuroglia.AsyncApi.Client.Amqp\Neuroglia.AsyncApi.Client.Amqp.csproj" />
+    <ProjectReference Include="..\..\src\Neuroglia.AsyncApi.Client.Kafka\Neuroglia.AsyncApi.Client.Kafka.csproj" />
+    <ProjectReference Include="..\..\src\Neuroglia.AsyncApi.Client.Mqtt\Neuroglia.AsyncApi.Client.Mqtt.csproj" />
+    <ProjectReference Include="..\..\src\Neuroglia.AsyncApi.Client.Nats\Neuroglia.AsyncApi.Client.Nats.csproj" />
+    <ProjectReference Include="..\..\src\Neuroglia.AsyncApi.Client.Redis\Neuroglia.AsyncApi.Client.Redis.csproj" />
+    <ProjectReference Include="..\..\src\Neuroglia.AsyncApi.Client.WebSockets\Neuroglia.AsyncApi.Client.WebSockets.csproj" />
   </ItemGroup>
 
   <ItemGroup>

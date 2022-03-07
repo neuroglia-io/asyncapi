@@ -1,0 +1,693 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Neuroglia.AsyncApi.Client</name>
+    </assembly>
+    <members>
+        <member name="T:Neuroglia.AsyncApi.Client.Configuration.AsyncApiClientOptions">
+            <summary>
+            Represents the options used to configure an <see cref="T:Neuroglia.AsyncApi.Client.Services.IAsyncApiClient"/>
+            </summary>
+        </member>
+        <member name="P:Neuroglia.AsyncApi.Client.Configuration.AsyncApiClientOptions.Document">
+            <summary>
+            Gets/sets the <see cref="T:Neuroglia.AsyncApi.Models.AsyncApiDocument"/> to build a new <see cref="T:Neuroglia.AsyncApi.Client.Services.IAsyncApiClient"/> for
+            </summary>
+        </member>
+        <member name="P:Neuroglia.AsyncApi.Client.Configuration.AsyncApiClientOptions.DocumentUri">
+            <summary>
+            Gets/sets an <see cref="T:System.Uri"/> referencing the <see cref="T:Neuroglia.AsyncApi.Models.AsyncApiDocument"/> to build a new <see cref="T:Neuroglia.AsyncApi.Client.Services.IAsyncApiClient"/> for
+            </summary>
+        </member>
+        <member name="P:Neuroglia.AsyncApi.Client.Configuration.AsyncApiClientOptions.ChannelFactoryType">
+            <summary>
+            Gets/sets the type of <see cref="T:Neuroglia.AsyncApi.Client.Services.IChannelFactory"/> to use
+            </summary>
+        </member>
+        <member name="P:Neuroglia.AsyncApi.Client.Configuration.AsyncApiClientOptions.ChannelBindingFactoryTypes">
+            <summary>
+            Gets a <see cref="T:System.Collections.Generic.List`1"/> containing the <see cref="T:Neuroglia.AsyncApi.Client.Services.IChannelBindingFactory"/> types to use
+            </summary>
+        </member>
+        <member name="T:Neuroglia.AsyncApi.Client.Configuration.AsyncApiClientOptionsBuilder">
+            <summary>
+            Represents the default implementation of the <see cref="T:Neuroglia.AsyncApi.Client.Configuration.IAsyncApiClientOptionsBuilder"/> interface
+            </summary>
+        </member>
+        <member name="M:Neuroglia.AsyncApi.Client.Configuration.AsyncApiClientOptionsBuilder.#ctor(Neuroglia.AsyncApi.Client.Configuration.AsyncApiClientOptions)">
+            <summary>
+            Initializes a new <see cref="T:Neuroglia.AsyncApi.Client.Configuration.AsyncApiClientOptionsBuilder"/>
+            </summary>
+            <param name="options">The <see cref="T:Neuroglia.AsyncApi.Client.Configuration.AsyncApiClientOptions"/> to configure</param>
+        </member>
+        <member name="M:Neuroglia.AsyncApi.Client.Configuration.AsyncApiClientOptionsBuilder.#ctor">
+            <summary>
+            Initializes a new <see cref="T:Neuroglia.AsyncApi.Client.Configuration.AsyncApiClientOptionsBuilder"/>
+            </summary>
+        </member>
+        <member name="P:Neuroglia.AsyncApi.Client.Configuration.AsyncApiClientOptionsBuilder.Options">
+            <summary>
+            Gets the <see cref="T:Neuroglia.AsyncApi.Client.Configuration.AsyncApiClientOptions"/> to configure
+            </summary>
+        </member>
+        <member name="M:Neuroglia.AsyncApi.Client.Configuration.AsyncApiClientOptionsBuilder.For(Neuroglia.AsyncApi.Models.AsyncApiDocument)">
+            <inheritdoc/>
+        </member>
+        <member name="M:Neuroglia.AsyncApi.Client.Configuration.AsyncApiClientOptionsBuilder.For(System.Uri)">
+            <inheritdoc/>
+        </member>
+        <member name="M:Neuroglia.AsyncApi.Client.Configuration.AsyncApiClientOptionsBuilder.WithChannelFactory``1">
+            <inheritdoc/>
+        </member>
+        <member name="M:Neuroglia.AsyncApi.Client.Configuration.AsyncApiClientOptionsBuilder.WithChannelBindingFactory``1">
+            <inheritdoc/>
+        </member>
+        <member name="M:Neuroglia.AsyncApi.Client.Configuration.AsyncApiClientOptionsBuilder.Build">
+            <inheritdoc/>
+        </member>
+        <member name="T:Neuroglia.AsyncApi.Client.Configuration.IAsyncApiClientOptionsBuilder">
+            <summary>
+            Defines the fundamentals of the service used to build <see cref="T:Neuroglia.AsyncApi.Client.Configuration.AsyncApiClientOptions"/>s
+            </summary>
+        </member>
+        <member name="M:Neuroglia.AsyncApi.Client.Configuration.IAsyncApiClientOptionsBuilder.For(Neuroglia.AsyncApi.Models.AsyncApiDocument)">
+            <summary>
+            Sets the <see cref="T:Neuroglia.AsyncApi.Models.AsyncApiDocument"/> to build the <see cref="T:Neuroglia.AsyncApi.Client.Services.IAsyncApiClient"/> for
+            </summary>
+            <param name="document">The <see cref="T:Neuroglia.AsyncApi.Models.AsyncApiDocument"/> to build the <see cref="T:Neuroglia.AsyncApi.Client.Services.IAsyncApiClient"/> for</param>
+            <returns>The configured <see cref="T:Neuroglia.AsyncApi.Client.Configuration.IAsyncApiClientOptionsBuilder"/></returns>
+        </member>
+        <member name="M:Neuroglia.AsyncApi.Client.Configuration.IAsyncApiClientOptionsBuilder.For(System.Uri)">
+            <summary>
+            Sets the <see cref="T:System.Uri"/> referencing the <see cref="T:Neuroglia.AsyncApi.Models.AsyncApiDocument"/> to build the <see cref="T:Neuroglia.AsyncApi.Client.Services.IAsyncApiClient"/> for
+            </summary>
+            <param name="documentUri">The <see cref="T:System.Uri"/> referencing the <see cref="T:Neuroglia.AsyncApi.Models.AsyncApiDocument"/> to build the <see cref="T:Neuroglia.AsyncApi.Client.Services.IAsyncApiClient"/> for</param>
+            <returns>The configured <see cref="T:Neuroglia.AsyncApi.Client.Configuration.IAsyncApiClientOptionsBuilder"/></returns>
+        </member>
+        <member name="M:Neuroglia.AsyncApi.Client.Configuration.IAsyncApiClientOptionsBuilder.WithChannelFactory``1">
+            <summary>
+            Configures the <see cref="T:Neuroglia.AsyncApi.Client.Services.IAsyncApiClient"/> to use the specified <see cref="T:Neuroglia.AsyncApi.Client.Services.IChannelFactory"/>
+            </summary>
+            <typeparam name="TFactory">The type of <see cref="T:Neuroglia.AsyncApi.Client.Services.IChannelFactory"/> to use</typeparam>
+            <returns>The configured <see cref="T:Neuroglia.AsyncApi.Client.Configuration.IAsyncApiClientOptionsBuilder"/></returns>
+        </member>
+        <member name="M:Neuroglia.AsyncApi.Client.Configuration.IAsyncApiClientOptionsBuilder.WithChannelBindingFactory``1">
+            <summary>
+            Configures the <see cref="T:Neuroglia.AsyncApi.Client.Services.IAsyncApiClient"/> to use the specified <see cref="T:Neuroglia.AsyncApi.Client.Services.IChannelFactory"/>
+            </summary>
+            <typeparam name="TFactory">The type of <see cref="T:Neuroglia.AsyncApi.Client.Services.IChannelBindingFactory"/> to use</typeparam>
+            <returns>The configured <see cref="T:Neuroglia.AsyncApi.Client.Configuration.IAsyncApiClientOptionsBuilder"/></returns>
+        </member>
+        <member name="M:Neuroglia.AsyncApi.Client.Configuration.IAsyncApiClientOptionsBuilder.Build">
+            <summary>
+            Builds the <see cref="T:Neuroglia.AsyncApi.Client.Configuration.AsyncApiClientOptions"/>
+            </summary>
+            <returns>New <see cref="T:Neuroglia.AsyncApi.Client.Configuration.AsyncApiClientOptions"/></returns>
+        </member>
+        <member name="T:Neuroglia.AsyncApi.Client.Configuration.IPublishOperationOptions">
+            <summary>
+            Defines the fundamentals of options used to configure an Async API operation of type <see cref="F:Neuroglia.AsyncApi.OperationType.Publish"/>
+            </summary>
+        </member>
+        <member name="P:Neuroglia.AsyncApi.Client.Configuration.IPublishOperationOptions.Protocol">
+            <summary>
+            Gets the protocol to use
+            </summary>
+        </member>
+        <member name="T:Neuroglia.AsyncApi.Client.Configuration.IPublishOperationOptionsBuilder">
+            <summary>
+            Defines the fundamentals of a service used to build <see cref="T:Neuroglia.AsyncApi.Client.Configuration.IPublishOperationOptions"/>
+            </summary>
+        </member>
+        <member name="M:Neuroglia.AsyncApi.Client.Configuration.IPublishOperationOptionsBuilder.UseProtocol(System.String)">
+            <summary>
+            Uses the specified Async API protocol when executing the publish operation
+            </summary>
+            <param name="protocol">The protocol to use</param>
+            <returns></returns>
+        </member>
+        <member name="M:Neuroglia.AsyncApi.Client.Configuration.IPublishOperationOptionsBuilder.Build">
+            <summary>
+            Builds the configured <see cref="T:Neuroglia.AsyncApi.Client.Configuration.IPublishOperationOptions"/>
+            </summary>
+            <returns>New <see cref="T:Neuroglia.AsyncApi.Client.Configuration.IPublishOperationOptions"/></returns>
+        </member>
+        <member name="T:Neuroglia.AsyncApi.Client.Configuration.PublishOperationOptions">
+            <summary>
+            Represents the default implementation of the <see cref="T:Neuroglia.AsyncApi.Client.Configuration.IPublishOperationOptionsBuilder"/> interface
+            </summary>
+        </member>
+        <member name="P:Neuroglia.AsyncApi.Client.Configuration.PublishOperationOptions.Protocol">
+            <inheritdoc/>
+        </member>
+        <member name="T:Neuroglia.AsyncApi.Client.Configuration.PublishOperationOptionsBuilder">
+            <summary>
+            Represents the default implementation of the <see cref="T:Neuroglia.AsyncApi.Client.Configuration.IPublishOperationOptionsBuilder"/> interface
+            </summary>
+        </member>
+        <member name="P:Neuroglia.AsyncApi.Client.Configuration.PublishOperationOptionsBuilder.Options">
+            <summary>
+            Gets the <see cref="T:Neuroglia.AsyncApi.Client.Configuration.PublishOperationOptions"/> to configure
+            </summary>
+        </member>
+        <member name="M:Neuroglia.AsyncApi.Client.Configuration.PublishOperationOptionsBuilder.UseProtocol(System.String)">
+            <inheritdoc/>
+        </member>
+        <member name="M:Neuroglia.AsyncApi.Client.Configuration.PublishOperationOptionsBuilder.Build">
+            <inheritdoc/>
+        </member>
+        <member name="T:Neuroglia.AsyncApi.Client.IMessage">
+            <summary>
+            Defines the fundamentals of an Async API message
+            </summary>
+        </member>
+        <member name="P:Neuroglia.AsyncApi.Client.IMessage.Timestamp">
+            <summary>
+            Gets the <see cref="T:Neuroglia.AsyncApi.Client.IMessage"/>'s timestamp
+            </summary>
+        </member>
+        <member name="P:Neuroglia.AsyncApi.Client.IMessage.ChannelKey">
+            <summary>
+            Gets the key of the <see cref="T:Neuroglia.AsyncApi.Client.Services.IChannel"/> the <see cref="T:Neuroglia.AsyncApi.Client.IMessage"/> is bound to
+            </summary>
+        </member>
+        <member name="P:Neuroglia.AsyncApi.Client.IMessage.CorrelationKey">
+            <summary>
+            Gets the <see cref="T:Neuroglia.AsyncApi.Client.IMessage"/>'s correlation key, if any
+            </summary>
+        </member>
+        <member name="P:Neuroglia.AsyncApi.Client.IMessage.Headers">
+            <summary>
+            Gets an <see cref="T:System.Collections.Generic.IDictionary`2"/> containing the <see cref="T:Neuroglia.AsyncApi.Client.IMessage"/>'s headers
+            </summary>
+        </member>
+        <member name="P:Neuroglia.AsyncApi.Client.IMessage.Payload">
+            <summary>
+            Gets the <see cref="T:Neuroglia.AsyncApi.Client.IMessage"/>'s payload
+            </summary>
+        </member>
+        <member name="T:Neuroglia.AsyncApi.Client.Message">
+            <summary>
+            Reoresents the default implementation of the <see cref="T:Neuroglia.AsyncApi.Client.IMessage"/> interface
+            </summary>
+        </member>
+        <member name="P:Neuroglia.AsyncApi.Client.Message.Timestamp">
+            <inheritdoc/>
+        </member>
+        <member name="P:Neuroglia.AsyncApi.Client.Message.ChannelKey">
+            <inheritdoc/>
+        </member>
+        <member name="P:Neuroglia.AsyncApi.Client.Message.CorrelationKey">
+            <inheritdoc/>
+        </member>
+        <member name="P:Neuroglia.AsyncApi.Client.Message.Headers">
+            <inheritdoc/>
+        </member>
+        <member name="P:Neuroglia.AsyncApi.Client.Message.Payload">
+            <inheritdoc/>
+        </member>
+        <member name="T:Neuroglia.AsyncApi.Client.Services.AsyncApiClient">
+            <summary>
+            Represents the default implementation of the <see cref="T:Neuroglia.AsyncApi.Client.Services.IAsyncApiClient"/> interface
+            </summary>
+        </member>
+        <member name="M:Neuroglia.AsyncApi.Client.Services.AsyncApiClient.#ctor(System.String,Microsoft.Extensions.Logging.ILogger{Neuroglia.AsyncApi.Client.Services.AsyncApiClient},Neuroglia.AsyncApi.Services.IO.IAsyncApiDocumentReader,Neuroglia.AsyncApi.Client.Services.IChannelFactory,System.Net.Http.IHttpClientFactory,Microsoft.Extensions.Options.IOptionsSnapshot{Neuroglia.AsyncApi.Client.Configuration.AsyncApiClientOptions})">
+            <summary>
+            Initializes a new <see cref="T:Neuroglia.AsyncApi.Client.Services.AsyncApiClient"/>
+            </summary>
+            <param name="name">The <see cref="T:Neuroglia.AsyncApi.Client.Services.AsyncApiClient"/>'s name</param>
+            <param name="logger">The service used to perform logging</param>
+            <param name="documentReader">The service used to read <see cref="T:Neuroglia.AsyncApi.Models.AsyncApiDocument"/>s</param>
+            <param name="channelFactory">The service used to create <see cref="T:Neuroglia.AsyncApi.Client.Services.IChannel"/>s</param>
+            <param name="httpClientFactory">The service used to create <see cref="T:System.Net.Http.HttpClient"/>s</param>
+            <param name="options">The options used to configure the <see cref="T:Neuroglia.AsyncApi.Client.Services.AsyncApiClient"/></param>
+        </member>
+        <member name="P:Neuroglia.AsyncApi.Client.Services.AsyncApiClient.Name">
+            <inheritdoc/>
+        </member>
+        <member name="P:Neuroglia.AsyncApi.Client.Services.AsyncApiClient.Logger">
+            <summary>
+            Gets the service used to perform logging
+            </summary>
+        </member>
+        <member name="P:Neuroglia.AsyncApi.Client.Services.AsyncApiClient.DocumentReader">
+            <summary>
+            Gets the service used to read <see cref="T:Neuroglia.AsyncApi.Models.AsyncApiDocument"/>s
+            </summary>
+        </member>
+        <member name="P:Neuroglia.AsyncApi.Client.Services.AsyncApiClient.ChannelFactory">
+            <summary>
+            Gets the service used to create <see cref="T:Neuroglia.AsyncApi.Client.Services.IChannel"/>s
+            </summary>
+        </member>
+        <member name="P:Neuroglia.AsyncApi.Client.Services.AsyncApiClient.HttpClient">
+            <summary>
+            Gets the <see cref="T:System.Net.Http.HttpClient"/> used by the <see cref="T:Neuroglia.AsyncApi.Client.Services.AsyncApiClient"/> to request remote documents
+            </summary>
+        </member>
+        <member name="P:Neuroglia.AsyncApi.Client.Services.AsyncApiClient.Options">
+            <summary>
+            Gets the options used to configure the <see cref="T:Neuroglia.AsyncApi.Client.Services.AsyncApiClient"/>
+            </summary>
+        </member>
+        <member name="P:Neuroglia.AsyncApi.Client.Services.AsyncApiClient.Document">
+            <summary>
+            Gets the <see cref="T:Neuroglia.AsyncApi.Models.AsyncApiDocument"/> that describes the API the <see cref="T:Neuroglia.AsyncApi.Client.Services.AsyncApiClient"/> applies to
+            </summary>
+        </member>
+        <member name="P:Neuroglia.AsyncApi.Client.Services.AsyncApiClient.Channels">
+            <summary>
+            Gets an <see cref="T:System.Collections.Generic.IReadOnlyCollection`1"/> containing the <see cref="T:Neuroglia.AsyncApi.Client.Services.AsyncApiClient"/>'s <see cref="T:Neuroglia.AsyncApi.Client.Services.IChannel"/>s
+            </summary>
+        </member>
+        <member name="M:Neuroglia.AsyncApi.Client.Services.AsyncApiClient.Initialize">
+            <summary>
+            Initializes the <see cref="T:Neuroglia.AsyncApi.Client.Services.AsyncApiClient"/>
+            </summary>
+        </member>
+        <member name="M:Neuroglia.AsyncApi.Client.Services.AsyncApiClient.PublishAsync(System.String,Neuroglia.AsyncApi.Client.IMessage,System.Threading.CancellationToken)">
+            <inheritdoc/>
+        </member>
+        <member name="M:Neuroglia.AsyncApi.Client.Services.AsyncApiClient.PublishAsync(System.String,System.Action{Neuroglia.AsyncApi.Client.Services.IMessageBuilder},System.Threading.CancellationToken)">
+            <inheritdoc/>
+        </member>
+        <member name="M:Neuroglia.AsyncApi.Client.Services.AsyncApiClient.SubscribeToAsync(System.String,System.IObserver{Neuroglia.AsyncApi.Client.IMessage},System.Threading.CancellationToken)">
+            <inheritdoc/>
+        </member>
+        <member name="M:Neuroglia.AsyncApi.Client.Services.AsyncApiClient.Dispose(System.Boolean)">
+            <summary>
+            Disposes of the <see cref="T:Neuroglia.AsyncApi.Client.Services.AsyncApiClient"/>
+            </summary>
+            <param name="disposing">A boolean indicating whether or not the <see cref="T:Neuroglia.AsyncApi.Client.Services.AsyncApiClient"/> is being disposed of</param>
+        </member>
+        <member name="M:Neuroglia.AsyncApi.Client.Services.AsyncApiClient.Dispose">
+            <inheritdoc/>
+        </member>
+        <member name="T:Neuroglia.AsyncApi.Client.Services.Channel">
+            <summary>
+            Represents the default implementation of the <see cref="T:Neuroglia.AsyncApi.Client.Services.IChannel"/> interface
+            </summary>
+        </member>
+        <member name="M:Neuroglia.AsyncApi.Client.Services.Channel.#ctor(System.String,Neuroglia.AsyncApi.Models.ChannelDefinition,Neuroglia.AsyncApi.Models.AsyncApiDocument,System.Collections.Generic.IEnumerable{Neuroglia.AsyncApi.Client.Services.IChannelBindingFactory})">
+            <summary>
+            Initializes a new <see cref="T:Neuroglia.AsyncApi.Client.Services.Channel"/>
+            </summary>
+            <param name="key">The <see cref="T:Neuroglia.AsyncApi.Client.Services.IChannel"/>'s key</param>
+            <param name="definition">The <see cref="T:Neuroglia.AsyncApi.Client.Services.IChannel"/>'s <see cref="T:Neuroglia.AsyncApi.Models.ChannelDefinition"/></param>
+            <param name="document">The <see cref="T:Neuroglia.AsyncApi.Models.AsyncApiDocument"/> that defines the <see cref="T:Neuroglia.AsyncApi.Client.Services.IChannel"/></param>
+            <param name="bindingFactories">An <see cref="T:System.Collections.Generic.IEnumerable`1"/> containing all available <see cref="T:Neuroglia.AsyncApi.Client.Services.IChannelBindingFactory"/> services</param>
+        </member>
+        <member name="P:Neuroglia.AsyncApi.Client.Services.Channel.Key">
+            <inheritdoc/>
+        </member>
+        <member name="P:Neuroglia.AsyncApi.Client.Services.Channel.Definition">
+            <inheritdoc/>
+        </member>
+        <member name="P:Neuroglia.AsyncApi.Client.Services.Channel.Document">
+            <inheritdoc/>
+        </member>
+        <member name="P:Neuroglia.AsyncApi.Client.Services.Channel.BindingFactories">
+            <summary>
+            Gets an <see cref="T:System.Collections.Generic.IEnumerable`1"/> containing all available <see cref="T:Neuroglia.AsyncApi.Client.Services.IChannelBindingFactory"/> services
+            </summary>
+        </member>
+        <member name="P:Neuroglia.AsyncApi.Client.Services.Channel.Bindings">
+            <summary>
+            Gets an <see cref="T:System.Collections.Generic.IReadOnlyCollection`1"/> containing the <see cref="T:Neuroglia.AsyncApi.Client.Services.Channel"/>'s <see cref="T:Neuroglia.AsyncApi.Client.Services.IChannelBinding"/>s
+            </summary>
+        </member>
+        <member name="P:Neuroglia.AsyncApi.Client.Services.Channel.DefaultContentType">
+            <summary>
+            Gets the <see cref="T:Neuroglia.AsyncApi.Client.Services.Channel"/>'s default content type
+            </summary>
+        </member>
+        <member name="M:Neuroglia.AsyncApi.Client.Services.Channel.Initialize">
+            <summary>
+            Initializes the <see cref="T:Neuroglia.AsyncApi.Client.Services.Channel"/>
+            </summary>
+        </member>
+        <member name="M:Neuroglia.AsyncApi.Client.Services.Channel.PublishAsync(Neuroglia.AsyncApi.Client.IMessage,System.Threading.CancellationToken)">
+            <inheritdoc/>
+        </member>
+        <member name="M:Neuroglia.AsyncApi.Client.Services.Channel.SubscribeAsync(System.IObserver{Neuroglia.AsyncApi.Client.IMessage},System.Threading.CancellationToken)">
+            <inheritdoc/>
+        </member>
+        <member name="M:Neuroglia.AsyncApi.Client.Services.Channel.Dispose(System.Boolean)">
+            <summary>
+            Disposes of the <see cref="T:Neuroglia.AsyncApi.Client.Services.Channel"/>
+            </summary>
+            <param name="disposing">A boolean indicating whether or not the <see cref="T:Neuroglia.AsyncApi.Client.Services.Channel"/> is being disposed of</param>
+        </member>
+        <member name="M:Neuroglia.AsyncApi.Client.Services.Channel.Dispose">
+            <inheritdoc/>
+        </member>
+        <member name="T:Neuroglia.AsyncApi.Client.Services.ChannelBindingBase">
+            <summary>
+            Represents the base class for all implementations of the <see cref="T:Neuroglia.AsyncApi.Client.Services.IChannelBinding"/> interface
+            </summary>
+        </member>
+        <member name="M:Neuroglia.AsyncApi.Client.Services.ChannelBindingBase.#ctor(Microsoft.Extensions.Logging.ILoggerFactory,Neuroglia.Serialization.ISerializerProvider,Neuroglia.AsyncApi.Client.Services.IChannel,System.Collections.Generic.IEnumerable{System.Collections.Generic.KeyValuePair{System.String,Neuroglia.AsyncApi.Models.ServerDefinition}})">
+            <summary>
+            Initializes a new <see cref="T:Neuroglia.AsyncApi.Client.Services.ChannelBindingBase"/>
+            </summary>
+            <param name="loggerFactory">The service used to create <see cref="T:Microsoft.Extensions.Logging.ILogger"/>s</param>
+            <param name="serializers">The service used to provide <see cref="T:Neuroglia.Serialization.ISerializer"/>s</param>
+            <param name="channel">The <see cref="T:Neuroglia.AsyncApi.Client.Services.IChannel"/> the <see cref="T:Neuroglia.AsyncApi.Client.Services.ChannelBindingBase"/> belongs to</param>
+            <param name="servers">An <see cref="T:System.Collections.Generic.IEnumerable`1"/> containing the mappings of the <see cref="T:Neuroglia.AsyncApi.Models.ServerDefinition"/>s available to the <see cref="T:Neuroglia.AsyncApi.Client.Services.IChannelBinding"/></param>
+        </member>
+        <member name="P:Neuroglia.AsyncApi.Client.Services.ChannelBindingBase.Logger">
+            <summary>
+            Gets the service used to perform logging
+            </summary>
+        </member>
+        <member name="P:Neuroglia.AsyncApi.Client.Services.ChannelBindingBase.Serializers">
+            <summary>
+            Gets the service used to provide <see cref="T:Neuroglia.Serialization.ISerializer"/>s
+            </summary>
+        </member>
+        <member name="P:Neuroglia.AsyncApi.Client.Services.ChannelBindingBase.Channel">
+            <summary>
+            Gets the <see cref="T:Neuroglia.AsyncApi.Client.Services.IChannel"/> the <see cref="T:Neuroglia.AsyncApi.Client.Services.ChannelBindingBase"/> belongs to
+            </summary>
+        </member>
+        <member name="P:Neuroglia.AsyncApi.Client.Services.ChannelBindingBase.Servers">
+            <summary>
+            Gets an <see cref="T:System.Collections.Generic.IEnumerable`1"/> containing the mappings of the <see cref="T:Neuroglia.AsyncApi.Models.ServerDefinition"/>s available to the <see cref="T:Neuroglia.AsyncApi.Client.Services.IChannelBinding"/>
+            </summary>
+        </member>
+        <member name="P:Neuroglia.AsyncApi.Client.Services.ChannelBindingBase.OnMessageSubject">
+            <summary>
+            Gets the <see cref="T:System.Reactive.Subjects.Subject`1"/> used to observe <see cref="T:Neuroglia.AsyncApi.Client.IMessage"/>s produced or consumed by the <see cref="T:Neuroglia.AsyncApi.Client.Services.ChannelBindingBase"/>
+            </summary>
+        </member>
+        <member name="P:Neuroglia.AsyncApi.Client.Services.ChannelBindingBase.CancellationTokenSource">
+            <summary>
+            Gets the <see cref="T:Neuroglia.AsyncApi.Client.Services.ChannelBindingBase"/>'s <see cref="T:System.Threading.CancellationTokenSource"/>
+            </summary>
+        </member>
+        <member name="M:Neuroglia.AsyncApi.Client.Services.ChannelBindingBase.PublishAsync(Neuroglia.AsyncApi.Client.IMessage,System.Threading.CancellationToken)">
+            <inheritdoc/>
+        </member>
+        <member name="M:Neuroglia.AsyncApi.Client.Services.ChannelBindingBase.SubscribeAsync(System.IObserver{Neuroglia.AsyncApi.Client.IMessage},System.Threading.CancellationToken)">
+            <inheritdoc/>
+        </member>
+        <member name="M:Neuroglia.AsyncApi.Client.Services.ChannelBindingBase.SerializeAsync(System.Object,System.Threading.CancellationToken)">
+            <summary>
+            Serializes the specified object
+            </summary>
+            <param name="graph">The object to serialize</param>
+            <param name="cancellationToken">A <see cref="T:System.Threading.CancellationToken"/></param>
+            <returns>The serialized object</returns>
+        </member>
+        <member name="M:Neuroglia.AsyncApi.Client.Services.ChannelBindingBase.DeserializeAsync(System.Byte[],System.Threading.CancellationToken)">
+            <summary>
+            Deserializes the specified data
+            </summary>
+            <param name="data">The data to deserialize</param>
+            <param name="cancellationToken">A <see cref="T:System.Threading.CancellationToken"/></param>
+            <returns>The deserialized data</returns>
+        </member>
+        <member name="M:Neuroglia.AsyncApi.Client.Services.ChannelBindingBase.ComputeChannelKeyFor(Neuroglia.AsyncApi.Client.IMessage)">
+            <summary>
+            Computes the channel key for the specified <see cref="T:Neuroglia.AsyncApi.Client.IMessage"/>
+            </summary>
+            <param name="message">The <see cref="T:Neuroglia.AsyncApi.Client.IMessage"/> to compute the channel key for</param>
+            <returns>The channel key computed for the specified <see cref="T:Neuroglia.AsyncApi.Client.IMessage"/></returns>
+        </member>
+        <member name="M:Neuroglia.AsyncApi.Client.Services.ChannelBindingBase.InjectCorrelationKeyInto(Neuroglia.AsyncApi.Client.IMessage)">
+            <summary>
+            Injects the correlation key into the specified published <see cref="T:Neuroglia.AsyncApi.Client.IMessage"/>
+            </summary>
+            <param name="message">The published <see cref="T:Neuroglia.AsyncApi.Client.IMessage"/> to inject the correlation key into</param>
+        </member>
+        <member name="M:Neuroglia.AsyncApi.Client.Services.ChannelBindingBase.ExtractCorrelationKeyFrom(Neuroglia.AsyncApi.Client.IMessage)">
+            <summary>
+            Extracts the correlation key for the specified consumed <see cref="T:Neuroglia.AsyncApi.Client.IMessage"/>
+            </summary>
+            <param name="message">The consumed <see cref="T:Neuroglia.AsyncApi.Client.IMessage"/> to extract the correlation key from</param>
+            <returns>The extracted correlation key</returns>
+        </member>
+        <member name="M:Neuroglia.AsyncApi.Client.Services.ChannelBindingBase.ValidateMessage(Neuroglia.AsyncApi.Client.IMessage)">
+            <summary>
+            Validates the specified <see cref="T:Neuroglia.AsyncApi.Client.IMessage"/>
+            </summary>
+            <param name="message">The <see cref="T:Neuroglia.AsyncApi.Client.IMessage"/> to validate</param>
+        </member>
+        <member name="M:Neuroglia.AsyncApi.Client.Services.ChannelBindingBase.Dispose(System.Boolean)">
+            <summary>
+            Disposes of the <see cref="T:Neuroglia.AsyncApi.Client.Services.ChannelBindingBase"/>
+            </summary>
+            <param name="disposing">A boolean indicating whether or not the <see cref="T:Neuroglia.AsyncApi.Client.Services.ChannelBindingBase"/> is being disposed of</param>
+        </member>
+        <member name="M:Neuroglia.AsyncApi.Client.Services.ChannelBindingBase.Dispose">
+            <inheritdoc/>
+        </member>
+        <member name="T:Neuroglia.AsyncApi.Client.Services.ChannelFactory">
+            <summary>
+            Represents the default implementation of the <see cref="T:Neuroglia.AsyncApi.Client.Services.IChannelFactory"/> interface
+            </summary>
+        </member>
+        <member name="M:Neuroglia.AsyncApi.Client.Services.ChannelFactory.#ctor(System.IServiceProvider)">
+            <summary>
+            Initializes a new <see cref="T:Neuroglia.AsyncApi.Client.Services.ChannelFactory"/>
+            </summary>
+            <param name="serviceProvider">The current <see cref="T:System.IServiceProvider"/></param>
+        </member>
+        <member name="P:Neuroglia.AsyncApi.Client.Services.ChannelFactory.ServiceProvider">
+            <summary>
+            Gets the current <see cref="T:System.IServiceProvider"/>
+            </summary>
+        </member>
+        <member name="M:Neuroglia.AsyncApi.Client.Services.ChannelFactory.CreateChannel(System.String,Neuroglia.AsyncApi.Models.ChannelDefinition,Neuroglia.AsyncApi.Models.AsyncApiDocument)">
+            <inheritdoc/>
+        </member>
+        <member name="T:Neuroglia.AsyncApi.Client.Services.IAsyncApiClient">
+            <summary>
+            Defines the fundamentals of a service used to interact with remote message brokers described by an <see cref="T:Neuroglia.AsyncApi.Models.AsyncApiDocument"/>
+            </summary>
+        </member>
+        <member name="P:Neuroglia.AsyncApi.Client.Services.IAsyncApiClient.Name">
+            <summary>
+            Gets the <see cref="T:Neuroglia.AsyncApi.Client.Services.IAsyncApiClient"/>'s name
+            </summary>
+        </member>
+        <member name="P:Neuroglia.AsyncApi.Client.Services.IAsyncApiClient.Document">
+            <summary>
+            Gets the <see cref="T:Neuroglia.AsyncApi.Models.AsyncApiDocument"/> that describes the API the <see cref="T:Neuroglia.AsyncApi.Client.Services.IAsyncApiClient"/> applies to
+            </summary>
+        </member>
+        <member name="M:Neuroglia.AsyncApi.Client.Services.IAsyncApiClient.PublishAsync(System.String,Neuroglia.AsyncApi.Client.IMessage,System.Threading.CancellationToken)">
+            <summary>
+            Publishes the specified <see cref="T:Neuroglia.AsyncApi.Client.IMessage"/>
+            </summary>
+            <param name="channelKey">The key of the channel to publish the <see cref="T:Neuroglia.AsyncApi.Client.IMessage"/> to</param>
+            <param name="message">The <see cref="T:Neuroglia.AsyncApi.Client.IMessage"/> to publish</param>
+            <param name="cancellationToken">A <see cref="T:System.Threading.CancellationToken"/></param>
+            <returns>A new awaitable <see cref="T:System.Threading.Tasks.Task"/></returns>
+        </member>
+        <member name="M:Neuroglia.AsyncApi.Client.Services.IAsyncApiClient.PublishAsync(System.String,System.Action{Neuroglia.AsyncApi.Client.Services.IMessageBuilder},System.Threading.CancellationToken)">
+            <summary>
+            Publishes the specified <see cref="T:Neuroglia.AsyncApi.Client.IMessage"/>
+            </summary>
+            <param name="channelKey">The key of the channel to publish the <see cref="T:Neuroglia.AsyncApi.Client.IMessage"/> to</param>
+            <param name="messageSetup">An <see cref="T:System.Action`1"/> used to setup the <see cref="T:Neuroglia.AsyncApi.Client.IMessage"/> to publish</param>
+            <param name="cancellationToken">A <see cref="T:System.Threading.CancellationToken"/></param>
+            <returns>A new awaitable <see cref="T:System.Threading.Tasks.Task"/></returns>
+        </member>
+        <member name="M:Neuroglia.AsyncApi.Client.Services.IAsyncApiClient.SubscribeToAsync(System.String,System.IObserver{Neuroglia.AsyncApi.Client.IMessage},System.Threading.CancellationToken)">
+            <summary>
+            Subscribes to the specified channel
+            </summary>
+            <param name="channelKey">The key of the channel to subscribe to</param>
+            <param name="observer">The <see cref="T:System.IObserver`1"/> used to observed subscribed <see cref="T:Neuroglia.AsyncApi.Client.IMessage"/>s</param>
+            <param name="cancellationToken">A <see cref="T:System.Threading.CancellationToken"/></param>
+            <returns>A new <see cref="T:System.IDisposable"/> used to unsubscribe from the specified channel</returns>
+        </member>
+        <member name="T:Neuroglia.AsyncApi.Client.Services.IChannel">
+            <summary>
+            Defines the fundamentals of an Async API channel
+            </summary>
+        </member>
+        <member name="P:Neuroglia.AsyncApi.Client.Services.IChannel.Key">
+            <summary>
+            Gets the <see cref="T:Neuroglia.AsyncApi.Client.Services.IChannel"/>'s key
+            </summary>
+        </member>
+        <member name="P:Neuroglia.AsyncApi.Client.Services.IChannel.Definition">
+            <summary>
+            Gets the <see cref="T:Neuroglia.AsyncApi.Client.Services.IChannel"/>'s definition
+            </summary>
+        </member>
+        <member name="P:Neuroglia.AsyncApi.Client.Services.IChannel.Document">
+            <summary>
+            Gets the <see cref="T:Neuroglia.AsyncApi.Models.AsyncApiDocument"/> that defines the <see cref="T:Neuroglia.AsyncApi.Client.Services.IChannel"/>
+            </summary>
+        </member>
+        <member name="P:Neuroglia.AsyncApi.Client.Services.IChannel.DefaultContentType">
+            <summary>
+            Gets the <see cref="T:Neuroglia.AsyncApi.Client.Services.IChannel"/>'s default content type
+            </summary>
+        </member>
+        <member name="M:Neuroglia.AsyncApi.Client.Services.IChannel.PublishAsync(Neuroglia.AsyncApi.Client.IMessage,System.Threading.CancellationToken)">
+            <summary>
+            Publishes the specified <see cref="T:Neuroglia.AsyncApi.Client.IMessage"/>
+            </summary>
+            <param name="message">The <see cref="T:Neuroglia.AsyncApi.Client.IMessage"/> to publish</param>
+            <param name="cancellationToken">A <see cref="T:System.Threading.CancellationToken"/></param>
+            <returns>A new awaitable <see cref="T:System.Threading.Tasks.Task"/></returns>
+        </member>
+        <member name="M:Neuroglia.AsyncApi.Client.Services.IChannel.SubscribeAsync(System.IObserver{Neuroglia.AsyncApi.Client.IMessage},System.Threading.CancellationToken)">
+            <summary>
+            Subscribes to <see cref="T:Neuroglia.AsyncApi.Client.IMessage"/>s consumed by the <see cref="T:Neuroglia.AsyncApi.Client.Services.IChannel"/>
+            </summary>
+            <param name="observer">The subscribing <see cref="T:System.IObserver`1"/></param>
+            <param name="cancellationToken"></param>
+            <returns>An <see cref="T:System.IDisposable"/> object used to unsubscribe from the observable sequence</returns>
+        </member>
+        <member name="T:Neuroglia.AsyncApi.Client.Services.IChannelBinding">
+            <summary>
+            Defines the fundamentals of an <see cref="T:Neuroglia.AsyncApi.Client.Services.IChannel"/>'s binding
+            </summary>
+        </member>
+        <member name="M:Neuroglia.AsyncApi.Client.Services.IChannelBinding.PublishAsync(Neuroglia.AsyncApi.Client.IMessage,System.Threading.CancellationToken)">
+            <summary>
+            Publishes the specified <see cref="T:Neuroglia.AsyncApi.Client.IMessage"/>
+            </summary>
+            <param name="message">The <see cref="T:Neuroglia.AsyncApi.Client.IMessage"/> to publish</param>
+            <param name="cancellationToken">A <see cref="T:System.Threading.CancellationToken"/></param>
+            <returns>A new awaitable <see cref="T:System.Threading.Tasks.Task"/></returns>
+        </member>
+        <member name="M:Neuroglia.AsyncApi.Client.Services.IChannelBinding.SubscribeAsync(System.IObserver{Neuroglia.AsyncApi.Client.IMessage},System.Threading.CancellationToken)">
+            <summary>
+            Subscribes to <see cref="T:Neuroglia.AsyncApi.Client.IMessage"/>s consumed by the <see cref="T:Neuroglia.AsyncApi.Client.Services.IChannelBinding"/>
+            </summary>
+            <param name="observer">The subscribing <see cref="T:System.IObserver`1"/></param>
+            <param name="cancellationToken"></param>
+            <returns>An <see cref="T:System.IDisposable"/> object used to unsubscribe from the observable sequence</returns>
+        </member>
+        <member name="T:Neuroglia.AsyncApi.Client.Services.IChannelBindingFactory">
+            <summary>
+            Defines the fundamentals of a service used to create <see cref="T:Neuroglia.AsyncApi.Client.Services.IChannelBinding"/>s
+            </summary>
+        </member>
+        <member name="M:Neuroglia.AsyncApi.Client.Services.IChannelBindingFactory.SupportsProtocol(System.String)">
+            <summary>
+            Gets a boolean indicating whether or not the <see cref="T:Neuroglia.AsyncApi.Client.Services.IChannelBindingFactory"/> can create bindings for the specified protocol
+            </summary>
+            <param name="protocol">The protocol for which to create a new <see cref="T:Neuroglia.AsyncApi.Client.Services.IChannelBinding"/></param>
+            <returns>A boolean indicating whether or not the <see cref="T:Neuroglia.AsyncApi.Client.Services.IChannelBindingFactory"/> can create bindings for the specified protocol</returns>
+        </member>
+        <member name="M:Neuroglia.AsyncApi.Client.Services.IChannelBindingFactory.CreateBinding(Neuroglia.AsyncApi.Client.Services.IChannel,System.Collections.Generic.IEnumerable{System.Collections.Generic.KeyValuePair{System.String,Neuroglia.AsyncApi.Models.ServerDefinition}})">
+            <summary>
+            Creates a new <see cref="T:Neuroglia.AsyncApi.Client.Services.IChannelBinding"/> for the specified <see cref="T:Neuroglia.AsyncApi.Client.Services.IChannel"/>
+            </summary>
+            <param name="channel">The <see cref="T:Neuroglia.AsyncApi.Client.Services.IChannel"/> to create the <see cref="T:Neuroglia.AsyncApi.Client.Services.IChannelBinding"/> for</param>
+            <param name="servers">An <see cref="T:System.Collections.Generic.IEnumerable`1"/> containing the mappings of the <see cref="T:Neuroglia.AsyncApi.Models.ServerDefinition"/>s supported by the <see cref="T:Neuroglia.AsyncApi.Client.Services.IChannelBinding"/> to create</param>
+            <returns>A new <see cref="T:Neuroglia.AsyncApi.Client.Services.IChannelBinding"/></returns>
+        </member>
+        <member name="T:Neuroglia.AsyncApi.Client.Services.IChannelFactory">
+            <summary>
+            Defines the fundamentals of a service used to create <see cref="T:Neuroglia.AsyncApi.Client.Services.IChannel"/>s
+            </summary>
+        </member>
+        <member name="M:Neuroglia.AsyncApi.Client.Services.IChannelFactory.CreateChannel(System.String,Neuroglia.AsyncApi.Models.ChannelDefinition,Neuroglia.AsyncApi.Models.AsyncApiDocument)">
+            <summary>
+            Creates a new <see cref="T:Neuroglia.AsyncApi.Client.Services.IChannel"/>
+            </summary>
+            <param name="key">The key of the <see cref="T:Neuroglia.AsyncApi.Client.Services.IChannel"/> to create</param>
+            <param name="definition">The <see cref="T:Neuroglia.AsyncApi.Models.ChannelDefinition"/> of the <see cref="T:Neuroglia.AsyncApi.Client.Services.IChannel"/> to create</param>
+            <param name="document">The <see cref="T:Neuroglia.AsyncApi.Models.AsyncApiDocument"/> that defines the <see cref="T:Neuroglia.AsyncApi.Client.Services.IChannel"/> to create</param>
+            <returns>A new <see cref="T:Neuroglia.AsyncApi.Client.Services.IChannel"/></returns>
+        </member>
+        <member name="T:Neuroglia.AsyncApi.Client.Services.IMessageBuilder">
+            <summary>
+            Defines the fundamentals of a service used to build <see cref="T:Neuroglia.AsyncApi.Client.IMessage"/>s
+            </summary>
+        </member>
+        <member name="M:Neuroglia.AsyncApi.Client.Services.IMessageBuilder.WithTimestamp(System.DateTime)">
+            <summary>
+            Sets the specified timestamp
+            </summary>
+            <param name="timestamp">The <see cref="T:Neuroglia.AsyncApi.Client.IMessage"/>'s timestamp</param>
+            <returns>The configured <see cref="T:Neuroglia.AsyncApi.Client.Services.IMessageBuilder"/></returns>
+        </member>
+        <member name="M:Neuroglia.AsyncApi.Client.Services.IMessageBuilder.WithHeader(System.String,System.Object)">
+            <summary>
+            Adds a header to the <see cref="T:Neuroglia.AsyncApi.Client.IMessage"/> to build 
+            </summary>
+            <param name="key">The key of the header to add</param>
+            <param name="value">The value of the header to add</param>
+            <returns>The configured <see cref="T:Neuroglia.AsyncApi.Client.Services.IMessageBuilder"/></returns>
+        </member>
+        <member name="M:Neuroglia.AsyncApi.Client.Services.IMessageBuilder.WithHeaders(System.Collections.Generic.IDictionary{System.String,System.Object})">
+            <summary>
+            Adds headers to the <see cref="T:Neuroglia.AsyncApi.Client.IMessage"/> to build
+            </summary>
+            <param name="headers">An <see cref="T:System.Collections.Generic.IDictionary`2"/> containing the headers to add</param>
+            <returns>The configured <see cref="T:Neuroglia.AsyncApi.Client.Services.IMessageBuilder"/></returns>
+        </member>
+        <member name="M:Neuroglia.AsyncApi.Client.Services.IMessageBuilder.WithPayload(System.Object)">
+            <summary>
+            Sets the <see cref="T:Neuroglia.AsyncApi.Client.IMessage"/>'s payload
+            </summary>
+            <param name="payload">The payload of the <see cref="T:Neuroglia.AsyncApi.Client.IMessage"/> to build</param>
+            <returns>The configured <see cref="T:Neuroglia.AsyncApi.Client.Services.IMessageBuilder"/></returns>
+        </member>
+        <member name="M:Neuroglia.AsyncApi.Client.Services.IMessageBuilder.WithCorrelationKey(System.Object)">
+            <summary>
+            Sets the <see cref="T:Neuroglia.AsyncApi.Client.IMessage"/>'s correlation key
+            </summary>
+            <param name="correlationKey">The correlation key of the <see cref="T:Neuroglia.AsyncApi.Client.IMessage"/> to build</param>
+            <returns>The configured <see cref="T:Neuroglia.AsyncApi.Client.Services.IMessageBuilder"/></returns>
+        </member>
+        <member name="M:Neuroglia.AsyncApi.Client.Services.IMessageBuilder.Build">
+            <summary>
+            Builds the configured <see cref="T:Neuroglia.AsyncApi.Client.IMessage"/>
+            </summary>
+            <returns>A new <see cref="T:Neuroglia.AsyncApi.Client.IMessage"/></returns>
+        </member>
+        <member name="T:Neuroglia.AsyncApi.Client.Services.MessageBuilder">
+            <summary>
+            Represents the default implementation of the <see cref="T:Neuroglia.AsyncApi.Client.Services.IMessageBuilder"/> interface
+            </summary>
+        </member>
+        <member name="P:Neuroglia.AsyncApi.Client.Services.MessageBuilder.Message">
+            <summary>
+            Gets the <see cref="T:Neuroglia.AsyncApi.Client.Message"/> to configure
+            </summary>
+        </member>
+        <member name="M:Neuroglia.AsyncApi.Client.Services.MessageBuilder.WithCorrelationKey(System.Object)">
+            <inheritdoc/>
+        </member>
+        <member name="M:Neuroglia.AsyncApi.Client.Services.MessageBuilder.WithHeader(System.String,System.Object)">
+            <inheritdoc/>
+        </member>
+        <member name="M:Neuroglia.AsyncApi.Client.Services.MessageBuilder.WithHeaders(System.Collections.Generic.IDictionary{System.String,System.Object})">
+            <inheritdoc/>
+        </member>
+        <member name="M:Neuroglia.AsyncApi.Client.Services.MessageBuilder.WithPayload(System.Object)">
+            <inheritdoc/>
+        </member>
+        <member name="M:Neuroglia.AsyncApi.Client.Services.MessageBuilder.WithTimestamp(System.DateTime)">
+            <inheritdoc/>
+        </member>
+        <member name="M:Neuroglia.AsyncApi.Client.Services.MessageBuilder.Build">
+            <inheritdoc/>
+        </member>
+        <member name="T:Neuroglia.AsyncApi.IServiceCollectionExtensions">
+            <summary>
+            Defines extensions for <see cref="T:Microsoft.Extensions.DependencyInjection.IServiceCollection"/>s
+            </summary>
+        </member>
+        <member name="M:Neuroglia.AsyncApi.IServiceCollectionExtensions.AddAsyncApiClient(Microsoft.Extensions.DependencyInjection.IServiceCollection,System.String,System.Action{Neuroglia.AsyncApi.Client.Configuration.IAsyncApiClientOptionsBuilder},Microsoft.Extensions.DependencyInjection.ServiceLifetime)">
+            <summary>
+            Adds and configures a new <see cref="T:Neuroglia.AsyncApi.Client.Services.IAsyncApiClient"/>
+            </summary>
+            <param name="services">The <see cref="T:Microsoft.Extensions.DependencyInjection.IServiceCollection"/> to configure</param>
+            <param name="name">The name of the <see cref="T:Neuroglia.AsyncApi.Client.Services.IAsyncApiClient"/> to add</param>
+            <param name="setup">An <see cref="T:System.Action`1"/> used to configure the <see cref="T:Neuroglia.AsyncApi.Client.Services.IAsyncApiClient"/> to add</param>
+            <param name="lifetime">The <see cref="T:Microsoft.Extensions.DependencyInjection.ServiceLifetime"/> of the <see cref="T:Neuroglia.AsyncApi.Client.Services.IAsyncApiClient"/> to add. Defaults to <see cref="F:Microsoft.Extensions.DependencyInjection.ServiceLifetime.Singleton"/></param>
+            <returns>The configured <see cref="T:Microsoft.Extensions.DependencyInjection.IServiceCollection"/></returns>
+        </member>
+    </members>
+</doc>

@@ -20,9 +20,9 @@ using System;
 namespace Neuroglia.AsyncApi
 {
     /// <summary>
-    /// Represents an <see cref="Attribute"/> used to mark a method as an <see cref="Operation"/>
+    /// Represents an <see cref="Attribute"/> used to mark a method as an <see cref="OperationDefinition"/>
     /// </summary>
-    [AttributeUsage(AttributeTargets.Method, AllowMultiple = false)]
+    [AttributeUsage(AttributeTargets.Method, AllowMultiple = true)]
     public abstract class OperationAttribute
         : Attribute
     {
@@ -30,8 +30,8 @@ namespace Neuroglia.AsyncApi
         /// <summary>
         /// Initializes a new <see cref="OperationAttribute"/>
         /// </summary>
-        /// <param name="operationType">The <see cref="Operation"/>'s type</param>
-        /// <param name="messageType">The <see cref="Operation"/>'s message type</param>
+        /// <param name="operationType">The <see cref="OperationDefinition"/>'s type</param>
+        /// <param name="messageType">The <see cref="OperationDefinition"/>'s message type</param>
         protected OperationAttribute(OperationType operationType, Type messageType)
         {
             this.OperationType = operationType;
@@ -41,7 +41,7 @@ namespace Neuroglia.AsyncApi
         /// <summary>
         /// Initializes a new <see cref="OperationAttribute"/>
         /// </summary>
-        /// <param name="operationType">The <see cref="Operation"/>'s type</param>
+        /// <param name="operationType">The <see cref="OperationDefinition"/>'s type</param>
         protected OperationAttribute(OperationType operationType)
             : this(operationType, null)
         {
@@ -49,27 +49,27 @@ namespace Neuroglia.AsyncApi
         }
 
         /// <summary>
-        /// Gets the <see cref="Operation"/>'s type
+        /// Gets the <see cref="OperationDefinition"/>'s type
         /// </summary>
         public virtual OperationType OperationType { get; }
 
         /// <summary>
-        /// Gets the <see cref="Operation"/>'s message type
+        /// Gets the <see cref="OperationDefinition"/>'s message type
         /// </summary>
         public virtual Type MessageType { get; }
 
         /// <summary>
-        /// Gets/sets the <see cref="Operation"/>'s operation id
+        /// Gets/sets the <see cref="OperationDefinition"/>'s operation id
         /// </summary>
         public virtual string OperationId { get; set; }
 
         /// <summary>
-        /// Gets/sets the <see cref="Operation"/>'s summary
+        /// Gets/sets the <see cref="OperationDefinition"/>'s summary
         /// </summary>
         public virtual string Summary { get; set; }
 
         /// <summary>
-        /// Gets/sets the <see cref="Operation"/>'s summary
+        /// Gets/sets the <see cref="OperationDefinition"/>'s summary
         /// </summary>
         public virtual string Description { get; set; }
 

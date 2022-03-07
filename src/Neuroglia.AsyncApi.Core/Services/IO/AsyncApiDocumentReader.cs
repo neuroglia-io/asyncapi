@@ -88,6 +88,24 @@ namespace Neuroglia.AsyncApi.Services.IO
             return document;
         }
 
+        /// <inheritdoc/>
+        public virtual AsyncApiDocument Read(Stream stream)
+        {
+            if (stream == null)
+                throw new ArgumentNullException(nameof(stream));
+            ISerializer serializer;
+            long offset = stream.Position;
+            using StreamReader reader = new(stream);
+            string input = reader.ReadToEnd();
+            stream.Position = offset;
+            if (input.IsJson())
+                serializer = this.JsonSerializer;
+            else
+                serializer = this.YamlSerializer;
+            AsyncApiDocument document = serializer.Deserialize<AsyncApiDocument>(stream);
+            return document;
+        }
+
     }
 
 }

@@ -18,6 +18,7 @@ using System.Runtime.Serialization;
 
 namespace Neuroglia.AsyncApi
 {
+
     /// <summary>
     /// Enumerates all supported AMQP channel types
     /// </summary>

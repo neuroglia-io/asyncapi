@@ -1,10 +1,10 @@
 ﻿@using Newtonsoft.Json.Linq
-@model KeyValuePair<OperationType, Operation>
+@model KeyValuePair<OperationType, OperationDefinition>
 @{
     OperationType operationType = this.Model.Key;
-    Operation operation = this.Model.Value;
-    Message message = this.Model.Value.Message;
-    JSchema schema = message.Payload?.ToObject<JSchema>();
+    OperationDefinition operation = this.Model.Value;
+    MessageDefinition message = this.Model.Value.Message;
+    JsonSchema schema = message.Payload?.ToObject<JsonSchema>();
     string operationRef = $"{operation.OperationId}{operationType}".Slugify();
     string pubTooltip = "An operation used to publish a message to the specified channel";
     string subTooltip = "An operation used to subscribe to messages from the specified channel";
@@ -56,7 +56,7 @@
                 <div id="@(operationRef)_message" class="card-body collapse">
                     @if (message != null
                        && schema != null
-                       && (schema.Type == JSchemaType.Array || schema.Type == JSchemaType.Object))
+                       && (schema.Type == JsonObjectType.Array || schema.Type == JsonObjectType.Object))
                     {
                         <div class="card">
                             <div class="card-header">
@@ -72,10 +72,10 @@
                                             <span class="font-italic">@property.Key</span>
                                         </div>
                                         <div class="col-md-8">
-                                            <span class="font-weight-bold text-primary">@property.Value.Type?.ToString().Replace(", ", " | ")</span>
-                                            @if (schema.Required != null
-                                            && schema.Required.Contains(property.Key)
-                                            && !property.Value.Type.Value.HasFlag(Newtonsoft.Json.Schema.JSchemaType.Null))
+                                            <span class="font-weight-bold text-primary">@property.Value.Type.ToString().Replace(", ", " | ")</span>
+                                            @if (schema.RequiredProperties != null
+                                            && schema.RequiredProperties.Contains(property.Key)
+                                            && !property.Value.Type.HasFlag(JsonObjectType.Null))
                                             {
                                                 <span class="badge badge-pill badge-danger text-white">Required</span>
                                             }
@@ -98,7 +98,7 @@
                                     <span class="font-weight-bold">Examples</span>
                                 </a>
                             </div>
-                            <div id="@(operationRef)_message_examples" class="card-body@(schema.Type == JSchemaType.Array || schema.Type == JSchemaType.Object ? " collapse" : "")">
+                            <div id="@(operationRef)_message_examples" class="card-body@(schema.Type == JsonObjectType.Array || schema.Type == JsonObjectType.Object ? " collapse" : "")">
                                 @foreach (var exampleKvp in message.Examples)
                                 {
                                     var example = exampleKvp.Value;

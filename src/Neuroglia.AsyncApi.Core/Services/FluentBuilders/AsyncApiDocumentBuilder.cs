@@ -18,12 +18,13 @@ using FluentValidation;
 using FluentValidation.Results;
 using Microsoft.Extensions.DependencyInjection;
 using Neuroglia.AsyncApi.Models;
-using Neuroglia.AsyncApi.Models.Bindings;
 using Newtonsoft.Json.Schema;
+using NJsonSchema;
 using SemVersion;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using JsonSchema = NJsonSchema.JsonSchema;
 
 namespace Neuroglia.AsyncApi.Services.FluentBuilders
 {
@@ -147,13 +148,13 @@ namespace Neuroglia.AsyncApi.Services.FluentBuilders
         }
 
         /// <inheritdoc/>
-        public virtual IAsyncApiDocumentBuilder TagWith(Action<ITagBuilder> setup)
+        public virtual IAsyncApiDocumentBuilder TagWith(Action<ITagDefinitionBuilder> setup)
         {
             if (setup == null)
                 throw new ArgumentNullException(nameof(setup));
             if (this.Document.Tags == null)
                 this.Document.Tags = new();
-            ITagBuilder builder = ActivatorUtilities.CreateInstance<TagBuilder>(this.ServiceProvider);
+            ITagDefinitionBuilder builder = ActivatorUtilities.CreateInstance<TagDefinitionBuilder>(this.ServiceProvider);
             setup(builder);
             this.Document.Tags.Add(builder.Build());
             return this;
@@ -171,7 +172,7 @@ namespace Neuroglia.AsyncApi.Services.FluentBuilders
         }
 
         /// <inheritdoc/>
-        public virtual IAsyncApiDocumentBuilder UseServer(string name, Action<IServerBuilder> setup)
+        public virtual IAsyncApiDocumentBuilder UseServer(string name, Action<IServerDefinitionBuilder> setup)
         {
             if (string.IsNullOrWhiteSpace(name))
                 throw new ArgumentNullException(nameof(name));
@@ -179,14 +180,14 @@ namespace Neuroglia.AsyncApi.Services.FluentBuilders
                 throw new ArgumentNullException(nameof(setup));
             if (this.Document.Servers == null)
                 this.Document.Servers = new();
-            IServerBuilder builder = ActivatorUtilities.CreateInstance<ServerBuilder>(this.ServiceProvider);
+            IServerDefinitionBuilder builder = ActivatorUtilities.CreateInstance<ServerDefinitionBuilder>(this.ServiceProvider);
             setup(builder);
             this.Document.Servers.Add(name, builder.Build());
             return this;
         }
 
         /// <inheritdoc/>
-        public virtual IAsyncApiDocumentBuilder UseChannel(string name, Action<IChannelBuilder> setup)
+        public virtual IAsyncApiDocumentBuilder UseChannel(string name, Action<IChannelDefinitionBuilder> setup)
         {
             if (string.IsNullOrWhiteSpace(name))
                 throw new ArgumentNullException(nameof(name));
@@ -194,14 +195,14 @@ namespace Neuroglia.AsyncApi.Services.FluentBuilders
                 throw new ArgumentNullException(nameof(setup));
             if (this.Document.Channels == null)
                 this.Document.Channels = new();
-            IChannelBuilder builder = ActivatorUtilities.CreateInstance<ChannelBuilder>(this.ServiceProvider);
+            IChannelDefinitionBuilder builder = ActivatorUtilities.CreateInstance<ChannelDefinitionBuilder>(this.ServiceProvider);
             setup(builder);
             this.Document.Channels.Add(name, builder.Build());
             return this;
         }
 
         /// <inheritdoc/>
-        public virtual IAsyncApiDocumentBuilder AddSchema(string name, JSchema schema)
+        public virtual IAsyncApiDocumentBuilder AddSchema(string name, JsonSchema schema)
         {
             if (string.IsNullOrWhiteSpace(name))
                 throw new ArgumentNullException(nameof(name));
@@ -211,12 +212,12 @@ namespace Neuroglia.AsyncApi.Services.FluentBuilders
                 this.Document.Components = new();
             if (this.Document.Components.Schemas == null)
                 this.Document.Components.Schemas = new();
-            this.Document.Components.Schemas.Add(name, schema);
+            this.Document.Components.Schemas.Add(name, JSchema.Parse(schema.ToJson()));
             return this;
         }
 
         /// <inheritdoc/>
-        public virtual IAsyncApiDocumentBuilder AddMessage(string name, Message message)
+        public virtual IAsyncApiDocumentBuilder AddMessage(string name, MessageDefinition message)
         {
             if (string.IsNullOrWhiteSpace(name))
                 throw new ArgumentNullException(nameof(name));
@@ -231,19 +232,19 @@ namespace Neuroglia.AsyncApi.Services.FluentBuilders
         }
 
         /// <inheritdoc/>
-        public virtual IAsyncApiDocumentBuilder AddMessage(string name, Action<IMessageBuilder> setup)
+        public virtual IAsyncApiDocumentBuilder AddMessage(string name, Action<IMessageDefinitionBuilder> setup)
         {
             if (string.IsNullOrWhiteSpace(name))
                 throw new ArgumentNullException(nameof(name));
             if (setup == null)
                 throw new ArgumentNullException(nameof(setup));
-            IMessageBuilder builder = ActivatorUtilities.CreateInstance<MessageBuilder>(this.ServiceProvider);
+            IMessageDefinitionBuilder builder = ActivatorUtilities.CreateInstance<MessageDefinitionBuilder>(this.ServiceProvider);
             setup(builder);
             return this.AddMessage(name, builder.Build());
         }
 
         /// <inheritdoc/>
-        public virtual IAsyncApiDocumentBuilder AddSecurityScheme(string name, SecurityScheme scheme)
+        public virtual IAsyncApiDocumentBuilder AddSecurityScheme(string name, SecuritySchemeDefinition scheme)
         {
             if (string.IsNullOrWhiteSpace(name))
                 throw new ArgumentNullException(nameof(name));
@@ -258,7 +259,7 @@ namespace Neuroglia.AsyncApi.Services.FluentBuilders
         }
 
         /// <inheritdoc/>
-        public virtual IAsyncApiDocumentBuilder AddParameter(string name, Parameter parameter)
+        public virtual IAsyncApiDocumentBuilder AddParameter(string name, ParameterDefinition parameter)
         {
             if (string.IsNullOrWhiteSpace(name))
                 throw new ArgumentNullException(nameof(name));
@@ -273,19 +274,19 @@ namespace Neuroglia.AsyncApi.Services.FluentBuilders
         }
 
         /// <inheritdoc/>
-        public virtual IAsyncApiDocumentBuilder AddParameter(string name, Action<IParameterBuilder> setup)
+        public virtual IAsyncApiDocumentBuilder AddParameter(string name, Action<IParameterDefinitionBuilder> setup)
         {
             if (string.IsNullOrWhiteSpace(name))
                 throw new ArgumentNullException(nameof(name));
             if (setup == null)
                 throw new ArgumentNullException(nameof(setup));
-            IParameterBuilder builder = ActivatorUtilities.CreateInstance<ParameterBuilder>(this.ServiceProvider);
+            IParameterDefinitionBuilder builder = ActivatorUtilities.CreateInstance<ParameterDefinitionBuilder>(this.ServiceProvider);
             setup(builder);
             return this.AddParameter(name, builder.Build());
         }
 
         /// <inheritdoc/>
-        public virtual IAsyncApiDocumentBuilder AddCorrelationId(string name, CorrelationId correlationId)
+        public virtual IAsyncApiDocumentBuilder AddCorrelationId(string name, CorrelationIdDefinition correlationId)
         {
             if (string.IsNullOrWhiteSpace(name))
                 throw new ArgumentNullException(nameof(name));
@@ -300,7 +301,7 @@ namespace Neuroglia.AsyncApi.Services.FluentBuilders
         }
 
         /// <inheritdoc/>
-        public virtual IAsyncApiDocumentBuilder AddOperationTrait(string name, OperationTrait trait)
+        public virtual IAsyncApiDocumentBuilder AddOperationTrait(string name, OperationTraitDefinition trait)
         {
             if (string.IsNullOrWhiteSpace(name))
                 throw new ArgumentNullException(nameof(name));
@@ -327,7 +328,7 @@ namespace Neuroglia.AsyncApi.Services.FluentBuilders
         }
 
         /// <inheritdoc/>
-        public virtual IAsyncApiDocumentBuilder AddMessageTrait(string name, MessageTrait trait)
+        public virtual IAsyncApiDocumentBuilder AddMessageTrait(string name, MessageTraitDefinition trait)
         {
             if (string.IsNullOrWhiteSpace(name))
                 throw new ArgumentNullException(nameof(name));
@@ -354,7 +355,7 @@ namespace Neuroglia.AsyncApi.Services.FluentBuilders
         }
 
         /// <inheritdoc/>
-        public virtual IAsyncApiDocumentBuilder AddServerBinding(string name, ServerBindingCollection bindings)
+        public virtual IAsyncApiDocumentBuilder AddServerBinding(string name, ServerBindingDefinitionCollection bindings)
         {
             if (string.IsNullOrWhiteSpace(name))
                 throw new ArgumentNullException(nameof(name));
@@ -369,7 +370,7 @@ namespace Neuroglia.AsyncApi.Services.FluentBuilders
         }
 
         /// <inheritdoc/>
-        public virtual IAsyncApiDocumentBuilder AddChannelBinding(string name, ChannelBindingCollection bindings)
+        public virtual IAsyncApiDocumentBuilder AddChannelBinding(string name, ChannelBindingDefinitionCollection bindings)
         {
             if (string.IsNullOrWhiteSpace(name))
                 throw new ArgumentNullException(nameof(name));
@@ -384,7 +385,7 @@ namespace Neuroglia.AsyncApi.Services.FluentBuilders
         }
 
         /// <inheritdoc/>
-        public virtual IAsyncApiDocumentBuilder AddOperationBinding(string name, OperationBindingCollection bindings)
+        public virtual IAsyncApiDocumentBuilder AddOperationBinding(string name, OperationBindingDefinitionCollection bindings)
         {
             if (string.IsNullOrWhiteSpace(name))
                 throw new ArgumentNullException(nameof(name));

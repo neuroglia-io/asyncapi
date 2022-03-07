@@ -1,0 +1,94 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Neuroglia.AsyncApi.Client.Mqtt</name>
+    </assembly>
+    <members>
+        <member name="T:Neuroglia.AsyncApi.IAsyncApiClientOptionsBuilderExtensions">
+            <summary>
+            Defines extensions for <see cref="T:Neuroglia.AsyncApi.Client.Services.IAsyncApiClient"/>s
+            </summary>
+        </member>
+        <member name="M:Neuroglia.AsyncApi.IAsyncApiClientOptionsBuilderExtensions.AddMqttBinding(Neuroglia.AsyncApi.Client.Configuration.IAsyncApiClientOptionsBuilder)">
+            <summary>
+            Adds an MQTT implementation of the <see cref="T:Neuroglia.AsyncApi.Client.Services.IChannelBinding"/> interface
+            </summary>
+            <param name="builder">The <see cref="T:Neuroglia.AsyncApi.Client.Configuration.IAsyncApiClientOptionsBuilder"/> to configure</param>
+            <returns>The configured <see cref="T:Neuroglia.AsyncApi.Client.Configuration.IAsyncApiClientOptionsBuilder"/></returns>
+        </member>
+        <member name="T:Neuroglia.AsyncApi.Client.MqttChannelBinding">
+            <summary>
+            Represents the MQTT implementation of the <see cref="T:Neuroglia.AsyncApi.Client.Services.IChannelBinding"/> interface
+            </summary>
+        </member>
+        <member name="M:Neuroglia.AsyncApi.Client.MqttChannelBinding.#ctor(Microsoft.Extensions.Logging.ILoggerFactory,Neuroglia.Serialization.ISerializerProvider,Neuroglia.AsyncApi.Client.Services.IChannel,System.Collections.Generic.IEnumerable{System.Collections.Generic.KeyValuePair{System.String,Neuroglia.AsyncApi.Models.ServerDefinition}})">
+            <summary>
+            Initializes a new <see cref="T:Neuroglia.AsyncApi.Client.MqttChannelBinding"/>
+            </summary>
+            <param name="loggerFactory">The service used to create <see cref="T:Microsoft.Extensions.Logging.ILogger"/>s</param>
+            <param name="serializers">The service used to provide <see cref="T:Neuroglia.Serialization.ISerializer"/>s</param>
+            <param name="channel">The <see cref="T:Neuroglia.AsyncApi.Client.Services.IChannel"/> the <see cref="T:Neuroglia.AsyncApi.Client.Services.ChannelBindingBase"/> belongs to</param>
+            <param name="servers">An <see cref="T:System.Collections.Generic.IEnumerable`1"/> containing the mappings of the <see cref="T:Neuroglia.AsyncApi.Models.ServerDefinition"/>s available to the <see cref="T:Neuroglia.AsyncApi.Client.Services.IChannelBinding"/></param>
+        </member>
+        <member name="P:Neuroglia.AsyncApi.Client.MqttChannelBinding.MqttClientOptions">
+            <summary>
+            Gets the options used to configure the <see cref="P:Neuroglia.AsyncApi.Client.MqttChannelBinding.MqttClient"/>
+            </summary>
+        </member>
+        <member name="P:Neuroglia.AsyncApi.Client.MqttChannelBinding.MqttClient">
+            <summary>
+            Gets the service used to interact with the remote MQTT server
+            </summary>
+        </member>
+        <member name="P:Neuroglia.AsyncApi.Client.MqttChannelBinding.ConsumingMessages">
+            <summary>
+            Gets a boolean indicating whether or not the <see cref="T:Neuroglia.AsyncApi.Client.MqttChannelBinding"/> has subscribed to the channel's topic and is consuming messages
+            </summary>
+        </member>
+        <member name="M:Neuroglia.AsyncApi.Client.MqttChannelBinding.PublishAsync(Neuroglia.AsyncApi.Client.IMessage,System.Threading.CancellationToken)">
+            <inheritdoc/>
+        </member>
+        <member name="M:Neuroglia.AsyncApi.Client.MqttChannelBinding.SubscribeAsync(System.IObserver{Neuroglia.AsyncApi.Client.IMessage},System.Threading.CancellationToken)">
+            <inheritdoc/>
+        </member>
+        <member name="M:Neuroglia.AsyncApi.Client.MqttChannelBinding.EnsureConnectedAsync(System.Threading.CancellationToken)">
+            <summary>
+            Ensures that the <see cref="P:Neuroglia.AsyncApi.Client.MqttChannelBinding.MqttClient"/> is connected and ready
+            </summary>
+            <param name="cancellationToken">A <see cref="T:System.Threading.CancellationToken"/></param>
+            <returns>An awaitable <see cref="T:System.Threading.Tasks.Task"/></returns>
+        </member>
+        <member name="M:Neuroglia.AsyncApi.Client.MqttChannelBinding.OnMessageAsync(MQTTnet.MqttApplicationMessageReceivedEventArgs)">
+            <summary>
+            Handles messages consumed by the <see cref="P:Neuroglia.AsyncApi.Client.MqttChannelBinding.MqttClient"/>
+            </summary>
+            <param name="e">The <see cref="T:MQTTnet.MqttApplicationMessageReceivedEventArgs"/> to handle</param>
+            <returns>A new awaitable <see cref="T:System.Threading.Tasks.Task"/></returns>
+        </member>
+        <member name="M:Neuroglia.AsyncApi.Client.MqttChannelBinding.Dispose(System.Boolean)">
+            <inheritdoc/>
+        </member>
+        <member name="T:Neuroglia.AsyncApi.Client.MqttChannelBindingFactory">
+            <summary>
+            Represents the MQTT implementation of the <see cref="T:Neuroglia.AsyncApi.Client.Services.IChannelBindingFactory"/> interface
+            </summary>
+        </member>
+        <member name="M:Neuroglia.AsyncApi.Client.MqttChannelBindingFactory.#ctor(System.IServiceProvider)">
+            <summary>
+            Initializes a new <see cref="T:Neuroglia.AsyncApi.Client.MqttChannelBindingFactory"/>
+            </summary>
+            <param name="serviceProvider">The current <see cref="T:Neuroglia.Serialization.ISerializerProvider"/></param>
+        </member>
+        <member name="P:Neuroglia.AsyncApi.Client.MqttChannelBindingFactory.ServiceProvider">
+            <summary>
+            Gets the current <see cref="T:System.IServiceProvider"/>
+            </summary>
+        </member>
+        <member name="M:Neuroglia.AsyncApi.Client.MqttChannelBindingFactory.SupportsProtocol(System.String)">
+            <inheritdoc/>
+        </member>
+        <member name="M:Neuroglia.AsyncApi.Client.MqttChannelBindingFactory.CreateBinding(Neuroglia.AsyncApi.Client.Services.IChannel,System.Collections.Generic.IEnumerable{System.Collections.Generic.KeyValuePair{System.String,Neuroglia.AsyncApi.Models.ServerDefinition}})">
+            <inheritdoc/>
+        </member>
+    </members>
+</doc>

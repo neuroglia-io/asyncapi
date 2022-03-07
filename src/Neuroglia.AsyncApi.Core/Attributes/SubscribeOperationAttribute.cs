@@ -20,7 +20,7 @@ using System;
 namespace Neuroglia.AsyncApi
 {
     /// <summary>
-    /// Represents an <see cref="Attribute"/> used to mark a method as an <see cref="Operation"/> of type <see cref="OperationType.Subscribe"/>
+    /// Represents an <see cref="Attribute"/> used to mark a method as an <see cref="OperationDefinition"/> of type <see cref="OperationType.Subscribe"/>
     /// </summary>
     public class SubscribeOperationAttribute
         : OperationAttribute
@@ -29,7 +29,7 @@ namespace Neuroglia.AsyncApi
         /// <summary>
         /// Initializes a new <see cref="SubscribeOperationAttribute"/>
         /// </summary>
-        /// <param name="messageType">The <see cref="Operation"/>'s message type</param>
+        /// <param name="messageType">The <see cref="OperationDefinition"/>'s message type</param>
         public SubscribeOperationAttribute(Type messageType) 
             : base(OperationType.Subscribe, messageType)
         {

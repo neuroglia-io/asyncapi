@@ -28,13 +28,21 @@ namespace Neuroglia.AsyncApi
         /// </summary>
         public const string Http = "http";
         /// <summary>
+        /// Gets the https Async API protocol
+        /// </summary>
+        public const string Https = "https";
+        /// <summary>
         /// Gets the ws Async API protocol
         /// </summary>
         public const string Ws = "ws";
         /// <summary>
+        /// Gets the wss Async API protocol
+        /// </summary>
+        public const string Wss = "wss";
+        /// <summary>
         /// Gets the kafka Async API protocol
         /// </summary>
-        public const string Kakfa = "kafka";
+        public const string Kafka = "kafka";
         /// <summary>
         /// Gets the amqp Async API protocol
         /// </summary>
