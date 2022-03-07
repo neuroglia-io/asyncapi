@@ -1392,7 +1392,7 @@
         </member>
         <member name="P:Neuroglia.AsyncApi.Models.ComponentDefinitionCollection.Schemas">
             <summary>
-            Gets/sets a <see cref="T:System.Collections.Generic.Dictionary`2"/> used to hold reusable <see cref="T:NJsonSchema.JsonSchema"/>s
+            Gets/sets a <see cref="T:System.Collections.Generic.Dictionary`2"/> used to hold reusable <see cref="T:Newtonsoft.Json.Schema.JSchema"/>s
             </summary>
         </member>
         <member name="P:Neuroglia.AsyncApi.Models.ComponentDefinitionCollection.Messages">

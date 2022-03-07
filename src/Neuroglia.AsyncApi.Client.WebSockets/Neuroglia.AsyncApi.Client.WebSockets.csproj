@@ -1,7 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
 	<PropertyGroup>
-		<TargetFramework>net5.0</TargetFramework>
+		<TargetFramework>net6.0</TargetFramework>
 		<Authors>Neuroglia SPRL</Authors>
 		<Company>Neuroglia SPRL</Company>
 		<Copyright>Copyright © 2021 Neuroglia SPRL. All rights reserved.</Copyright>
@@ -9,7 +9,7 @@
 		<RootNamespace>Neuroglia.AsyncApi.Client</RootNamespace>
 		<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
 		<PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
-		<Version>2.1.0.4</Version>
+		<Version>2.1.0.5</Version>
 		<Description>A .NET 5.0 library that provides an Async API channel binding implementation for WebSockets</Description>
 		<PackageLicenseFile>LICENSE</PackageLicenseFile>
 		<PackageProjectUrl>https://github.com/neuroglia-io/AsyncApi</PackageProjectUrl>
