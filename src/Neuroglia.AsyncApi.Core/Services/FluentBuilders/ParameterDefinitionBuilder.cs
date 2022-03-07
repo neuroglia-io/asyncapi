@@ -17,7 +17,7 @@
 using FluentValidation;
 using FluentValidation.Results;
 using Neuroglia.AsyncApi.Models;
-using Newtonsoft.Json.Schema;
+using NJsonSchema;
 using Newtonsoft.Json.Schema.Generation;
 using System;
 using System.Collections.Generic;
@@ -69,11 +69,11 @@ namespace Neuroglia.AsyncApi.Services.FluentBuilders
         {
             if (parameterType == null)
                 throw new ArgumentNullException(nameof(parameterType));
-            return this.WithSchema(new JSchemaGenerator().Generate(parameterType));
+            return this.WithSchema(JsonSchema.FromType(parameterType));
         }
 
         /// <inheritdoc/>
-        public virtual IParameterDefinitionBuilder WithSchema(JSchema schema)
+        public virtual IParameterDefinitionBuilder WithSchema(JsonSchema schema)
         {
             this.Parameter.Schema = schema ?? throw new ArgumentNullException(nameof(schema));
             return this;

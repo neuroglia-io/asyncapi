@@ -15,7 +15,7 @@
  *
  */
 using Neuroglia.AsyncApi.Models;
-using Newtonsoft.Json.Schema;
+using NJsonSchema;
 using System;
 
 namespace Neuroglia.AsyncApi.Services.FluentBuilders
@@ -45,9 +45,9 @@ namespace Neuroglia.AsyncApi.Services.FluentBuilders
         /// <summary>
         /// Configures the <see cref="MessageTraitDefinition"/> to build to use the specified payload
         /// </summary>
-        /// <param name="payloadSchema">The <see cref="JSchema"/> used to define the <see cref="MessageTraitDefinition"/>'s payload</param>
+        /// <param name="payloadSchema">The <see cref="JsonSchema"/> used to define the <see cref="MessageTraitDefinition"/>'s payload</param>
         /// <returns>The configured <see cref="IMessageDefinitionBuilder"/></returns>
-        IMessageDefinitionBuilder WithPayloadSchema(JSchema payloadSchema);
+        IMessageDefinitionBuilder WithPayloadSchema(JsonSchema payloadSchema);
 
         /// <summary>
         /// Configures the <see cref="MessageDefinition"/> to build to use the specified <see cref="MessageTraitDefinition"/>

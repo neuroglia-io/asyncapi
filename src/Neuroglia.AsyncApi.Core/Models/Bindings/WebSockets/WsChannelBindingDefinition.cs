@@ -14,7 +14,7 @@
  * limitations under the License.
  *
  */
-using Newtonsoft.Json.Schema;
+using NJsonSchema;
 
 namespace Neuroglia.AsyncApi.Models.Bindings.WebSockets
 {
@@ -34,20 +34,20 @@ namespace Neuroglia.AsyncApi.Models.Bindings.WebSockets
         public virtual HttpBindingOperationType Type { get; set; }
 
         /// <summary>
-        /// Gets/sets a <see cref="JSchema"/> containing the definitions for each query parameter. This schema MUST be of type object and have a properties key.
+        /// Gets/sets a <see cref="JsonSchema"/> containing the definitions for each query parameter. This schema MUST be of type object and have a properties key.
         /// </summary>
         [Newtonsoft.Json.JsonProperty("query")]
         [YamlDotNet.Serialization.YamlMember(Alias = "query")]
         [System.Text.Json.Serialization.JsonPropertyName("query")]
-        public virtual JSchema Query { get; set; }
+        public virtual JsonSchema Query { get; set; }
 
         /// <summary>
-        /// Gets/sets a <see cref="JSchema"/> containing the definitions for HTTP-specific headers. This schema MUST be of type object and have a properties key.
+        /// Gets/sets a <see cref="JsonSchema"/> containing the definitions for HTTP-specific headers. This schema MUST be of type object and have a properties key.
         /// </summary>
         [Newtonsoft.Json.JsonProperty("headers")]
         [YamlDotNet.Serialization.YamlMember(Alias = "headers")]
         [System.Text.Json.Serialization.JsonPropertyName("headers")]
-        public virtual JSchema Headers { get; set; }
+        public virtual JsonSchema Headers { get; set; }
 
         /// <summary>
         /// Gets/sets the version of this binding. Defaults to 'latest'.

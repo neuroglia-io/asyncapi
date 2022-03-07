@@ -15,7 +15,7 @@
  *
  */
 using Neuroglia.AsyncApi.Models;
-using Newtonsoft.Json.Schema;
+using NJsonSchema;
 using System;
 
 namespace Neuroglia.AsyncApi.Services.FluentBuilders
@@ -41,11 +41,11 @@ namespace Neuroglia.AsyncApi.Services.FluentBuilders
         IParameterDefinitionBuilder OfType(Type parameterType);
 
         /// <summary>
-        /// Configures the <see cref="JSchema"/> of the <see cref="ParameterDefinition"/> to build
+        /// Configures the <see cref="JsonSchema"/> of the <see cref="ParameterDefinition"/> to build
         /// </summary>
-        /// <param name="schema">The <see cref="JSchema"/> of the <see cref="ParameterDefinition"/> to build</param>
+        /// <param name="schema">The <see cref="JsonSchema"/> of the <see cref="ParameterDefinition"/> to build</param>
         /// <returns>The configured <see cref="IParameterDefinitionBuilder"/></returns>
-        IParameterDefinitionBuilder WithSchema(JSchema schema);
+        IParameterDefinitionBuilder WithSchema(JsonSchema schema);
 
         /// <summary>
         /// Configures the <see cref="ParameterDefinition"/> to build to use the specified description

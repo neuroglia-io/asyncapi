@@ -18,7 +18,7 @@ using Microsoft.Extensions.Logging;
 using Neuroglia.AsyncApi.Models;
 using Neuroglia.Serialization;
 using Newtonsoft.Json.Linq;
-using Newtonsoft.Json.Schema;
+using NJsonSchema;
 using System;
 using System.Collections.Generic;
 using System.Dynamic;
@@ -309,9 +309,10 @@ namespace Neuroglia.AsyncApi.Client.Services
         {
             if (message == null)
                 throw new ArgumentNullException(nameof(message));
-            JToken payload = JToken.FromObject(message.Payload);
-            JSchema schema = this.Channel.Definition.Publish.Message.Payload.ToObject<JSchema>();
-            if (!payload.IsValid(schema, out IList<string> errors))
+            var payload = JToken.FromObject(message.Payload);
+            var schema = this.Channel.Definition.Publish.Message.Payload.ToObject<JsonSchema>();
+            var errors = schema.Validate(payload.ToString());
+            if (errors.Any())
                 throw new FormatException($"The specified message is invalid:{Environment.NewLine}{string.Join(Environment.NewLine, errors)}");
         }
 

@@ -20,8 +20,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Neuroglia.AsyncApi.Models;
 using Neuroglia.AsyncApi.Models.Bindings;
 using Newtonsoft.Json.Linq;
-using Newtonsoft.Json.Schema;
-using Newtonsoft.Json.Schema.Generation;
+using NJsonSchema;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -157,11 +156,11 @@ namespace Neuroglia.AsyncApi.Services.FluentBuilders
         {
             if (headersType == null)
                 throw new ArgumentNullException(nameof(headersType));
-            return this.WithHeaders(new JSchemaGenerator().Generate(headersType));
+            return this.WithHeaders(JsonSchema.FromType(headersType));
         }
 
         /// <inheritdoc/>
-        public virtual TBuilder WithHeaders(JSchema headersSchema)
+        public virtual TBuilder WithHeaders(JsonSchema headersSchema)
         {
             this.Trait.Headers = headersSchema ?? throw new ArgumentNullException(nameof(headersSchema));
             return (TBuilder)(object)this;

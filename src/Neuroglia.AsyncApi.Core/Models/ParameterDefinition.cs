@@ -14,7 +14,7 @@
  * limitations under the License.
  *
  */
-using Newtonsoft.Json.Schema;
+using NJsonSchema;
 using System.ComponentModel.DataAnnotations;
 
 namespace Neuroglia.AsyncApi.Models
@@ -36,12 +36,12 @@ namespace Neuroglia.AsyncApi.Models
         public virtual string Description { get; set; }
 
         /// <summary>
-        /// Gets/sets the <see cref="ParameterDefinition"/>'s <see cref="JSchema"/>
+        /// Gets/sets the <see cref="ParameterDefinition"/>'s <see cref="JsonSchema"/>
         /// </summary>
         [Newtonsoft.Json.JsonProperty("schema")]
         [YamlDotNet.Serialization.YamlMember(Alias = "schema")]
         [System.Text.Json.Serialization.JsonPropertyName("schema")]
-        public virtual JSchema Schema { get; set; }
+        public virtual JsonSchema Schema { get; set; }
 
         /// <summary>
         /// Gets/sets a runtime expression that specifies the location of the parameter value. 

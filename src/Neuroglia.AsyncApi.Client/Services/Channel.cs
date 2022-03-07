@@ -44,13 +44,9 @@ namespace Neuroglia.AsyncApi.Client.Services
         {
             if (string.IsNullOrWhiteSpace(key))
                 throw new ArgumentNullException(nameof(key));
-            if (definition == null)
-                throw new ArgumentNullException(nameof(definition));
-            if (document == null)
-                throw new ArgumentNullException(nameof(document));
             this.Key = key;
-            this.Document = document;
-            this.Definition = definition;
+            this.Document = document ?? throw new ArgumentNullException(nameof(document));
+            this.Definition = definition ?? throw new ArgumentNullException(nameof(definition));
             this.BindingFactories = bindingFactories;
             this.Initialize();
         }

@@ -15,13 +15,12 @@
  *
  */
 using Microsoft.Extensions.DependencyInjection;
-using Neuroglia;
 using Neuroglia.AsyncApi.Configuration;
 using Neuroglia.AsyncApi.Models;
 using Neuroglia.AsyncApi.Services.FluentBuilders;
+using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
-using Newtonsoft.Json.Schema;
-using Newtonsoft.Json.Schema.Generation;
+using NJsonSchema;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -183,33 +182,32 @@ namespace Neuroglia.AsyncApi.Services.Generators
                 throw new ArgumentNullException(nameof(operationMethod));
             Type messageType = operation.MessageType;
             ParameterInfo[] parameters = operationMethod.GetParameters();
-            JSchemaGenerator schemaGenerator = new();
-            JSchema messageSchema;
+            JsonSchema messageSchema;
             if (messageType == null)
             {
                 if (parameters.Length == 1)
                 {
                     messageType = parameters.First().ParameterType;
-                    messageSchema = schemaGenerator.Generate(parameters.First());
+                    messageSchema = JsonSchema.FromType(parameters.First().ParameterType);
                 }
                 else
                 {
                     messageType = typeof(object);
-                    messageSchema = new() { Type = JSchemaType.Object };
+                    messageSchema = new() { Type = JsonObjectType.Object };
                     foreach (ParameterInfo parameter in parameters)
                     {
-                        JSchema parameterSchema = schemaGenerator.Generate(parameter);
+                        var parameterSchema = JsonConvert.DeserializeObject<JsonSchemaProperty>(JsonSchema.FromType(parameter.ParameterType).ToJson());
                         messageSchema.Properties.Add(parameter.Name, parameterSchema);
                         if (parameter.TryGetCustomAttribute<RequiredAttribute>(out _)
                             || !parameter.ParameterType.IsNullable()
                             || parameter.DefaultValue == DBNull.Value)
-                            messageSchema.Required.Add(parameter.Name);
+                            messageSchema.RequiredProperties.Add(parameter.Name);
                     }
                 }
             }
             else
             {
-                messageSchema = schemaGenerator.Generate(messageType);
+                messageSchema = JsonSchema.FromType(messageType);
             }
             messageBuilder.WithPayloadSchema(messageSchema);
             MessageAttribute message = operationMethod.GetCustomAttribute<MessageAttribute>();

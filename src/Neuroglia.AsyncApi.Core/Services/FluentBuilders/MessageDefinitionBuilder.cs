@@ -18,8 +18,7 @@ using FluentValidation;
 using Microsoft.Extensions.DependencyInjection;
 using Neuroglia.AsyncApi.Models;
 using Newtonsoft.Json.Linq;
-using Newtonsoft.Json.Schema;
-using Newtonsoft.Json.Schema.Generation;
+using NJsonSchema;
 using System;
 using System.Collections.Generic;
 
@@ -54,11 +53,11 @@ namespace Neuroglia.AsyncApi.Services.FluentBuilders
         {
             if (payloadType == null)
                 throw new ArgumentNullException(nameof(payloadType));
-            return this.WithPayloadSchema(new JSchemaGenerator().Generate(payloadType));
+            return this.WithPayloadSchema(JsonSchema.FromType(payloadType));
         }
 
         /// <inheritdoc/>
-        public virtual IMessageDefinitionBuilder WithPayloadSchema(JSchema payloadSchema)
+        public virtual IMessageDefinitionBuilder WithPayloadSchema(JsonSchema payloadSchema)
         {
             if (payloadSchema == null)
                 throw new ArgumentNullException(nameof(payloadSchema));

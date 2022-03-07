@@ -14,7 +14,8 @@
  * limitations under the License.
  *
  */
-using Newtonsoft.Json.Schema;
+
+using NJsonSchema;
 
 namespace Neuroglia.AsyncApi.Models.Bindings.Kafka
 {
@@ -27,12 +28,12 @@ namespace Neuroglia.AsyncApi.Models.Bindings.Kafka
     {
 
         /// <summary>
-        /// Gets/sets a <see cref="JSchema"/> that defines the message key.
+        /// Gets/sets a <see cref="JsonSchema"/> that defines the message key.
         /// </summary>
         [Newtonsoft.Json.JsonProperty("key")]
         [YamlDotNet.Serialization.YamlMember(Alias = "key")]
         [System.Text.Json.Serialization.JsonPropertyName("key")]
-        public virtual JSchema Key { get; set; }
+        public virtual JsonSchema Key { get; set; }
 
         /// <summary>
         /// Gets/sets the version of this binding. Defaults to 'latest'.

@@ -14,7 +14,8 @@
  * limitations under the License.
  *
  */
-using Newtonsoft.Json.Schema;
+
+using NJsonSchema;
 
 namespace Neuroglia.AsyncApi.Models.Bindings.Kafka
 {
@@ -26,20 +27,20 @@ namespace Neuroglia.AsyncApi.Models.Bindings.Kafka
     {
 
         /// <summary>
-        /// Gets/sets the <see cref="JSchema"/> of the consumer group.
+        /// Gets/sets the <see cref="JsonSchema"/> of the consumer group.
         /// </summary>
         [Newtonsoft.Json.JsonProperty("groupId")]
         [YamlDotNet.Serialization.YamlMember(Alias = "groupId")]
         [System.Text.Json.Serialization.JsonPropertyName("groupId")]
-        public virtual JSchema GroupId { get; set; }
+        public virtual JsonSchema GroupId { get; set; }
 
         /// <summary>
-        /// Gets/sets the <see cref="JSchema"/> of the consumer inside a consumer group.
+        /// Gets/sets the <see cref="JsonSchema"/> of the consumer inside a consumer group.
         /// </summary>
         [Newtonsoft.Json.JsonProperty("clientId")]
         [YamlDotNet.Serialization.YamlMember(Alias = "clientId")]
         [System.Text.Json.Serialization.JsonPropertyName("clientId")]
-        public virtual JSchema ClientId { get; set; }
+        public virtual JsonSchema ClientId { get; set; }
 
         /// <summary>
         /// Gets/sets the version of this binding. Defaults to 'latest'.

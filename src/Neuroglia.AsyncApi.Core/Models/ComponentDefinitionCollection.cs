@@ -15,6 +15,7 @@
  *
  */
 using Newtonsoft.Json.Schema;
+using NJsonSchema;
 using System.Collections.Generic;
 
 namespace Neuroglia.AsyncApi.Models
@@ -33,7 +34,7 @@ namespace Neuroglia.AsyncApi.Models
         [Newtonsoft.Json.JsonProperty("schemas")]
         [YamlDotNet.Serialization.YamlMember(Alias = "schemas")]
         [System.Text.Json.Serialization.JsonPropertyName("schemas")]
-        public virtual Dictionary<string, JSchema> Schemas { get; set; }
+        public virtual Dictionary<string, JSchema> Schemas { get; set; } //todo: replace JSchema with NJsonSchema. This hasn't been done because otherwise we get a null ref while reading YAML
 
         /// <summary>
         /// Gets/sets a <see cref="Dictionary{TKey, TValue}"/> used to hold reusable <see cref="MessageDefinition"/>s

@@ -16,7 +16,7 @@
  */
 using Neuroglia.AsyncApi.Models.Bindings;
 using Newtonsoft.Json.Linq;
-using Newtonsoft.Json.Schema;
+using NJsonSchema;
 using System.Collections.Generic;
 
 namespace Neuroglia.AsyncApi.Models
@@ -30,12 +30,12 @@ namespace Neuroglia.AsyncApi.Models
     {
 
         /// <summary>
-        /// Gets/sets a <see cref="JSchema"/> of the application headers. Schema MUST be of type "object". It MUST NOT define the protocol headers.
+        /// Gets/sets a <see cref="JsonSchema"/> of the application headers. Schema MUST be of type "object". It MUST NOT define the protocol headers.
         /// </summary>
         [Newtonsoft.Json.JsonProperty("headers")]
         [YamlDotNet.Serialization.YamlMember(Alias = "headers")]
         [System.Text.Json.Serialization.JsonPropertyName("headers")]
-        public virtual JSchema Headers { get; set; }
+        public virtual JsonSchema Headers { get; set; }
 
         /// <summary>
         /// Gets/sets the definition of the correlation ID used for message tracing or matching.
@@ -47,7 +47,7 @@ namespace Neuroglia.AsyncApi.Models
 
         /// <summary>
         /// Gets/sets a string containing the name of the schema format used to define the message payload. 
-        /// If omitted, implementations should parse the payload as a <see cref="JSchema"/>.
+        /// If omitted, implementations should parse the payload as a <see cref="JsonSchema"/>.
         /// When the payload is defined using a $ref to a remote file, it is RECOMMENDED the schema format includes the file encoding type to allow implementations to parse the file correctly. E.g., adding +yaml if content type is application/vnd.apache.avro results in application/vnd.apache.avro+yaml.
         /// </summary>
         [Newtonsoft.Json.JsonProperty("schemaFormat")]

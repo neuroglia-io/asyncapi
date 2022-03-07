@@ -14,7 +14,8 @@
  * limitations under the License.
  *
  */
-using Newtonsoft.Json.Schema;
+
+using NJsonSchema;
 
 namespace Neuroglia.AsyncApi.Models.Bindings.Http
 {
@@ -42,12 +43,12 @@ namespace Neuroglia.AsyncApi.Models.Bindings.Http
         public virtual HttpMethod Method { get; set; }
 
         /// <summary>
-        /// Gets/sets a <see cref="JSchema"/> containing the definitions for each query parameter. This schema MUST be of type object and have a properties key.
+        /// Gets/sets a <see cref="JsonSchema"/> containing the definitions for each query parameter. This schema MUST be of type object and have a properties key.
         /// </summary>
         [Newtonsoft.Json.JsonProperty("query")]
         [YamlDotNet.Serialization.YamlMember(Alias = "query")]
         [System.Text.Json.Serialization.JsonPropertyName("query")]
-        public virtual JSchema Query { get; set; }
+        public virtual JsonSchema Query { get; set; }
 
         /// <summary>
         /// Gets/sets the version of this binding. Defaults to 'latest'.

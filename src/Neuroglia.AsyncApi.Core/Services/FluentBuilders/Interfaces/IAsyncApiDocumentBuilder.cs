@@ -15,7 +15,7 @@
  *
  */
 using Neuroglia.AsyncApi.Models;
-using Newtonsoft.Json.Schema;
+using NJsonSchema;
 using System;
 
 namespace Neuroglia.AsyncApi.Services.FluentBuilders
@@ -125,12 +125,12 @@ namespace Neuroglia.AsyncApi.Services.FluentBuilders
         IAsyncApiDocumentBuilder UseChannel(string name, Action<IChannelDefinitionBuilder> setup);
 
         /// <summary>
-        /// Adds the specified <see cref="JSchema"/>
+        /// Adds the specified <see cref="JsonSchema"/>
         /// </summary>
-        /// <param name="name">The name of the <see cref="JSchema"/> to add</param>
-        /// <param name="schema">The <see cref="JSchema"/> to add</param>
+        /// <param name="name">The name of the <see cref="JsonSchema"/> to add</param>
+        /// <param name="schema">The <see cref="JsonSchema"/> to add</param>
         /// <returns>The configured <see cref="IAsyncApiDocumentBuilder"/></returns>
-        IAsyncApiDocumentBuilder AddSchema(string name, JSchema schema);
+        IAsyncApiDocumentBuilder AddSchema(string name, JsonSchema schema);
 
         /// <summary>
         /// Adds the specified <see cref="MessageDefinition"/>

@@ -67,12 +67,12 @@ namespace Neuroglia.AsyncApi.Client
                 {
                     clientConfig.ClientId = operationBinding.ClientId?.Default?.ToString();
                     if (string.IsNullOrWhiteSpace(clientConfig.ClientId))
-                        clientConfig.ClientId = operationBinding.ClientId?.Enum?.FirstOrDefault()?.ToString();
+                        clientConfig.ClientId = operationBinding.ClientId?.Enumeration?.FirstOrDefault()?.ToString();
                     consumerConfig.GroupId = operationBinding.GroupId?.Default?.ToString();
                     if (string.IsNullOrWhiteSpace(consumerConfig.GroupId))
-                        consumerConfig.ClientId = operationBinding.GroupId?.Enum?.FirstOrDefault()?.ToString();
+                        consumerConfig.GroupId = operationBinding.GroupId?.Enumeration?.FirstOrDefault()?.ToString();
                 }
-                this.KafkaConsumer = new ConsumerBuilder<Null, byte[]>(consumerConfig)
+                this.KafkaConsumer = new ConsumerBuilder<Ignore, byte[]>(consumerConfig)
                     .Build();
             }
             if (this.Channel.Definition.DefinesPublishOperation)
@@ -85,7 +85,7 @@ namespace Neuroglia.AsyncApi.Client
                 {
                     clientConfig.ClientId = operationBinding.ClientId?.Default?.ToString();
                     if (string.IsNullOrWhiteSpace(clientConfig.ClientId))
-                        clientConfig.ClientId = operationBinding.ClientId?.Enum?.FirstOrDefault()?.ToString();
+                        clientConfig.ClientId = operationBinding.ClientId?.Enumeration?.FirstOrDefault()?.ToString();
                 }
                 this.KafkaProducer = new ProducerBuilder<Null, byte[]>(producerConfig)
                     .Build();
@@ -105,7 +105,7 @@ namespace Neuroglia.AsyncApi.Client
         /// <summary>
         /// Gets the service used to consume Kafka messages
         /// </summary>
-        protected IConsumer<Null, byte[]> KafkaConsumer { get; }
+        protected IConsumer<Ignore, byte[]> KafkaConsumer { get; }
 
         /// <summary>
         /// Gets the Kafka topic
@@ -170,7 +170,7 @@ namespace Neuroglia.AsyncApi.Client
             {
                 try
                 {
-                    ConsumeResult<Null, byte[]> consumeResult = this.KafkaConsumer.Consume(this.CancellationTokenSource.Token);
+                    ConsumeResult<Ignore, byte[]> consumeResult = this.KafkaConsumer.Consume(this.CancellationTokenSource.Token);
                     Message message = new()
                     {
                         ChannelKey = consumeResult.Topic,

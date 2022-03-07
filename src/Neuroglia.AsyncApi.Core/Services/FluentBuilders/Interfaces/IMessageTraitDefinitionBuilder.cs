@@ -16,7 +16,7 @@
  */
 using Neuroglia.AsyncApi.Models;
 using Neuroglia.AsyncApi.Models.Bindings;
-using Newtonsoft.Json.Schema;
+using NJsonSchema;
 using System;
 
 namespace Neuroglia.AsyncApi.Services.FluentBuilders
@@ -50,9 +50,9 @@ namespace Neuroglia.AsyncApi.Services.FluentBuilders
         /// <summary>
         /// Configures the <see cref="MessageTraitDefinition"/> to build to use the specified headers
         /// </summary>
-        /// <param name="headersSchema">The <see cref="JSchema"/> used to define the <see cref="MessageTraitDefinition"/>'s headers</param>
+        /// <param name="headersSchema">The <see cref="JsonSchema"/> used to define the <see cref="MessageTraitDefinition"/>'s headers</param>
         /// <returns>The configured <see cref="IMessageTraitDefinitionBuilder{TBuilder, TTrait}"/></returns>
-        TBuilder WithHeaders(JSchema headersSchema);
+        TBuilder WithHeaders(JsonSchema headersSchema);
 
         /// <summary>
         /// Configures the <see cref="MessageTraitDefinition"/> to build to use the specified correlation id

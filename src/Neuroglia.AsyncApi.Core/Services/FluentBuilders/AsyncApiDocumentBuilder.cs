@@ -18,12 +18,13 @@ using FluentValidation;
 using FluentValidation.Results;
 using Microsoft.Extensions.DependencyInjection;
 using Neuroglia.AsyncApi.Models;
-using Neuroglia.AsyncApi.Models.Bindings;
 using Newtonsoft.Json.Schema;
+using NJsonSchema;
 using SemVersion;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using JsonSchema = NJsonSchema.JsonSchema;
 
 namespace Neuroglia.AsyncApi.Services.FluentBuilders
 {
@@ -201,7 +202,7 @@ namespace Neuroglia.AsyncApi.Services.FluentBuilders
         }
 
         /// <inheritdoc/>
-        public virtual IAsyncApiDocumentBuilder AddSchema(string name, JSchema schema)
+        public virtual IAsyncApiDocumentBuilder AddSchema(string name, JsonSchema schema)
         {
             if (string.IsNullOrWhiteSpace(name))
                 throw new ArgumentNullException(nameof(name));
@@ -211,7 +212,7 @@ namespace Neuroglia.AsyncApi.Services.FluentBuilders
                 this.Document.Components = new();
             if (this.Document.Components.Schemas == null)
                 this.Document.Components.Schemas = new();
-            this.Document.Components.Schemas.Add(name, schema);
+            this.Document.Components.Schemas.Add(name, JSchema.Parse(schema.ToJson()));
             return this;
         }
 

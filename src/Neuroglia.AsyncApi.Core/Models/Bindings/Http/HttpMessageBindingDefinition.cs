@@ -14,7 +14,8 @@
  * limitations under the License.
  *
  */
-using Newtonsoft.Json.Schema;
+
+using NJsonSchema;
 
 namespace Neuroglia.AsyncApi.Models.Bindings.Http
 {
@@ -27,12 +28,12 @@ namespace Neuroglia.AsyncApi.Models.Bindings.Http
     {
 
         /// <summary>
-        /// Gets/sets a <see cref="JSchema"/> containing the definitions for HTTP-specific headers. This schema MUST be of type object and have a properties key.
+        /// Gets/sets a <see cref="JsonSchema"/> containing the definitions for HTTP-specific headers. This schema MUST be of type object and have a properties key.
         /// </summary>
         [Newtonsoft.Json.JsonProperty("headers")]
         [YamlDotNet.Serialization.YamlMember(Alias = "headers")]
         [System.Text.Json.Serialization.JsonPropertyName("headers")]
-        public virtual JSchema Headers { get; set; }
+        public virtual JsonSchema Headers { get; set; }
 
         /// <summary>
         /// Gets/sets the version of this binding. Defaults to 'latest'.

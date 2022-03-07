@@ -419,39 +419,26 @@
             <param name="services">The <see cref="T:Microsoft.Extensions.DependencyInjection.IServiceCollection"/> to configure</param>
             <returns>The configured <see cref="T:Microsoft.Extensions.DependencyInjection.IServiceCollection"/></returns>
         </member>
-        <member name="T:Neuroglia.AsyncApi.JSchemaExtensions">
+        <member name="T:Neuroglia.AsyncApi.JsonSchemaExtensions">
             <summary>
-            Defines extensions for <see cref="T:Newtonsoft.Json.Schema.JSchema"/>s
+            Defines extensions for <see cref="T:NJsonSchema.JsonSchema"/>s
             </summary>
         </member>
-        <member name="M:Neuroglia.AsyncApi.JSchemaExtensions.GenerateExamples(Newtonsoft.Json.Schema.JSchema)">
+        <member name="M:Neuroglia.AsyncApi.JsonSchemaExtensions.GenerateExamples(NJsonSchema.JsonSchema)">
             <summary>
             Generates examples for the specified schema
             </summary>
-            <param name="schema">The <see cref="T:Newtonsoft.Json.Schema.JSchema"/> to generate a new example for</param>
+            <param name="schema">The <see cref="T:NJsonSchema.JsonSchema"/> to generate a new example for</param>
             <returns>A new <see cref="T:System.Collections.Generic.Dictionary`2"/> containing the generated examples mapped by name</returns>
         </member>
-        <member name="M:Neuroglia.AsyncApi.JSchemaExtensions.GenerateExample(Newtonsoft.Json.Schema.JSchema,System.String,System.Boolean)">
+        <member name="M:Neuroglia.AsyncApi.JsonSchemaExtensions.GenerateExample(NJsonSchema.JsonSchema,System.String,System.Boolean)">
             <summary>
             Generates an example for the specified schema
             </summary>
-            <param name="schema">The <see cref="T:Newtonsoft.Json.Schema.JSchema"/> to generate a new example for</param>
-            <param name="name">The name of the <see cref="T:Newtonsoft.Json.Schema.JSchema"/> to generate a new example for</param>
+            <param name="schema">The <see cref="T:NJsonSchema.JsonSchema"/> to generate a new example for</param>
+            <param name="name">The name of the <see cref="T:NJsonSchema.JsonSchema"/> to generate a new example for</param>
             <param name="requiredPropertiesOnly">A boolean indicating whether or not to generate an example based only on required properties</param>
             <returns>A new example <see cref="T:Newtonsoft.Json.Linq.JToken"/></returns>
-        </member>
-        <member name="T:Neuroglia.AsyncApi.JSchemaGeneratorExtensions">
-            <summary>
-            Defines extensions for <see cref="T:Newtonsoft.Json.Schema.Generation.JSchemaGenerator"/>s
-            </summary>
-        </member>
-        <member name="M:Neuroglia.AsyncApi.JSchemaGeneratorExtensions.Generate(Newtonsoft.Json.Schema.Generation.JSchemaGenerator,System.Reflection.ParameterInfo)">
-            <summary>
-            Generates a new <see cref="T:Newtonsoft.Json.Schema.JSchema"/> for the specified <see cref="T:System.Reflection.ParameterInfo"/>
-            </summary>
-            <param name="generator">The extended <see cref="T:Newtonsoft.Json.Schema.Generation.JSchemaGenerator"/></param>
-            <param name="parameter">The <see cref="T:System.Reflection.ParameterInfo"/> to generate a new <see cref="T:Newtonsoft.Json.Schema.JSchema"/> for</param>
-            <returns>A new <see cref="T:Newtonsoft.Json.Schema.JSchema"/></returns>
         </member>
         <member name="T:Neuroglia.AsyncApi.RandomExtensions">
             <summary>
@@ -902,7 +889,7 @@
         </member>
         <member name="P:Neuroglia.AsyncApi.Models.Bindings.Http.HttpMessageBindingDefinition.Headers">
             <summary>
-            Gets/sets a <see cref="T:Newtonsoft.Json.Schema.JSchema"/> containing the definitions for HTTP-specific headers. This schema MUST be of type object and have a properties key.
+            Gets/sets a <see cref="T:NJsonSchema.JsonSchema"/> containing the definitions for HTTP-specific headers. This schema MUST be of type object and have a properties key.
             </summary>
         </member>
         <member name="P:Neuroglia.AsyncApi.Models.Bindings.Http.HttpMessageBindingDefinition.BindingVersion">
@@ -927,7 +914,7 @@
         </member>
         <member name="P:Neuroglia.AsyncApi.Models.Bindings.Http.HttpOperationBindingDefinition.Query">
             <summary>
-            Gets/sets a <see cref="T:Newtonsoft.Json.Schema.JSchema"/> containing the definitions for each query parameter. This schema MUST be of type object and have a properties key.
+            Gets/sets a <see cref="T:NJsonSchema.JsonSchema"/> containing the definitions for each query parameter. This schema MUST be of type object and have a properties key.
             </summary>
         </member>
         <member name="P:Neuroglia.AsyncApi.Models.Bindings.Http.HttpOperationBindingDefinition.BindingVersion">
@@ -990,7 +977,7 @@
         </member>
         <member name="P:Neuroglia.AsyncApi.Models.Bindings.Kafka.KafkaMessageBindingDefinition.Key">
             <summary>
-            Gets/sets a <see cref="T:Newtonsoft.Json.Schema.JSchema"/> that defines the message key.
+            Gets/sets a <see cref="T:NJsonSchema.JsonSchema"/> that defines the message key.
             </summary>
         </member>
         <member name="P:Neuroglia.AsyncApi.Models.Bindings.Kafka.KafkaMessageBindingDefinition.BindingVersion">
@@ -1005,12 +992,12 @@
         </member>
         <member name="P:Neuroglia.AsyncApi.Models.Bindings.Kafka.KafkaOperationBindingDefinition.GroupId">
             <summary>
-            Gets/sets the <see cref="T:Newtonsoft.Json.Schema.JSchema"/> of the consumer group.
+            Gets/sets the <see cref="T:NJsonSchema.JsonSchema"/> of the consumer group.
             </summary>
         </member>
         <member name="P:Neuroglia.AsyncApi.Models.Bindings.Kafka.KafkaOperationBindingDefinition.ClientId">
             <summary>
-            Gets/sets the <see cref="T:Newtonsoft.Json.Schema.JSchema"/> of the consumer inside a consumer group.
+            Gets/sets the <see cref="T:NJsonSchema.JsonSchema"/> of the consumer inside a consumer group.
             </summary>
         </member>
         <member name="P:Neuroglia.AsyncApi.Models.Bindings.Kafka.KafkaOperationBindingDefinition.BindingVersion">
@@ -1230,12 +1217,12 @@
         </member>
         <member name="P:Neuroglia.AsyncApi.Models.Bindings.WebSockets.WsChannelBindingDefinition.Query">
             <summary>
-            Gets/sets a <see cref="T:Newtonsoft.Json.Schema.JSchema"/> containing the definitions for each query parameter. This schema MUST be of type object and have a properties key.
+            Gets/sets a <see cref="T:NJsonSchema.JsonSchema"/> containing the definitions for each query parameter. This schema MUST be of type object and have a properties key.
             </summary>
         </member>
         <member name="P:Neuroglia.AsyncApi.Models.Bindings.WebSockets.WsChannelBindingDefinition.Headers">
             <summary>
-            Gets/sets a <see cref="T:Newtonsoft.Json.Schema.JSchema"/> containing the definitions for HTTP-specific headers. This schema MUST be of type object and have a properties key.
+            Gets/sets a <see cref="T:NJsonSchema.JsonSchema"/> containing the definitions for HTTP-specific headers. This schema MUST be of type object and have a properties key.
             </summary>
         </member>
         <member name="P:Neuroglia.AsyncApi.Models.Bindings.WebSockets.WsChannelBindingDefinition.BindingVersion">
@@ -1405,7 +1392,7 @@
         </member>
         <member name="P:Neuroglia.AsyncApi.Models.ComponentDefinitionCollection.Schemas">
             <summary>
-            Gets/sets a <see cref="T:System.Collections.Generic.Dictionary`2"/> used to hold reusable <see cref="T:Newtonsoft.Json.Schema.JSchema"/>s
+            Gets/sets a <see cref="T:System.Collections.Generic.Dictionary`2"/> used to hold reusable <see cref="T:NJsonSchema.JsonSchema"/>s
             </summary>
         </member>
         <member name="P:Neuroglia.AsyncApi.Models.ComponentDefinitionCollection.Messages">
@@ -1612,7 +1599,7 @@
         </member>
         <member name="P:Neuroglia.AsyncApi.Models.MessageTraitDefinition.Headers">
             <summary>
-            Gets/sets a <see cref="T:Newtonsoft.Json.Schema.JSchema"/> of the application headers. Schema MUST be of type "object". It MUST NOT define the protocol headers.
+            Gets/sets a <see cref="T:NJsonSchema.JsonSchema"/> of the application headers. Schema MUST be of type "object". It MUST NOT define the protocol headers.
             </summary>
         </member>
         <member name="P:Neuroglia.AsyncApi.Models.MessageTraitDefinition.CorrelationId">
@@ -1623,7 +1610,7 @@
         <member name="P:Neuroglia.AsyncApi.Models.MessageTraitDefinition.SchemaFormat">
             <summary>
             Gets/sets a string containing the name of the schema format used to define the message payload. 
-            If omitted, implementations should parse the payload as a <see cref="T:Newtonsoft.Json.Schema.JSchema"/>.
+            If omitted, implementations should parse the payload as a <see cref="T:NJsonSchema.JsonSchema"/>.
             When the payload is defined using a $ref to a remote file, it is RECOMMENDED the schema format includes the file encoding type to allow implementations to parse the file correctly. E.g., adding +yaml if content type is application/vnd.apache.avro results in application/vnd.apache.avro+yaml.
             </summary>
         </member>
@@ -1845,7 +1832,7 @@
         </member>
         <member name="P:Neuroglia.AsyncApi.Models.ParameterDefinition.Schema">
             <summary>
-            Gets/sets the <see cref="T:Neuroglia.AsyncApi.Models.ParameterDefinition"/>'s <see cref="T:Newtonsoft.Json.Schema.JSchema"/>
+            Gets/sets the <see cref="T:Neuroglia.AsyncApi.Models.ParameterDefinition"/>'s <see cref="T:NJsonSchema.JsonSchema"/>
             </summary>
         </member>
         <member name="P:Neuroglia.AsyncApi.Models.ParameterDefinition.Location">
@@ -2315,7 +2302,7 @@
         <member name="M:Neuroglia.AsyncApi.Services.FluentBuilders.AsyncApiDocumentBuilder.UseChannel(System.String,System.Action{Neuroglia.AsyncApi.Services.FluentBuilders.IChannelDefinitionBuilder})">
             <inheritdoc/>
         </member>
-        <member name="M:Neuroglia.AsyncApi.Services.FluentBuilders.AsyncApiDocumentBuilder.AddSchema(System.String,Newtonsoft.Json.Schema.JSchema)">
+        <member name="M:Neuroglia.AsyncApi.Services.FluentBuilders.AsyncApiDocumentBuilder.AddSchema(System.String,NJsonSchema.JsonSchema)">
             <inheritdoc/>
         </member>
         <member name="M:Neuroglia.AsyncApi.Services.FluentBuilders.AsyncApiDocumentBuilder.AddMessage(System.String,Neuroglia.AsyncApi.Models.MessageDefinition)">
@@ -2513,12 +2500,12 @@
             <param name="setup">An <see cref="T:System.Action`1"/> used to setup the <see cref="T:Neuroglia.AsyncApi.Models.ChannelDefinition"/> to add</param>
             <returns>The configured <see cref="T:Neuroglia.AsyncApi.Services.FluentBuilders.IAsyncApiDocumentBuilder"/></returns>
         </member>
-        <member name="M:Neuroglia.AsyncApi.Services.FluentBuilders.IAsyncApiDocumentBuilder.AddSchema(System.String,Newtonsoft.Json.Schema.JSchema)">
+        <member name="M:Neuroglia.AsyncApi.Services.FluentBuilders.IAsyncApiDocumentBuilder.AddSchema(System.String,NJsonSchema.JsonSchema)">
             <summary>
-            Adds the specified <see cref="T:Newtonsoft.Json.Schema.JSchema"/>
+            Adds the specified <see cref="T:NJsonSchema.JsonSchema"/>
             </summary>
-            <param name="name">The name of the <see cref="T:Newtonsoft.Json.Schema.JSchema"/> to add</param>
-            <param name="schema">The <see cref="T:Newtonsoft.Json.Schema.JSchema"/> to add</param>
+            <param name="name">The name of the <see cref="T:NJsonSchema.JsonSchema"/> to add</param>
+            <param name="schema">The <see cref="T:NJsonSchema.JsonSchema"/> to add</param>
             <returns>The configured <see cref="T:Neuroglia.AsyncApi.Services.FluentBuilders.IAsyncApiDocumentBuilder"/></returns>
         </member>
         <member name="M:Neuroglia.AsyncApi.Services.FluentBuilders.IAsyncApiDocumentBuilder.AddMessage(System.String,Neuroglia.AsyncApi.Models.MessageDefinition)">
@@ -2713,11 +2700,11 @@
             <param name="payloadType">The type used to define the <see cref="T:Neuroglia.AsyncApi.Models.MessageTraitDefinition"/>'s payload</param>
             <returns>The configured <see cref="T:Neuroglia.AsyncApi.Services.FluentBuilders.IMessageDefinitionBuilder"/></returns>
         </member>
-        <member name="M:Neuroglia.AsyncApi.Services.FluentBuilders.IMessageDefinitionBuilder.WithPayloadSchema(Newtonsoft.Json.Schema.JSchema)">
+        <member name="M:Neuroglia.AsyncApi.Services.FluentBuilders.IMessageDefinitionBuilder.WithPayloadSchema(NJsonSchema.JsonSchema)">
             <summary>
             Configures the <see cref="T:Neuroglia.AsyncApi.Models.MessageTraitDefinition"/> to build to use the specified payload
             </summary>
-            <param name="payloadSchema">The <see cref="T:Newtonsoft.Json.Schema.JSchema"/> used to define the <see cref="T:Neuroglia.AsyncApi.Models.MessageTraitDefinition"/>'s payload</param>
+            <param name="payloadSchema">The <see cref="T:NJsonSchema.JsonSchema"/> used to define the <see cref="T:Neuroglia.AsyncApi.Models.MessageTraitDefinition"/>'s payload</param>
             <returns>The configured <see cref="T:Neuroglia.AsyncApi.Services.FluentBuilders.IMessageDefinitionBuilder"/></returns>
         </member>
         <member name="M:Neuroglia.AsyncApi.Services.FluentBuilders.IMessageDefinitionBuilder.WithTrait(System.Action{Neuroglia.AsyncApi.Services.FluentBuilders.IMessageTraitBuilder})">
@@ -2748,11 +2735,11 @@
             <param name="headersType">The type used to define the <see cref="T:Neuroglia.AsyncApi.Models.MessageTraitDefinition"/>'s headers</param>
             <returns>The configured <see cref="T:Neuroglia.AsyncApi.Services.FluentBuilders.IMessageTraitDefinitionBuilder`2"/></returns>
         </member>
-        <member name="M:Neuroglia.AsyncApi.Services.FluentBuilders.IMessageTraitDefinitionBuilder`2.WithHeaders(Newtonsoft.Json.Schema.JSchema)">
+        <member name="M:Neuroglia.AsyncApi.Services.FluentBuilders.IMessageTraitDefinitionBuilder`2.WithHeaders(NJsonSchema.JsonSchema)">
             <summary>
             Configures the <see cref="T:Neuroglia.AsyncApi.Models.MessageTraitDefinition"/> to build to use the specified headers
             </summary>
-            <param name="headersSchema">The <see cref="T:Newtonsoft.Json.Schema.JSchema"/> used to define the <see cref="T:Neuroglia.AsyncApi.Models.MessageTraitDefinition"/>'s headers</param>
+            <param name="headersSchema">The <see cref="T:NJsonSchema.JsonSchema"/> used to define the <see cref="T:Neuroglia.AsyncApi.Models.MessageTraitDefinition"/>'s headers</param>
             <returns>The configured <see cref="T:Neuroglia.AsyncApi.Services.FluentBuilders.IMessageTraitDefinitionBuilder`2"/></returns>
         </member>
         <member name="M:Neuroglia.AsyncApi.Services.FluentBuilders.IMessageTraitDefinitionBuilder`2.WithCorrelationId(System.String,System.String)">
@@ -2953,11 +2940,11 @@
             <param name="parameterType">The type of the <see cref="T:Neuroglia.AsyncApi.Models.ParameterDefinition"/> to build</param>
             <returns>The configured <see cref="T:Neuroglia.AsyncApi.Services.FluentBuilders.IParameterDefinitionBuilder"/></returns>
         </member>
-        <member name="M:Neuroglia.AsyncApi.Services.FluentBuilders.IParameterDefinitionBuilder.WithSchema(Newtonsoft.Json.Schema.JSchema)">
+        <member name="M:Neuroglia.AsyncApi.Services.FluentBuilders.IParameterDefinitionBuilder.WithSchema(NJsonSchema.JsonSchema)">
             <summary>
-            Configures the <see cref="T:Newtonsoft.Json.Schema.JSchema"/> of the <see cref="T:Neuroglia.AsyncApi.Models.ParameterDefinition"/> to build
+            Configures the <see cref="T:NJsonSchema.JsonSchema"/> of the <see cref="T:Neuroglia.AsyncApi.Models.ParameterDefinition"/> to build
             </summary>
-            <param name="schema">The <see cref="T:Newtonsoft.Json.Schema.JSchema"/> of the <see cref="T:Neuroglia.AsyncApi.Models.ParameterDefinition"/> to build</param>
+            <param name="schema">The <see cref="T:NJsonSchema.JsonSchema"/> of the <see cref="T:Neuroglia.AsyncApi.Models.ParameterDefinition"/> to build</param>
             <returns>The configured <see cref="T:Neuroglia.AsyncApi.Services.FluentBuilders.IParameterDefinitionBuilder"/></returns>
         </member>
         <member name="M:Neuroglia.AsyncApi.Services.FluentBuilders.IParameterDefinitionBuilder.WithDescription(System.String)">
@@ -3173,7 +3160,7 @@
         <member name="M:Neuroglia.AsyncApi.Services.FluentBuilders.MessageDefinitionBuilder.OfType(System.Type)">
             <inheritdoc/>
         </member>
-        <member name="M:Neuroglia.AsyncApi.Services.FluentBuilders.MessageDefinitionBuilder.WithPayloadSchema(Newtonsoft.Json.Schema.JSchema)">
+        <member name="M:Neuroglia.AsyncApi.Services.FluentBuilders.MessageDefinitionBuilder.WithPayloadSchema(NJsonSchema.JsonSchema)">
             <inheritdoc/>
         </member>
         <member name="M:Neuroglia.AsyncApi.Services.FluentBuilders.MessageDefinitionBuilder.WithTrait(System.Action{Neuroglia.AsyncApi.Services.FluentBuilders.IMessageTraitBuilder})">
@@ -3238,7 +3225,7 @@
         <member name="M:Neuroglia.AsyncApi.Services.FluentBuilders.MessageTraitDefinitionBuilder`2.WithHeaders(System.Type)">
             <inheritdoc/>
         </member>
-        <member name="M:Neuroglia.AsyncApi.Services.FluentBuilders.MessageTraitDefinitionBuilder`2.WithHeaders(Newtonsoft.Json.Schema.JSchema)">
+        <member name="M:Neuroglia.AsyncApi.Services.FluentBuilders.MessageTraitDefinitionBuilder`2.WithHeaders(NJsonSchema.JsonSchema)">
             <inheritdoc/>
         </member>
         <member name="M:Neuroglia.AsyncApi.Services.FluentBuilders.MessageTraitDefinitionBuilder`2.WithName(System.String)">
@@ -3381,7 +3368,7 @@
         <member name="M:Neuroglia.AsyncApi.Services.FluentBuilders.ParameterDefinitionBuilder.OfType(System.Type)">
             <inheritdoc/>
         </member>
-        <member name="M:Neuroglia.AsyncApi.Services.FluentBuilders.ParameterDefinitionBuilder.WithSchema(Newtonsoft.Json.Schema.JSchema)">
+        <member name="M:Neuroglia.AsyncApi.Services.FluentBuilders.ParameterDefinitionBuilder.WithSchema(NJsonSchema.JsonSchema)">
             <inheritdoc/>
         </member>
         <member name="M:Neuroglia.AsyncApi.Services.FluentBuilders.ParameterDefinitionBuilder.WithDescription(System.String)">

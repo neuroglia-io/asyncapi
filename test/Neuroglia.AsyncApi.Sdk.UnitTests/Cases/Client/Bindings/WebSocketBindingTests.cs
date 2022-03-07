@@ -6,6 +6,7 @@ using Neuroglia.AsyncApi.Services.FluentBuilders;
 using Neuroglia.AsyncApi.UnitTests.Data;
 using System;
 using System.Threading.Tasks;
+using Xunit;
 
 namespace Neuroglia.AsyncApi.Sdk.UnitTests.Cases.Client
 {
@@ -43,6 +44,12 @@ namespace Neuroglia.AsyncApi.Sdk.UnitTests.Cases.Client
             correlationId
                 .In(RuntimeExpressionSource.Payload)
                 .At(nameof(TestUser.Id));
+        }
+
+        [Fact(Skip = "There's a problem with the go-websocket-echo-server image. We should find another image to tests websockets")]
+        public override Task SubscribeAndPublish()
+        {
+            return base.SubscribeAndPublish();
         }
 
         protected override async ValueTask DisposeAsync(bool disposing)
