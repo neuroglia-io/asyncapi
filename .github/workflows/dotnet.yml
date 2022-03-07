@@ -18,8 +18,8 @@ jobs:
       with:
         dotnet-version: 5.0.x
     - name: Restore dependencies
-      run: dotnet restore "./src/Neuroglia.AsyncApi.sln"
+      run: dotnet restore "./Neuroglia.AsyncApi.sln"
     - name: Build
-      run: dotnet build "./src/Neuroglia.AsyncApi.sln" --configuration Release --no-restore 
+      run: dotnet build "./Neuroglia.AsyncApi.sln" --configuration Release --no-restore 
     - name: Push
       run: dotnet nuget push "./src/*/bin/Release/*.nupkg" --api-key ${{ secrets.NUGET_API_KEY }} --source https://api.nuget.org/v3/index.json --skip-duplicate 
