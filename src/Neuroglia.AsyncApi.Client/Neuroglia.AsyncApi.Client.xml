@@ -260,10 +260,16 @@
             Gets an <see cref="T:System.Collections.Generic.IReadOnlyCollection`1"/> containing the <see cref="T:Neuroglia.AsyncApi.Client.Services.AsyncApiClient"/>'s <see cref="T:Neuroglia.AsyncApi.Client.Services.IChannel"/>s
             </summary>
         </member>
-        <member name="M:Neuroglia.AsyncApi.Client.Services.AsyncApiClient.Initialize">
+        <member name="P:Neuroglia.AsyncApi.Client.Services.AsyncApiClient.Initialized">
+            <summary>
+            Gets a boolean indicating whether or not the <see cref="T:Neuroglia.AsyncApi.Client.Services.AsyncApiClient"/> has been initialized
+            </summary>
+        </member>
+        <member name="M:Neuroglia.AsyncApi.Client.Services.AsyncApiClient.InitializeAsync(System.Threading.CancellationToken)">
             <summary>
             Initializes the <see cref="T:Neuroglia.AsyncApi.Client.Services.AsyncApiClient"/>
             </summary>
+            <returns>A new awaitable <see cref="T:System.Threading.Tasks.Task"/></returns>
         </member>
         <member name="M:Neuroglia.AsyncApi.Client.Services.AsyncApiClient.PublishAsync(System.String,Neuroglia.AsyncApi.Client.IMessage,System.Threading.CancellationToken)">
             <inheritdoc/>
