@@ -9,7 +9,7 @@
 	<RootNamespace>Neuroglia.AsyncApi.Client</RootNamespace>
 	<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
 	<PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
-	<Version>2.1.0.5</Version>
+	<Version>2.1.0.6</Version>
 	<Description>Quality of life package that aggregates all officially supported AsyncAPI channel implementations</Description>
 	<PackageLicenseFile>LICENSE</PackageLicenseFile>
 	<PackageProjectUrl>https://github.com/neuroglia-io/AsyncApi</PackageProjectUrl>

@@ -9,8 +9,8 @@
 		<RootNamespace>Neuroglia.AsyncApi.Client</RootNamespace>
 		<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
 		<PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
-		<Version>2.1.0.5</Version>
-		<Description>A .NET 5.0 library that provides an Async API channel binding implementation for Redis</Description>
+		<Version>2.1.0.6</Version>
+		<Description>A .NET library that provides an Async API channel binding implementation for Redis</Description>
 		<PackageLicenseFile>LICENSE</PackageLicenseFile>
 		<PackageProjectUrl>https://github.com/neuroglia-io/AsyncApi</PackageProjectUrl>
 		<PackageIcon>logo_white_on_blue_256.png</PackageIcon>
