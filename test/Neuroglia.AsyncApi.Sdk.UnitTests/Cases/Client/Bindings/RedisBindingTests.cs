@@ -47,7 +47,6 @@ namespace Neuroglia.AsyncApi.Sdk.UnitTests.Cases.Client
 
         protected override async ValueTask DisposeAsync(bool disposing)
         {
-            await base.DisposeAsync();
             if (!disposing)
                 return;
             await this.Container.StopAsync();

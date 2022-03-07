@@ -9,7 +9,7 @@
             Defines extensions for <see cref="T:Neuroglia.AsyncApi.Client.Services.IAsyncApiClient"/>s
             </summary>
         </member>
-        <member name="M:Neuroglia.AsyncApi.IAsyncApiClientOptionsBuilderExtensions.AddKafkaBinding(Neuroglia.AsyncApi.Client.Configuration.IAsyncApiClientOptionsBuilder)">
+        <member name="M:Neuroglia.AsyncApi.IAsyncApiClientOptionsBuilderExtensions.UseKafkaBinding(Neuroglia.AsyncApi.Client.Configuration.IAsyncApiClientOptionsBuilder)">
             <summary>
             Adds a Kafka implementation of the <see cref="T:Neuroglia.AsyncApi.Client.Services.IChannelBinding"/> interface
             </summary>

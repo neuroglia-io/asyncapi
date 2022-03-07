@@ -15,6 +15,7 @@
  *
  */
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.DependencyInjection.Extensions;
 using Neuroglia.AsyncApi.Client.Configuration;
 using Neuroglia.AsyncApi.Client.Services;
 using System;
@@ -30,36 +31,28 @@ namespace Neuroglia.AsyncApi
     {
 
         /// <summary>
-        /// Adds and configures a new <see cref="IAsyncApiClient"/>
+        /// Adds and configures a new <see cref="IAsyncApiClientFactory"/>
         /// </summary>
         /// <param name="services">The <see cref="IServiceCollection"/> to configure</param>
-        /// <param name="name">The name of the <see cref="IAsyncApiClient"/> to add</param>
         /// <param name="setup">An <see cref="Action{T}"/> used to configure the <see cref="IAsyncApiClient"/> to add</param>
-        /// <param name="lifetime">The <see cref="ServiceLifetime"/> of the <see cref="IAsyncApiClient"/> to add. Defaults to <see cref="ServiceLifetime.Singleton"/></param>
         /// <returns>The configured <see cref="IServiceCollection"/></returns>
-        public static IServiceCollection AddAsyncApiClient(this IServiceCollection services, string name, Action<IAsyncApiClientOptionsBuilder> setup, ServiceLifetime lifetime = ServiceLifetime.Singleton)
+        public static IServiceCollection AddAsyncApiClientFactory(this IServiceCollection services, Action<IAsyncApiClientOptionsBuilder> setup)
         {
             IAsyncApiClientOptionsBuilder optionsBuilder = new AsyncApiClientOptionsBuilder();
             setup(optionsBuilder);
             AsyncApiClientOptions options = optionsBuilder.Build();
+
             services.AddAsyncApi();
+            services.TryAddSingleton<AsyncApiClientFactory>();
+            services.TryAddSingleton<IAsyncApiClientFactory>(provider => provider.GetRequiredService<AsyncApiClientFactory>());
+
             if (!services.Any(d => d.ServiceType == typeof(IChannelFactory) && d.ImplementationType == options.ChannelFactoryType))
-                services.Add(new(typeof(IChannelFactory), options.ChannelFactoryType, lifetime));
+                services.Add(new(typeof(IChannelFactory), options.ChannelFactoryType, ServiceLifetime.Singleton));
             foreach (Type channelBindingFactoryType in options.ChannelBindingFactoryTypes)
             {
                 if (!services.Any(d => d.ServiceType == typeof(IChannelBindingFactory) && d.ImplementationType == channelBindingFactoryType))
-                    services.Add(new(typeof(IChannelBindingFactory), channelBindingFactoryType, lifetime));
+                    services.Add(new(typeof(IChannelBindingFactory), channelBindingFactoryType, ServiceLifetime.Singleton));
             }
-            services.AddHttpClient(name);
-            services.Configure<AsyncApiClientOptions>(name, options =>
-            {
-                IAsyncApiClientOptionsBuilder optionsBuilder = new AsyncApiClientOptionsBuilder(options);
-                setup(optionsBuilder);
-            });
-            services.Add(new(typeof(IAsyncApiClient), provider =>
-            {
-                return ActivatorUtilities.CreateInstance<AsyncApiClient>(provider, name);
-            }, lifetime));
             return services;
         }
 

@@ -15,8 +15,6 @@
  *
  */
 using Neuroglia.AsyncApi.Client.Services;
-using Neuroglia.AsyncApi.Models;
-using System;
 
 namespace Neuroglia.AsyncApi.Client.Configuration
 {
@@ -26,20 +24,6 @@ namespace Neuroglia.AsyncApi.Client.Configuration
     /// </summary>
     public interface IAsyncApiClientOptionsBuilder
     {
-
-        /// <summary>
-        /// Sets the <see cref="AsyncApiDocument"/> to build the <see cref="IAsyncApiClient"/> for
-        /// </summary>
-        /// <param name="document">The <see cref="AsyncApiDocument"/> to build the <see cref="IAsyncApiClient"/> for</param>
-        /// <returns>The configured <see cref="IAsyncApiClientOptionsBuilder"/></returns>
-        IAsyncApiClientOptionsBuilder For(AsyncApiDocument document);
-
-        /// <summary>
-        /// Sets the <see cref="Uri"/> referencing the <see cref="AsyncApiDocument"/> to build the <see cref="IAsyncApiClient"/> for
-        /// </summary>
-        /// <param name="documentUri">The <see cref="Uri"/> referencing the <see cref="AsyncApiDocument"/> to build the <see cref="IAsyncApiClient"/> for</param>
-        /// <returns>The configured <see cref="IAsyncApiClientOptionsBuilder"/></returns>
-        IAsyncApiClientOptionsBuilder For(Uri documentUri);
 
         /// <summary>
         /// Configures the <see cref="IAsyncApiClient"/> to use the specified <see cref="IChannelFactory"/>

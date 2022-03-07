@@ -15,7 +15,6 @@
  *
  */
 using Neuroglia.AsyncApi.Client.Services;
-using Neuroglia.AsyncApi.Models;
 using System;
 using System.Linq;
 
@@ -53,20 +52,6 @@ namespace Neuroglia.AsyncApi.Client.Configuration
         protected AsyncApiClientOptions Options { get; }
 
         /// <inheritdoc/>
-        public virtual IAsyncApiClientOptionsBuilder For(AsyncApiDocument document)
-        {
-            this.Options.Document = document;
-            return this;
-        }
-
-        /// <inheritdoc/>
-        public virtual IAsyncApiClientOptionsBuilder For(Uri documentUri)
-        {
-            this.Options.DocumentUri = documentUri;
-            return this;
-        }
-
-        /// <inheritdoc/>
         public virtual IAsyncApiClientOptionsBuilder WithChannelFactory<TFactory>()
              where TFactory : class, IChannelFactory
         {
@@ -86,9 +71,6 @@ namespace Neuroglia.AsyncApi.Client.Configuration
         /// <inheritdoc/>
         public virtual AsyncApiClientOptions Build()
         {
-            if (this.Options.Document == null
-                && this.Options.DocumentUri == null)
-                throw new NullReferenceException("The Async API document to build the client for must be configured");
             if (this.Options.ChannelFactoryType == null)
                 throw new NullReferenceException("The channel factory must be configured");
             if (!this.Options.ChannelBindingFactoryTypes.Any())

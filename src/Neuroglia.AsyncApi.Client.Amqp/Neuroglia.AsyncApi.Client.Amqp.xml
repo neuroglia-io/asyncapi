@@ -92,7 +92,7 @@
             Defines extensions for <see cref="T:Neuroglia.AsyncApi.Client.Services.IAsyncApiClient"/>s
             </summary>
         </member>
-        <member name="M:Neuroglia.AsyncApi.IAsyncApiClientOptionsBuilderExtensions.AddAmqpBinding(Neuroglia.AsyncApi.Client.Configuration.IAsyncApiClientOptionsBuilder)">
+        <member name="M:Neuroglia.AsyncApi.IAsyncApiClientOptionsBuilderExtensions.UseAmqpBinding(Neuroglia.AsyncApi.Client.Configuration.IAsyncApiClientOptionsBuilder)">
             <summary>
             Adds an AMQP implementation of the <see cref="T:Neuroglia.AsyncApi.Client.Services.IChannelBinding"/> interface
             </summary>

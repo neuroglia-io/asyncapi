@@ -15,7 +15,6 @@
  *
  */
 using Neuroglia.AsyncApi.Client.Services;
-using Neuroglia.AsyncApi.Models;
 using System;
 using System.Collections.Generic;
 
@@ -28,16 +27,6 @@ namespace Neuroglia.AsyncApi.Client.Configuration
     {
 
         /// <summary>
-        /// Gets/sets the <see cref="AsyncApiDocument"/> to build a new <see cref="IAsyncApiClient"/> for
-        /// </summary>
-        public virtual AsyncApiDocument Document { get; set; }
-
-        /// <summary>
-        /// Gets/sets an <see cref="Uri"/> referencing the <see cref="AsyncApiDocument"/> to build a new <see cref="IAsyncApiClient"/> for
-        /// </summary>
-        public virtual Uri DocumentUri { get; set; }
-
-        /// <summary>
         /// Gets/sets the type of <see cref="IChannelFactory"/> to use
         /// </summary>
         public virtual Type ChannelFactoryType { get; set; } = typeof(ChannelFactory);
@@ -46,6 +35,19 @@ namespace Neuroglia.AsyncApi.Client.Configuration
         /// Gets a <see cref="List{T}"/> containing the <see cref="IChannelBindingFactory"/> types to use
         /// </summary>
         public virtual List<Type> ChannelBindingFactoryTypes { get; set; } = new();
+
+        /// <summary>
+        /// Validates the <see cref="AsyncApiClientOptions"/>
+        /// </summary>
+        public virtual void Validate()
+        {
+            if(this.ChannelFactoryType == null)
+                throw new NullReferenceException($"The '{nameof(ChannelFactoryType)}' property cannot be null");
+            if (!typeof(IChannelFactory).IsAssignableFrom(this.ChannelFactoryType))
+                throw new NullReferenceException($"The type specified as '{nameof(ChannelFactoryType)}' property must implement the '{nameof(IChannelFactory)}' interface");
+            if(this.ChannelBindingFactoryTypes == null)
+                throw new NullReferenceException($"The '{nameof(ChannelBindingFactoryTypes)}' property cannot be null");
+        }
 
     }
 

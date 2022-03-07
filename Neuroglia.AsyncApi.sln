@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 16
-VisualStudioVersion = 16.0.31410.357
+# Visual Studio Version 17
+VisualStudioVersion = 17.1.32210.238
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{817C6554-6E96-457C-BDF1-F3455A146E8F}"
 EndProject
@@ -31,7 +31,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Neuroglia.AsyncApi.Client.N
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Neuroglia.AsyncApi.Client.Redis", "src\Neuroglia.AsyncApi.Client.Redis\Neuroglia.AsyncApi.Client.Redis.csproj", "{737507DF-A4DC-4A5B-A994-44F98EEF36F8}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Neuroglia.AsyncApi.Client.WebSockets", "src\Neuroglia.AsyncApi.Client.WebSockets\Neuroglia.AsyncApi.Client.WebSockets.csproj", "{3EE9569B-5A49-409E-93BA-35FDCDD18389}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Neuroglia.AsyncApi.Client.WebSockets", "src\Neuroglia.AsyncApi.Client.WebSockets\Neuroglia.AsyncApi.Client.WebSockets.csproj", "{3EE9569B-5A49-409E-93BA-35FDCDD18389}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Neuroglia.AsyncApi.Client.All", "src\Neuroglia.AsyncApi.Client.All\Neuroglia.AsyncApi.Client.All.csproj", "{F12D7D93-0DEE-491D-8AC8-320DA38BB925}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -87,6 +89,10 @@ Global
 		{3EE9569B-5A49-409E-93BA-35FDCDD18389}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3EE9569B-5A49-409E-93BA-35FDCDD18389}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3EE9569B-5A49-409E-93BA-35FDCDD18389}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F12D7D93-0DEE-491D-8AC8-320DA38BB925}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F12D7D93-0DEE-491D-8AC8-320DA38BB925}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F12D7D93-0DEE-491D-8AC8-320DA38BB925}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F12D7D93-0DEE-491D-8AC8-320DA38BB925}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -104,6 +110,7 @@ Global
 		{1874546F-D654-445D-8AE5-7795A1963EE8} = {817C6554-6E96-457C-BDF1-F3455A146E8F}
 		{737507DF-A4DC-4A5B-A994-44F98EEF36F8} = {817C6554-6E96-457C-BDF1-F3455A146E8F}
 		{3EE9569B-5A49-409E-93BA-35FDCDD18389} = {817C6554-6E96-457C-BDF1-F3455A146E8F}
+		{F12D7D93-0DEE-491D-8AC8-320DA38BB925} = {817C6554-6E96-457C-BDF1-F3455A146E8F}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {292C0290-D369-4B77-9EEC-1C41DCAF2781}

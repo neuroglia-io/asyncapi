@@ -14,7 +14,6 @@
  * limitations under the License.
  *
  */
-using Neuroglia.AsyncApi.Client;
 using Neuroglia.AsyncApi.Client.Configuration;
 using Neuroglia.AsyncApi.Client.Services;
 
@@ -28,13 +27,18 @@ namespace Neuroglia.AsyncApi
     {
 
         /// <summary>
-        /// Adds a Redis implementation of the <see cref="IChannelBinding"/> interface
+        /// Adds an all official implementations of the <see cref="IChannelBinding"/> interface
         /// </summary>
         /// <param name="builder">The <see cref="IAsyncApiClientOptionsBuilder"/> to configure</param>
         /// <returns>The configured <see cref="IAsyncApiClientOptionsBuilder"/></returns>
-        public static IAsyncApiClientOptionsBuilder UseRedisBinding(this IAsyncApiClientOptionsBuilder builder)
+        public static IAsyncApiClientOptionsBuilder UseAllBindings(this IAsyncApiClientOptionsBuilder builder)
         {
-            builder.WithChannelBindingFactory<RedisChannelBindingFactory>();
+            builder.UseAmqpBinding()
+                .UseKafkaBinding()
+                .UseMqttBinding()
+                .UseNatsBinding()
+                .UseRedisBinding()
+                .UseWebSocketBinding();
             return builder;
         }
 

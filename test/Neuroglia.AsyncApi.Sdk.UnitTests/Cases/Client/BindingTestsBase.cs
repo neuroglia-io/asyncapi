@@ -30,15 +30,10 @@ namespace Neuroglia.AsyncApi.Sdk.UnitTests.Cases.Client
             this.Initialize();
             var services = new ServiceCollection();
             services = new ServiceCollection();
-            services.AddAsyncApiClient("test", builder =>
-                builder.For(this.BuildDocument(serverSetup))
-                    .AddAmqpBinding()
-                    .AddKafkaBinding()
-                    .AddMqttBinding()
-                    .AddNatsBinding()
-                    .AddRedisBinding()
-                    .AddWebSocketBinding());
-            this.AsyncApiClient = services.BuildServiceProvider().GetRequiredService<IAsyncApiClient>();
+            services.AddAsyncApiClientFactory(builder =>
+                builder.UseAllBindings());
+            var document = this.BuildDocument(serverSetup);
+            this.AsyncApiClient = services.BuildServiceProvider().GetRequiredService<IAsyncApiClientFactory>().CreateClient(document);
         }
 
         protected IAsyncApiClient AsyncApiClient { get; }
@@ -103,7 +98,7 @@ namespace Neuroglia.AsyncApi.Sdk.UnitTests.Cases.Client
             {
                 if (disposing)
                 {
-                    
+                    this.DisposeAsync().GetAwaiter().GetResult(); //todo: that is bad, really bad. Should replace once XUnit supports IAsyncDisposable
                 }
                 this._Disposed = true;
             }
@@ -131,6 +126,7 @@ namespace Neuroglia.AsyncApi.Sdk.UnitTests.Cases.Client
         public async ValueTask DisposeAsync()
         {
             await this.DisposeAsync(true);
+            GC.SuppressFinalize(this);
         }
 
         protected virtual AsyncApiDocument BuildDocument(Action<IServerDefinitionBuilder> serverSetup)

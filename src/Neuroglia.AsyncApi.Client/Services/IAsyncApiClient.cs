@@ -30,11 +30,6 @@ namespace Neuroglia.AsyncApi.Client.Services
     {
 
         /// <summary>
-        /// Gets the <see cref="IAsyncApiClient"/>'s name
-        /// </summary>
-        string Name { get; }
-
-        /// <summary>
         /// Gets the <see cref="AsyncApiDocument"/> that describes the API the <see cref="IAsyncApiClient"/> applies to
         /// </summary>
         AsyncApiDocument Document { get; }

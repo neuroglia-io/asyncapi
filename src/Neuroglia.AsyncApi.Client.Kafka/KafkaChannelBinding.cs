@@ -151,7 +151,7 @@ namespace Neuroglia.AsyncApi.Client
                 when (ex.Results.First().Error.Code == ErrorCode.TopicAlreadyExists){ }
                 catch (Exception ex)
                 {
-                    this.Logger.LogError($"An error occured attempting to create the channel's topic '{{topic}}':{Environment.NewLine}{{ex}}", this.KafkaTopic, ex.ToString());
+                    this.Logger.LogError("An error occured attempting to create the channel's topic '{topic}':{ex}", this.KafkaTopic, ex.ToString());
                     throw;
                 }
                 this.KafkaConsumer.Subscribe(this.KafkaTopic);
@@ -189,7 +189,7 @@ namespace Neuroglia.AsyncApi.Client
                 }
                 catch (Exception ex)
                 {
-                    this.Logger.LogError($"An error occured while consuming an inbound message on channel with key {{channel}}.{Environment.NewLine}{{ex}}", this.Channel.Key, ex.ToString());
+                    this.Logger.LogError("An error occured while consuming an inbound message on channel with key {channel}: {ex}", this.Channel.Key, ex.ToString());
                 }
             }
             this.KafkaConsumer.Close();

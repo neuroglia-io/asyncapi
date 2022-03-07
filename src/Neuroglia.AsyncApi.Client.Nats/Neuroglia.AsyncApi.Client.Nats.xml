@@ -9,7 +9,7 @@
             Defines extensions for <see cref="T:Neuroglia.AsyncApi.Client.Services.IAsyncApiClient"/>s
             </summary>
         </member>
-        <member name="M:Neuroglia.AsyncApi.IAsyncApiClientOptionsBuilderExtensions.AddNatsBinding(Neuroglia.AsyncApi.Client.Configuration.IAsyncApiClientOptionsBuilder)">
+        <member name="M:Neuroglia.AsyncApi.IAsyncApiClientOptionsBuilderExtensions.UseNatsBinding(Neuroglia.AsyncApi.Client.Configuration.IAsyncApiClientOptionsBuilder)">
             <summary>
             Adds a NATS implementation of the <see cref="T:Neuroglia.AsyncApi.Client.Services.IChannelBinding"/> interface
             </summary>

@@ -9,7 +9,7 @@
             Defines extensions for <see cref="T:Neuroglia.AsyncApi.Client.Services.IAsyncApiClient"/>s
             </summary>
         </member>
-        <member name="M:Neuroglia.AsyncApi.IAsyncApiClientOptionsBuilderExtensions.AddMqttBinding(Neuroglia.AsyncApi.Client.Configuration.IAsyncApiClientOptionsBuilder)">
+        <member name="M:Neuroglia.AsyncApi.IAsyncApiClientOptionsBuilderExtensions.UseMqttBinding(Neuroglia.AsyncApi.Client.Configuration.IAsyncApiClientOptionsBuilder)">
             <summary>
             Adds an MQTT implementation of the <see cref="T:Neuroglia.AsyncApi.Client.Services.IChannelBinding"/> interface
             </summary>

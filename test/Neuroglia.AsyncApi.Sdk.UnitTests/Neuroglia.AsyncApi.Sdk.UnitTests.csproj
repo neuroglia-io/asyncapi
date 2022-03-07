@@ -26,12 +26,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\src\Neuroglia.AsyncApi.Client.Amqp\Neuroglia.AsyncApi.Client.Amqp.csproj" />
-    <ProjectReference Include="..\..\src\Neuroglia.AsyncApi.Client.Kafka\Neuroglia.AsyncApi.Client.Kafka.csproj" />
-    <ProjectReference Include="..\..\src\Neuroglia.AsyncApi.Client.Mqtt\Neuroglia.AsyncApi.Client.Mqtt.csproj" />
-    <ProjectReference Include="..\..\src\Neuroglia.AsyncApi.Client.Nats\Neuroglia.AsyncApi.Client.Nats.csproj" />
-    <ProjectReference Include="..\..\src\Neuroglia.AsyncApi.Client.Redis\Neuroglia.AsyncApi.Client.Redis.csproj" />
-    <ProjectReference Include="..\..\src\Neuroglia.AsyncApi.Client.WebSockets\Neuroglia.AsyncApi.Client.WebSockets.csproj" />
+    <ProjectReference Include="..\..\src\Neuroglia.AsyncApi.Client.All\Neuroglia.AsyncApi.Client.All.csproj" />
   </ItemGroup>
 
   <ItemGroup>

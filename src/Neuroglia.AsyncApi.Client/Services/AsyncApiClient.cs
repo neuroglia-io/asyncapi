@@ -40,24 +40,18 @@ namespace Neuroglia.AsyncApi.Client.Services
         /// <summary>
         /// Initializes a new <see cref="AsyncApiClient"/>
         /// </summary>
-        /// <param name="name">The <see cref="AsyncApiClient"/>'s name</param>
         /// <param name="logger">The service used to perform logging</param>
         /// <param name="documentReader">The service used to read <see cref="AsyncApiDocument"/>s</param>
         /// <param name="channelFactory">The service used to create <see cref="IChannel"/>s</param>
-        /// <param name="httpClientFactory">The service used to create <see cref="System.Net.Http.HttpClient"/>s</param>
-        /// <param name="options">The options used to configure the <see cref="AsyncApiClient"/></param>
-        public AsyncApiClient(string name, ILogger<AsyncApiClient> logger, IAsyncApiDocumentReader documentReader, IChannelFactory channelFactory, IHttpClientFactory httpClientFactory, IOptionsSnapshot<AsyncApiClientOptions> options)
+        /// <param name="document">The <see cref="AsyncApiDocument"/> that describes the API the <see cref="AsyncApiClient"/> applies to</param>
+        public AsyncApiClient(ILogger<AsyncApiClient> logger, IAsyncApiDocumentReader documentReader, IChannelFactory channelFactory, AsyncApiDocument document)
         {
-            this.Name = name;
             this.Logger = logger;
             this.DocumentReader = documentReader;
             this.ChannelFactory = channelFactory;
-            this.HttpClient = httpClientFactory.CreateClient(name);
-            this.Options = options.Get(name);
+            this.Document = document;
+            this.Initialize();
         }
-
-        /// <inheritdoc/>
-        public string Name { get; }
 
         /// <summary>
         /// Gets the service used to perform logging
@@ -80,11 +74,6 @@ namespace Neuroglia.AsyncApi.Client.Services
         protected HttpClient HttpClient { get; }
 
         /// <summary>
-        /// Gets the options used to configure the <see cref="AsyncApiClient"/>
-        /// </summary>
-        protected AsyncApiClientOptions Options { get; }
-
-        /// <summary>
         /// Gets the <see cref="AsyncApiDocument"/> that describes the API the <see cref="AsyncApiClient"/> applies to
         /// </summary>
         public AsyncApiDocument Document { get; private set; }
@@ -104,32 +93,10 @@ namespace Neuroglia.AsyncApi.Client.Services
         /// Initializes the <see cref="AsyncApiClient"/>
         /// </summary>
         /// <returns>A new awaitable <see cref="Task"/></returns>
-        protected virtual async Task InitializeAsync(CancellationToken cancellationToken = default)
+        protected virtual void Initialize()
         {
             if (this.Initialized)
                 return;
-            if(this.Options.Document == null)
-            {
-                Stream stream;
-                if (this.Options.DocumentUri.IsFile)
-                {
-                    if (!File.Exists(this.Options.DocumentUri.LocalPath))
-                        throw new FileNotFoundException(this.Options.DocumentUri.LocalPath);
-                    stream = File.OpenRead(this.Options.DocumentUri.LocalPath);
-                }
-                else
-                {
-                    using HttpResponseMessage response = await this.HttpClient.SendAsync(new(System.Net.Http.HttpMethod.Get, this.Options.DocumentUri), cancellationToken);
-                    response.EnsureSuccessStatusCode();
-                    stream = response.Content.ReadAsStream();
-                }
-                using (stream)
-                    this.Document = this.DocumentReader.Read(stream);
-            }
-            else
-            {
-                this.Document = this.Options.Document;
-            }
             foreach (KeyValuePair<string, ChannelDefinition> channelDefinition in this.Document.Channels)
             {
                 IChannel channel = this.ChannelFactory.CreateChannel(channelDefinition.Key, channelDefinition.Value, this.Document);
@@ -145,7 +112,6 @@ namespace Neuroglia.AsyncApi.Client.Services
                 throw new ArgumentNullException(nameof(channelKey));
             if (message == null)
                 throw new ArgumentNullException(nameof(message));
-            await this.InitializeAsync(cancellationToken);
             IChannel channel = this.Channels.FirstOrDefault(c => c.Key.Equals(channelKey, StringComparison.OrdinalIgnoreCase));
             if (channel == null)
                 throw new NullReferenceException($"Failed to find a channel with the specified key '{channelKey}'");
@@ -171,7 +137,6 @@ namespace Neuroglia.AsyncApi.Client.Services
         {
             if (string.IsNullOrWhiteSpace(channelKey))
                 throw new ArgumentNullException(nameof(channelKey));
-            await this.InitializeAsync(cancellationToken);
             IChannel channel = this.Channels.FirstOrDefault(c => c.Key.Equals(channelKey, StringComparison.OrdinalIgnoreCase));
             if (channel == null)
                 throw new NullReferenceException($"Failed to find a channel with the specified key '{channelKey}'");

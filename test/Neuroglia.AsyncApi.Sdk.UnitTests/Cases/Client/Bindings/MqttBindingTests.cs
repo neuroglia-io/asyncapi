@@ -43,6 +43,12 @@ namespace Neuroglia.AsyncApi.Sdk.UnitTests.Cases.Client
             await base.SubscribeAndPublish();
         }
 
+        protected override async ValueTask DisposeAsync(bool disposing)
+        {
+            if (disposing)
+                this.MqttServer.Dispose();
+        }
+
         static void ServerSetup(IServerDefinitionBuilder server)
         {
             server.WithProtocol(AsyncApiProtocols.Mqtt, "5")

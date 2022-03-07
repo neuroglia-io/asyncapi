@@ -32,7 +32,7 @@ namespace Neuroglia.AsyncApi
         /// </summary>
         /// <param name="builder">The <see cref="IAsyncApiClientOptionsBuilder"/> to configure</param>
         /// <returns>The configured <see cref="IAsyncApiClientOptionsBuilder"/></returns>
-        public static IAsyncApiClientOptionsBuilder AddMqttBinding(this IAsyncApiClientOptionsBuilder builder)
+        public static IAsyncApiClientOptionsBuilder UseMqttBinding(this IAsyncApiClientOptionsBuilder builder)
         {
             builder.WithChannelBindingFactory<MqttChannelBindingFactory>();
             return builder;

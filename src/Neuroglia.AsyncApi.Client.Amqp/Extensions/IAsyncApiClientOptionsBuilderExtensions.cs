@@ -32,7 +32,7 @@ namespace Neuroglia.AsyncApi
         /// </summary>
         /// <param name="builder">The <see cref="IAsyncApiClientOptionsBuilder"/> to configure</param>
         /// <returns>The configured <see cref="IAsyncApiClientOptionsBuilder"/></returns>
-        public static IAsyncApiClientOptionsBuilder AddAmqpBinding(this IAsyncApiClientOptionsBuilder builder)
+        public static IAsyncApiClientOptionsBuilder UseAmqpBinding(this IAsyncApiClientOptionsBuilder builder)
         {
             builder.WithChannelBindingFactory<AmqpChannelBindingFactory>();
             return builder;

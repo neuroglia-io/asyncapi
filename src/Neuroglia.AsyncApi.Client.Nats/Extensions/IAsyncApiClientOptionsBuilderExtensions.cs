@@ -32,7 +32,7 @@ namespace Neuroglia.AsyncApi
         /// </summary>
         /// <param name="builder">The <see cref="IAsyncApiClientOptionsBuilder"/> to configure</param>
         /// <returns>The configured <see cref="IAsyncApiClientOptionsBuilder"/></returns>
-        public static IAsyncApiClientOptionsBuilder AddNatsBinding(this IAsyncApiClientOptionsBuilder builder)
+        public static IAsyncApiClientOptionsBuilder UseNatsBinding(this IAsyncApiClientOptionsBuilder builder)
         {
             builder.WithChannelBindingFactory<NatsChannelBindingFactory>();
             return builder;

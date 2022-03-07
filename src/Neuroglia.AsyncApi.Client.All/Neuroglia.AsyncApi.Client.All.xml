@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Neuroglia.AsyncApi.Client.All</name>
+    </assembly>
+    <members>
+        <member name="T:Neuroglia.AsyncApi.IAsyncApiClientOptionsBuilderExtensions">
+            <summary>
+            Defines extensions for <see cref="T:Neuroglia.AsyncApi.Client.Services.IAsyncApiClient"/>s
+            </summary>
+        </member>
+        <member name="M:Neuroglia.AsyncApi.IAsyncApiClientOptionsBuilderExtensions.UseAllBindings(Neuroglia.AsyncApi.Client.Configuration.IAsyncApiClientOptionsBuilder)">
+            <summary>
+            Adds an all official implementations of the <see cref="T:Neuroglia.AsyncApi.Client.Services.IChannelBinding"/> interface
+            </summary>
+            <param name="builder">The <see cref="T:Neuroglia.AsyncApi.Client.Configuration.IAsyncApiClientOptionsBuilder"/> to configure</param>
+            <returns>The configured <see cref="T:Neuroglia.AsyncApi.Client.Configuration.IAsyncApiClientOptionsBuilder"/></returns>
+        </member>
+    </members>
+</doc>
