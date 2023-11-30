@@ -1,48 +1,15 @@
-<Project Sdk="Microsoft.NET.Sdk.Web">
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
-    <TargetFramework>net6.0</TargetFramework>
-    <Authors>Neuroglia SPRL</Authors>
-    <Company>Neuroglia SPRL</Company>
-    <Copyright>Copyright © 2021 Neuroglia SPRL. All rights reserved.</Copyright>
-    <RepositoryType>git</RepositoryType>
-    <RootNamespace>Neuroglia.AsyncApi</RootNamespace>
-    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-    <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
-    <Version>2.1.0.6</Version>
-    <Description>A .NET library to render and serve AsyncAPI documents generated based on code</Description>
-    <PackageLicenseFile>LICENSE</PackageLicenseFile>
-    <PackageProjectUrl>https://github.com/neuroglia-io/AsyncApi</PackageProjectUrl>
-    <PackageIcon>logo_white_on_blue_256.png</PackageIcon>
-    <PackageIconUrl />
-    <RepositoryUrl>https://github.com/neuroglia-io/AsyncApi</RepositoryUrl>
-    <PackageTags>neuroglia asyncapi asp</PackageTags>
-    <NeutralLanguage>English</NeutralLanguage>
-    <IsPackable>True</IsPackable>
-    <OutputType>Library</OutputType>
-  </PropertyGroup>
-
-  <PropertyGroup>
-    <DocumentationFile>Neuroglia.AsyncApi.AspNetCore.xml</DocumentationFile>
+    <TargetFramework>net8.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+	<OutputType>Library</OutputType>
+	<RootNamespace>$(MSBuildProjectName.Replace(" ", "_").Replace(".AspNetCore", ""))</RootNamespace>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.Extensions.Options.ConfigurationExtensions" Version="6.0.0" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <ProjectReference Include="..\Neuroglia.AsyncApi.Core\Neuroglia.AsyncApi.Core.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <None Include="..\..\assets\img\logo_white_on_blue_256.png">
-      <Pack>True</Pack>
-      <PackagePath></PackagePath>
-    </None>
-    <None Include="..\..\LICENSE">
-      <Pack>True</Pack>
-      <PackagePath></PackagePath>
-    </None>
+    <ProjectReference Include="..\Neuroglia.AsyncApi.DependencyInjectionExtensions\Neuroglia.AsyncApi.DependencyInjectionExtensions.csproj" />
   </ItemGroup>
 
 </Project>

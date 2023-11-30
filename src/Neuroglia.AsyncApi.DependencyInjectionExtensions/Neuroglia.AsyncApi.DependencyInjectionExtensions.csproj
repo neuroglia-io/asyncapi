@@ -1,0 +1,23 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <RootNamespace>$(MSBuildProjectName.Replace(" ", "_").Replace(".DependencyInjectionExtensions", ""))</RootNamespace>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="FluentValidation.DependencyInjectionExtensions" Version="11.8.1" />
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="8.0.0" />
+    <PackageReference Include="System.Linq.Async" Version="6.0.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Neuroglia.AsyncApi.FluentBuilders\Neuroglia.AsyncApi.FluentBuilders.csproj" />
+    <ProjectReference Include="..\Neuroglia.AsyncApi.Generation\Neuroglia.AsyncApi.Generation.csproj" />
+    <ProjectReference Include="..\Neuroglia.AsyncApi.IO\Neuroglia.AsyncApi.IO.csproj" />
+    <ProjectReference Include="..\Neuroglia.AsyncApi.Validation\Neuroglia.AsyncApi.Validation.csproj" />
+  </ItemGroup>
+
+</Project>

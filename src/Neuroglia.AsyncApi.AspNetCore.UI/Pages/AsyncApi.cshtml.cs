@@ -1,76 +1,63 @@
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using Neuroglia.AsyncApi.Models;
-using Neuroglia.AsyncApi.Services;
-using System;
-using System.Linq;
+using Neuroglia.AsyncApi.Generation;
 
-namespace Neuroglia.AsyncApi.AspNetCore.UI.Pages
+namespace Neuroglia.AsyncApi.AspNetCore.UI.Pages;
+
+/// <summary>
+/// Represents the model of the page used to render an <see cref="AsyncApiDocument"/>
+/// </summary>
+/// <remarks>
+/// Initializes a new <see cref="AsyncApiDocumentModel"/>
+/// </remarks>
+/// <param name="documents">The service used to access generated <see cref="AsyncApiDocument"/>s</param>
+public class AsyncApiDocumentModel(IAsyncApiDocumentProvider documents)
+    : PageModel
 {
 
+    IAsyncApiDocumentProvider Documents { get; } = documents;
+
     /// <summary>
-    /// Represents the model of the page used to render an <see cref="AsyncApiDocument"/>
+    /// Gets the requested <see cref="AsyncApiDocument"/>'s title
     /// </summary>
-    public class AsyncApiModel 
-        : PageModel
+    public string? RequestedTitle { get; private set; }
+
+    /// <summary>
+    /// Gets the requested <see cref="AsyncApiDocument"/>'s version
+    /// </summary>
+    public string? RequestedVersion { get; private set; }
+
+    /// <summary>
+    /// Gets the current <see cref="AsyncApiDocument"/>
+    /// </summary>
+    public AsyncApiDocument? Document { get; private set; }
+
+    /// <summary>
+    /// Renders the <see cref="AsyncApiDocument"/> with the specified title and version
+    /// </summary>
+    /// <param name="title">The title of the <see cref="AsyncApiDocument"/> to render</param>
+    /// <param name="version">The version of the <see cref="AsyncApiDocument"/> to render</param>
+    public void OnGet(string title, string version)
     {
-
-        /// <summary>
-        /// Initializes a new <see cref="AsyncApiModel"/>
-        /// </summary>
-        /// <param name="documents">The service used to access generated <see cref="AsyncApiDocument"/>s</param>
-        public AsyncApiModel(IAsyncApiDocumentProvider documents)
+        this.RequestedTitle = title;
+        this.RequestedVersion = version;
+        if (string.IsNullOrWhiteSpace(title))
         {
-            this.Documents = documents;
+            this.Document = this.Documents.FirstOrDefault();
         }
-
-        IAsyncApiDocumentProvider Documents { get; }
-
-        /// <summary>
-        /// Gets the requested <see cref="AsyncApiDocument"/>'s title
-        /// </summary>
-        public string RequestedTitle { get; private set; }
-
-        /// <summary>
-        /// Gets the requested <see cref="AsyncApiDocument"/>'s version
-        /// </summary>
-        public string RequestedVersion { get; private set; }
-
-        /// <summary>
-        /// Gets the current <see cref="AsyncApiDocument"/>
-        /// </summary>
-        public AsyncApiDocument Document { get; private set; }
-
-        /// <summary>
-        /// Renders the <see cref="AsyncApiDocument"/> with the specified title and version
-        /// </summary>
-        /// <param name="title">The title of the <see cref="AsyncApiDocument"/> to render</param>
-        /// <param name="version">The version of the <see cref="AsyncApiDocument"/> to render</param>
-        public void OnGet(string title, string version)
+        else
         {
-            this.RequestedTitle = title;
-            this.RequestedVersion = version;
-            if (string.IsNullOrWhiteSpace(title))
-            {
-                this.Document = this.Documents.FirstOrDefault();
-            }
+            if (string.IsNullOrWhiteSpace(version))
+                this.Document = this.Documents
+                    .Where(d =>
+                        d.Info.Title.Equals(title, StringComparison.OrdinalIgnoreCase))
+                    .OrderByDescending(d => d.Info.Version)
+                    .FirstOrDefault();
             else
-            {
-                if (string.IsNullOrWhiteSpace(version))
-                    this.Document = this.Documents
-                        .Where(d =>
-                            d.Info.Title.Equals(title, StringComparison.OrdinalIgnoreCase) 
-                            || d.Info.Title.Replace(" ", "").Equals(title, StringComparison.OrdinalIgnoreCase))
-                        .OrderByDescending(d => d.Info.Version)
-                        .FirstOrDefault();
-                else
-                    this.Document = this.Documents
-                        .Where(d => 
-                        d.Info.Title.Equals(title, StringComparison.OrdinalIgnoreCase) 
-                        || d.Info.Title.Replace(" ", "").Equals(title, StringComparison.OrdinalIgnoreCase))
-                        .FirstOrDefault(d => d.Info.Version.Equals(version, StringComparison.OrdinalIgnoreCase));
-            }
+                this.Document = this.Documents
+                    .Where(d => 
+                    d.Info.Title.Equals(title, StringComparison.OrdinalIgnoreCase))
+                    .FirstOrDefault(d => d.Info.Version.Equals(version, StringComparison.OrdinalIgnoreCase));
         }
-
     }
 
 }

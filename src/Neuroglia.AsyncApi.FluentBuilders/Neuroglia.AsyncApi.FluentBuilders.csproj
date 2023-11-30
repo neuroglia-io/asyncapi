@@ -1,0 +1,21 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="FluentValidation" Version="11.8.1" />
+    <PackageReference Include="JsonSchema.Net.Generation" Version="3.5.0" />
+    <PackageReference Include="Neuroglia.JsonSchema.Generation" Version="4.7.0" />
+    <PackageReference Include="Neuroglia.Serialization.YamlDotNet" Version="4.7.0" />
+    <PackageReference Include="SemanticVersion" Version="2.1.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Neuroglia.AsyncApi.Core\Neuroglia.AsyncApi.Core.csproj" />
+  </ItemGroup>
+
+</Project>

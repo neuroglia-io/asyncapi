@@ -1,0 +1,51 @@
+﻿namespace Neuroglia.AsyncApi.Specification.v2;
+
+/// <summary>
+/// Represents an object that provides metadata about the API. The metadata can be used by the clients if needed
+/// </summary>
+[DataContract]
+public record ApiInfo
+{
+
+    /// <summary>
+    /// Gets/sets the title of the application
+    /// </summary>
+    [Required]
+    [DataMember(Order = 1, Name = "title"), JsonPropertyOrder(1), JsonPropertyName("title"), YamlMember(Order = 1, Alias = "title")]
+    public virtual string Title { get; set; } = null!;
+
+    /// <summary>
+    /// Gets/sets the version of the application API (not to be confused with the specification version)
+    /// </summary>
+    [Required]
+    [DataMember(Order = 2, Name = "version"), JsonPropertyOrder(2), JsonPropertyName("version"), YamlMember(Order = 2, Alias = "version")]
+    public virtual string Version { get; set; } = null!;
+
+    /// <summary>
+    /// Gets/sets a short description of the application. <see href="https://spec.commonmark.org/">CommonMark</see> syntax can be used for rich text representation.
+    /// </summary>
+    [DataMember(Order = 3, Name = "description"), JsonPropertyOrder(3), JsonPropertyName("description"), YamlMember(Order = 3, Alias = "description")]
+    public virtual string? Description { get; set; }
+
+    /// <summary>
+    /// Gets/sets a <see cref="Uri"/> to the Terms of Service for the API.
+    /// </summary>
+    [DataMember(Order = 4, Name = "termsOfService"), JsonPropertyOrder(4), JsonPropertyName("termsOfService"), YamlMember(Order = 4, Alias = "termsOfService")]
+    public virtual Uri? TermsOfService { get; set; }
+
+    /// <summary>
+    /// Gets/sets the contact information for the exposed API.
+    /// </summary>
+    [DataMember(Order = 5, Name = "contact"), JsonPropertyOrder(5), JsonPropertyName("contact"), YamlMember(Order = 5, Alias = "contact")]
+    public virtual ContactDefinition? Contact { get; set; }
+
+    /// <summary>
+    /// Gets/sets the license information for the exposed API.
+    /// </summary>
+    [DataMember(Order = 6, Name = "license"), JsonPropertyOrder(6), JsonPropertyName("license"), YamlMember(Order = 6, Alias = "license")]
+    public virtual LicenseDefinition? License { get; set; }
+
+    /// <inheritdoc/>
+    public override string ToString() => Title;
+
+}

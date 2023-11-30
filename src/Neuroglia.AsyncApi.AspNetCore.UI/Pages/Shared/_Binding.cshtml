@@ -1,0 +1,32 @@
+﻿@model BindingDefinitionViewModel
+@{
+    var binding = this.Model.Binding;
+    var bindingName = binding.GetType().Name.Replace("ServerBindingDefinition", "").Replace("ChannelBindingDefinition", "").Replace("OperationBindingDefinition", "").Replace("MessageBindingDefinition", "").ToUpperInvariant();
+}
+
+<div class="card my-3">
+    <a data-bs-toggle="collapse" href="#@($"{this.Model.ParentRef}_{bindingName}")" role="button" aria-expanded="false">
+        <div class="card-header">
+            <span class="text-secondary fw-bold">@bindingName</span>
+        </div>
+    </a>
+    <div id="@($"{this.Model.ParentRef}_{bindingName}")" class="card-body collapse">
+        <div class="card border-0">
+            <div class="card-body m-0 p-0">
+                <div class="row m-1">
+                    @foreach (var property in binding.GetType().GetProperties().Where(p => !p.TryGetCustomAttribute<JsonIgnoreAttribute>(out _)))
+                    {
+                        var value = property.GetValue(binding);
+                        if (value == null) continue;
+                        <div class="col-md-3">
+                            <span class="font-italic">@property.Name</span>
+                        </div>
+                        <div class="col-md-9">
+                            <span class="font-weight-bold text-primary">@value</span>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
