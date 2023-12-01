@@ -40,8 +40,9 @@ public interface IServerDefinitionBuilder
     /// Configures the <see cref="ServerDefinition"/> to build to use the specified <see cref="SecuritySchemeDefinition"/>
     /// </summary>
     /// <param name="name">The name of the <see cref="SecuritySchemeDefinition"/> to add</param>
+    /// <param name="requirement">The security requirement object, if any</param>
     /// <returns>The configured <see cref="IServerDefinitionBuilder"/></returns>
-    IServerDefinitionBuilder WithSecurityScheme(string name);
+    IServerDefinitionBuilder WithSecurityRequirement(string name, object? requirement = null);
 
     /// <summary>
     /// Adds the specified <see cref="IServerBindingDefinition"/> to the <see cref="ServerDefinition"/> to build

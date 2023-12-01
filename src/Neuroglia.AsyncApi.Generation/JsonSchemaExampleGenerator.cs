@@ -56,7 +56,10 @@ public class JsonSchemaExampleGenerator(IJsonSerializer serializer)
         var enumValues = schema.GetEnum();
         if (enumValues != null) return enumValues.FirstOrDefault()?.ToString();
 
-        var schemaType = schema.GetJsonType();
+        var examples = schema.GetExamples();
+        if (examples != null) return examples.FirstOrDefault()?.ToString();
+
+        var schemaType = schema.GetJsonType() & ~SchemaValueType.Null;
         return schemaType switch
         {
             SchemaValueType.Array => GenerateExampleArray(schema, requiredPropertiesOnly),

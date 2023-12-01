@@ -11,4 +11,8 @@
     <ProjectReference Include="..\Neuroglia.AsyncApi.AspNetCore\Neuroglia.AsyncApi.AspNetCore.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+	<PackageReference Include="JsonCons.Utilities" Version="1.0.0" />
+  </ItemGroup>
+
 </Project>

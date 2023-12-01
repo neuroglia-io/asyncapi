@@ -3,25 +3,26 @@ using Neuroglia.AsyncApi;
 using Neuroglia.AsyncApi.Specification.v2;
 using Neuroglia.AsyncApi.Specification.v2.Bindings.Http;
 using Neuroglia.AsyncApi.Specification.v2.Bindings.Mqtt;
+using Neuroglia.Data.Schemas;
 using StreetLightsApi.Server.Services;
+using System.Net.Mime;
 
 var builder = WebApplication.CreateBuilder(args);
 
 using var httpClient = new HttpClient();
 var cloudEventSchema = JsonSchema.FromText(await httpClient.GetStringAsync("https://raw.githubusercontent.com/cloudevents/spec/v1.0.1/spec.json").ConfigureAwait(false));
-
 var jsonSchemaBuilder = new JsonSchemaBuilder();
 jsonSchemaBuilder.Type(SchemaValueType.Object);
 jsonSchemaBuilder.AllOf(cloudEventSchema);
-jsonSchemaBuilder.Properties(("type", new JsonSchemaBuilder().Const("com.streetlights.light.measured.v1").Build()));
+jsonSchemaBuilder.Properties(("type", new JsonSchemaBuilder().Const("com.streetlights.light.measured.v1").Build()), ("datacontenttype", new JsonSchemaBuilder().Const(MediaTypeNames.Application.Json).Build()));
 var lightMeasuredEventSchema = jsonSchemaBuilder.Build();
-
 jsonSchemaBuilder = new JsonSchemaBuilder();
 jsonSchemaBuilder.Type(SchemaValueType.Object);
 jsonSchemaBuilder.AllOf(cloudEventSchema);
-jsonSchemaBuilder.Properties(("type", new JsonSchemaBuilder().Const("com.streetlights.sensor.movement-detected.v2").Build()));
+jsonSchemaBuilder.Properties(("type", new JsonSchemaBuilder().Const("com.streetlights.sensor.movement-detected.v2").Build()), ("datacontenttype", new JsonSchemaBuilder().Const(MediaTypeNames.Application.Json).Build()));
 var movementDetectedEventSchema = jsonSchemaBuilder.Build();
 
+builder.Services.AddHttpClient(); //todo: move to proper extension
 builder.Services.AddRazorPages()
     .AddRazorRuntimeCompilation();
 builder.Services.AddAsyncApiUI();
@@ -47,32 +48,48 @@ builder.Services.AddAsyncApiDocument(document => document
     .WithServer("StreetLightsApi", server => server
         .WithUrl(new("https://streetlights.fake.com"))
         .WithProtocol(AsyncApiProtocol.Http, "2.0")
-        .WithBinding(new HttpServerBindingDefinition()))
+        .WithBinding(new HttpServerBindingDefinition())
+        .WithSecurityRequirement("oauth2"))
     .WithChannel("/events", channel => channel
         .WithDescription("The endpoint used to publish and subscribe to cloud events")
         .WithBinding(new HttpChannelBindingDefinition())
         .WithSubscribeOperation(operation => operation
             .WithOperationId("ObserveCloudEvents")
             .WithDescription("Observes cloud events published by the StreetLightsApi")
+            .WithBinding(new HttpOperationBindingDefinition() { Method = Neuroglia.AsyncApi.Specification.v2.Bindings.Http.HttpMethod.POST, Type = HttpBindingOperationType.Response })
             .WithMessages
             (
                 message => message
                     .WithName("LightMeasuredEvent")
                     .WithDescription("The event fired whenever the luminosity of a light has been measured")
+                    .WithContentType("application/cloudevents+json")
                     .WithTraitReference("cloud-event")
-                    .WithPayloadSchema(lightMeasuredEventSchema),
+                    .WithPayloadSchema(lightMeasuredEventSchema)
+                    .WithTag(tag => tag
+                        .WithName("light")),
                 message => message
                     .WithName("MovementDetectedEvent")
                     .WithDescription("The event fired whenever a movement has been detected by a sensor")
+                    .WithContentType("application/cloudevents+json")
                     .WithTraitReference("cloud-event")
                     .WithPayloadSchema(movementDetectedEventSchema)
+                    .WithTag(tag => tag
+                        .WithName("movement"))
             )))
-    .AddMessageTrait("cloud-event", message => message
+    .WithMessageTraitComponent("cloud-event", message => message
         .WithBinding(new HttpMessageBindingDefinition())
-        .WithContentType("application/cloudevents+json")));
+        .WithContentType("application/cloudevents+json"))
+    .WithSecurityScheme("oauth2", scheme => scheme
+        .WithType(SecuritySchemeType.OAuth2)
+        .WithDescription("The security scheme used to authorize application requests")
+        .WithAuthorizationScheme("Bearer")
+        .WithOAuthFlows(oauth => oauth
+            .WithClientCredentialsFlow(flow => flow
+                .WithAuthorizationUrl(new("https://fake.idp.com/token"))
+                .WithScope("api:read", "The scope used to read data")))));
+builder.Services.AddSingleton<IJsonSchemaResolver, JsonSchemaResolver>(); //todo: remove
 
 var app = builder.Build();
-app.UseRouteDebugger("/tools/route-debugger");
 app.UseStaticFiles();
 app.UseRouting();
 app.UseAuthorization();

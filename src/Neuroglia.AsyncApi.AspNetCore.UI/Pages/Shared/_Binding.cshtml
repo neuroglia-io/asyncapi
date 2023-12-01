@@ -13,19 +13,32 @@
     <div id="@($"{this.Model.ParentRef}_{bindingName}")" class="card-body collapse">
         <div class="card border-0">
             <div class="card-body m-0 p-0">
-                <div class="row m-1">
-                    @foreach (var property in binding.GetType().GetProperties().Where(p => !p.TryGetCustomAttribute<JsonIgnoreAttribute>(out _)))
-                    {
-                        var value = property.GetValue(binding);
-                        if (value == null) continue;
-                        <div class="col-md-3">
-                            <span class="font-italic">@property.Name</span>
-                        </div>
-                        <div class="col-md-9">
-                            <span class="font-weight-bold text-primary">@value</span>
-                        </div>
+                    @{
+                        var properties = binding.GetType().GetProperties().Where(p => !p.TryGetCustomAttribute<JsonIgnoreAttribute>(out _));
+                        if (properties.Any())
+                        {
+                            foreach (var property in properties)
+                            {
+                                var value = property.GetValue(binding);
+                                if (value == null) continue;
+                                <div class="row mb-1">
+
+                                    <div class="col-2 text-secondary">
+                                        <small>@property.Name</small>
+                                    </div>
+                                    
+                                    <div class="col">
+                                        <span class="badge border border-muted text-secondary">@value</span>
+                                    </div>
+
+                                </div>
+                            }
+                        }
+                        else
+                        {
+                            <p class="alert alert-warning fst-italic my-3">No specific configuration.</p>
+                        }
                     }
-                </div>
             </div>
         </div>
     </div>

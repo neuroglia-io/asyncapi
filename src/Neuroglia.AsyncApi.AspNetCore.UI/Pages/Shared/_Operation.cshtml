@@ -39,7 +39,10 @@
 
         <div id="@operationRef" class="card-body collapse">
 
-            <p><small class="text-secondary">@operation.Summary</small></p>
+            @if (!string.IsNullOrWhiteSpace(operation.Summary))
+            {
+                <p><small class="text-secondary">@operation.Summary</small></p>
+            }
 
             <div class="card border-0">
                 <a data-bs-toggle="collapse" href="#@(operationRef)_bindings" role="button" aria-expanded="false">

@@ -66,9 +66,9 @@ public record ServerDefinition
     /// <returns>The interpolated server url</returns>
     public virtual Uri InterpolateUrlVariables()
     {
-        if (Variables == null || !Variables.Any()) return Url;
-        var rawUrl = Url.ToString();
-        foreach (var variable in Variables)
+        if (this.Variables == null || this.Variables.Count == 0) return Url;
+        var rawUrl = this.Url.ToString();
+        foreach (var variable in this.Variables)
         {
             var value = variable.Value.Default;
             if (string.IsNullOrWhiteSpace(value)) value = variable.Value.Enum?.FirstOrDefault();
@@ -79,6 +79,6 @@ public record ServerDefinition
     }
 
     /// <inheritdoc/>
-    public override string ToString() => Url.ToString();
+    public override string ToString() => this.Url.ToString();
 
 }

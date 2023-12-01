@@ -138,7 +138,7 @@ public class AsyncApiDocumentBuilder(IServiceProvider serviceProvider, IEnumerab
     {
         if (string.IsNullOrWhiteSpace(name)) throw new ArgumentNullException(nameof(name));
         ArgumentNullException.ThrowIfNull(setup);
-        if (this.Document.Channels == null) this.Document.Channels = [];
+        this.Document.Channels ??= [];
         var builder = ActivatorUtilities.CreateInstance<ChannelDefinitionBuilder>(this.ServiceProvider);
         setup(builder);
         this.Document.Channels.Add(name, builder.Build());
@@ -146,7 +146,31 @@ public class AsyncApiDocumentBuilder(IServiceProvider serviceProvider, IEnumerab
     }
 
     /// <inheritdoc/>
-    public virtual IAsyncApiDocumentBuilder AddSchema(string name, JsonSchema schema)
+    public virtual IAsyncApiDocumentBuilder WithSecurityScheme(string name, SecuritySchemeDefinition scheme)
+    {
+        if (string.IsNullOrWhiteSpace(name)) throw new ArgumentNullException(nameof(name));
+        ArgumentNullException.ThrowIfNull(scheme);
+        if (this.Document.Components == null) this.Document.Components = new();
+        if (this.Document.Components.SecuritySchemes == null) this.Document.Components.SecuritySchemes = [];
+        this.Document.Components.SecuritySchemes.Add(name, scheme);
+        return this;
+    }
+
+    /// <inheritdoc/>
+    public virtual IAsyncApiDocumentBuilder WithSecurityScheme(string name, Action<ISecuritySchemeDefinitionBuilder> setup)
+    {
+        if (string.IsNullOrWhiteSpace(name)) throw new ArgumentNullException(nameof(name));
+        ArgumentNullException.ThrowIfNull(setup);
+        this.Document.Components ??= new();
+        this.Document.Components.SecuritySchemes ??= [];
+        var builder = ActivatorUtilities.CreateInstance<SecuritySchemeDefinitionBuilder>(this.ServiceProvider);
+        setup(builder);
+        this.Document.Components.SecuritySchemes.Add(name, builder.Build());
+        return this;
+    }
+
+    /// <inheritdoc/>
+    public virtual IAsyncApiDocumentBuilder WithSchemaComponent(string name, JsonSchema schema)
     {
         if (string.IsNullOrWhiteSpace(name))throw new ArgumentNullException(nameof(name));
         ArgumentNullException.ThrowIfNull(schema);
@@ -157,7 +181,7 @@ public class AsyncApiDocumentBuilder(IServiceProvider serviceProvider, IEnumerab
     }
 
     /// <inheritdoc/>
-    public virtual IAsyncApiDocumentBuilder AddMessage(string name, MessageDefinition message)
+    public virtual IAsyncApiDocumentBuilder WithMessageComponent(string name, MessageDefinition message)
     {
         if (string.IsNullOrWhiteSpace(name))throw new ArgumentNullException(nameof(name));
         ArgumentNullException.ThrowIfNull(message);
@@ -168,28 +192,17 @@ public class AsyncApiDocumentBuilder(IServiceProvider serviceProvider, IEnumerab
     }
 
     /// <inheritdoc/>
-    public virtual IAsyncApiDocumentBuilder AddMessage(string name, Action<IMessageDefinitionBuilder> setup)
+    public virtual IAsyncApiDocumentBuilder WithMessageComponent(string name, Action<IMessageDefinitionBuilder> setup)
     {
         if (string.IsNullOrWhiteSpace(name))throw new ArgumentNullException(nameof(name));
         ArgumentNullException.ThrowIfNull(setup);
         var builder = ActivatorUtilities.CreateInstance<MessageDefinitionBuilder>(this.ServiceProvider);
         setup(builder);
-        return this.AddMessage(name, builder.Build());
+        return this.WithMessageComponent(name, builder.Build());
     }
 
     /// <inheritdoc/>
-    public virtual IAsyncApiDocumentBuilder AddSecurityScheme(string name, SecuritySchemeDefinition scheme)
-    {
-        if (string.IsNullOrWhiteSpace(name))throw new ArgumentNullException(nameof(name));
-        ArgumentNullException.ThrowIfNull(scheme);
-        if (this.Document.Components == null)this.Document.Components = new();
-        if (this.Document.Components.SecuritySchemes == null) this.Document.Components.SecuritySchemes = [];
-        this.Document.Components.SecuritySchemes.Add(name, scheme);
-        return this;
-    }
-
-    /// <inheritdoc/>
-    public virtual IAsyncApiDocumentBuilder AddParameter(string name, ParameterDefinition parameter)
+    public virtual IAsyncApiDocumentBuilder WithParameterComponent(string name, ParameterDefinition parameter)
     {
         if (string.IsNullOrWhiteSpace(name))throw new ArgumentNullException(nameof(name));
         ArgumentNullException.ThrowIfNull(parameter);
@@ -200,18 +213,18 @@ public class AsyncApiDocumentBuilder(IServiceProvider serviceProvider, IEnumerab
     }
 
     /// <inheritdoc/>
-    public virtual IAsyncApiDocumentBuilder AddParameter(string name, Action<IParameterDefinitionBuilder> setup)
+    public virtual IAsyncApiDocumentBuilder WithParameterComponent(string name, Action<IParameterDefinitionBuilder> setup)
     {
         if (string.IsNullOrWhiteSpace(name))
         throw new ArgumentNullException(nameof(name));
         ArgumentNullException.ThrowIfNull(setup);
         var builder = ActivatorUtilities.CreateInstance<ParameterDefinitionBuilder>(this.ServiceProvider);
         setup(builder);
-        return this.AddParameter(name, builder.Build());
+        return this.WithParameterComponent(name, builder.Build());
     }
 
     /// <inheritdoc/>
-    public virtual IAsyncApiDocumentBuilder AddCorrelationId(string name, CorrelationIdDefinition correlationId)
+    public virtual IAsyncApiDocumentBuilder WithCorrelationIdComponent(string name, CorrelationIdDefinition correlationId)
     {
         if (string.IsNullOrWhiteSpace(name))throw new ArgumentNullException(nameof(name));
         ArgumentNullException.ThrowIfNull(correlationId);
@@ -222,7 +235,7 @@ public class AsyncApiDocumentBuilder(IServiceProvider serviceProvider, IEnumerab
     }
 
     /// <inheritdoc/>
-    public virtual IAsyncApiDocumentBuilder AddOperationTrait(string name, OperationTraitDefinition trait)
+    public virtual IAsyncApiDocumentBuilder WithOperationTraitComponent(string name, OperationTraitDefinition trait)
     {
         if (string.IsNullOrWhiteSpace(name))throw new ArgumentNullException(nameof(name));
         ArgumentNullException.ThrowIfNull(trait);
@@ -233,17 +246,17 @@ public class AsyncApiDocumentBuilder(IServiceProvider serviceProvider, IEnumerab
     }
 
     /// <inheritdoc/>
-    public virtual IAsyncApiDocumentBuilder AddOperationTrait(string name, Action<IOperationTraitBuilder> setup)
+    public virtual IAsyncApiDocumentBuilder WithOperationTraitComponent(string name, Action<IOperationTraitBuilder> setup)
     {
         if (string.IsNullOrWhiteSpace(name))throw new ArgumentNullException(nameof(name));
         ArgumentNullException.ThrowIfNull(setup);
         var builder = ActivatorUtilities.CreateInstance<OperationTraitBuilder>(this.ServiceProvider);
         setup(builder);
-        return this.AddOperationTrait(name, builder.Build());
+        return this.WithOperationTraitComponent(name, builder.Build());
     }
 
     /// <inheritdoc/>
-    public virtual IAsyncApiDocumentBuilder AddMessageTrait(string name, MessageTraitDefinition trait)
+    public virtual IAsyncApiDocumentBuilder WithMessageTraitComponent(string name, MessageTraitDefinition trait)
     {
         if (string.IsNullOrWhiteSpace(name))throw new ArgumentNullException(nameof(name));
         ArgumentNullException.ThrowIfNull(trait);
@@ -254,17 +267,17 @@ public class AsyncApiDocumentBuilder(IServiceProvider serviceProvider, IEnumerab
     }
 
     /// <inheritdoc/>
-    public virtual IAsyncApiDocumentBuilder AddMessageTrait(string name, Action<IMessageTraitBuilder> setup)
+    public virtual IAsyncApiDocumentBuilder WithMessageTraitComponent(string name, Action<IMessageTraitBuilder> setup)
     {
         if (string.IsNullOrWhiteSpace(name))throw new ArgumentNullException(nameof(name));
         ArgumentNullException.ThrowIfNull(setup);
         var builder = ActivatorUtilities.CreateInstance<MessageTraitBuilder>(this.ServiceProvider);
         setup(builder);
-        return this.AddMessageTrait(name, builder.Build());
+        return this.WithMessageTraitComponent(name, builder.Build());
     }
 
     /// <inheritdoc/>
-    public virtual IAsyncApiDocumentBuilder AddServerBinding(string name, ServerBindingDefinitionCollection bindings)
+    public virtual IAsyncApiDocumentBuilder WithServerBindingComponent(string name, ServerBindingDefinitionCollection bindings)
     {
         if (string.IsNullOrWhiteSpace(name))throw new ArgumentNullException(nameof(name));
         ArgumentNullException.ThrowIfNull(bindings);
@@ -275,7 +288,7 @@ public class AsyncApiDocumentBuilder(IServiceProvider serviceProvider, IEnumerab
     }
 
     /// <inheritdoc/>
-    public virtual IAsyncApiDocumentBuilder AddChannelBinding(string name, ChannelBindingDefinitionCollection bindings)
+    public virtual IAsyncApiDocumentBuilder WithChannelBindingComponent(string name, ChannelBindingDefinitionCollection bindings)
     {
         if (string.IsNullOrWhiteSpace(name))throw new ArgumentNullException(nameof(name));
         ArgumentNullException.ThrowIfNull(bindings);
@@ -286,7 +299,7 @@ public class AsyncApiDocumentBuilder(IServiceProvider serviceProvider, IEnumerab
     }
 
     /// <inheritdoc/>
-    public virtual IAsyncApiDocumentBuilder AddOperationBinding(string name, OperationBindingDefinitionCollection bindings)
+    public virtual IAsyncApiDocumentBuilder WithOperationBindingComponent(string name, OperationBindingDefinitionCollection bindings)
     {
         if (string.IsNullOrWhiteSpace(name))throw new ArgumentNullException(nameof(name));
         ArgumentNullException.ThrowIfNull(bindings);
@@ -297,7 +310,7 @@ public class AsyncApiDocumentBuilder(IServiceProvider serviceProvider, IEnumerab
     }
 
     /// <inheritdoc/>
-    public virtual IAsyncApiDocumentBuilder AddMessageBinding(string name, MessageBindingCollection bindings)
+    public virtual IAsyncApiDocumentBuilder WithMessageBindingComponent(string name, MessageBindingCollection bindings)
     {
         if (string.IsNullOrWhiteSpace(name))throw new ArgumentNullException(nameof(name));
         ArgumentNullException.ThrowIfNull(bindings);

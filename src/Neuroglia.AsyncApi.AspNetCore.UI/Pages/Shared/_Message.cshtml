@@ -1,20 +1,24 @@
 ﻿@inject IJsonSerializer Serializer
+@inject IJsonSchemaResolver JsonSchemaResolver
+@inject IJsonSchemaExampleGenerator ExampleGenerator
 @model MessageDefinitionViewModel
 @{
     var operationRef = this.Model.OperationRef;
     var messageRef = $"{operationRef}_message{this.Model.Index}";
     var message = this.Model.Definition;
     var payloadSchema = message.Payload == null ? null : JsonSchema.FromText(this.Serializer.SerializeToText(message.Payload));
+    if (payloadSchema != null) payloadSchema = await this.JsonSchemaResolver.ResolveSchemaAsync(payloadSchema);
 }
 <div class="card my-3">
-    <a data-bs-toggle="collapse" href="#@messageRef" role="button" aria-expanded="false" title="@message?.Description">
+    <a data-bs-toggle="collapse" href="#@messageRef" role="button" aria-expanded="false" title="@message?.Summary">
         <div class="card-header">
             <div class="row">
-                <div class="col-md-4">
+                <div class="col-md-5">
                     <span class="fw-bold fs-5 text-secondary align-middle">#@Model.Index</span>
-                    <span class="text-muted align-middle">@message?.Name</span>
+                    <span class="text-muted align-middle mx-2">@message?.Name</span>
+                    <span class="badge border border-secondary text-secondary">@message?.ContentType</span>
                 </div>
-                <div class="col-md-8 text-end">
+                <div class="col-md-7 text-end">
                     @if (message?.Tags != null)
                     {
                         foreach (var tag in message.Tags)
@@ -28,7 +32,10 @@
     </a>
     <div id="@messageRef" class="card-body collapse">
 
-        <p><small class="text-secondary">@message?.Description</small></p>
+        @if (!string.IsNullOrWhiteSpace(message?.Description))
+        {
+            <p><small class="text-secondary">@message?.Description</small></p>
+        }
 
         <div class="card border-0">
             <a data-bs-toggle="collapse" href="#@(messageRef)_bindings" role="button" aria-expanded="false">
@@ -60,9 +67,9 @@
             var type = payloadSchema.GetJsonType()!;
             var properties = payloadSchema.GetProperties();
             <div class="card border-0">
-                <a data-bs-toggle="collapse" href="#@(messageRef)_payload" role="button" aria-expanded="false">
+                <a data-bs-toggle="collapse" href="#@(messageRef)_payload" role="button" aria-expanded="false" title="@payloadSchema.GetDescription()">
                     <div class="card-header bg-transparent">
-                        <span class="font-weight-bold text-secondary">Payload</span><span class="badge bg-secondary text-light ms-2">@(type == null ? "undefined" : EnumHelper.Stringify(type.Value).ToLowerInvariant())</span>
+                        <span class="font-weight-bold text-secondary">Payload</span><span class="badge bg-secondary text-light ms-2">@(type == null ? "object" : EnumHelper.Stringify(type.Value).ToLowerInvariant())</span>
                     </div>
                 </a>
                 @if (type == SchemaValueType.Array || type == SchemaValueType.Object)
@@ -73,13 +80,13 @@
                             <div class="col-7 p-3">
                                 <partial name="_Schema" model="new SchemaViewModel(this.Model.Document, payloadSchema)" />
                             </div>
-                            <div class="col-5 bg-secondary text-light p-3">
-                                @if (examples != null && examples.Any())
-                                {
+                            <div class="col-5 bg-secondary text-light p-3 rounded-1">
+                                @{
+                                    var example = examples != null && examples.Any() ? examples.Last().Value : this.ExampleGenerator.GenerateExample(payloadSchema);
                                     var serializationOptions = new System.Text.Json.JsonSerializerOptions();
                                     Neuroglia.Serialization.Json.JsonSerializer.DefaultOptionsConfiguration(serializationOptions);
                                     serializationOptions.WriteIndented = true;
-                                    <pre class="m-0"><code>@System.Text.Json.JsonSerializer.Serialize(examples.Last().Value, serializationOptions)</code></pre>
+                                    <pre class="m-0"><code>@System.Text.Json.JsonSerializer.Serialize(example, serializationOptions)</code></pre>
                                 }
                             </div>
                         </div>
