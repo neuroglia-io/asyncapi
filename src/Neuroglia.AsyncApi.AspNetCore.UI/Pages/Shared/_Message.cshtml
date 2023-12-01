@@ -17,6 +17,10 @@
                     <span class="fw-bold fs-5 text-secondary align-middle">#@Model.Index</span>
                     <span class="text-muted align-middle mx-2">@message?.Name</span>
                     <span class="badge border border-secondary text-secondary">@message?.ContentType</span>
+                    @if(message?.CorrelationId != null)
+                    {
+                        <i class="bi bi-link ms-2 text-dark" role="button" title="The message is correlatable"></i>
+                    }
                 </div>
                 <div class="col-md-7 text-end">
                     @if (message?.Tags != null)
@@ -57,6 +61,20 @@
                 }
             </div>
         </div>
+
+        @if (message?.CorrelationId != null)
+        {
+            <div class="card border-0">
+                <a data-bs-toggle="collapse" href="#@(messageRef)_correlationId" role="button" aria-expanded="false">
+                    <div class="card-header bg-transparent">
+                        <span class="font-weight-bold text-secondary">Correlation Id</span>
+                    </div>
+                </a>
+                <div id="@(messageRef)_correlationId" class="card-body m-0 p-0 collapse show">
+                    <partial name="_CorrelationId" model="new CorrelationIdDefinitionViewModel(this.Model.Document, message.CorrelationId)" />
+                </div>
+            </div>
+        }
 
         @if (payloadSchema == null)
         {

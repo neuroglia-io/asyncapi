@@ -1,6 +1,7 @@
 ﻿using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Options;
 using Neuroglia.AsyncApi.Generation;
+using Neuroglia.AsyncApi.v2;
 using System.Collections;
 
 namespace Neuroglia.AsyncApi;

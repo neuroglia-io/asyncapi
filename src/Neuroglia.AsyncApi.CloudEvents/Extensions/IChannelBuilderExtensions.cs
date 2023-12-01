@@ -1,5 +1,5 @@
 ﻿using Neuroglia.AsyncApi.FluentBuilders;
-using Neuroglia.AsyncApi.Specification.v2;
+using Neuroglia.AsyncApi.v2;
 
 namespace Neuroglia.AsyncApi.CloudEvents;
 

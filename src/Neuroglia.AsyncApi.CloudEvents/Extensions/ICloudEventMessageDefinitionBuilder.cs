@@ -1,5 +1,5 @@
 ﻿using Json.Schema;
-using Neuroglia.AsyncApi.Specification.v2;
+using Neuroglia.AsyncApi.v2;
 using Neuroglia.Eventing.CloudEvents;
 
 namespace Neuroglia.AsyncApi.CloudEvents;

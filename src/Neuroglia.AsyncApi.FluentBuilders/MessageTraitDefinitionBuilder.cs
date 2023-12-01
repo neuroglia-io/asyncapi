@@ -1,4 +1,6 @@
-﻿using Neuroglia.Json.Schema.Generation;
+﻿using Neuroglia.AsyncApi.v2;
+using Neuroglia.AsyncApi.v2.Bindings;
+using Neuroglia.Json.Schema.Generation;
 
 namespace Neuroglia.AsyncApi.FluentBuilders;
 

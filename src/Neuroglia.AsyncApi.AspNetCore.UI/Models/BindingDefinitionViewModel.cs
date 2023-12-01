@@ -1,4 +1,5 @@
-﻿using Neuroglia.AsyncApi.Specification.v2.Bindings;
+﻿using Neuroglia.AsyncApi.v2;
+using Neuroglia.AsyncApi.v2.Bindings;
 
 namespace Neuroglia.AsyncApi.AspNetCore.UI.Models;
 

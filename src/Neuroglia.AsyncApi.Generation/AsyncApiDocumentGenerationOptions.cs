@@ -1,4 +1,6 @@
-﻿namespace Neuroglia.AsyncApi.Generation;
+﻿using Neuroglia.AsyncApi.v2;
+
+namespace Neuroglia.AsyncApi.Generation;
 
 /// <summary>
 /// Represents the options used to configure <see cref="AsyncApiDocument"/> generation

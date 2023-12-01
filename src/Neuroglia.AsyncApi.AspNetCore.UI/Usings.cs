@@ -1,2 +1,2 @@
-﻿global using Neuroglia.AsyncApi.Specification.v2;
+﻿global using Neuroglia.AsyncApi.v2;
 global using Json.Schema;

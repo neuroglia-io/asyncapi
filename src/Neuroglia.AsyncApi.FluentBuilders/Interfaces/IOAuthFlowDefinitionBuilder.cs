@@ -1,4 +1,6 @@
-﻿namespace Neuroglia.AsyncApi.FluentBuilders;
+﻿using Neuroglia.AsyncApi.v2;
+
+namespace Neuroglia.AsyncApi.FluentBuilders;
 
 /// <summary>
 /// Defines the fundamentals of a service used to build <see cref="OAuthFlowDefinition"/>s

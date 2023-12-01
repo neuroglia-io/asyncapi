@@ -1,4 +1,6 @@
-﻿namespace Neuroglia.AsyncApi;
+﻿using Neuroglia.AsyncApi.v2;
+
+namespace Neuroglia.AsyncApi;
 
 /// <summary>
 /// Represents the options used to configure how to serve <see cref="AsyncApiDocument"/>s

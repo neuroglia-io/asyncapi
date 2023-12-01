@@ -24,9 +24,9 @@
             <div class="pb-3">
                 <span class="h1 p-0 m-0 align-middle">@document.Info.Title </span>
                 <span class="badge fs-5 rounded-pill bg-secondary text-light align-middle">@document.Info.Version</span>
-                <div class="btn-group" role="group" title="Download Async API document">
-                    <button id="downloadBtnGroup" type="button" class="btn btn-sm btn-primary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
-                        <small class="bi bi-download"></small>
+                <div class="btn-group ms-1" role="group" title="Download Async API document">
+                    <button id="downloadBtnGroup" type="button" class="btn btn-sm dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                        <i class="bi bi-download"></i>
                     </button>
                     <ul class="dropdown-menu" aria-labelledby="downloadBtnGroup">
                         <li>
@@ -92,18 +92,98 @@
         @if (document.Components != null)
         {
             <div class="card border-0">
-                <a data-bs-toggle="collapse" href="#components" role="button" aria-expanded="false"><div class="card-header bg-transparent"><span class="card-title h3 text-secondary">Components</span></div></a>
-                <div id="components" class="card-body p-0 collapse show">
+                <a data-bs-toggle="collapse" href="#components" role="button" aria-expanded="false">
+                    <div class="card-header bg-transparent">
+                        <span class="card-title h3 text-secondary">Components</span>
+                    </div>
+                </a>
+                <div id="components" class="card-body collapse show">
                     @if (document.Components.Schemas != null)
                     {
                         <div class="card">
-                            <div class="card-header">
-                                <h4 class="card-title"><a data-bs-toggle="collapse" href="#components_schemas" role="button" aria-expanded="false">Schemas</a></h4>
+                            <a data-bs-toggle="collapse" href="#components_schemas" role="button" aria-expanded="false">
+                                <div class="card-header bg-transparent">
+                                    <span class="text-secondary">Schemas</span>
+                                </div>
+                            </a>
+                            <div id="components_schemas" class="card-body collapse">
+                                @{
+                                    var index = 0;
+                                    foreach (var schema in document.Components.Schemas)
+                                    {
+                                        var reference = $"components_schemas_{index}";
+                                        <div class="card">
+                                            <a data-bs-toggle="collapse" href="#components_schemas_@index" role="button" aria-expanded="false">
+                                                <div class="card-header bg-transparent">
+                                                    <span class="fw-bold text-secondary">@schema.Key</span>
+                                                </div>
+                                            </a>
+                                            <div id="components_schemas_@index" class="card-body collapse">
+                                                <partial name="_Schema" model="new SchemaViewModel(document, schema.Value)" />
+                                            </div>
+                                        </div>
+                                        index++;
+                                    }
+                                }
                             </div>
-                            <div id="components_schemas" class="card-body">
-                                @foreach (var schema in document.Components.Schemas)
-                                {
-                                    
+                        </div>
+                    }
+                    @if(document.Components.Messages != null)
+                    {
+                        <div class="card">
+                            <a data-bs-toggle="collapse" href="#components_messages" role="button" aria-expanded="false">
+                                <div class="card-header bg-transparent">
+                                    <span class="text-secondary">Messages</span>
+                                </div>
+                            </a>
+                            <div id="components_messages" class="card-body collapse">
+                                @{
+                                    var index = 0;
+                                    foreach (var message in document.Components.Messages)
+                                    {
+                                        var reference = $"components_messages_{index}";
+                                        <div class="card">
+                                            <a data-bs-toggle="collapse" href="#@reference" role="button" aria-expanded="false">
+                                                <div class="card-header bg-transparent">
+                                                    <span class="fw-bold text-secondary">@message.Key</span>
+                                                </div>
+                                            </a>
+                                            <div id="@reference" class="card-body collapse">
+                                                <partial name="_Message" model="new MessageDefinitionViewModel(document, index, reference, message.Value)" />
+                                            </div>
+                                        </div>
+                                        index++;
+                                    }
+                                }
+                            </div>
+                        </div>                    
+                    }
+                    @if(document.Components.SecuritySchemes != null)
+                    {
+                        <div class="card">
+                            <a data-bs-toggle="collapse" href="#components_security_schemes" role="button" aria-expanded="false">
+                                <div class="card-header bg-transparent">
+                                    <span class="text-secondary">Security Schemes</span>
+                                </div>
+                            </a>
+                            <div id="components_security_schemes" class="card-body collapse">
+                                @{
+                                    var index = 0;
+                                    foreach (var scheme in document.Components.SecuritySchemes)
+                                    {
+                                        var reference = $"components_security_schemes_{index}";
+                                        <div class="card">
+                                            <a data-bs-toggle="collapse" href="#@reference" role="button" aria-expanded="false">
+                                                <div class="card-header bg-transparent">
+                                                    <span class="fw-bold text-secondary">@scheme.Key</span>
+                                                </div>
+                                            </a>
+                                            <div id="@reference" class="card-body collapse">
+                                                <partial name="_SecurityScheme" model="new SecuritySchemeDefinitionViewModel(document, reference, scheme.Value)" />
+                                            </div>
+                                        </div>
+                                        index++;
+                                    }
                                 }
                             </div>
                         </div>

@@ -1,1 +1,1 @@
-﻿global using Neuroglia.AsyncApi.Specification.v2;
+﻿global using Neuroglia.AsyncApi.v2;

@@ -1,4 +1,6 @@
 ﻿
+using Neuroglia.AsyncApi.v2;
+
 namespace Neuroglia.AsyncApi.FluentBuilders;
 
 /// <summary>

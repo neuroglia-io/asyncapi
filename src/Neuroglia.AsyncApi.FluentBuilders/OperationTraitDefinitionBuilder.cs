@@ -1,4 +1,7 @@
-﻿namespace Neuroglia.AsyncApi.FluentBuilders;
+﻿using Neuroglia.AsyncApi.v2;
+using Neuroglia.AsyncApi.v2.Bindings;
+
+namespace Neuroglia.AsyncApi.FluentBuilders;
 
 /// <summary>
 /// Represents the base class for all <see cref="IOperationTraitDefinitionBuilder{TBuilder, TTrait}"/> implementations

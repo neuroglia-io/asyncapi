@@ -1,4 +1,6 @@
-﻿namespace Neuroglia.AsyncApi.FluentBuilders;
+﻿using Neuroglia.AsyncApi.v2;
+
+namespace Neuroglia.AsyncApi.FluentBuilders;
 
 /// <summary>
 /// Represents the default implementation of the <see cref="IVariableDefinitionBuilder"/> interface

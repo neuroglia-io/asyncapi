@@ -6,6 +6,9 @@
 public static class AsyncApiSpecVersion
 {
 
-    public const string V2 = "2.1.0";
+    /// <summary>
+    /// Gets the latest supported revision of the Async API Specification version 2.x.x
+    /// </summary>
+    public const string V2 = "2.6.0";
 
 }

@@ -1,0 +1,33 @@
+﻿namespace Neuroglia.AsyncApi.v2;
+
+/// <summary>
+/// Exposes constants about HTTP API key locations
+/// </summary>
+public static class HttpApiKeyLocation
+{
+
+    /// <summary>
+    /// Stores the API key as a query parameter of the HTTP request
+    /// </summary>
+    public const string Query = "query";
+    /// <summary>
+    /// Stores the API key in an header of the HTTP request
+    /// </summary>
+    public const string Header = "header";
+    /// <summary>
+    /// Stores the API key in a cookie of the HTTP request
+    /// </summary>
+    public const string Cookie = "cookie";
+
+    /// <summary>
+    /// Gets a new <see cref="IEnumerable{T}"/> that contains all supported API key locations
+    /// </summary>
+    /// <returns>A new <see cref="IEnumerable{T}"/> that contains all supported API key locations</returns>
+    public static IEnumerable<string> GetLocations()
+    {
+        yield return Query;
+        yield return Header;
+        yield return Cookie;
+    }
+
+}

@@ -1,4 +1,6 @@
-﻿namespace Neuroglia.AsyncApi.Generation;
+﻿using Neuroglia.AsyncApi.v2;
+
+namespace Neuroglia.AsyncApi.Generation;
 
 /// <summary>
 /// Defines the fundamentals of a service used to generate <see cref="AsyncApiDocument"/>s in a code-first fashion

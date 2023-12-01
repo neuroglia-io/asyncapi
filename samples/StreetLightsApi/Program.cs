@@ -1,8 +1,9 @@
 using Json.Schema;
 using Neuroglia.AsyncApi;
-using Neuroglia.AsyncApi.Specification.v2;
-using Neuroglia.AsyncApi.Specification.v2.Bindings.Http;
-using Neuroglia.AsyncApi.Specification.v2.Bindings.Mqtt;
+using Neuroglia.AsyncApi.v2.Bindings.Http;
+using Neuroglia.AsyncApi.v2.Bindings.Mqtt;
+using Neuroglia.AsyncApi.v2;
+using Neuroglia.AsyncApi.v2.Bindings.Http;
 using Neuroglia.Data.Schemas;
 using StreetLightsApi.Server.Services;
 using System.Net.Mime;
@@ -56,7 +57,7 @@ builder.Services.AddAsyncApiDocument(document => document
         .WithSubscribeOperation(operation => operation
             .WithOperationId("ObserveCloudEvents")
             .WithDescription("Observes cloud events published by the StreetLightsApi")
-            .WithBinding(new HttpOperationBindingDefinition() { Method = Neuroglia.AsyncApi.Specification.v2.Bindings.Http.HttpMethod.POST, Type = HttpBindingOperationType.Response })
+            .WithBinding(new HttpOperationBindingDefinition() { Method = Neuroglia.AsyncApi.v2.Bindings.Http.HttpMethod.POST, Type = HttpBindingOperationType.Response })
             .WithMessages
             (
                 message => message
@@ -65,6 +66,7 @@ builder.Services.AddAsyncApiDocument(document => document
                     .WithContentType("application/cloudevents+json")
                     .WithTraitReference("cloud-event")
                     .WithPayloadSchema(lightMeasuredEventSchema)
+                    .WithCorrelationId("$message.payload#/subject")
                     .WithTag(tag => tag
                         .WithName("light")),
                 message => message
@@ -73,6 +75,7 @@ builder.Services.AddAsyncApiDocument(document => document
                     .WithContentType("application/cloudevents+json")
                     .WithTraitReference("cloud-event")
                     .WithPayloadSchema(movementDetectedEventSchema)
+                    .WithCorrelationId("$message.payload#/subject")
                     .WithTag(tag => tag
                         .WithName("movement"))
             )))

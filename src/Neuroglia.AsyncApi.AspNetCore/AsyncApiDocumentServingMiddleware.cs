@@ -1,6 +1,7 @@
 ﻿using Microsoft.Extensions.Options;
 using Neuroglia.AsyncApi.Generation;
 using Neuroglia.AsyncApi.IO;
+using Neuroglia.AsyncApi.v2;
 using System.Net;
 using System.Text;
 

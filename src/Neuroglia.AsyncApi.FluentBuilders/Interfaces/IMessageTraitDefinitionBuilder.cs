@@ -1,4 +1,7 @@
-﻿namespace Neuroglia.AsyncApi.FluentBuilders;
+﻿using Neuroglia.AsyncApi.v2;
+using Neuroglia.AsyncApi.v2.Bindings;
+
+namespace Neuroglia.AsyncApi.FluentBuilders;
 
 /// <summary>
 /// Defines the fundamentals of a service used to build <see cref="MessageTraitDefinition"/>s

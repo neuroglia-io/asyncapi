@@ -1,6 +1,7 @@
 ﻿using System.Net.Mime;
-using Neuroglia.AsyncApi.Specification.v2;
-using Neuroglia.AsyncApi.Specification.v2.Bindings.Mqtt;
+using Neuroglia.AsyncApi.v2;
+using Neuroglia.AsyncApi.v2;
+using Neuroglia.AsyncApi.v2.Bindings.Mqtt;
 
 namespace Neuroglia.AsyncApi.UnitTests.Services;
 

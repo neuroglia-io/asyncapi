@@ -1,4 +1,6 @@
-﻿namespace Neuroglia.AsyncApi.AspNetCore.UI.Models;
+﻿using Neuroglia.AsyncApi.v2;
+
+namespace Neuroglia.AsyncApi.AspNetCore.UI.Models;
 
 public record ChannelDefinitionViewModel
     : AsyncApiDocumentViewModel

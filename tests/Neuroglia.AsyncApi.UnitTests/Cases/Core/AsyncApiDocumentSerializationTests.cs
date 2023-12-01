@@ -1,4 +1,4 @@
-﻿using Neuroglia.AsyncApi.Specification.v2;
+﻿using Neuroglia.AsyncApi.v2;
 using Neuroglia.Serialization.Json;
 using Neuroglia.Serialization.Yaml;
 
