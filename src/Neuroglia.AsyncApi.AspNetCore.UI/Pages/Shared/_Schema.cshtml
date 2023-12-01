@@ -1,48 +1,97 @@
-﻿@using Newtonsoft.Json.Linq
-@model KeyValuePair<string, JsonSchema>
+﻿@using Json.Pointer
+@using System.Text.Json
+@model SchemaViewModel
 @{
-    var collapsed = this.ViewBag.Collapsed;
-    var schemaName = this.Model.Key;
-    var schema = this.Model.Value;
-    var reference = Guid.NewGuid().ToString();
+    var schema = this.Model.Schema;
+    var schemaJson = Neuroglia.Serialization.Json.JsonSerializer.Default.SerializeToElement(schema)!;
+    var jsonType = schema.GetJsonType();
+    var properties = schema.GetProperties();
+    if ((properties == null || !properties.Any()) && (properties == null || !properties.Any())) return;
+    var required = schema.GetRequired();
 }
-
-<div data-name="@schemaName" class="js-schema card">
-    <div class="card-header">
-        <a data-toggle="collapse" href="#@reference" role="button" aria-expanded="false">
-            <span class="font-weight-bold">@schemaName</span>
-        </a>
-    </div>
-    <div id="@reference" class="card-body@(collapsed ? " collapse" : "")">
-        <p>@schema.Description</p>
-        @foreach (var exampleKvp in schema.GenerateExamples())
+@switch (jsonType)
+{
+    case SchemaValueType.Object:
+        foreach(var property in properties)
         {
-            var example = exampleKvp.Value;
-            @if (example is JObject exampleObject)
+            var propertyType = property.Value.GetJsonType();
+            var nullable = (propertyType & SchemaValueType.Null) == SchemaValueType.Null;
+            propertyType = propertyType & ~SchemaValueType.Null;
+            var propertyTypeName = propertyType.HasValue ? EnumHelper.Stringify(propertyType.Value).ToLowerInvariant() : "object";
+            var typeDescription = string.Empty;
+            var typeFlags = propertyType.HasValue ? EnumHelper.GetFlags<SchemaValueType>(propertyType.Value) : Array.Empty<SchemaValueType>();
+            if (propertyType.HasValue && typeFlags.Count() > 1)
             {
-                <hr />
-                <h6>@exampleKvp.Key</h6>
-                <hr />
-                foreach (var property in exampleObject.Properties().Where(p => p.Value != null
-                    && p.Value.Type != Newtonsoft.Json.Linq.JTokenType.Null
-                    && p.Value.Type != Newtonsoft.Json.Linq.JTokenType.None))
+                propertyTypeName = "oneOf";
+                typeDescription = string.Join("\n", typeFlags.Select(t => EnumHelper.Stringify(t).ToLowerInvariant()));
+            }
+            var constValue = property.Value.GetConst();
+            var format = property.Value.GetFormat();
+            var pattern = property.Value.GetPattern();
+            var enumValue = property.Value.GetEnum();
+            var description = property.Value.GetDescription();
+            <div class="mb-3">
+                <div class="row mb-1">
+
+                    <div class="col-3 text-secondary fw-bold">
+                        <small>@property.Key</small>
+                    </div>
+
+                    <div class="col text-left">
+                        <span class="badge bg-secondary text-light" title="@typeDescription" role="button">@propertyTypeName</span>
+                        @if (required?.Contains(property.Key) == true)
+                        {
+                            <span class="badge border bg-warning" title="The value is required." role="button">required</span>
+                        }
+                        @if (nullable)
+                        {
+                            <span class="badge border border-secondary text-secondary" title="The value is nullable" role="button">nullable</span>
+                        }
+                        @if (constValue != null)
+                        {
+                            <span class="badge border border-secondary text-secondary" title="The value must be equal to '@(constValue.GetValue<string>())'" role="button">const</span>
+                        }
+                        @if (format != null)
+                        {
+                            <span class="badge border border-secondary text-secondary" title="The value must be formated using the '@(format.Key)' JSON Schema format." role="button">format</span>
+                        }
+                        @if (pattern != null)
+                        {
+                            <span class="badge border border-secondary text-secondary" title="The value must be validated by the regular expression." role="button">pattern</span>
+                        }
+                        @if (enumValue != null)
+                        {
+                            <span class="badge border border-secondary text-secondary" title="The value must be one of the following: @(string.Join(", ", enumValue.Select(v => v == null ? "null" : v.GetValue<string>())))" role="button">enum</span>
+                        }
+                    </div>
+
+                </div>
+                @if (!string.IsNullOrWhiteSpace(description))
                 {
-                    <div class="row m-2">
-                        <div class="col-md-4">
-                            <span class="font-italic">@property.Name</span>
-                        </div>
-                        <div class="col-md-8">
-                            <pre class="font-weight-bold text-primary">@property.Value.ToString()</pre>
+                    <div class="row">
+                        <div class="col"><small class="text-secondary fst-italic">@description</small></div>
+                    </div>
+                }
+                @if (constValue != null)
+                {
+                    <div class="row mt-1">
+                        <div class="col">
+                            <small class="text-secondary text-decoration-underline me-2">const:</small>
+                            <small class="badge border border-muted text-secondary">@(constValue.GetValue<string>())</small>
                         </div>
                     </div>
                 }
-            }
-            else
-            {
-                <div class="row m-2">
-                    <pre class="font-weight-bold text-primary">@example.ToString()</pre>
-                </div>
-            }
+                else if (enumValue != null)
+                {
+                    <div class="row mt-1">
+                        <div class="col">
+                            <small class="text-secondary text-decoration-underline me-2">enum:</small> 
+                            <small class="badge border border-muted text-secondary">@(string.Join(", ", enumValue.Select(v => v == null ? "null" : v.GetValue<string>())))</small>
+                        </div>
+                    </div>
+                }
+            </div>
         }
-    </div>
-</div>
+        break;
+    default: break;
+}

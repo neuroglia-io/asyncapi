@@ -1,86 +1,86 @@
-﻿@model KeyValuePair<string, ServerDefinition>
+﻿@model ServerDefinitionViewModel
 @{ 
-    ServerDefinition server = this.Model.Value;
+    var server = this.Model.Server;
 }
 
-<div class="mt-3">
+<div class="m-3">
     <div class="card">
-        <div class="card-header">
-            <span class="badge badge-pill badge-warning" title="The server's protocol and protocol version'">@($"{server.Protocol} {server.ProtocolVersion}")</span>
-            <a data-toggle="collapse" href="#@this.Model.Key" role="button" aria-expanded="false" title="@server.Description">
-                <span class="h5">@this.Model.Key</span>
-            </a>
-            <span class="font-italic text-muted"> [@server.Url]</span>
-        </div>
+        <a data-bs-toggle="collapse" href="#@this.Model.Key" role="button" aria-expanded="false" title="@server.Description">
+            <div class="card-header bg-transparent">
+                <span class="badge bg-info me-2" title="The server's protocol and protocol version">@($"{server.Protocol}{(string.IsNullOrWhiteSpace(server.ProtocolVersion) || server.ProtocolVersion == "latest" ? string.Empty : " " + server.ProtocolVersion)}".ToUpperInvariant())</span>
+                <span class="h5 text-secondary">@this.Model.Key</span>
+                <small class="font-italic text-muted ms-1"> [@server.Url]</small>
+                @if(server.Security != null && server.Security.Any())
+                {
+                    <i class="bi bi-lock-full text-secondary ms-2" role="button" title="The server has security requirements"></i>
+                }
+            </div>
+        </a>
         <div id="@this.Model.Key" class="card-body collapse">
-            <p class="mb-3">@server.Description</p>
+            @if (!string.IsNullOrWhiteSpace(server.Description))
+            {
+                <p class="mb-3">@server.Description</p>
+            }
             @if (server.Variables != null)
             {
-                <div class="card">
-                    <div class="card-header">
-                        <a data-toggle="collapse" href="#@(this.Model.Key)_variables" role="button" aria-expanded="false">
-                            <span class="font-weight-bold">Variables</span>
-                        </a>
-                    </div>
-                    <div id="@(this.Model.Key)_variables" class="card-body collapse">
-                        <div class="card">
-                            <div class="card-body">
-                                <div class="row m-1">
-                                    @foreach (var variableKvp in server.Variables)
-                                    {
-                                        <div class="col-md-3">
-                                            <span class="font-italic">@variableKvp.Key</span>
-                                        </div>
-                                        <div class="col-md-9">
-                                            <span class="font-weight-bold text-primary">@variableKvp.Value.Description</span>
-                                        </div>
-                                    }
-                                </div>
-                            </div>
+                <div class="card border-0">
+                    <a data-bs-toggle="collapse" href="#@(this.Model.Key)_variables" role="button" aria-expanded="false">
+                        <div class="card-header bg-transparent">
+                            <span class="font-weight-bold text-secondary">Variables</span>
                         </div>
+                    </a>
+                    <div id="@(this.Model.Key)_variables" class="card-body m-0 p-0 collapse">
+                        <div class="row m-1">
+                            @foreach (var variableKvp in server.Variables)
+                            {
+                                <div class="col-md-3">
+                                    <span class="font-italic">@variableKvp.Key</span>
+                                </div>
+                                <div class="col-md-9">
+                                    <span class="font-weight-bold text-primary">@variableKvp.Value.Description</span>
+                                </div>
+                            }
+                        </div>
+                    </div>
+                </div>
+            }
+            @if (server.Security != null)
+            {
+                <div class="card border-0">
+                    <a data-bs-toggle="collapse" href="#@(this.Model.Key)_security" role="button" aria-expanded="false">
+                        <div class="card-header bg-transparent">
+                            <span class="font-weight-bold text-secondary">Security Schemes</span>
+                        </div>
+                    </a>
+                    <div id="@(this.Model.Key)_security" class="card-body m-0 p-0 collapse show">
+                        @foreach (var securityRequirement in server.Security)
+                        {
+                            <partial name="_SecurityRequirement" model="new SecurityRequirementViewModel(this.Model.Document, this.Model.Key, securityRequirement.Key, securityRequirement.Value)" />
+                        }
                     </div>
                 </div>
             }
             @if(server.Bindings != null)
             {
-                <div class="card">
-                    <div class="card-header">
-                        <a data-toggle="collapse" href="#@(this.Model.Key)_bindings" role="button" aria-expanded="false">
-                            <span class="font-weight-bold">Bindings</span>
+                <div class="card border-0">
+                    <div class="card-header bg-transparent">
+                        <a data-bs-toggle="collapse" href="#@(this.Model.Key)_bindings" role="button" aria-expanded="false">
+                            <span class="font-weight-bold text-secondary">Bindings</span>
                         </a>
                     </div>
-                    <div id="@(this.Model.Key)_bindings" class="card-body">
-                        @foreach (var binding in server.Bindings)
+                    <div id="@(this.Model.Key)_bindings" class="card-body m-0 p-0 collapse show">
+                        @if (server.Bindings == null || !server.Bindings.AsEnumerable().Any())
                         {
-                            string bindingName = binding.GetType().Name.Replace("ServerBinding", "").ToLower();
-                            <div class="card">
-                                <div class="card-header">
-                                    <a data-toggle="collapse" href="#@($"{this.Model.Key}_{bindingName}")" role="button" aria-expanded="false">
-                                        <span>@bindingName</span>
-                                    </a>
-                                </div>
-                                <div id="@($"{this.Model.Key}_{bindingName}")" class="card-body collapse">
-                                    <div class="card">
-                                        <div class="card-body">
-                                            <div class="row m-1">
-                                                @foreach (var property in binding.GetType().GetProperties())
-                                                {
-                                                    object value = property.GetValue(binding);
-                                                    if (value == null)
-                                                        continue;
-                                                    <div class="col-md-3">
-                                                        <span class="font-italic">@property.Name</span>
-                                                    </div>
-                                                    <div class="col-md-9">
-                                                        <span class="font-weight-bold text-primary">@value</span>
-                                                    </div>
-                                                }
-                                            </div>
-                                        </div>
-                                    </div> 
-                                </div>
-                            </div>
+                            <p class="alert alert-warning fst-italic my-3">No bindings defined.</p>
                         }
+                        else
+                        {
+                            @foreach (var binding in server.Bindings.AsEnumerable())
+                            {
+                                <partial name="_Binding" model="new BindingDefinitionViewModel(this.Model.Document, binding, this.Model.Key)" />
+                            }
+                        }
+                        
                     </div>
                 </div>
             }

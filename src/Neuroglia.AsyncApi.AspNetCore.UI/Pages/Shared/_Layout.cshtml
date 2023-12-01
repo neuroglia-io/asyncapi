@@ -1,10 +1,11 @@
-﻿@inject Neuroglia.AsyncApi.Services.IAsyncApiDocumentProvider DocumentProvider;
+﻿@inject Neuroglia.AsyncApi.Generation.IAsyncApiDocumentProvider DocumentProvider
+@inject Microsoft.Extensions.Options.IOptions<Neuroglia.AsyncApi.Generation.AsyncApiDocumentGenerationOptions> Options;
 @{ 
-    if(!this.Context.Request.Query.TryGetValue("title", out Microsoft.Extensions.Primitives.StringValues documentTitle))
+    if(!this.Context.Request.Query.TryGetValue("title", out var documentTitle))
     {
         documentTitle = string.Empty;
     }
-    if(!this.Context.Request.Query.TryGetValue("version", out Microsoft.Extensions.Primitives.StringValues documentVersion))
+    if(!this.Context.Request.Query.TryGetValue("version", out var documentVersion))
     {
         documentVersion = string.Empty;
     }
@@ -15,7 +16,8 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@ViewBag.Title - Neuroglia AsyncAPI UI</title>
-    <link rel="stylesheet" href="https://ajax.aspnetcdn.com/ajax/bootstrap/4.0.0/css/bootstrap.min.css" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.2/font/bootstrap-icons.min.css">
     <style>
         html, body {
             width: 100%;
@@ -37,6 +39,10 @@
             font-family: 'Cantarell', sans-serif;
             font-size: 26px;
             color: #005eb8;
+        }
+
+        a{
+            text-decoration: none;
         }
 
         .footer {
@@ -82,12 +88,11 @@
                         <h3 class="mb-0">AsyncAPI</h3>
                         <span>Powered by Neuroglia</span>
                     </div>
-                    <div class="col-md-4 p-0 m-0 text-right">
-                        <select class="form-control js-asyncapi-document">
+                    <div class="col-md-4 p-0 m-0 text-end">
+                        <select class="form-select form-select-sm js-asyncapi-document">
                             @foreach (var document in this.DocumentProvider)
                             {
-                                bool selected = (document.Info.Title.Equals(documentTitle, StringComparison.OrdinalIgnoreCase) || document.Info.Title.Replace(" ", "").Equals(documentTitle, StringComparison.OrdinalIgnoreCase))
-                                    && document.Info.Version.Equals(documentVersion, StringComparison.OrdinalIgnoreCase);
+                                var selected = document.Info.Title.Equals(documentTitle, StringComparison.OrdinalIgnoreCase) && document.Info.Version.Equals(documentVersion, StringComparison.OrdinalIgnoreCase);
                                 if (selected)
                                 {
                                     <option value="@(document.Info.Title)__@(document.Info.Version)" selected>@document.Info.Title @document.Info.Version</option>
@@ -114,8 +119,8 @@
         </div>
     </footer>
 
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    <script src="https://ajax.aspnetcdn.com/ajax/bootstrap/4.0.0/bootstrap.min.js" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
     <script>
         $('select.js-asyncapi-document').on('change', function () {
             var $this = $(this);
