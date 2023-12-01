@@ -1,6 +1,7 @@
 ﻿@page
-@model Neuroglia.AsyncApi.AspNetCore.UI.Pages.AsyncApiDocumentModel
 @addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@model Neuroglia.AsyncApi.AspNetCore.UI.Pages.AsyncApiDocumentModel
+@inject Microsoft.Extensions.Options.IOptions<AsyncApiDocumentServingOptions> ServingOptions
 @{
     var document = this.Model.Document!;
     this.ViewBag.Title = document?.Info.Title;
@@ -21,19 +22,44 @@
     {
         <div>
             <div class="pb-3">
-                <span class="h1 p-0 m-0 align-middle">@document.Info.Title </span><span class="badge fs-5 rounded-pill bg-secondary text-light align-middle">@document.Info.Version</span>
+                <span class="h1 p-0 m-0 align-middle">@document.Info.Title </span>
+                <span class="badge fs-5 rounded-pill bg-secondary text-light align-middle">@document.Info.Version</span>
+                <div class="btn-group" role="group" title="Download Async API document">
+                    <button id="downloadBtnGroup" type="button" class="btn btn-sm btn-primary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                        <small class="bi bi-download"></small>
+                    </button>
+                    <ul class="dropdown-menu" aria-labelledby="downloadBtnGroup">
+                        <li>
+                            <a class="dropdown-item" href="@ServingOptions.Value.GenerateRouteFor(document, AsyncApiDocumentFormat.Json)">
+                                <small>JSON</small>
+                            </a>
+                        </li>
+                        <li>
+                            <a class="dropdown-item" href="@ServingOptions.Value.GenerateRouteFor(document, AsyncApiDocumentFormat.Yaml)">
+                                <small>YAML</small>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+
             </div>
-            <div class="mb-3">
-                @if (document.Info.License != null && document.Info.License.Url != null)
-                {
-                    <a class="badge rounded-pill border border-secondary text-secondary" href="@document.Info.License.Url" target="_blank" title="View the license of the @document.Info.Title @document.Info.Version">@document.Info.License.Name</a>
-                }
-                @if (document.Info.TermsOfService != null)
-                {
-                    <a class="badge rounded-pill border border-secondary text-secondary" href="@document.Info.TermsOfService" target="_blank" title="View the Terms of Service of the @document.Info.Title @document.Info.Version">Terms of Service</a>
-                }
-            </div>
-            <p><small class="text-secondary">@document.Info.Description</small></p>
+            @if (document.Info.License != null || document.Info.TermsOfService != null)
+            {
+                <div class="mb-3">
+                    @if (document.Info.License != null && document.Info.License.Url != null)
+                    {
+                        <a class="badge rounded-pill border border-secondary text-secondary" href="@document.Info.License.Url" target="_blank" title="View the license of the @document.Info.Title @document.Info.Version">@document.Info.License.Name</a>
+                    }
+                    @if (document.Info.TermsOfService != null)
+                    {
+                        <a class="badge rounded-pill border border-secondary text-secondary" href="@document.Info.TermsOfService" target="_blank" title="View the Terms of Service of the @document.Info.Title @document.Info.Version">Terms of Service</a>
+                    }
+                </div>
+            }
+            @if (!string.IsNullOrWhiteSpace(document.Info.Description))
+            {
+                <p><small class="text-secondary">@document.Info.Description</small></p>
+            }
         </div>
         <div class="card border-0">
             <a data-bs-toggle="collapse" href="#servers" role="button" aria-expanded="false"><div class="card-header bg-transparent"><span class="card-title h3 text-secondary">Servers</span></div></a>
