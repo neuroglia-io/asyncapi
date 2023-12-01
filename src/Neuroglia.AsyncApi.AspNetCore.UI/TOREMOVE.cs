@@ -1,4 +1,17 @@
-﻿using JsonCons.Utilities;
+﻿// Copyright © 2021-Present Neuroglia SRL. All rights reserved.
+//
+// Licensed under the Apache License, Version 2.0 (the "License"),
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+// http://www.apache.org/licenses/LICENSE-2.0
+//
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
+
+using JsonCons.Utilities;
 using System.Text.Json;
 using System.Text.Json.Nodes;
 using JsonPointer = Json.Pointer.JsonPointer;
@@ -45,6 +58,13 @@ public class JsonSchemaResolver(HttpClient httpClient)
         return JsonSchema.FromText(json);
     }
 
+    /// <summary>
+    /// Resolves the specified <see cref="JsonSchema"/>
+    /// </summary>
+    /// <param name="schema">The <see cref="JsonElement"/> representation of the <see cref="JsonSchema"/> to resolve</param>
+    /// <param name="rootSchema">The <see cref="JsonElement"/> representation of the root <see cref="JsonSchema"/>, if any, of the <see cref="JsonSchema"/> to resolve</param>
+    /// <param name="cancellationToken">A <see cref="CancellationToken"/></param>
+    /// <returns>The <see cref="JsonElement"/> representation of the <see cref="JsonSchema"/> to resolve</returns>
     protected virtual async Task<JsonElement> ResolveSchemaAsync(JsonElement schema, JsonElement? rootSchema = null, CancellationToken cancellationToken = default)
     {
         ArgumentNullException.ThrowIfNull(schema);
@@ -76,6 +96,13 @@ public class JsonSchemaResolver(HttpClient httpClient)
         }
     }
 
+    /// <summary>
+    /// Resolves the references specified <see cref="JsonSchema"/>
+    /// </summary>
+    /// <param name="schema">The <see cref="JsonElement"/> representation of the <see cref="JsonSchema"/> to resolve</param>
+    /// <param name="rootSchema">The <see cref="JsonElement"/> representation of the root <see cref="JsonSchema"/>, if any, of the <see cref="JsonSchema"/> to resolve</param>
+    /// <param name="cancellationToken">A <see cref="CancellationToken"/></param>
+    /// <returns>The <see cref="JsonElement"/> representation of the <see cref="JsonSchema"/> to resolve</returns>
     protected virtual async Task<IEnumerable<JsonElement>> ResolveReferencedSchemasAsync(JsonElement schema, JsonElement rootSchema, CancellationToken cancellationToken = default)
     {
         ArgumentNullException.ThrowIfNull(schema);
@@ -106,6 +133,13 @@ public class JsonSchemaResolver(HttpClient httpClient)
         return refSchemas;
     }
 
+    /// <summary>
+    /// Resolves the specified <see cref="JsonSchema"/>
+    /// </summary>
+    /// <param name="uri">The <see cref="Uri"/> of the <see cref="JsonSchema"/> to resolve</param>
+    /// <param name="rootSchema">The <see cref="JsonElement"/> representation of the root <see cref="JsonSchema"/>, if any, of the <see cref="JsonSchema"/> to resolve</param>
+    /// <param name="cancellationToken">A <see cref="CancellationToken"/></param>
+    /// <returns>The <see cref="JsonElement"/> representation of the <see cref="JsonSchema"/> to resolve</returns>
     protected virtual async Task<JsonElement?> ResolveReferencedSchemaAsync(Uri uri, JsonElement rootSchema, CancellationToken cancellationToken = default)
     {
         ArgumentNullException.ThrowIfNull(uri);
@@ -129,6 +163,11 @@ public class JsonSchemaResolver(HttpClient httpClient)
         else return await this.ResolveSchemaAsync(schema.Value, useRootSchema ? rootSchema : null, cancellationToken).ConfigureAwait(false);
     }
 
+    /// <summary>
+    /// Removes references from the specified <see cref="JsonSchema"/>
+    /// </summary>
+    /// <param name="schema">The <see cref="JsonElement"/> representation of the <see cref="JsonSchema"/> to remove references from</param>
+    /// <returns>The <see cref="JsonElement"/> purged out of references</returns>
     protected virtual JsonElement RemoveReferenceProperties(JsonElement schema)
     {
         ArgumentNullException.ThrowIfNull(schema);

@@ -1,4 +1,17 @@
-﻿using Neuroglia.AsyncApi.v2;
+﻿// Copyright © 2021-Present Neuroglia SRL. All rights reserved.
+//
+// Licensed under the Apache License, Version 2.0 (the "License"),
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+// http://www.apache.org/licenses/LICENSE-2.0
+//
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
+
+using Neuroglia.AsyncApi.v2;
 using Neuroglia.Json.Schema.Generation;
 
 namespace Neuroglia.AsyncApi.FluentBuilders;
@@ -10,7 +23,7 @@ namespace Neuroglia.AsyncApi.FluentBuilders;
 /// Initializes a new <see cref="ParameterDefinitionBuilder"/>
 /// </remarks>
 /// <param name="serviceProvider">The current <see cref="IServiceProvider"/></param>
-/// <param name="validators">The services used to validate <see cref="Models.ParameterDefinition"/>s</param>
+/// <param name="validators">The services used to validate <see cref="ParameterDefinition"/>s</param>
 public class ParameterDefinitionBuilder(IServiceProvider serviceProvider, IEnumerable<IValidator<ParameterDefinition>> validators)
     : IParameterDefinitionBuilder
 {
@@ -21,12 +34,12 @@ public class ParameterDefinitionBuilder(IServiceProvider serviceProvider, IEnume
     protected virtual IServiceProvider ServiceProvider { get; } = serviceProvider;
 
     /// <summary>
-    /// Gets the services used to validate <see cref="Models.ParameterDefinition"/>s
+    /// Gets the services used to validate <see cref="ParameterDefinition"/>s
     /// </summary>
     protected virtual IEnumerable<IValidator<ParameterDefinition>> Validators { get; } = validators;
 
     /// <summary>
-    /// Gets the <see cref="Models.ParameterDefinition"/> to configure
+    /// Gets the <see cref="ParameterDefinition"/> to configure
     /// </summary>
     protected virtual ParameterDefinition Parameter { get; } = new();
 
