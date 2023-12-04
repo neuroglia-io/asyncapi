@@ -11,5 +11,6 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-global using Neuroglia.AsyncApi.v2;
 global using Json.Schema;
+global using Neuroglia.AsyncApi.v2;
+global using Neuroglia.Data.Schemas.Json;
