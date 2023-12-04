@@ -55,7 +55,7 @@ public interface IAsyncApiDocumentBuilder
     /// </summary>
     /// <param name="description">The description of the Async Api document to build</param>
     /// <returns>The configured <see cref="IAsyncApiDocumentBuilder"/></returns>
-    IAsyncApiDocumentBuilder WithDescription(string description);
+    IAsyncApiDocumentBuilder WithDescription(string? description);
 
     /// <summary>
     /// Configures the <see cref="AsyncApiDocument"/> to use the specified <see cref="Uri"/> for the API's terms of service

@@ -60,7 +60,7 @@ public class ParameterDefinitionBuilder(IServiceProvider serviceProvider, IEnume
     }
 
     /// <inheritdoc/>
-    public virtual IParameterDefinitionBuilder WithDescription(string description)
+    public virtual IParameterDefinitionBuilder WithDescription(string? description)
     {
         this.Parameter.Description = description;
         return this;

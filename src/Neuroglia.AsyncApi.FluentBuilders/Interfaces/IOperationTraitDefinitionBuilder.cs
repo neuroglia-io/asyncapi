@@ -45,7 +45,7 @@ public interface IOperationTraitDefinitionBuilder<TBuilder, TTrait>
     /// </summary>
     /// <param name="description">The description of the Async Api document to build</param>
     /// <returns>The configured <see cref="IOperationTraitDefinitionBuilder{TBuilder, TTrait}"/></returns>
-    TBuilder WithDescription(string description);
+    TBuilder WithDescription(string? description);
 
     /// <summary>
     /// Marks the <see cref="OperationTraitDefinition"/> to build with the specified tag

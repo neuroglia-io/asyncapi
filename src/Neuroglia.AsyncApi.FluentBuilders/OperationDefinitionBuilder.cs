@@ -11,8 +11,6 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using Neuroglia.AsyncApi.v2;
-
 namespace Neuroglia.AsyncApi.FluentBuilders;
 
 /// <summary>
@@ -42,7 +40,7 @@ public class OperationDefinitionBuilder(IServiceProvider serviceProvider, IEnume
     /// <inheritdoc/>
     public virtual IOperationDefinitionBuilder WithMessages(params Action<IMessageDefinitionBuilder>[] setups)
     {
-        if (setups == null || setups.Length == 0) throw new ArgumentNullException(nameof(setups));
+        if (setups == null || setups.Length == 0) return this;
 
         this.Trait.Message = new()
         {

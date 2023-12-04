@@ -115,7 +115,7 @@ public abstract class MessageTraitDefinitionBuilder<TBuilder, TTrait>
     }
 
     /// <inheritdoc/>
-    public virtual TBuilder WithDescription(string description)
+    public virtual TBuilder WithDescription(string? description)
     {
         this.Trait.Description = description;
         return (TBuilder)(object)this;

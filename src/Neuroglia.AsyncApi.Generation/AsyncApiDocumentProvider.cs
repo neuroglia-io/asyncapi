@@ -14,7 +14,6 @@
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Options;
 using Neuroglia.AsyncApi.Generation;
-using Neuroglia.AsyncApi.v2;
 using System.Collections;
 
 namespace Neuroglia.AsyncApi;
@@ -22,12 +21,17 @@ namespace Neuroglia.AsyncApi;
 /// <summary>
 /// Represents the default implementation of the <see cref="IAsyncApiDocumentProvider"/> interface
 /// </summary>
+/// <param name="serviceProvider">The current <see cref="IServiceProvider"/></param>
 /// <param name="generationOptions">The options used to configure how to generate code-first <see cref="AsyncApiDocument"/>s</param>
 /// <param name="generator">The service used to generate code-first <see cref="AsyncApiDocument"/>s</param>
-/// <param name="documents">An <see cref="IEnumerable{T}"/> containing all registered <see cref="AsyncApiDocument"/>s</param>
-public class AsyncApiDocumentProvider(IOptions<AsyncApiGenerationOptions> generationOptions, IAsyncApiDocumentGenerator generator, IEnumerable<AsyncApiDocument> documents)
+public class AsyncApiDocumentProvider(IServiceProvider serviceProvider, IOptions<AsyncApiGenerationOptions> generationOptions, IAsyncApiDocumentGenerator generator)
     : IHostedService, IAsyncApiDocumentProvider
 {
+
+    /// <summary>
+    /// Gets the current <see cref="IServiceProvider"/>
+    /// </summary>
+    protected IServiceProvider ServiceProvider { get; } = serviceProvider;
 
     /// <summary>
     /// Gets the options used to configure how to generate code-first <see cref="AsyncApiDocument"/>s
@@ -47,7 +51,7 @@ public class AsyncApiDocumentProvider(IOptions<AsyncApiGenerationOptions> genera
     /// <inheritdoc/>
     public virtual async Task StartAsync(CancellationToken cancellationToken)
     {
-        this.Documents = documents.ToList();
+        this.Documents = this.ServiceProvider.GetService<IEnumerable<AsyncApiDocument>>()?.ToList() ?? [];
         this.Documents.AddRange((await this.Generator.GenerateAsync(this.GenerationOptions.MarkupTypes, new AsyncApiDocumentGenerationOptions() { DefaultConfiguration = this.GenerationOptions.DefaultDocumentConfiguration }, cancellationToken).ConfigureAwait(false)).ToList());
     }
 

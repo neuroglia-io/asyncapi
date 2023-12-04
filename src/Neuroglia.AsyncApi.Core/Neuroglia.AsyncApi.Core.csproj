@@ -31,7 +31,7 @@
 	
   <ItemGroup>
     <PackageReference Include="JsonSchema.Net" Version="5.4.1" />
-    <PackageReference Include="Neuroglia.Serialization" Version="4.7.2" />
+    <PackageReference Include="Neuroglia.Serialization" Version="4.7.3" />
     <PackageReference Include="YamlDotNet" Version="13.7.1" />
   </ItemGroup>
 

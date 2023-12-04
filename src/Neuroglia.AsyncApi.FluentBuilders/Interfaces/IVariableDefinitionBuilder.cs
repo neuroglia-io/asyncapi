@@ -40,7 +40,7 @@ public interface IVariableDefinitionBuilder
     /// </summary>
     /// <param name="description">The description to use</param>
     /// <returns>The configured <see cref="IVariableDefinitionBuilder"/></returns>
-    IVariableDefinitionBuilder WithDescription(string description);
+    IVariableDefinitionBuilder WithDescription(string? description);
 
     /// <summary>
     /// Adds the specified example to the <see cref="VariableDefinition"/> to build

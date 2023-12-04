@@ -79,7 +79,7 @@ public class AsyncApiDocumentBuilder(IServiceProvider serviceProvider, IEnumerab
     }
 
     /// <inheritdoc/>
-    public virtual IAsyncApiDocumentBuilder WithDescription(string description)
+    public virtual IAsyncApiDocumentBuilder WithDescription(string? description)
     {
         if (this.Document.Info == null) this.Document.Info = new();
         this.Document.Info.Description = description;

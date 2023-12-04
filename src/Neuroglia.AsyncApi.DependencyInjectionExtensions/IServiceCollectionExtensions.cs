@@ -91,6 +91,24 @@ public static class IServiceCollectionExtensions
     /// <param name="services">The <see cref="IServiceCollection"/> to configure</param>
     /// <param name="setup">An <see cref="Action{T}"/> used to setup the <see cref="IAsyncApiDocumentBuilder"/> used to build the <see cref="AsyncApiDocument"/> to add</param>
     /// <returns>The configured <see cref="IServiceCollection"/></returns>
+    public static IServiceCollection AddAsyncApiDocument(this IServiceCollection services, Action<IServiceProvider, IAsyncApiDocumentBuilder> setup)
+    {
+        services.AddSingleton(provider =>
+        {
+            var builder = provider.GetRequiredService<IAsyncApiDocumentBuilder>();
+            setup(provider, builder);
+            return builder.Build();
+        });
+
+        return services;
+    }
+
+    /// <summary>
+    /// Adds and configures a new <see cref="AsyncApiDocument"/>
+    /// </summary>
+    /// <param name="services">The <see cref="IServiceCollection"/> to configure</param>
+    /// <param name="setup">An <see cref="Action{T}"/> used to setup the <see cref="IAsyncApiDocumentBuilder"/> used to build the <see cref="AsyncApiDocument"/> to add</param>
+    /// <returns>The configured <see cref="IServiceCollection"/></returns>
     public static IServiceCollection AddAsyncApiDocument(this IServiceCollection services, Action<IAsyncApiDocumentBuilder> setup)
     {
         services.AddSingleton(provider =>

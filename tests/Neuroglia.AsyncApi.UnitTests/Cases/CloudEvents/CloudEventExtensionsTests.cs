@@ -42,7 +42,7 @@ public class CloudEventExtensionsTests
     public void Build_Operation_With_CloudEventMessage_Should_Work()
     {
         //arrange
-        var specVersion = CloudEventSpecVersion.v1;
+        var specVersion = CloudEventSpecVersion.V1.Version;
         var source = new Uri("https://fake.source.com");
         var type = "io.neuroglia.unit-tests.fake.event.v1";
         var subject = "fake-subject";

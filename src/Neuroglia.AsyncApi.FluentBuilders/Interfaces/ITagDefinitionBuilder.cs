@@ -33,7 +33,7 @@ public interface ITagDefinitionBuilder
     /// </summary>
     /// <param name="description">The description to use</param>
     /// <returns>The configured <see cref="ITagDefinitionBuilder"/></returns>
-    ITagDefinitionBuilder WithDescription(string description);
+    ITagDefinitionBuilder WithDescription(string? description);
 
     /// <summary>
     /// Adds the specified external documentation to the <see cref="TagDefinition"/> to build

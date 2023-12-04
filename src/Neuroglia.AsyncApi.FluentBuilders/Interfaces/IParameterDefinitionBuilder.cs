@@ -47,7 +47,7 @@ public interface IParameterDefinitionBuilder
     /// </summary>
     /// <param name="description">The description to use</param>
     /// <returns>The configured <see cref="IParameterDefinitionBuilder"/></returns>
-    IParameterDefinitionBuilder WithDescription(string description);
+    IParameterDefinitionBuilder WithDescription(string? description);
 
     /// <summary>
     /// Sets the location of the <see cref="ParameterDefinition"/> to build

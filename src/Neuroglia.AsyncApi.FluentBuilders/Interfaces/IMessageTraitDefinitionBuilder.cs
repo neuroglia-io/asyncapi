@@ -11,9 +11,6 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using Neuroglia.AsyncApi.v2;
-using Neuroglia.AsyncApi.v2.Bindings;
-
 namespace Neuroglia.AsyncApi.FluentBuilders;
 
 /// <summary>
@@ -104,7 +101,7 @@ public interface IMessageTraitDefinitionBuilder<TBuilder, TTrait>
     /// </summary>
     /// <param name="description">The description to use</param>
     /// <returns>The configured <see cref="IMessageTraitDefinitionBuilder{TBuilder, TTrait}"/></returns>
-    TBuilder WithDescription(string description);
+    TBuilder WithDescription(string? description);
     /// <summary>
     /// Adds the specified <see cref="IMessageBindingDefinition"/> to the <see cref="MessageTraitDefinition"/> to build
     /// </summary>

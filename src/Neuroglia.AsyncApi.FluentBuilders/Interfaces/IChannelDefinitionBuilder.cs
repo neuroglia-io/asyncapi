@@ -27,7 +27,7 @@ public interface IChannelDefinitionBuilder
     /// </summary>
     /// <param name="description">The <see cref="ChannelDefinition"/>'s description</param>
     /// <returns>The configured <see cref="IChannelDefinitionBuilder"/></returns>
-    IChannelDefinitionBuilder WithDescription(string description);
+    IChannelDefinitionBuilder WithDescription(string? description);
 
     /// <summary>
     /// Adds a new <see cref="ParameterDefinition"/> to the <see cref="ChannelDefinition"/> to build

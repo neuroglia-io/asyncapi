@@ -45,7 +45,7 @@ public class TagDefinitionBuilder(IEnumerable<IValidator<TagDefinition>> validat
     }
 
     /// <inheritdoc/>
-    public virtual ITagDefinitionBuilder WithDescription(string description)
+    public virtual ITagDefinitionBuilder WithDescription(string? description)
     {
         this.Tag.Description = description;
         return this;

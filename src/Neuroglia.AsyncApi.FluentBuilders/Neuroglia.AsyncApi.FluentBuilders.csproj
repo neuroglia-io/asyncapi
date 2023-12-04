@@ -31,8 +31,8 @@
   <ItemGroup>
     <PackageReference Include="FluentValidation" Version="11.8.1" />
     <PackageReference Include="JsonSchema.Net.Generation" Version="3.5.0" />
-    <PackageReference Include="Neuroglia.Data.Schemas.Json" Version="4.7.2" />
-    <PackageReference Include="Neuroglia.Serialization.YamlDotNet" Version="4.7.2" />
+    <PackageReference Include="Neuroglia.Data.Schemas.Json" Version="4.7.3" />
+    <PackageReference Include="Neuroglia.Serialization.YamlDotNet" Version="4.7.3" />
     <PackageReference Include="SemanticVersion" Version="2.1.0" />
   </ItemGroup>
 

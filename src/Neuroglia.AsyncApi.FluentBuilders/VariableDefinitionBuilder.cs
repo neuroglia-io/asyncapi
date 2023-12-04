@@ -51,7 +51,7 @@ public class VariableDefinitionBuilder(IEnumerable<IValidator<VariableDefinition
     }
 
     /// <inheritdoc/>
-    public virtual IVariableDefinitionBuilder WithDescription(string description)
+    public virtual IVariableDefinitionBuilder WithDescription(string? description)
     {
         this.Variable.Description = description;
         return this;
