@@ -28,17 +28,48 @@ A .NET used to visualize and interact with [AsyncAPI](https://www.asyncapi.com/d
 
 ## Installation
 
-### Core library
+#### Core library
 ```bash
 dotnet add package Neuroglia.AsyncApi.Core
 ```
 
-### Code-first generation library
+#### Fluent validation library
+```bash
+dotnet add package Neuroglia.AsyncApi.Validation
+```
+
+#### Fluent builders library
+```bash
+dotnet add package Neuroglia.AsyncApi.FluentBuilders
+```
+
+#### Input/Output library
+```bash
+dotnet add package Neuroglia.AsyncApi.Validation
+```
+
+#### Code-first generation library
+```bash
+dotnet add package Neuroglia.AsyncApi.Generation
+```
+
+#### Dependency inject extensions library
+```bash
+dotnet add package Neuroglia.AsyncApi.DependencyInjectionExtensions
+```
+
+#### Cloud event extensions library
+```bash
+dotnet add package Neuroglia.AsyncApi.CloudEvents
+```
+
+#### AsyncAPI document serving library
 ```bash
 dotnet add package Neuroglia.AsyncApi.AspNetCore
 ```
+*Attention, please note that projects serving the UI MUST use the `Microsoft.NET.Sdk.Web`*
 
-### AsyncAPI UI
+#### AsyncAPI UI
 ```bash
 dotnet add package Neuroglia.AsyncApi.AspNetCore.UI
 ```
