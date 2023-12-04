@@ -13,7 +13,7 @@
     <a data-bs-toggle="collapse" href="#@messageRef" role="button" aria-expanded="false" title="@message?.Summary">
         <div class="card-header">
             <div class="row">
-                <div class="col-md-5">
+                <div class="col-md-9">
                     <span class="fw-bold fs-5 text-secondary align-middle">#@Model.Index</span>
                     <span class="text-muted align-middle mx-2">@message?.Name</span>
                     <span class="badge border border-secondary text-secondary">@message?.ContentType</span>
@@ -22,7 +22,7 @@
                         <i class="bi bi-link ms-2 text-dark" role="button" title="The message is correlatable"></i>
                     }
                 </div>
-                <div class="col-md-7 text-end">
+                <div class="col-md-3 text-end">
                     @if (message?.Tags != null)
                     {
                         foreach (var tag in message.Tags)
