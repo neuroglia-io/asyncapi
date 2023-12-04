@@ -82,7 +82,7 @@
                     }
                     else
                     {
-                        int index = 0;
+                        int index = 1;
                         foreach(var messageOption in message.OneOf)
                         {
                             <partial name="_Message" model="new MessageDefinitionViewModel(this.Model.Document, index, operationRef, messageOption)" />

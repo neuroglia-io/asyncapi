@@ -12,7 +12,6 @@
 // limitations under the License.
 
 using Json.Schema;
-using Neuroglia.AsyncApi.v2.Bindings;
 
 namespace Neuroglia.AsyncApi.v2.Bindings.Http;
 

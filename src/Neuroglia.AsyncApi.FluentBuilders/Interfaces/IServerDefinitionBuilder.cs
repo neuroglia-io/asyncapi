@@ -42,7 +42,7 @@ public interface IServerDefinitionBuilder
     /// </summary>
     /// <param name="description">The description to use</param>
     /// <returns>The configured <see cref="IServerDefinitionBuilder"/></returns>
-    IServerDefinitionBuilder WithDescription(string description);
+    IServerDefinitionBuilder WithDescription(string? description);
 
     /// <summary>
     /// Adds the specified <see cref="VariableDefinition"/> to the <see cref="ServerDefinition"/> to build

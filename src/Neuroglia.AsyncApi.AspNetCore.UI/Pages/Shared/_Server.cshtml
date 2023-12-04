@@ -19,7 +19,7 @@
         <div id="@this.Model.Key" class="card-body collapse">
             @if (!string.IsNullOrWhiteSpace(server.Description))
             {
-                <p class="mb-3">@server.Description</p>
+                <p><small class="text-secondary">@server.Description</small></p>
             }
             @if (server.Variables != null)
             {

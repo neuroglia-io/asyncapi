@@ -11,9 +11,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using Neuroglia.AsyncApi.v2;
-using Neuroglia.AsyncApi.v2.Bindings;
-using Neuroglia.Json.Schema.Generation;
+using Neuroglia.Data.Schemas.Json;
 
 namespace Neuroglia.AsyncApi.FluentBuilders;
 

@@ -16,7 +16,7 @@ using Neuroglia.AsyncApi;
 using Neuroglia.AsyncApi.v2;
 using Neuroglia.AsyncApi.v2.Bindings.Http;
 using Neuroglia.AsyncApi.v2.Bindings.Mqtt;
-using Neuroglia.Data.Schemas;
+using Neuroglia.Data.Schemas.Json;
 using StreetLightsApi.Server.Services;
 using System.Net.Mime;
 
@@ -35,7 +35,7 @@ jsonSchemaBuilder.AllOf(cloudEventSchema);
 jsonSchemaBuilder.Properties(("type", new JsonSchemaBuilder().Const("com.streetlights.sensor.movement-detected.v2").Build()), ("datacontenttype", new JsonSchemaBuilder().Const(MediaTypeNames.Application.Json).Build()));
 var movementDetectedEventSchema = jsonSchemaBuilder.Build();
 
-builder.Services.AddHttpClient(); //todo: move to proper extension
+builder.Services.AddHttpClient();
 builder.Services.AddRazorPages()
     .AddRazorRuntimeCompilation();
 builder.Services.AddAsyncApiUI();
@@ -102,7 +102,7 @@ builder.Services.AddAsyncApiDocument(document => document
             .WithClientCredentialsFlow(flow => flow
                 .WithAuthorizationUrl(new("https://fake.idp.com/token"))
                 .WithScope("api:read", "The scope used to read data")))));
-builder.Services.AddSingleton<IJsonSchemaResolver, JsonSchemaResolver>(); //todo: remove
+builder.Services.AddSingleton<IJsonSchemaResolver, JsonSchemaResolver>();
 
 var app = builder.Build();
 app.UseStaticFiles();

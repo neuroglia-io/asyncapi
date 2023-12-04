@@ -60,7 +60,7 @@ public class ServerDefinitionBuilder(IServiceProvider serviceProvider, IEnumerab
     }
 
     /// <inheritdoc/>
-    public virtual IServerDefinitionBuilder WithDescription(string description)
+    public virtual IServerDefinitionBuilder WithDescription(string? description)
     {
         this.Server.Description = description;
         return this;
