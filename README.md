@@ -16,16 +16,15 @@
   - [Streetlights API - Server](#streetlights-api---server)
 
 ## Summary
-A .NET used to visualize and interact with [AsyncAPI](https://www.asyncapi.com/docs/specifications/v2.1.0) documents. The UI is built using Razor Pages and Boostrap 4.0
+A .NET used to visualize and interact with [AsyncAPI](https://www.asyncapi.com/docs/reference/specification/v2.6.0) documents. The UI is built using Razor Pages and Boostrap
 
 ## Status
-
+`Microsoft.NET.Sdk.Web`
 | Name | Description | Latest Release | Spec version |
 | :---: | :---: | :---: | :---: |
-| [Neuroglia.AsyncApi.Core](https://www.nuget.org/packages/Neuroglia.AsyncApi.Core) | Contains `AsyncAPI` models and core services such as fluent builders, validators, reader, writer and code-first generator | [2.1.0.1](https://github.com/neuroglia-io/asyncapi/releases/) | [v2.1.0](https://www.asyncapi.com/docs/specifications/v2.1.0) |
-[Neuroglia.AsyncApi.AspNetCore](https://www.nuget.org/packages/Neuroglia.AsyncApi.AspNetCore) | Contains `ASP.NET` extensions, services for code-first generation and middleware for serving `AsyncAPI` documents | [2.1.0.1](https://github.com/neuroglia-io/asyncapi/releases/) | [v2.1.0](https://www.asyncapi.com/docs/specifications/v2.1.0) |
-[Neuroglia.AsyncApi.AspNetCore.UI](https://www.nuget.org/packages/Neuroglia.AsyncApi.AspNetCore.UI) | Contains `ASP.NET` extensions, services for code-first generation and middleware for serving `AsyncAPI` documents | [2.1.0.1](https://github.com/neuroglia-io/asyncapi/releases/) | [v2.1.0](https://www.asyncapi.com/docs/specifications/v2.1.0) |
-[Neuroglia.AsyncApi.Client](https://www.nuget.org/packages/Neuroglia.AsyncApi.Client) | Contains services to build clients at runtime based on `AsyncAPI` documents | WIP | [v2.1.0](https://www.asyncapi.com/docs/specifications/v2.1.0) |
+| [Neuroglia.AsyncApi.Core](https://www.nuget.org/packages/Neuroglia.AsyncApi.Core) | Contains `AsyncAPI` models and core services such as fluent builders, validators, reader, writer and code-first generator | [2.6.1](https://github.com/neuroglia-io/asyncapi/releases/tag/v2.6.1) | [v2.6.0](https://www.asyncapi.com/docs/reference/specification/v2.6.0) |
+[Neuroglia.AsyncApi.AspNetCore](https://www.nuget.org/packages/Neuroglia.AsyncApi.AspNetCore) | Contains `ASP.NET` extensions, services for code-first generation and middleware for serving `AsyncAPI` documents | [2.6.1](https://github.com/neuroglia-io/asyncapi/releases/tag/v2.6.1) | [v2.6.0](https://www.asyncapi.com/docs/reference/specification/v2.6.0) |
+[Neuroglia.AsyncApi.AspNetCore.UI](https://www.nuget.org/packages/Neuroglia.AsyncApi.AspNetCore.UI) | Contains `ASP.NET` extensions, services for code-first generation and middleware for serving `AsyncAPI` documents | [2.6.1](https://github.com/neuroglia-io/asyncapi/releases/tag/v2.6.1) | [v2.6.0](https://www.asyncapi.com/docs/reference/specification/v2.6.0) |
 
 ## Installation
 
@@ -43,37 +42,64 @@ dotnet add package Neuroglia.AsyncApi.AspNetCore
 ```bash
 dotnet add package Neuroglia.AsyncApi.AspNetCore.UI
 ```
-
-### AsyncAPI client
-```bash
-dotnet add package Neuroglia.AsyncApi.Client
-```
+*Attention, please note that projects serving the UI MUST use the `Microsoft.NET.Sdk.Web`*
 
 ## Usage
 
 ### Building an AsyncAPI Document
 
 ```csharp
-IServiceCollection services = new ServiceCollection();
+var services = new ServiceCollection();
 services.AddAsyncApi();
 var serviceProvider = services.BuildServiceProvider();
 var builder = serviceProvider.GetRequiredService<IAsyncApiDocumentBuilder>();
 var document = builder
-    .UseAsyncApi("2.1.0")
-    .WithTitle("Streetlights API")
+    .WithTitle("Cloud Event API")
     .WithVersion("1.0.0")
-    .WithDescription("The Smartylighting Streetlights API allows you to remotely manage the city lights.")
-    .WithLicense("Apache 2.0", new Uri("https://www.apache.org/licenses/LICENSE-2.0"))
-    .UseServer("mosquitto", server => server
-        .WithUrl(new Uri("mqtt://test.mosquitto.org"))
-        .WithProtocol("mqtt"))
-    .UseChannel("light/measured", channel => channel
-        .DefinePublishOperation(operation => operation
-            .WithSummary("Inform about environmental lighting conditions for a particular streetlight.")
-            .WithOperationId("onLightMeasured")
-            .UseMessage(message => message
-                .WithName("LightMeasured")
-                .OfType<LightMeasuredEvent>())))
+    .WithServer("StreetLightsApi", server => server
+        .WithUrl(new("https://streetlights.fake.com"))
+        .WithProtocol(AsyncApiProtocol.Http, "2.0")
+        .WithBinding(new HttpServerBindingDefinition())
+        .WithSecurityRequirement("oauth2"))
+    .WithChannel("/events", channel => channel
+        .WithDescription("The endpoint used to publish and subscribe to cloud events")
+        .WithBinding(new HttpChannelBindingDefinition())
+        .WithSubscribeOperation(operation => operation
+            .WithOperationId("ObserveCloudEvents")
+            .WithDescription("Observes cloud events published by the StreetLightsApi")
+            .WithBinding(new HttpOperationBindingDefinition() { Method = Neuroglia.AsyncApi.v2.Bindings.Http.HttpMethod.POST, Type = HttpBindingOperationType.Response })
+            .WithMessages
+            (
+                message => message
+                    .WithName("LightMeasuredEvent")
+                    .WithDescription("The event fired whenever the luminosity of a light has been measured")
+                    .WithContentType("application/cloudevents+json")
+                    .WithTraitReference("cloud-event")
+                    .WithPayloadSchema(lightMeasuredEventSchema)
+                    .WithCorrelationId("$message.payload#/subject")
+                    .WithTag(tag => tag
+                        .WithName("light")),
+                message => message
+                    .WithName("MovementDetectedEvent")
+                    .WithDescription("The event fired whenever a movement has been detected by a sensor")
+                    .WithContentType("application/cloudevents+json")
+                    .WithTraitReference("cloud-event")
+                    .WithPayloadSchema(movementDetectedEventSchema)
+                    .WithCorrelationId("$message.payload#/subject")
+                    .WithTag(tag => tag
+                        .WithName("movement"))
+            )))
+    .WithMessageTraitComponent("cloud-event", message => message
+        .WithBinding(new HttpMessageBindingDefinition())
+        .WithContentType("application/cloudevents+json"))
+    .WithSecurityScheme("oauth2", scheme => scheme
+        .WithType(SecuritySchemeType.OAuth2)
+        .WithDescription("The security scheme used to authorize application requests")
+        .WithAuthorizationScheme("Bearer")
+        .WithOAuthFlows(oauth => oauth
+            .WithClientCredentialsFlow(flow => flow
+                .WithAuthorizationUrl(new("https://fake.idp.com/token"))
+                .WithScope("api:read", "The scope used to read data")))))
     .Build();
 ```
 
@@ -89,7 +115,7 @@ await writer.WriteAsync(document, stream, AsyncApiDocumentFormat.Yaml, cancellat
 
 ```csharp
 var reader = serviceProvider.GetRequiredService<IAsyncApiDocumentReader>();
-AsyncApiDocument asyncApi = await reader.ReadAsync(stream, cancellationToken);
+var asyncApi = await reader.ReadAsync(stream, cancellationToken);
 ```
 
 ### Generating code-first AsyncAPI documents
@@ -98,33 +124,33 @@ AsyncApiDocument asyncApi = await reader.ReadAsync(stream, cancellationToken);
 
 ```csharp
 [AsyncApi("Streetlights API", "1.0.0", Description = "The Smartylighting Streetlights API allows you to remotely manage the city lights.", LicenseName = "Apache 2.0", LicenseUrl = "https://www.apache.org/licenses/LICENSE-2.0")]
-    public class StreetLightsService
-        : BackgroundService
-    {
+public class StreetLightsService
+  : BackgroundService
+{
 
-        ... //Omitted for brevity
+  ... //Omitted for brevity
+  
+  [Channel("light/measured"), PublishOperation(OperationId = "onLightMeasured", Summary = "Inform about environmental lighting conditions for a particular streetlight")]
+  public async Task PublishLightMeasured(LightMeasuredEvent e)
+  {
+      MqttApplicationMessage message = new()
+      {
+          Topic = "onLightMeasured",
+          ContentType = "application/json",
+          Payload = Encoding.UTF8.GetBytes(await this.Serializer.SerializeAsync(e))
+      };
+      await this.MqttClient.PublishAsync(message);
+  }
+  
+  [Channel("light/measured"), SubscribeOperation(OperationId = "lightMeasuredEvent", Summary = "Inform about environmental lighting conditions for a particular streetlight")]
+  protected async Task OnLightMeasured(LightMeasuredEvent e)
+  {
+      this.Logger.LogInformation($"Event received:{Environment.NewLine}{await this.Serializer.SerializeAsync(e)}");
+  }
+  
+  ...
 
-        [Channel("light/measured"), PublishOperation(OperationId = "onLightMeasured", Summary = "Inform about environmental lighting conditions for a particular streetlight")]
-        public async Task PublishLightMeasured(LightMeasuredEvent e)
-        {
-            MqttApplicationMessage message = new()
-            {
-                Topic = "onLightMeasured",
-                ContentType = "application/json",
-                Payload = Encoding.UTF8.GetBytes(await this.Serializer.SerializeAsync(e))
-            };
-            await this.MqttClient.PublishAsync(message);
-        }
-
-        [Channel("light/measured"), SubscribeOperation(OperationId = "lightMeasuredEvent", Summary = "Inform about environmental lighting conditions for a particular streetlight")]
-        protected async Task OnLightMeasured(LightMeasuredEvent e)
-        {
-            this.Logger.LogInformation($"Event received:{Environment.NewLine}{await this.Serializer.SerializeAsync(e)}");
-        }
-
-        ...
-
-    }
+}
 ```
 
 Note the usage of the following attributes:
@@ -196,51 +222,6 @@ services.AddAsyncApiUI();
 Launch your ASP project, then navigate to `http://localhost:44236/asyncapi`. You should see something like this:
 
 ![AsyncAPI UI - Screenshot](/assets/img/ui.png)
-
-### Using the AsyncAPI Client
-
-Go to your ASP project's `Startup.cs` file and add the following line to your `ConfigureServices` method:
-
-```csharp
-services.AddAsyncApiClient("test", builder =>
-  builder.For(new Uri("https://example.com/asyncapi.yaml"))
-      .AddAmqpBinding() //needs to add Neuroglia.AsyncApi.Client.Amqp package
-      .AddKafkaBinding() //needs to add Neuroglia.AsyncApi.Client.Kafka package
-      .AddMqttBinding() //needs to add Neuroglia.AsyncApi.Client.Mqtt package
-      .AddNatsBinding() //needs to add Neuroglia.AsyncApi.Client.Nats package
-      .AddRedisBinding() //needs to add Neuroglia.AsyncApi.Client.Redis package
-      .AddWebSocketBinding()); //needs to add Neuroglia.AsyncApi.Client.WebSockets package
-```
-
-Then use the `IAsyncApiClient` as follows:
-
-```csharp
-//PUB
-await this.AsyncApiClient.PublishAsync("ligth/measured", message);
-//SUB
-subscription = await this.AsyncApiClient.SubscribeToAsync("light/measured", Observer.Create<IMessage>(this.OnLightMeasured));
-```
-
-To build messages to publish, you can use the MessageBuilder service:
-
-```csharp
-var message = new MessageBuilder()
-  .WithPayload(new User() { FirstName = "Fake First Name", LastName = "Fake Last Name" })
-  .WithHeader("Fake Header 1", "Fake Value 1")
-  .WithHeader("Fake Header 2", "Fake Value 2")
-  .WithCorrelationKey(Guid.NewGuid())
-  .Build()
-```
-
-or manually create a new `Message` instance:
-
-```csharp
-var message = new Message() 
-{ 
-  Payload = new User() { FirstName = "Fake First Name", LastName = "Fake Last Name" },
-  ...
-};
-```
 
 ## Samples
 
