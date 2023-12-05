@@ -42,7 +42,7 @@ public class JsonSchemaExampleGenerator(IJsonSerializer serializer)
     {
         get
         {
-            if(this._defaultSchema == null)
+            if (this._defaultSchema == null)
             {
                 var schemaBuilder = new JsonSchemaBuilder();
                 var schemaProperties = new Dictionary<string, JsonSchema>
@@ -70,7 +70,7 @@ public class JsonSchemaExampleGenerator(IJsonSerializer serializer)
         if (enumValues != null) return enumValues.FirstOrDefault()?.ToString();
 
         var examples = schema.GetExamples();
-        if (examples != null) return examples.FirstOrDefault()?.ToString();
+        if (examples != null && examples.Count != 0) return examples.FirstOrDefault()?.ToString();
 
         var schemaType = schema.GetJsonType() & ~SchemaValueType.Null;
         return schemaType switch
@@ -103,7 +103,7 @@ public class JsonSchemaExampleGenerator(IJsonSerializer serializer)
 
         var array = new List<object>(itemsCount);
         var itemSchema = schema.GetItems() ?? this.DefaultSchema;
-        for(var i = 0; i < itemsCount; i++) array.Add(GenerateExample(itemSchema, string.Empty, requiredPropertiesOnly)!);
+        for (var i = 0; i < itemsCount; i++) array.Add(GenerateExample(itemSchema, string.Empty, requiredPropertiesOnly)!);
 
         return array;
     }
@@ -193,7 +193,7 @@ public class JsonSchemaExampleGenerator(IJsonSerializer serializer)
     {
         var format = schema.GetFormat();
         if (format == null) return "string";
-       
+
         return format.Key switch
         {
             "date-time" => DateTimeOffset.Now.ToString("O"),
