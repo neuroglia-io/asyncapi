@@ -11,7 +11,7 @@
     <RepositoryUrl>https://github.com/neuroglia-io/framework</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
     <PackageTags>neuroglia asyncapi async api cloud-event</PackageTags>
-    <Version>2.6.3</Version>
+    <Version>2.6.4</Version>
     <NeutralLanguage>en</NeutralLanguage>
 	<PackageLicenseExpression>Apache-2.0</PackageLicenseExpression>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
@@ -29,7 +29,7 @@
   </ItemGroup>
 	
   <ItemGroup>
-    <PackageReference Include="Neuroglia.Eventing.CloudEvents" Version="4.7.3" />
+    <PackageReference Include="Neuroglia.Eventing.CloudEvents" Version="4.7.6" />
   </ItemGroup>
 
   <ItemGroup>
