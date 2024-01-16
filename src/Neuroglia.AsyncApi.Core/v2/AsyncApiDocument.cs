@@ -31,7 +31,7 @@ public record AsyncApiDocument
     /// Patch versions will correspond to patches of this document.
     /// </remarks>
     [Required]
-    [DataMember(Order = 1, Name = "asyncApi"), JsonPropertyOrder(1), JsonPropertyName("asyncApi"), YamlMember(Order = 1, Alias = "asyncApi", ScalarStyle = ScalarStyle.SingleQuoted)]
+    [DataMember(Order = 1, Name = "asyncapi"), JsonPropertyOrder(1), JsonPropertyName("asyncapi"), YamlMember(Order = 1, Alias = "asyncapi", ScalarStyle = ScalarStyle.SingleQuoted)]
     public virtual string AsyncApi { get; set; } = AsyncApiSpecVersion.V2;
 
     /// <summary>
