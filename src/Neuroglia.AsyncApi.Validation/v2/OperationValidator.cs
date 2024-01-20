@@ -22,6 +22,20 @@ public class OperationValidator
     : AbstractValidator<OperationDefinition>
 {
 
-
+    /// <summary>
+    /// Initializes a new <see cref="OperationValidator"/>
+    /// </summary>
+    public OperationValidator()
+    {
+        this.RuleForEach(o => o.Tags)
+            .SetValidator(new TagValidator());
+        this.RuleForEach(o => o.Traits)
+            .SetValidator(new OperationTraitValidator());
+        this.RuleFor(o => o.Message!)
+            .SetValidator(new MessageValidator());
+        this.RuleForEach(o => o.Message!.OneOf)
+            .SetValidator(new MessageValidator())
+            .When(o => o.Message != null);
+    }
 
 }

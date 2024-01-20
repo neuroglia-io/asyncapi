@@ -16,21 +16,19 @@ using Neuroglia.AsyncApi.v2;
 namespace Neuroglia.AsyncApi.Validation;
 
 /// <summary>
-/// Represents the service used to validate <see cref="MessageDefinition"/>s
+/// Represents the service used to validate the <see cref="TagDefinition"/>
 /// </summary>
-public class MessageValidator
-    : AbstractValidator<MessageDefinition>
+public class TagValidator
+    : AbstractValidator<TagDefinition>
 {
 
     /// <summary>
-    /// Initializes a new <see cref="MessageValidator"/>
+    /// Initializes a new <see cref="TagValidator"/>
     /// </summary>
-    public MessageValidator()
+    public TagValidator()
     {
-        this.RuleForEach(m => m.Tags)
-            .SetValidator(new TagValidator());
-        this.RuleForEach(m => m.Traits)
-            .SetValidator(new MessageTraitValidator());
+        this.RuleFor(t => t.Name)
+            .NotEmpty();
     }
 
 }

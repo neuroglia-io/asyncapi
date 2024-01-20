@@ -22,6 +22,15 @@ public class ChannelValidator
     : AbstractValidator<ChannelDefinition>
 {
 
-
+    /// <summary>
+    /// Initializes a new <see cref="ChannelValidator"/>
+    /// </summary>
+    public ChannelValidator()
+    {
+        this.RuleFor(c => c.Subscribe!)
+            .SetValidator(new OperationValidator());
+        this.RuleFor(c => c.Publish!)
+            .SetValidator(new OperationValidator());
+    }
 
 }
