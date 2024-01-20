@@ -48,10 +48,10 @@ public record OperationTraitDefinition
     public virtual EquatableList<TagDefinition>? Tags { get; set; }
 
     /// <summary>
-    /// Gets/sets a <see cref="List{T}"/> containing additional external documentation for this operation.
+    /// Gets/sets an object containing additional external documentation for this operation.
     /// </summary>
     [DataMember(Order = 5, Name = "externalDocs"), JsonPropertyOrder(5), JsonPropertyName("externalDocs"), YamlMember(Order = 5, Alias = "externalDocs")]
-    public virtual EquatableList<ExternalDocumentationDefinition>? ExternalDocs { get; set; }
+    public virtual ExternalDocumentationDefinition? ExternalDocs { get; set; }
 
     /// <summary>
     /// Gets/sets an object used to configure the <see cref="OperationTraitDefinition"/>'s <see cref="IOperationBindingDefinition"/>s

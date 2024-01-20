@@ -79,10 +79,10 @@ public record AsyncApiDocument
     public virtual EquatableList<TagDefinition>? Tags { get; set; }
 
     /// <summary>
-    /// Gets/sets a <see cref="List{T}"/> containing additional external documentation.
+    /// Gets/sets an object containing additional external documentation.
     /// </summary>
     [DataMember(Order = 9, Name = "externalDocs"), JsonPropertyOrder(9), JsonPropertyName("externalDocs"), YamlMember(Order = 9, Alias = "externalDocs")]
-    public virtual EquatableList<ExternalDocumentationDefinition>? ExternalDocs { get; set; }
+    public virtual ExternalDocumentationDefinition? ExternalDocs { get; set; }
 
     /// <summary>
     /// Attempts to get the <see cref="OperationDefinition"/> with the specified id

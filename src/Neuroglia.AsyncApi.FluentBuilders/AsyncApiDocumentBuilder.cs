@@ -132,8 +132,7 @@ public class AsyncApiDocumentBuilder(IServiceProvider serviceProvider, IEnumerab
     public virtual IAsyncApiDocumentBuilder WithExternalDocumentation(Uri uri, string? description = null)
     {
         ArgumentNullException.ThrowIfNull(uri);
-        this.Document.ExternalDocs ??= [];
-        this.Document.ExternalDocs.Add(new() { Url = uri, Description = description });
+        this.Document.ExternalDocs = new() { Url = uri, Description = description };
         return this;
     }
 

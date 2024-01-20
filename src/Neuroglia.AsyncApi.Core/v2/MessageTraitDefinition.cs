@@ -81,10 +81,10 @@ public record MessageTraitDefinition
     public virtual EquatableList<TagDefinition>? Tags { get; set; }
 
     /// <summary>
-    /// Gets/sets a <see cref="EquatableList{T}"/> containing additional external documentation for this message.
+    /// Gets/sets an object containing additional external documentation for this message.
     /// </summary>
     [DataMember(Order = 10, Name = "externalDocs"), JsonPropertyOrder(10), JsonPropertyName("externalDocs"), YamlMember(Order = 10, Alias = "externalDocs")]
-    public virtual EquatableList<ExternalDocumentationDefinition>? ExternalDocs { get; set; }
+    public virtual ExternalDocumentationDefinition? ExternalDocs { get; set; }
 
     /// <summary>
     /// Gets/sets an object used to configure the <see cref="MessageTraitDefinition"/>'s <see cref="IMessageBindingDefinition"/>s

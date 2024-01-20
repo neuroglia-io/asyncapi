@@ -143,6 +143,9 @@ public class FluentBuilderTests
         document.Info.License.Url.Should().Be(licenseUri);
         document.Info.TermsOfService.Should().Be(termsOfServiceUri);
         document.DefaultContentType.Should().Be(defaultContentType);
+        document.ExternalDocs.Should().NotBeNull();
+        document.ExternalDocs!.Description.Should().Be(tagDocumentationDescription);
+        document.ExternalDocs.Url.Should().Be(tagDocumentationUri);
 
         var server = document.Servers!.SingleOrDefault();
         server.Should().NotBeNull();
@@ -189,16 +192,9 @@ public class FluentBuilderTests
         tag.Should().NotBeNull();
         tag!.Name.Should().Be(tagName);
         tag.Description.Should().Be(tagDescription);
-
-        var externalDoc = tag.ExternalDocs!.FirstOrDefault();
-        externalDoc.Should().NotBeNull();
-        externalDoc!.Description.Should().Be(tagDocumentationDescription);
-        externalDoc.Url.Should().Be(tagDocumentationUri);
-
-        externalDoc = document.ExternalDocs!.FirstOrDefault();
-        externalDoc.Should().NotBeNull();
-        externalDoc!.Description.Should().Be(tagDocumentationDescription);
-        externalDoc.Url.Should().Be(tagDocumentationUri);
+        tag.ExternalDocs.Should().NotBeNull();
+        tag.ExternalDocs!.Description.Should().Be(tagDocumentationDescription);
+        tag.ExternalDocs.Url.Should().Be(tagDocumentationUri);
     }
 
     void IDisposable.Dispose()

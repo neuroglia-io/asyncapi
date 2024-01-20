@@ -101,28 +101,22 @@ internal static class AsyncApiDocumentFactory
                                 //todo
                             },
                             Traits = [],
-                            ExternalDocs =
-                            [
-                                new ExternalDocumentationDefinition()
-                                {
-                                    Url = new("https://fake.contact.com"),
-                                    Description = "Fake Documentation Description"
-                                }
-                            ],
+                            ExternalDocs = new()
+                            {
+                                Url = new("https://fake.contact.com"),
+                                Description = "Fake Documentation Description"
+                            },
                             Tags =
                             [
                                 new TagDefinition()
                                 {
                                     Name = "fake-tag",
                                     Description = "Fake Tag Description",
-                                    ExternalDocs =
-                                    [
-                                        new ExternalDocumentationDefinition()
-                                        {
-                                            Url = new("https://fake.contact.com"),
-                                            Description = "Fake Documentation Description"
-                                        }
-                                    ]
+                                    ExternalDocs = new()
+                                    {
+                                        Url = new("https://fake.contact.com"),
+                                        Description = "Fake Documentation Description"
+                                    }
                                 }
                             ]
                         },
@@ -140,28 +134,22 @@ internal static class AsyncApiDocumentFactory
                 }
             },
             DefaultContentType = MediaTypeNames.Application.Json,
-            ExternalDocs = 
-            [
-                new ExternalDocumentationDefinition()
-                {
-                    Url = new("https://fake.contact.com"),
-                    Description = "Fake Documentation Description"
-                }
-            ],
+            ExternalDocs = new()
+            {
+                Url = new("https://fake.contact.com"),
+                Description = "Fake Documentation Description"
+            },
             Tags =
             [
                 new TagDefinition()
                 {
                     Name = "fake-tag",
                     Description = "Fake Tag Description",
-                    ExternalDocs =
-                    [
-                        new ExternalDocumentationDefinition()
-                        {
-                            Url = new("https://fake.contact.com"),
-                            Description = "Fake Documentation Description"
-                        }
-                    ]
+                    ExternalDocs = new()
+                    {
+                        Url = new("https://fake.contact.com"),
+                        Description = "Fake Documentation Description"
+                    }
                 }
             ]
         };
