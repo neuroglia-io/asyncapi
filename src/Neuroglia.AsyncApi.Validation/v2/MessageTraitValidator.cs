@@ -22,5 +22,13 @@ public class MessageTraitValidator
     : AbstractValidator<MessageTraitDefinition>
 {
 
+    /// <summary>
+    /// Initializes a new <see cref="MessageTraitValidator"/>
+    /// </summary>
+    public MessageTraitValidator()
+    {
+        this.RuleForEach(m => m.Tags)
+            .SetValidator(new TagValidator());
+    }
 
 }

@@ -30,15 +30,20 @@ public class AsyncApiDocumentValidator
         this.RuleFor(d => d.AsyncApi)
             .NotEmpty();
         this.RuleFor(d => d.Info)
-            .NotNull();
+            .NotNull()
+            .SetValidator(new InfoValidator());
         this.RuleFor(d => d.Channels)
             .NotEmpty();
         this.RuleForEach(d => d.Channels.Values)
             .SetValidator(new ChannelValidator())
             .When(d => d.Channels != null);
+        this.RuleFor(d => d.Components!)
+            .SetValidator(new ComponentsValidator());
         this.RuleForEach(d => d.Servers!.Values)
             .SetValidator(new ServerValidator())
             .When(d => d.Servers != null);
+        this.RuleForEach(d => d.Tags)
+            .SetValidator(new TagValidator());
     }
 
 }

@@ -22,6 +22,13 @@ public class OperationTraitValidator
     : AbstractValidator<OperationTraitDefinition>
 {
 
-
+    /// <summary>
+    /// Initializes a new <see cref="OperationTraitValidator"/>
+    /// </summary>
+    public OperationTraitValidator()
+    {
+        this.RuleForEach(o => o.Tags)
+            .SetValidator(new TagValidator());
+    }
 
 }
