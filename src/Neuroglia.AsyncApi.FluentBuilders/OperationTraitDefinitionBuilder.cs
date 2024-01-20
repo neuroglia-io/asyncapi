@@ -57,8 +57,7 @@ public abstract class OperationTraitDefinitionBuilder<TBuilder, TTrait>
     public virtual TBuilder WithExternalDocumentation(Uri uri, string? description = null)
     {
         ArgumentNullException.ThrowIfNull(uri);
-        this.Trait.ExternalDocs ??= [];
-        this.Trait.ExternalDocs.Add(new ExternalDocumentationDefinition() { Url = uri, Description = description });
+        this.Trait.ExternalDocs = new ExternalDocumentationDefinition() { Url = uri, Description = description };
         return (TBuilder)(object)this;
     }
 

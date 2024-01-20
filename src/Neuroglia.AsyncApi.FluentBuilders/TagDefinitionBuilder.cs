@@ -55,8 +55,7 @@ public class TagDefinitionBuilder(IEnumerable<IValidator<TagDefinition>> validat
     public virtual ITagDefinitionBuilder WithExternalDocumentation(Uri uri, string? description = null)
     {
         ArgumentNullException.ThrowIfNull(uri);
-        this.Tag.ExternalDocs ??= [];
-        this.Tag.ExternalDocs.Add(new() { Url = uri, Description = description });
+        this.Tag.ExternalDocs = new() { Url = uri, Description = description };
         return this;
     }
 

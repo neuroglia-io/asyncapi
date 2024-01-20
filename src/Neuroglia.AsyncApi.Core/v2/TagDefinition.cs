@@ -34,10 +34,10 @@ public record TagDefinition
     public virtual string? Description { get; set; }
 
     /// <summary>
-    /// Gets/sets a <see cref="List{T}"/> containing additional external documentation for this tag.
+    /// Gets/sets an object containing additional external documentation for this tag.
     /// </summary>
     [DataMember(Order = 3, Name = "externalDocs"), JsonPropertyOrder(3), JsonPropertyName("externalDocs"), YamlMember(Order = 3, Alias = "externalDocs")]
-    public virtual EquatableList<ExternalDocumentationDefinition>? ExternalDocs { get; set; }
+    public virtual ExternalDocumentationDefinition? ExternalDocs { get; set; }
 
     /// <inheritdoc/>
     public override string ToString() => Name;
