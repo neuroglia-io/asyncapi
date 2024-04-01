@@ -8,7 +8,7 @@
 	<Company>Neuroglia SRL</Company>
     <Copyright>Copyright © 2023-Present Neuroglia SRL. All rights reserved.</Copyright>
     <Authors>Neuroglia SRL</Authors>
-    <RepositoryUrl>https://github.com/neuroglia-io/framework</RepositoryUrl>
+    <RepositoryUrl>https://github.com/neuroglia-io/asyncapi</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
     <PackageTags>neuroglia asyncapi async api dependency injection di extensions</PackageTags>
     <Version>2.6.5</Version>
