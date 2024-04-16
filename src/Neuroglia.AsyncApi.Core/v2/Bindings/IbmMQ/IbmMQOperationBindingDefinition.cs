@@ -11,19 +11,16 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-namespace Neuroglia.AsyncApi.v2.Bindings.Solace;
+namespace Neuroglia.AsyncApi.v2.Bindings.IbmMQ;
 
 /// <summary>
-/// Represents an object used to configure the topic of a Solace destination
+/// Represents the object used to configure an IBMMQ operation binding
 /// </summary>
 [DataContract]
-public record SolaceDestinationTopicDefinition
+public record IbmMQOperationBindingDefinition
+    : IbmMQBindingDefinition, IOperationBindingDefinition
 {
 
-    /// <summary>
-    /// Gets/sets a list of topics that the client subscribes to. If none is given, the client subscribes to the topic as represented by the channel name.
-    /// </summary>
-    [DataMember(Order = 1, Name = "topicSubscriptions"), JsonPropertyOrder(1), JsonPropertyName("topicSubscriptions"), YamlMember(Order = 1, Alias = "topicSubscriptions")]
-    public virtual EquatableList<string>? TopicSubscriptions { get; set; }
+
 
 }

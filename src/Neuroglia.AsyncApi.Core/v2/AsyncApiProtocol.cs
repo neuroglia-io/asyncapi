@@ -52,6 +52,10 @@ public static class AsyncApiProtocol
     /// </summary>
     public const string AmqpV1 = "amqp1";
     /// <summary>
+    /// Gets the googlepubsub Async API protocol
+    /// </summary>
+    public const string GooglePubSub = "googlepubsub";
+    /// <summary>
     /// Gets the mqtt Async API protocol
     /// </summary>
     public const string Mqtt = "mqtt";
@@ -94,6 +98,6 @@ public static class AsyncApiProtocol
     /// <summary>
     /// Gets the ibmmq Async API protocol
     /// </summary>
-    public const string Ibmmq = "ibmmq";
+    public const string IbmMQ = "ibmmq";
 
 }

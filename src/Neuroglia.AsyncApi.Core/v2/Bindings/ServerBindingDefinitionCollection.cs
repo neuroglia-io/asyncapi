@@ -11,11 +11,12 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using Neuroglia.AsyncApi.v2;
 using Neuroglia.AsyncApi.v2.Bindings.Amqp;
 using Neuroglia.AsyncApi.v2.Bindings.AmqpV1;
 using Neuroglia.AsyncApi.v2.Bindings.AnypointMQ;
+using Neuroglia.AsyncApi.v2.Bindings.GooglePubSub;
 using Neuroglia.AsyncApi.v2.Bindings.Http;
+using Neuroglia.AsyncApi.v2.Bindings.IbmMQ;
 using Neuroglia.AsyncApi.v2.Bindings.Jms;
 using Neuroglia.AsyncApi.v2.Bindings.Kafka;
 using Neuroglia.AsyncApi.v2.Bindings.Mercure;

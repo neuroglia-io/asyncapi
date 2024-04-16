@@ -42,12 +42,12 @@ public record SolaceDestinationDefinition
     /// Gets/sets an object used to configure the destination's queue, in case the destination type has been set to 'queue'.
     /// </summary>
     [DataMember(Order = 4, Name = "queue"), JsonPropertyOrder(4), JsonPropertyName("queue"), YamlMember(Order = 4, Alias = "queue")]
-    public virtual SolaceDestinationQueueDefinition? Queue { get; set; }
+    public virtual SolaceQueueDefinition? Queue { get; set; }
 
     /// <summary>
     /// Gets/sets an object used to configure the destination's topic, in case the destination type has been set to 'topic'.
     /// </summary>
     [DataMember(Order = 5, Name = "topic"), JsonPropertyOrder(5), JsonPropertyName("topic"), YamlMember(Order = 5, Alias = "topic")]
-    public virtual SolaceDestinationQueueDefinition? Topic { get; set; }
+    public virtual SolaceQueueDefinition? Topic { get; set; }
 
 }

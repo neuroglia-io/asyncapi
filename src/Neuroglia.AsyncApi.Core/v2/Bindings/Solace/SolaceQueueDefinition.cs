@@ -14,14 +14,14 @@
 namespace Neuroglia.AsyncApi.v2.Bindings.Solace;
 
 /// <summary>
-/// Represents an object used to configure the queue of a Solace destination
+/// Represents an object used to configure a Solace queue
 /// </summary>
 [DataContract]
-public record SolaceDestinationQueueDefinition
+public record SolaceQueueDefinition
 {
 
     /// <summary>
-    /// Gets/sets the name of the queue, only applicable when destinationType is 'queue'.
+    /// Gets/sets the name of the queue.
     /// </summary>
     [DataMember(Order = 1, Name = "name"), JsonPropertyOrder(1), JsonPropertyName("name"), YamlMember(Order = 1, Alias = "name")]
     public virtual string? Name { get; set; }
@@ -45,7 +45,7 @@ public record SolaceDestinationQueueDefinition
     public virtual string? MaxMsgSpoolSize { get; set; }
 
     /// <summary>
-    /// Gets/sets the maximum TTL to apply to messages to be spooled. This is documented here. Only applicable when destinationType is 'queue'.
+    /// Gets/sets the maximum TTL to apply to messages to be spooled. This is documented here.
     /// </summary>
     [DataMember(Order = 5, Name = "maxTtl"), JsonPropertyOrder(5), JsonPropertyName("maxTtl"), YamlMember(Order = 5, Alias = "maxTtl")]
     public virtual string? MaxTtl { get; set; }
