@@ -11,16 +11,26 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-namespace Neuroglia.AsyncApi.v2.Bindings.AmqpV1;
+using Neuroglia.Serialization.Json.Converters;
+using System.ComponentModel;
+
+namespace Neuroglia.AsyncApi.v2.Bindings.Solace;
 
 /// <summary>
-/// Represents the object used to configure an AMQP 1.0 server binding
+/// Enumerates all supported Solace queue access types
 /// </summary>
-[DataContract]
-public record AmqpV1ServerBindingDefinition
-    : AmqpV1BindingDefinition, IServerBindingDefinition
+[JsonConverter(typeof(StringEnumConverter))]
+[TypeConverter(typeof(EnumMemberTypeConverter))]
+public enum SolaceQueueAccessType
 {
-
-
-
+    /// <summary>
+    /// Indicates an exclusive queue access
+    /// </summary>
+    [EnumMember(Value = "exclusive")]
+    Exclusive = 0,
+    /// <summary>
+    /// Indicates a non-exclusive queue access
+    /// </summary>
+    [EnumMember(Value = "nonexclusive")]
+    NonExclusive = 1
 }

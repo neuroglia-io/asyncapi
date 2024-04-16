@@ -11,14 +11,14 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-namespace Neuroglia.AsyncApi.v2.Bindings.AmqpV1;
+namespace Neuroglia.AsyncApi.v2.Bindings.Solace;
 
 /// <summary>
-/// Represents the object used to configure an AMQP 1.0 server binding
+/// Represents the object used to configure a Solace channel binding
 /// </summary>
 [DataContract]
-public record AmqpV1ServerBindingDefinition
-    : AmqpV1BindingDefinition, IServerBindingDefinition
+public record SolaceChannelBindingDefinition
+    : SolaceBindingDefinition, IChannelBindingDefinition
 {
 
 

@@ -11,16 +11,25 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-namespace Neuroglia.AsyncApi.v2.Bindings.AmqpV1;
+namespace Neuroglia.AsyncApi.v2.Bindings.Sqs;
 
 /// <summary>
-/// Represents the object used to configure an AMQP 1.0 server binding
+/// Represents an SQS identifier
 /// </summary>
 [DataContract]
-public record AmqpV1ServerBindingDefinition
-    : AmqpV1BindingDefinition, IServerBindingDefinition
+public record SqsIdentifier
 {
 
+    /// <summary>
+    /// Gets/sets the endpoint's arn
+    /// </summary>
+    [DataMember(Order = 1, Name = "arn"), JsonPropertyOrder(1), JsonPropertyName("arn"), YamlMember(Order = 1, Alias = "arn")]
+    public virtual string? Arn { get; set; }
 
+    /// <summary>
+    /// Gets/sets the endpoint's name
+    /// </summary>
+    [DataMember(Order = 2, Name = "name"), JsonPropertyOrder(2), JsonPropertyName("name"), YamlMember(Order = 2, Alias = "name")]
+    public virtual string? Name { get; set; }
 
 }

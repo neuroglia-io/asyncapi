@@ -11,16 +11,20 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-namespace Neuroglia.AsyncApi.v2.Bindings.AmqpV1;
+namespace Neuroglia.AsyncApi.v2.Bindings.Sqs;
 
 /// <summary>
-/// Represents the object used to configure an AMQP 1.0 server binding
+/// Represents an object used to configure the security policy of an SQS queue
 /// </summary>
 [DataContract]
-public record AmqpV1ServerBindingDefinition
-    : AmqpV1BindingDefinition, IServerBindingDefinition
+public record SqsQueueSecurityPolicyDefinition
 {
 
-
+    /// <summary>
+    /// Gets/sets the statements that each controls a permission for this queue.
+    /// </summary>
+    [Required, MinLength(1)]
+    [DataMember(Order = 1, Name = "statements"), JsonPropertyOrder(1), JsonPropertyName("statements"), YamlMember(Order = 1, Alias = "statements")]
+    public virtual EquatableList<SqsTopicSecurityStatementDefinition> Statements { get; set; } = [];
 
 }

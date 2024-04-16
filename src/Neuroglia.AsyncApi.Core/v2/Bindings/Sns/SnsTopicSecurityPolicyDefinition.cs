@@ -11,16 +11,20 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-namespace Neuroglia.AsyncApi.v2.Bindings.AmqpV1;
+namespace Neuroglia.AsyncApi.v2.Bindings.Sns;
 
 /// <summary>
-/// Represents the object used to configure an AMQP 1.0 server binding
+/// Represents an object used to configure topic security on an SNS channel
 /// </summary>
 [DataContract]
-public record AmqpV1ServerBindingDefinition
-    : AmqpV1BindingDefinition, IServerBindingDefinition
+public record SnsTopicSecurityPolicyDefinition
 {
 
-
+    /// <summary>
+    /// Gets/sets the type of SNS Topic. Can be either standard or FIFO.
+    /// </summary>
+    [Required, MinLength(1)]
+    [DataMember(Order = 1, Name = "statements"), JsonPropertyOrder(1), JsonPropertyName("statements"), YamlMember(Order = 1, Alias = "statements")]
+    public virtual EquatableList<SnsTopicSecurityStatementDefinition> Statements { get; set; } = [];
 
 }

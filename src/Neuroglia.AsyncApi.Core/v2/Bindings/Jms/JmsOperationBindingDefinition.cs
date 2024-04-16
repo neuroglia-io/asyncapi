@@ -11,16 +11,17 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-namespace Neuroglia.AsyncApi.v2.Bindings.AmqpV1;
+using Json.Schema;
+
+namespace Neuroglia.AsyncApi.v2.Bindings.Jms;
 
 /// <summary>
-/// Represents the object used to configure an AMQP 1.0 server binding
+/// Represents the object used to configure a JMS operation binding
 /// </summary>
 [DataContract]
-public record AmqpV1ServerBindingDefinition
-    : AmqpV1BindingDefinition, IServerBindingDefinition
+public record JmsOperationBindingDefinition
+    : JmsBindingDefinition, IOperationBindingDefinition
 {
-
 
 
 }

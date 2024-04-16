@@ -11,28 +11,27 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using Json.Schema;
-
-namespace Neuroglia.AsyncApi.v2.Bindings.Kafka;
+namespace Neuroglia.AsyncApi.v2.Bindings.Sqs;
 
 /// <summary>
-/// Represents the object used to configure a Kafka message binding
+/// Represents the object used to configure a SQS operation binding
 /// </summary>
 [DataContract]
-public record KafkaMessageBindingDefinition
-    : KafkaBindingDefinition, IMessageBindingDefinition
+public record SqsOperationBindingDefinition
+    : SqsBindingDefinition, IOperationBindingDefinition
 {
 
     /// <summary>
-    /// Gets/sets a <see cref="JsonSchema"/> that defines the message key.
+    /// Gets/sets the queues that are either the endpoint for an SNS Operation Binding Object, or the deadLetterQueue of the SQS Operation Binding Object
     /// </summary>
-    [DataMember(Order = 1, Name = "key"), JsonPropertyOrder(1), JsonPropertyName("key"), YamlMember(Order = 1, Alias = "key")]
-    public virtual JsonSchema? Key { get; set; }
+    [Required, MinLength(1)]
+    [DataMember(Order = 1, Name = "queues"), JsonPropertyOrder(1), JsonPropertyName("queues"), YamlMember(Order = 1, Alias = "queues")]
+    public virtual EquatableList<SqsQueueDefinition> Queues { get; set; } = [];
 
     /// <summary>
-    /// Gets/sets the version of this binding. Defaults to 'latest'.
+    /// Gets/sets the version of this binding.
     /// </summary>
     [DataMember(Order = 2, Name = "bindingVersion"), JsonPropertyOrder(2), JsonPropertyName("bindingVersion"), YamlMember(Order = 2, Alias = "bindingVersion")]
-    public virtual string BindingVersion { get; set; } = "latest";
+    public virtual string? BindingVersion { get; set; } = "latest";
 
 }

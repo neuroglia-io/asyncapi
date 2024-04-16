@@ -11,16 +11,19 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-namespace Neuroglia.AsyncApi.v2.Bindings.AmqpV1;
+namespace Neuroglia.AsyncApi.v2.Bindings.Solace;
 
 /// <summary>
-/// Represents the object used to configure an AMQP 1.0 server binding
+/// Represents an object used to configure the topic of a Solace destination
 /// </summary>
 [DataContract]
-public record AmqpV1ServerBindingDefinition
-    : AmqpV1BindingDefinition, IServerBindingDefinition
+public record SolaceDestinationTopicDefinition
 {
 
-
+    /// <summary>
+    /// Gets/sets a list of topics that the client subscribes to. If none is given, the client subscribes to the topic as represented by the channel name.
+    /// </summary>
+    [DataMember(Order = 1, Name = "topicSubscriptions"), JsonPropertyOrder(1), JsonPropertyName("topicSubscriptions"), YamlMember(Order = 1, Alias = "topicSubscriptions")]
+    public virtual EquatableList<string>? TopicSubscriptions { get; set; }
 
 }

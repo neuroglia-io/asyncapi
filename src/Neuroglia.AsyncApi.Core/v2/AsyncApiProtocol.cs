@@ -40,6 +40,10 @@ public static class AsyncApiProtocol
     /// </summary>
     public const string Kafka = "kafka";
     /// <summary>
+    /// Gets the anypointmq Async API protocol
+    /// </summary>
+    public const string AnypointMQ = "anypointmq";
+    /// <summary>
     /// Gets the amqp Async API protocol
     /// </summary>
     public const string Amqp = "amqp";
@@ -67,6 +71,10 @@ public static class AsyncApiProtocol
     /// Gets the sns Async API protocol
     /// </summary>
     public const string Sns = "sns";
+    /// <summary>
+    /// Gets the solace Async API protocol
+    /// </summary>
+    public const string Solace = "solace";
     /// <summary>
     /// Gets the sqs Async API protocol
     /// </summary>

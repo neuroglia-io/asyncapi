@@ -11,16 +11,26 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-namespace Neuroglia.AsyncApi.v2.Bindings.AmqpV1;
+using Neuroglia.Serialization.Json.Converters;
+using System.ComponentModel;
+
+namespace Neuroglia.AsyncApi.v2.Bindings.Sqs;
 
 /// <summary>
-/// Represents the object used to configure an AMQP 1.0 server binding
+/// Enumerates all supported SQS deduplication scopes
 /// </summary>
-[DataContract]
-public record AmqpV1ServerBindingDefinition
-    : AmqpV1BindingDefinition, IServerBindingDefinition
+[JsonConverter(typeof(StringEnumConverter))]
+[TypeConverter(typeof(EnumMemberTypeConverter))]
+public enum SqsDeduplicationScope
 {
-
-
-
+    /// <summary>
+    /// Indicates that message deduplication occurs at the message group level
+    /// </summary>
+    [EnumMember(Value = "messageGroup")]
+    MessageGroup = 1,
+    /// <summary>
+    /// Indicates that message deduplication occurs at the queue level
+    /// </summary>v
+    [EnumMember(Value = "queue")]
+    Queue = 2
 }
