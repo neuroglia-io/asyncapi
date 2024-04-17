@@ -34,9 +34,5 @@
     <PackageReference Include="Neuroglia.Serialization" Version="4.7.6" />
     <PackageReference Include="YamlDotNet" Version="13.7.1" />
   </ItemGroup>
-	
-  <ItemGroup>
-    <Folder Include="v2\Bindings\Pulsar\" />
-  </ItemGroup>
 
 </Project>

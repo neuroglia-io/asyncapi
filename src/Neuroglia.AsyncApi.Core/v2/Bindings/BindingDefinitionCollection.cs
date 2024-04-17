@@ -12,7 +12,6 @@
 // limitations under the License.
 
 using System.Reflection;
-using Neuroglia.AsyncApi.v2;
 
 namespace Neuroglia.AsyncApi.v2.Bindings;
 
@@ -26,8 +25,8 @@ public abstract record BindingDefinitionCollection<TBinding>
     where TBinding : IBindingDefinition
 {
 
-    private List<PropertyInfo> _bindingProperties = null!;
-    private List<PropertyInfo> BindingProperties
+    List<PropertyInfo> _bindingProperties = null!;
+    List<PropertyInfo> BindingProperties
     {
         get
         {

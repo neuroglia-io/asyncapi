@@ -90,7 +90,7 @@ public record MessageTraitDefinition
     /// Gets/sets an object used to configure the <see cref="MessageTraitDefinition"/>'s <see cref="IMessageBindingDefinition"/>s
     /// </summary>
     [DataMember(Order = 11, Name = "bindings"), JsonPropertyOrder(11), JsonPropertyName("bindings"), YamlMember(Order = 11, Alias = "bindings")]
-    public virtual MessageBindingCollection? Bindings { get; set; }
+    public virtual MessageBindingDefinitionCollection? Bindings { get; set; }
 
     /// <summary>
     /// Gets/sets an <see cref="IDictionary{TKey, TValue}"/> where keys MUST be either headers and/or payload. 

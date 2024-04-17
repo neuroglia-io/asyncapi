@@ -68,6 +68,10 @@ public static class AsyncApiProtocol
     /// </summary>
     public const string Nats = "nats";
     /// <summary>
+    /// Gets the pulsar Async API protocol
+    /// </summary>
+    public const string Pulsar = "pulsar";
+    /// <summary>
     /// Gets the jms Async API protocol
     /// </summary>
     public const string Jms = "jms";
