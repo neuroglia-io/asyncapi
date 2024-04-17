@@ -40,6 +40,10 @@ public static class AsyncApiProtocol
     /// </summary>
     public const string Kafka = "kafka";
     /// <summary>
+    /// Gets the anypointmq Async API protocol
+    /// </summary>
+    public const string AnypointMQ = "anypointmq";
+    /// <summary>
     /// Gets the amqp Async API protocol
     /// </summary>
     public const string Amqp = "amqp";
@@ -47,6 +51,10 @@ public static class AsyncApiProtocol
     /// Gets the amqp1 Async API protocol
     /// </summary>
     public const string AmqpV1 = "amqp1";
+    /// <summary>
+    /// Gets the googlepubsub Async API protocol
+    /// </summary>
+    public const string GooglePubSub = "googlepubsub";
     /// <summary>
     /// Gets the mqtt Async API protocol
     /// </summary>
@@ -60,6 +68,10 @@ public static class AsyncApiProtocol
     /// </summary>
     public const string Nats = "nats";
     /// <summary>
+    /// Gets the pulsar Async API protocol
+    /// </summary>
+    public const string Pulsar = "pulsar";
+    /// <summary>
     /// Gets the jms Async API protocol
     /// </summary>
     public const string Jms = "jms";
@@ -67,6 +79,10 @@ public static class AsyncApiProtocol
     /// Gets the sns Async API protocol
     /// </summary>
     public const string Sns = "sns";
+    /// <summary>
+    /// Gets the solace Async API protocol
+    /// </summary>
+    public const string Solace = "solace";
     /// <summary>
     /// Gets the sqs Async API protocol
     /// </summary>
@@ -86,6 +102,6 @@ public static class AsyncApiProtocol
     /// <summary>
     /// Gets the ibmmq Async API protocol
     /// </summary>
-    public const string Ibmmq = "ibmmq";
+    public const string IbmMQ = "ibmmq";
 
 }

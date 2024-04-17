@@ -85,9 +85,9 @@ public record ComponentDefinitionCollection
     public virtual EquatableDictionary<string, OperationBindingDefinitionCollection>? OperationBindings { get; set; }
 
     /// <summary>
-    /// Gets/sets a <see cref="IDictionary{TKey, TValue}"/> used to hold reusable <see cref="MessageBindingCollection"/>s
+    /// Gets/sets a <see cref="IDictionary{TKey, TValue}"/> used to hold reusable <see cref="MessageBindingDefinitionCollection"/>s
     /// </summary>
     [DataMember(Order = 11, Name = "messageBindings"), JsonPropertyOrder(11), JsonPropertyName("messageBindings"), YamlMember(Order = 11, Alias = "messageBindings")]
-    public virtual EquatableDictionary<string, MessageBindingCollection>? MessageBindings { get; set; }
+    public virtual EquatableDictionary<string, MessageBindingDefinitionCollection>? MessageBindings { get; set; }
 
 }

@@ -43,12 +43,12 @@ public class StreetLightsService(ILogger<StreetLightsService> logger, IJsonSeria
             await message.AcknowledgeAsync(stoppingToken);
         });
         await this.MqttClient.SubscribeAsync("onLightMeasured", cancellationToken: stoppingToken).ConfigureAwait(false);
-        await this.PublishLightMeasured(new() { Id = Guid.NewGuid(), Lumens = 5, SentAt = DateTime.UtcNow }).ConfigureAwait(false);
+        await this.PublishLightMeasured(new() { Id = Guid.NewGuid(), Lumens = 5, SentAt = DateTime.UtcNow }, stoppingToken).ConfigureAwait(false);
     }
 
     [Tag("light", "A tag for light-related operations"), Tag("measurement", "A tag for measurement-related operations")]
     [Channel("light/measured"), PublishOperation(OperationId = "NotifyLightMeasured", Summary = "Notifies remote consumers about environmental lighting conditions for a particular streetlight")]
-    public async Task PublishLightMeasured(LightMeasuredEvent e)
+    public async Task PublishLightMeasured(LightMeasuredEvent e, CancellationToken cancellationToken = default)
     {
         var message = new MqttApplicationMessage()
         {
@@ -56,7 +56,7 @@ public class StreetLightsService(ILogger<StreetLightsService> logger, IJsonSeria
             ContentType = "application/json",
             PayloadSegment = Encoding.UTF8.GetBytes(this.Serializer.SerializeToText(e))
         };
-        await this.MqttClient.PublishAsync(message);
+        await this.MqttClient.PublishAsync(message, cancellationToken);
     }
 
     [Tag("light", "A tag for light-related operations"), Tag("measurement", "A tag for measurement-related operations")]

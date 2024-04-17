@@ -11,9 +11,6 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using Neuroglia.AsyncApi.v2;
-using Neuroglia.AsyncApi.v2.Bindings;
-
 namespace Neuroglia.AsyncApi.v2.Bindings.Kafka;
 
 /// <summary>
