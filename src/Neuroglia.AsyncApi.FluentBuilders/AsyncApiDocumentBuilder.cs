@@ -325,7 +325,7 @@ public class AsyncApiDocumentBuilder(IServiceProvider serviceProvider, IEnumerab
     }
 
     /// <inheritdoc/>
-    public virtual IAsyncApiDocumentBuilder WithMessageBindingComponent(string name, MessageBindingCollection bindings)
+    public virtual IAsyncApiDocumentBuilder WithMessageBindingComponent(string name, MessageBindingDefinitionCollection bindings)
     {
         if (string.IsNullOrWhiteSpace(name))throw new ArgumentNullException(nameof(name));
         ArgumentNullException.ThrowIfNull(bindings);

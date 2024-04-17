@@ -143,7 +143,7 @@ public class AsyncApiDocumentGenerator(IServiceProvider serviceProvider, IJsonSc
         JsonSchema messageSchema;
         if (messageType == null)
         {
-            if (parameters.Length == 1)
+            if (parameters.Length == 1 || parameters.Length == 2 && parameters[1].ParameterType == typeof(CancellationToken))
             {
                 messageType = parameters.First().ParameterType;
                 messageSchema = new JsonSchemaBuilder().FromType(parameters.First().ParameterType, JsonSchemaGeneratorConfiguration.Default);
@@ -156,6 +156,7 @@ public class AsyncApiDocumentGenerator(IServiceProvider serviceProvider, IJsonSc
                 messageType = typeof(object);
                 foreach (var parameter in parameters)
                 {
+                    if (parameter.TryGetCustomAttribute<ExcludeAttribute>(out _)) continue;
                     var parameterSchema = messageSchemaBuilder.FromType(parameter.ParameterType, JsonSchemaGeneratorConfiguration.Default);
                     messageSchemaProperties.Add(parameter.Name!, parameterSchema);
                     if (parameter.TryGetCustomAttribute<RequiredAttribute>(out _)|| !parameter.ParameterType.IsNullable()|| parameter.DefaultValue == DBNull.Value) requiredProperties.Add(parameter.Name!);

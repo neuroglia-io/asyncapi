@@ -18,21 +18,15 @@ namespace Neuroglia.AsyncApi;
 /// <summary>
 /// Represents an <see cref="Attribute"/> used to mark a method as an <see cref="OperationDefinition"/>
 /// </summary>
+/// <remarks>
+/// Initializes a new <see cref="OperationAttribute"/>
+/// </remarks>
+/// <param name="operationType">The <see cref="OperationDefinition"/>'s type</param>
+/// <param name="messageType">The <see cref="OperationDefinition"/>'s message type</param>
 [AttributeUsage(AttributeTargets.Method, AllowMultiple = true)]
-public abstract class OperationAttribute
+public abstract class OperationAttribute(OperationType operationType, Type? messageType)
     : Attribute
 {
-
-    /// <summary>
-    /// Initializes a new <see cref="OperationAttribute"/>
-    /// </summary>
-    /// <param name="operationType">The <see cref="OperationDefinition"/>'s type</param>
-    /// <param name="messageType">The <see cref="OperationDefinition"/>'s message type</param>
-    protected OperationAttribute(OperationType operationType, Type? messageType)
-    {
-        this.OperationType = operationType;
-        this.MessageType = messageType;
-    }
 
     /// <summary>
     /// Initializes a new <see cref="OperationAttribute"/>
@@ -43,12 +37,12 @@ public abstract class OperationAttribute
     /// <summary>
     /// Gets the <see cref="OperationDefinition"/>'s type
     /// </summary>
-    public virtual OperationType OperationType { get; }
+    public virtual OperationType OperationType { get; } = operationType;
 
     /// <summary>
     /// Gets the <see cref="OperationDefinition"/>'s message type
     /// </summary>
-    public virtual Type? MessageType { get; }
+    public virtual Type? MessageType { get; } = messageType;
 
     /// <summary>
     /// Gets/sets the <see cref="OperationDefinition"/>'s operation id

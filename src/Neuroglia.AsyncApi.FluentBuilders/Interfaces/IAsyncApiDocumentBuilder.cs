@@ -240,12 +240,12 @@ public interface IAsyncApiDocumentBuilder
     IAsyncApiDocumentBuilder WithOperationBindingComponent(string name, OperationBindingDefinitionCollection bindings);
 
     /// <summary>
-    /// Adds the specified <see cref="MessageBindingCollection"/>
+    /// Adds the specified <see cref="MessageBindingDefinitionCollection"/>
     /// </summary>
-    /// <param name="name">The name of the <see cref="MessageBindingCollection"/> to add</param>
-    /// <param name="bindings">The <see cref="MessageBindingCollection"/> to add</param>
+    /// <param name="name">The name of the <see cref="MessageBindingDefinitionCollection"/> to add</param>
+    /// <param name="bindings">The <see cref="MessageBindingDefinitionCollection"/> to add</param>
     /// <returns>The configured <see cref="IAsyncApiDocumentBuilder"/></returns>
-    IAsyncApiDocumentBuilder WithMessageBindingComponent(string name, MessageBindingCollection bindings);
+    IAsyncApiDocumentBuilder WithMessageBindingComponent(string name, MessageBindingDefinitionCollection bindings);
 
     /// <summary>
     /// Builds a new <see cref="AsyncApiDocument"/>
