@@ -2,18 +2,31 @@
 
 ## Contents
 
-- [Summary](#summary)
-- [Status](#status)
-- [Installation](#installation)
-- [Usage](#usage)
-  - [Building an AsyncAPI Document](#building-an-asyncapi-document)
-  - [Writing an AsyncAPI Document](#writing-an-asyncapi-document)
-  - [Reading an AsyncAPI Document](#reading-an-asyncapi-document)
-  - [Generating code-first AsyncAPI documents](#generating-code-first-asyncapi-documents)
-  - [Using the AsyncAPI UI](#using-the-asyncapi-ui)
-  - [Using the AsyncAPI client](#using-the-asyncapi-client)
-- [Samples](#samples)
-  - [Streetlights API - Server](#streetlights-api---server)
+- [Neuroglia AsyncAPI](#neuroglia-asyncapi)
+  - [Contents](#contents)
+  - [Summary](#summary)
+  - [Status](#status)
+  - [Installation](#installation)
+      - [Core library](#core-library)
+      - [Fluent validation library](#fluent-validation-library)
+      - [Fluent builders library](#fluent-builders-library)
+      - [Input/Output library](#inputoutput-library)
+      - [Code-first generation library](#code-first-generation-library)
+      - [Dependency inject extensions library](#dependency-inject-extensions-library)
+      - [Cloud event extensions library](#cloud-event-extensions-library)
+      - [AsyncAPI document serving library](#asyncapi-document-serving-library)
+      - [AsyncAPI UI](#asyncapi-ui)
+  - [Usage](#usage)
+    - [Building an AsyncAPI Document](#building-an-asyncapi-document)
+    - [Writing an AsyncAPI Document](#writing-an-asyncapi-document)
+    - [Reading an AsyncAPI document](#reading-an-asyncapi-document)
+    - [Generating code-first AsyncAPI documents](#generating-code-first-asyncapi-documents)
+      - [1. Mark your services with adequate attributes](#1-mark-your-services-with-adequate-attributes)
+      - [2.1. Generating documents manually](#21-generating-documents-manually)
+      - [2.2. Generating documents automatically and serve them using ASP](#22-generating-documents-automatically-and-serve-them-using-asp)
+    - [Using the AsyncAPI UI](#using-the-asyncapi-ui)
+  - [Samples](#samples)
+    - [Streetlights API - Server](#streetlights-api---server)
 
 ## Summary
 A .NET used to visualize and interact with [AsyncAPI](https://www.asyncapi.com/docs/reference/specification/v2.6.0) documents. The UI is built using Razor Pages and Boostrap
@@ -239,7 +252,7 @@ public class Startup
     {
         ...
         //Adds the middleware used to serve AsyncAPI documents
-        app.UseAsyncApiGeneration();
+        app..MapAsyncApiDocuments();
         ...
     }
 
@@ -254,6 +267,14 @@ Go to your ASP project's `Startup.cs` file and add the following line to your `C
 ```csharp
 services.AddAsyncApiUI();
 ```
+
+**Note**: Since RazorPages are used, make sure you add it to the service collection: `services.AddRazorPages();` and use the middleware to serve the pages: `app.MapRazorPages();`.
+You will also need to register an `IJsonSchemaResolver` and a `HttpClient`:
+```csharp
+  services.AddSingleton<IJsonSchemaResolver, JsonSchemaResolver>();
+  services.AddHttpClient();
+```
+For reference take a look at the [sample](#streetlights-api---server)
 
 Launch your ASP project, then navigate to `http://localhost:44236/asyncapi`. You should see something like this:
 
