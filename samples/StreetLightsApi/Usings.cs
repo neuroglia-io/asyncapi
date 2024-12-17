@@ -11,17 +11,16 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-namespace StreetLightsApi.Server.Messages;
-
-[Tag("movement", "A tag for movement-related messages"), Tag("sensor", "A tag for sensor-related messages")]
-[Message(Name = "MovementDetected")]
-public class MovementDetectedEvent
-{
-
-    [Description("The id of the sensor that has detected movement")]
-    public int SensorId { get; set; }
-
-    [Description("The date and time at which the event has been created")]
-    public DateTime SentAt { get; set; }
-
-}
+global using Json.Schema;
+global using MQTTnet;
+global using MQTTnet.Client;
+global using Neuroglia.AsyncApi;
+global using Neuroglia.AsyncApi.Bindings.Http;
+global using Neuroglia.Data.Schemas.Json;
+global using Neuroglia.Serialization;
+global using StreetLightsApi.Server.Messages;
+global using StreetLightsApi.Server.Services;
+global using System.ComponentModel;
+global using System.ComponentModel.DataAnnotations;
+global using System.Net.Mime;
+global using System.Text;

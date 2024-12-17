@@ -11,9 +11,6 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using Json.Schema.Generation;
-using Neuroglia.AsyncApi;
-
 namespace StreetLightsApi.Server.Messages;
 
 [Tag("light", "A tag for light-related messages"), Tag("measurement", "A tag for measurement-related messages")]
@@ -39,5 +36,3 @@ public class LightMeasuredEvent
     public List<Todo> Todos { get; set; }
 
 }
-
-public record Todo(string Name);

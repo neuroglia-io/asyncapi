@@ -11,15 +11,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using MQTTnet;
-using MQTTnet.Client;
-using Neuroglia.AsyncApi;
-using Neuroglia.Serialization;
-using System.ComponentModel.DataAnnotations;
-using System.Text;
-
 namespace StreetLightsApi.Server.Services;
-
 
 [AsyncApi("Temperature Sensor API", "1.0.0", Description = "The Temperature Sensor API allows you to get remotely notified about temperature changes captured by sensors.", LicenseName = "Apache 2.0", LicenseUrl = "https://www.apache.org/licenses/LICENSE-2.0")]
 public class TemperatureSensorServiceV1(ILogger<TemperatureSensorServiceV1> logger, IJsonSerializer serializer)

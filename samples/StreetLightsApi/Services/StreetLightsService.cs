@@ -11,13 +11,6 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using StreetLightsApi.Server.Messages;
-using Neuroglia.Serialization;
-using System.Text;
-using Neuroglia.AsyncApi;
-using MQTTnet;
-using MQTTnet.Client;
-
 namespace StreetLightsApi.Server.Services;
 
 [AsyncApi("Streetlights API", "1.0.0", Description = "The Smartylighting Streetlights API allows you to remotely manage the city lights.", LicenseName = "Apache 2.0", LicenseUrl = "https://www.apache.org/licenses/LICENSE-2.0")]

@@ -11,13 +11,6 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using MQTTnet;
-using MQTTnet.Client;
-using Neuroglia.AsyncApi;
-using Neuroglia.Serialization;
-using System.ComponentModel.DataAnnotations;
-using System.Text;
-
 namespace StreetLightsApi.Server.Services;
 
 [AsyncApi("Temperature Sensor API", "2.0.0", Description = "The Temperature Sensor API allows you to get remotely notified about temperature changes captured by sensors.", LicenseName = "Apache 2.0", LicenseUrl = "https://www.apache.org/licenses/LICENSE-2.0")]
@@ -46,7 +39,7 @@ public class TemperatureSensorServiceV2(ILogger<TemperatureSensorServiceV1> logg
         await this.MqttClient.SubscribeAsync("OnTemperatureChanged", cancellationToken: stoppingToken).ConfigureAwait(false);
     }
 
-    [Tag("temperature", "A tag for temeprature-related operations"), Tag("sensor", "A tag for sensor-related operations")]
+    [Tag("temperature", "A tag for temperature-related operations"), Tag("sensor", "A tag for sensor-related operations")]
     [Channel("temperature/changed"), SubscribeOperation(OperationId = "OnTemperatureChanged", Summary = "Inform about temperature changes captured by sensors")]
     protected async Task OnTemperatureChanged([Range(-100,100)]decimal degrees, DateTime timestamp)
     {

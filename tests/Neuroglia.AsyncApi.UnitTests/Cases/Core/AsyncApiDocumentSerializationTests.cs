@@ -11,10 +11,6 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using Neuroglia.AsyncApi.v2;
-using Neuroglia.Serialization.Json;
-using Neuroglia.Serialization.Yaml;
-
 namespace Neuroglia.AsyncApi.UnitTests.Cases.Core;
 
 public class AsyncApiDocumentSerializationTests

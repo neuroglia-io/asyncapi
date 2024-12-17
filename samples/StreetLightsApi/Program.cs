@@ -11,14 +11,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using Json.Schema;
-using Neuroglia.AsyncApi;
-using Neuroglia.AsyncApi.Bindings.Http;
-using Neuroglia.AsyncApi.v2.Bindings.Http;
-using Neuroglia.AsyncApi.v2.Bindings.Mqtt;
-using Neuroglia.Data.Schemas.Json;
-using StreetLightsApi.Server.Services;
-using System.Net.Mime;
+using Neuroglia.AsyncApi.Bindings.Mqtt;
 
 var builder = WebApplication.CreateBuilder(args);
 

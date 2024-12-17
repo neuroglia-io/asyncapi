@@ -12,8 +12,6 @@
 // limitations under the License.
 
 using Neuroglia.AsyncApi.Bindings.Mqtt;
-using Neuroglia.AsyncApi.v2;
-using System.Net.Mime;
 
 namespace Neuroglia.AsyncApi.UnitTests.Services;
 
