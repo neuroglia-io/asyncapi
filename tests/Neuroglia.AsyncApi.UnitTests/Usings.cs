@@ -16,7 +16,6 @@ global using Json.Schema;
 global using Json.Schema.Generation;
 global using Microsoft.Extensions.DependencyInjection;
 global using Neuroglia.AsyncApi.CloudEvents;
-global using Neuroglia.AsyncApi.FluentBuilders;
 global using Neuroglia.AsyncApi.Generation;
 global using Neuroglia.AsyncApi.UnitTests.Services;
 global using Neuroglia.AsyncApi.v2;

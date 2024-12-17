@@ -35,17 +35,24 @@ public class TagDefinitionBuilder(IEnumerable<IValidator<TagDefinition>> validat
     protected virtual TagDefinition Tag { get; } = new();
 
     /// <inheritdoc/>
+    public virtual void Use(string reference)
+    {
+        ArgumentException.ThrowIfNullOrWhiteSpace(reference);
+        Tag.Reference = reference;
+    }
+
+    /// <inheritdoc/>
     public virtual ITagDefinitionBuilder WithName(string name)
     {
         if (string.IsNullOrWhiteSpace(name)) throw new ArgumentNullException(nameof(name));
-        this.Tag.Name = name;
+        Tag.Name = name;
         return this;
     }
 
     /// <inheritdoc/>
     public virtual ITagDefinitionBuilder WithDescription(string? description)
     {
-        this.Tag.Description = description;
+        Tag.Description = description;
         return this;
     }
 
@@ -53,16 +60,16 @@ public class TagDefinitionBuilder(IEnumerable<IValidator<TagDefinition>> validat
     public virtual ITagDefinitionBuilder WithExternalDocumentation(Uri uri, string? description = null)
     {
         ArgumentNullException.ThrowIfNull(uri);
-        this.Tag.ExternalDocs = new() { Url = uri, Description = description };
+        Tag.ExternalDocs = new() { Url = uri, Description = description };
         return this;
     }
 
     /// <inheritdoc/>
     public virtual TagDefinition Build()
     {
-        var validationResults = this.Validators.Select(v => v.Validate(this.Tag));
+        var validationResults = Validators.Select(v => v.Validate(Tag));
         if (!validationResults.All(r => r.IsValid)) throw new ValidationException(validationResults.Where(r => !r.IsValid).SelectMany(r => r.Errors));
-        return this.Tag;
+        return Tag;
     }
 
 }

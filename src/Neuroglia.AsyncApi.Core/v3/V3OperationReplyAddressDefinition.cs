@@ -30,6 +30,7 @@ public record V3OperationReplyAddressDefinition
     /// <summary>
     /// Gets/sets a runtime expression that specifies the location of the reply address.
     /// </summary>
+    [Required]
     [DataMember(Order = 2, Name = "location"), JsonPropertyOrder(2), JsonPropertyName("location"), YamlMember(Order = 2, Alias = "location", ScalarStyle = ScalarStyle.SingleQuoted)]
     public virtual string Location { get; set; } = null!;
 

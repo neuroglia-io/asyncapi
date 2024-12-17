@@ -12,6 +12,8 @@
 // limitations under the License.
 
 using Neuroglia.AsyncApi.Bindings.Http;
+using Neuroglia.AsyncApi.FluentBuilders.v2;
+using Neuroglia.AsyncApi.FluentBuilders.v3;
 
 namespace Neuroglia.AsyncApi.UnitTests.Cases.Fluent;
 
@@ -22,16 +24,19 @@ public class FluentBuilderTests
     public FluentBuilderTests()
     {
         var services = new ServiceCollection();
-        services.AddSingleton<IAsyncApiDocumentBuilder, AsyncApiDocumentBuilder>();
+        services.AddSingleton<IV2AsyncApiDocumentBuilder, V2AsyncApiDocumentBuilder>();
+        services.AddSingleton<IV3AsyncApiDocumentBuilder, V3AsyncApiDocumentBuilder>();
         this.Services = services.BuildServiceProvider();
     }
 
     ServiceProvider Services { get; }
 
-    IAsyncApiDocumentBuilder Builder => this.Services.GetRequiredService<IAsyncApiDocumentBuilder>();
+    IV2AsyncApiDocumentBuilder V2Builder => this.Services.GetRequiredService<IV2AsyncApiDocumentBuilder>();
+
+    IV3AsyncApiDocumentBuilder V3Builder => this.Services.GetRequiredService<IV3AsyncApiDocumentBuilder>();
 
     [Fact]
-    public void Build_AsyncApiDocument_Should_Work()
+    public void Build_AsyncApiDocument_V2_Should_Work()
     {
         //arrange
         var specVersion = AsyncApiSpecVersion.V2;
@@ -72,7 +77,7 @@ public class FluentBuilderTests
         var subscribeOperationSummary = "Fake Subscribe Operation Summary";
 
         //act
-        var document = this.Builder
+        var document = this.V2Builder
             .WithSpecVersion(specVersion)
             .WithId(id)
             .WithTitle(title)
@@ -183,6 +188,180 @@ public class FluentBuilderTests
         parameter.Value.Schema.Should().NotBeNull();
 
         var tag = document.Tags!.SingleOrDefault();
+        tag.Should().NotBeNull();
+        tag!.Name.Should().Be(tagName);
+        tag.Description.Should().Be(tagDescription);
+        tag.ExternalDocs.Should().NotBeNull();
+        tag.ExternalDocs!.Description.Should().Be(tagDocumentationDescription);
+        tag.ExternalDocs.Url.Should().Be(tagDocumentationUri);
+    }
+
+    [Fact]
+    public void Build_AsyncApiDocument_V3_Should_Work()
+    {
+        //arrange
+        var specVersion = AsyncApiSpecVersion.V2;
+        var id = "fake-id";
+        var title = "Fake Title";
+        var version = "1.0.0-alpha1";
+        var description = "Fake Description";
+        var contactName = "Fake Contact Name";
+        var contactUri = new Uri("https://fake-contact-uri.com");
+        var contactEmail = "fake@email.com";
+        var licenseName = "Apache 2.0";
+        var licenseUri = new Uri("https://fake-contact-uri.com");
+        var termsOfServiceUri = new Uri("https://fake.com/terms-of-service");
+        var defaultContentType = MediaTypeNames.Application.Json;
+        var tagName = "fake-document-tag";
+        var tagDescription = "Fake Document Tag Description";
+        var tagDocumentationUri = new Uri("https://fake-uri.com");
+        var tagDocumentationDescription = "Fake Document Tag Documentation Description";
+        var serverName = "fake-server";
+        var serverHost = "fake-uri.com";
+        var serverProtocol = AsyncApiProtocol.Http;
+        var serverDescription = "fake-server-description";
+        var serverVariableName = "fake-server-variable";
+        var serverVariableDefaultValue = "fake-server-variable-default";
+        var serverVariableEnumValues = new string[] { "value1", "value2", "value3" };
+        var serverVariableDescription = "Fake Server Variable Description";
+        var channelName = "fake-channel";
+        var channelDescription = "Fake Channel Description";
+        var channelParameterName = "fakeChannelParam";
+        var channelParameterLocation = "/MQMD/CorrelId";
+        var channelParameterDescription = "Fake Channel Param Description";
+        var channelParameterSchema = new JsonSchemaBuilder().FromType<LicenseDefinition>();
+        var sendMessageName = "fake-receive-message";
+        var sendOperationName = "fake-send-operation";
+        var sendOperationChannelRef = $"#/channels/{channelName}";
+        var sendOperationMessageRef = $"#/components/messages/{sendMessageName}";
+        var sendOperationDescription = "Fake Send Operation Description";
+        var sendOperationSummary = "Fake Send Operation Summary";
+        var receiveMessageName = "fake-receive-message";
+        var receiveOperationName = "fake-receive-operation";
+        var receiveOperationChannelRef = $"#/channels/{channelName}";
+        var receiveOperationMessageRef = $"#/components/messages/{receiveMessageName}";
+        var receiveOperationDescription = "Fake Receive Operation Description";
+        var receiveOperationSummary = "Fake Receive Operation Summary";
+
+        //act
+        var document = this.V3Builder
+            .WithSpecVersion(specVersion)
+            .WithId(id)
+            .WithTitle(title)
+            .WithVersion(version)
+            .WithDescription(description)
+            .WithContact(contactName, contactUri, contactEmail)
+            .WithLicense(licenseName, licenseUri)
+            .WithTermsOfService(termsOfServiceUri)
+            .WithDefaultContentType(defaultContentType)
+            .WithServer(serverName, server => server
+                .WithHost(serverHost)
+                .WithProtocol(serverProtocol, "2")
+                .WithDescription(serverDescription)
+                .WithVariable(serverVariableName, variable => variable
+                    .WithDefaultValue(serverVariableDefaultValue)
+                    .WithEnumValues(serverVariableEnumValues)
+                    .WithDescription(serverVariableDescription))
+                .WithBinding(new HttpServerBindingDefinition()))
+            .WithChannel(channelName, channel => channel
+                .WithDescription(channelDescription)
+                .WithBinding(new HttpChannelBindingDefinition())
+                .WithParameter(channelParameterName, parameter => parameter
+                    .WithLocation(channelParameterLocation)
+                    .WithDescription(channelParameterDescription))
+                .WithTag(tag => tag
+                    .WithName(tagName)
+                    .WithDescription(tagDescription)
+                    .WithExternalDocumentation(tagDocumentationUri, tagDocumentationDescription)))
+            .WithOperation(sendOperationName, publish => publish
+                .WithAction(v3.V3OperationAction.Send)
+                .WithChannel(sendOperationChannelRef)
+                .WithDescription(sendOperationDescription)
+                .WithSummary(sendOperationSummary)
+                .WithBinding(new HttpOperationBindingDefinition())
+                .WithMessage(sendOperationMessageRef))
+            .WithOperation(receiveOperationName, subscribe => subscribe
+                .WithAction(v3.V3OperationAction.Receive)
+                .WithChannel(receiveOperationChannelRef)
+                .WithDescription(receiveOperationDescription)
+                .WithSummary(receiveOperationSummary)
+                .WithBinding(new HttpOperationBindingDefinition())
+                .WithMessage(receiveOperationMessageRef))
+            .WithExternalDocumentation(documentation => documentation
+                .WithUrl(tagDocumentationUri)
+                .WithDescription(tagDocumentationDescription))
+            .WithTag(tag => tag
+                .WithName(tagName)
+                .WithDescription(tagDescription)
+                .WithExternalDocumentation(tagDocumentationUri, tagDocumentationDescription))
+            .Build();
+
+        //assert
+        document.AsyncApi.Should().Be(specVersion);
+        document.Id.Should().Be(id);
+        document.Info.Title.Should().Be(title);
+        document.Info.Version.Should().Be(version);
+        document.Info.Description.Should().Be(description);
+        document.Info.Contact.Should().NotBeNull();
+        document.Info.Contact!.Name.Should().Be(contactName);
+        document.Info.Contact!.Email.Should().Be(contactEmail);
+        document.Info.Contact!.Url.Should().Be(contactUri);
+        document.Info.License.Should().NotBeNull();
+        document.Info.License!.Name.Should().Be(licenseName);
+        document.Info.License.Url.Should().Be(licenseUri);
+        document.Info.TermsOfService.Should().Be(termsOfServiceUri);
+        document.DefaultContentType.Should().Be(defaultContentType);
+        document.Info.ExternalDocs.Should().NotBeNull();
+        document.Info.ExternalDocs!.Description.Should().Be(tagDocumentationDescription);
+        document.Info.ExternalDocs.Url.Should().Be(tagDocumentationUri);
+
+        var server = document.Servers!.SingleOrDefault();
+        server.Should().NotBeNull();
+        server.Key.Should().Be(serverName);
+        server.Value.Host.Should().Be(serverHost);
+        server.Value.Protocol.Should().Be(serverProtocol);
+        server.Value.Description.Should().Be(serverDescription);
+        server.Value.Bindings.Should().NotBeNull();
+        server.Value.Bindings!.Http.Should().NotBeNull();
+
+        var variable = server.Value.Variables!.SingleOrDefault();
+        variable.Should().NotBeNull();
+        variable.Key.Should().Be(serverVariableName);
+        variable.Value.Default.Should().Be(serverVariableDefaultValue);
+        variable.Value.Enum.Should().BeEquivalentTo(serverVariableEnumValues);
+        variable.Value.Description.Should().Be(serverVariableDescription);
+
+        var channel = document.Channels!.SingleOrDefault();
+        channel.Should().NotBeNull();
+        channel.Key.Should().Be(channelName);
+        channel.Value.Bindings.Should().NotBeNull();
+        channel.Value.Bindings!.Http.Should().NotBeNull();
+
+        var sendOperation = document.Operations?.FirstOrDefault(o => o.Key == sendOperationName).Value;
+        sendOperation.Should().NotBeNull();
+        sendOperation!.Description.Should().Be(sendOperationDescription);
+        sendOperation.Summary.Should().Be(sendOperationSummary);
+        sendOperation.Channel.Should().NotBeNull();
+        sendOperation.Channel.Reference.Should().Be(sendOperationChannelRef);
+        sendOperation.Messages.Should().NotBeNull();
+        sendOperation.Messages.Should().Contain(m => m.Reference == sendOperationMessageRef);
+
+        var receiveOperation = document.Operations?.FirstOrDefault(o => o.Key == receiveOperationName).Value;
+        receiveOperation.Should().NotBeNull();
+        receiveOperation!.Description.Should().Be(receiveOperationDescription);
+        receiveOperation.Summary.Should().Be(receiveOperationSummary);
+        receiveOperation.Channel.Should().NotBeNull();
+        receiveOperation.Channel.Reference.Should().Be(receiveOperationChannelRef);
+        receiveOperation.Messages.Should().NotBeNull();
+        receiveOperation.Messages.Should().Contain(m => m.Reference == receiveOperationMessageRef);
+
+        var parameter = channel.Value.Parameters!.SingleOrDefault();
+        parameter.Should().NotBeNull();
+        parameter.Key.Should().Be(channelParameterName);
+        parameter.Value.Location.Should().Be(channelParameterLocation);
+        parameter.Value.Description.Should().Be(channelParameterDescription);
+
+        var tag = document.Info.Tags!.SingleOrDefault();
         tag.Should().NotBeNull();
         tag!.Name.Should().Be(tagName);
         tag.Description.Should().Be(tagDescription);

@@ -11,6 +11,8 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+using System.Net.Mime;
+
 namespace Neuroglia.AsyncApi.v3;
 
 /// <summary>
@@ -56,7 +58,7 @@ public record V3AsyncApiDocument
     /// Gets/sets the default content type to use when encoding/decoding a message's payload.
     /// </summary>
     [DataMember(Order = 5, Name = "defaultContentType"), JsonPropertyOrder(5), JsonPropertyName("defaultContentType"), YamlMember(Order = 5, Alias = "defaultContentType")]
-    public virtual string? DefaultContentType { get; set; }
+    public virtual string DefaultContentType { get; set; } = MediaTypeNames.Application.Json;
 
     /// <summary>
     /// Gets/sets a collection containing the available channels and messages for the API.

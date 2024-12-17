@@ -12,6 +12,8 @@
 // limitations under the License.
 
 using Neuroglia.AsyncApi.Bindings.Http;
+using Neuroglia.AsyncApi.FluentBuilders.v2;
+using Neuroglia.AsyncApi.FluentBuilders.v2;
 
 namespace Neuroglia.AsyncApi.UnitTests.Cases.CloudEvents;
 
@@ -22,13 +24,13 @@ public class CloudEventExtensionsTests
     public CloudEventExtensionsTests()
     {
         var services = new ServiceCollection();
-        services.AddSingleton<IAsyncApiDocumentBuilder, AsyncApiDocumentBuilder>();
+        services.AddSingleton<IV2AsyncApiDocumentBuilder, V2AsyncApiDocumentBuilder>();
         this.Services = services.BuildServiceProvider();
     }
 
     ServiceProvider Services { get; }
 
-    IAsyncApiDocumentBuilder Builder => this.Services.GetRequiredService<IAsyncApiDocumentBuilder>();
+    IV2AsyncApiDocumentBuilder Builder => this.Services.GetRequiredService<IV2AsyncApiDocumentBuilder>();
 
     [Fact]
     public void Build_Operation_With_CloudEventMessage_Should_Work()

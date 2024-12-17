@@ -17,6 +17,7 @@ namespace Neuroglia.AsyncApi.FluentBuilders;
 /// Defines the fundamentals of a service used to build <see cref="TagDefinition"/>s
 /// </summary>
 public interface ITagDefinitionBuilder
+    : IReferenceableComponentDefinitionBuilder<TagDefinition>
 {
 
     /// <summary>

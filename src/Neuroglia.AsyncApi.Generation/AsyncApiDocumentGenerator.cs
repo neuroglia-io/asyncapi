@@ -11,6 +11,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+using Neuroglia.AsyncApi.FluentBuilders.v2;
 using Neuroglia.Data.Schemas.Json;
 
 namespace Neuroglia.AsyncApi.Generation;
@@ -64,7 +65,7 @@ public class AsyncApiDocumentGenerator(IServiceProvider serviceProvider, IJsonSc
         ArgumentNullException.ThrowIfNull(type);
 
         var asyncApi = type.GetCustomAttribute<AsyncApiAttribute>() ?? throw new ArgumentException($"The specified type '{type.Name}' is not marked with the {nameof(AsyncApiAttribute)}", nameof(type));
-        var builder = this.ServiceProvider.GetRequiredService<IAsyncApiDocumentBuilder>();
+        var builder = this.ServiceProvider.GetRequiredService<IV2AsyncApiDocumentBuilder>();
         options.DefaultConfiguration?.Invoke(builder);
         builder
             .WithId(asyncApi.Id!)
@@ -87,13 +88,13 @@ public class AsyncApiDocumentGenerator(IServiceProvider serviceProvider, IJsonSc
     /// <summary>
     /// Builds a new <see cref="V2ChannelDefinition"/>
     /// </summary>
-    /// <param name="builder">The <see cref="IAsyncApiDocumentBuilder"/> to configure</param>
+    /// <param name="builder">The <see cref="IV2AsyncApiDocumentBuilder"/> to configure</param>
     /// <param name="channel">The attribute used to describe the <see cref="V2ChannelDefinition"/> to configure</param>
     /// <param name="methods">A <see cref="List{T}"/> containing the <see cref="V2ChannelDefinition"/>'s <see cref="V2OperationDefinition"/>s <see cref="MethodInfo"/>s</param>
     /// <param name="options">The <see cref="AsyncApiDocumentGenerationOptions"/> to use</param>
     /// <param name="cancellationToken">A <see cref="CancellationToken"/></param>
     /// <returns>A new awaitable <see cref="Task"/></returns>
-    protected virtual async Task ConfigureChannelForAsync(IAsyncApiDocumentBuilder builder, ChannelAttribute channel, List<MethodInfo> methods, AsyncApiDocumentGenerationOptions options, CancellationToken cancellationToken = default)
+    protected virtual async Task ConfigureChannelForAsync(IV2AsyncApiDocumentBuilder builder, ChannelAttribute channel, List<MethodInfo> methods, AsyncApiDocumentGenerationOptions options, CancellationToken cancellationToken = default)
     {
         ArgumentNullException.ThrowIfNull(builder);
         ArgumentNullException.ThrowIfNull(channel);
@@ -128,11 +129,11 @@ public class AsyncApiDocumentGenerator(IServiceProvider serviceProvider, IJsonSc
     /// <summary>
     /// Configures and builds a new <see cref="V2MessageDefinition"/> for the specified <see cref="V2OperationDefinition"/>
     /// </summary>
-    /// <param name="messageBuilder">The <see cref="IMessageDefinitionBuilder"/> to configure</param>
+    /// <param name="messageBuilder">The <see cref="IV2MessageDefinitionBuilder"/> to configure</param>
     /// <param name="operation">The attribute used to describe the <see cref="V2OperationDefinition"/> to configure</param>
     /// <param name="operationMethod">The <see cref="MethodInfo"/> marked with the specified <see cref="V2OperationDefinition"/> attribute</param>
     /// <param name="options">The <see cref="AsyncApiDocumentGenerationOptions"/> to use</param>
-    protected virtual void ConfigureOperationMessageFor(IMessageDefinitionBuilder messageBuilder, OperationAttribute operation, MethodInfo operationMethod, AsyncApiDocumentGenerationOptions options)
+    protected virtual void ConfigureOperationMessageFor(IV2MessageDefinitionBuilder messageBuilder, OperationAttribute operation, MethodInfo operationMethod, AsyncApiDocumentGenerationOptions options)
     {
         ArgumentNullException.ThrowIfNull(messageBuilder);
         ArgumentNullException.ThrowIfNull(operation);

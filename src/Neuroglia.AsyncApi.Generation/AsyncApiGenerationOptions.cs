@@ -11,6 +11,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+using Neuroglia.AsyncApi.FluentBuilders.v2;
 using Neuroglia.AsyncApi.v2;
 
 namespace Neuroglia.AsyncApi;
@@ -29,6 +30,6 @@ public class AsyncApiGenerationOptions
     /// <summary>
     /// Gets/sets the <see cref="Action{T}"/> used to apply a default configuration to generated <see cref="V2AsyncApiDocument"/>s
     /// </summary>
-    public virtual Action<IAsyncApiDocumentBuilder>? DefaultDocumentConfiguration { get; set; }
+    public virtual Action<IV2AsyncApiDocumentBuilder>? DefaultDocumentConfiguration { get; set; }
 
 }

@@ -26,7 +26,7 @@ public record V3SchemaDefinition
     /// If schemaFormat is missing, it MUST default to application/vnd.aai.asyncapi+json;version={{asyncapi}} where {{asyncapi}} matches the AsyncAPI Version String. In such a case, this would make the Multi Format Schema Object equivalent to the Schema Object. When using Reference Object within the schema, the schemaFormat of the resource being referenced MUST match the schemaFormat of the schema that contains the initial reference. 
     /// </summary>
     [DataMember(Order = 1, Name = "schemaFormat"), JsonPropertyOrder(1), JsonPropertyName("schemaFormat"), YamlMember(Order = 1, Alias = "schemaFormat")]
-    public virtual string? SchemaFormat { get; set; }
+    public virtual string? SchemaFormat { get; set; } = $"application/vnd.aai.asyncapi+json;version={AsyncApiSpecVersion.V3}";
 
     /// <summary>
     /// Gets/sets the definition of the message payload. 

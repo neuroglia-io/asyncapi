@@ -11,6 +11,8 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+using Neuroglia.AsyncApi.FluentBuilders.v2;
+
 namespace Neuroglia.AsyncApi.Generation;
 
 /// <summary>
@@ -48,7 +50,7 @@ public class AsyncApiGenerationOptionsBuilder(AsyncApiGenerationOptions options)
     public virtual IAsyncApiGenerationOptionsBuilder WithMarkupType<TMarkup>() => this.WithMarkupType(typeof(TMarkup));
 
     /// <inheritdoc/>
-    public virtual IAsyncApiGenerationOptionsBuilder UseDefaultConfiguration(Action<IAsyncApiDocumentBuilder> configurationAction)
+    public virtual IAsyncApiGenerationOptionsBuilder UseDefaultConfiguration(Action<IV2AsyncApiDocumentBuilder> configurationAction)
     {
         this.Options.DefaultDocumentConfiguration = configurationAction;
         return this;
