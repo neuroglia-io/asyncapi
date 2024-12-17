@@ -18,7 +18,7 @@ namespace Neuroglia.AsyncApi;
 /// <summary>
 /// Represents an <see cref="Attribute"/> used to mark a class as an Async Api to generate a new <see cref="V2AsyncApiDocument"/> for
 /// </summary>
-[AttributeUsage(AttributeTargets.Class, AllowMultiple = false)]
+[AttributeUsage(AttributeTargets.Class | AttributeTargets.Interface, AllowMultiple = false)]
 public class AsyncApiAttribute
     : Attribute
 {
