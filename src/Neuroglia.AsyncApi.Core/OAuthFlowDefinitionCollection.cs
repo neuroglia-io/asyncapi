@@ -18,7 +18,6 @@ namespace Neuroglia.AsyncApi;
 /// </summary>
 [DataContract]
 public record OAuthFlowDefinitionCollection
-    : IEnumerable<KeyValuePair<string, OAuthFlowDefinition>>
 {
 
     /// <summary>
@@ -45,15 +44,16 @@ public record OAuthFlowDefinitionCollection
     [DataMember(Order = 4, Name = "authorizationCode"), JsonPropertyOrder(4), JsonPropertyName("authorizationCode"), YamlMember(Order = 4, Alias = "authorizationCode")]
     public virtual OAuthFlowDefinition? AuthorizationCode { get; set; }
 
-    /// <inheritdoc/>
-    public virtual IEnumerator<KeyValuePair<string, OAuthFlowDefinition>> GetEnumerator()
+    /// <summary>
+    /// Gets an <see cref="IEnumerable{T}"/> that contains all defined flows
+    /// </summary>
+    /// <returns>A new <see cref="IEnumerable{T}"/> that contains all defined flows</returns>
+    public virtual IEnumerable<KeyValuePair<string, OAuthFlowDefinition>> AsEnumerable()
     {
         if (Implicit != null) yield return new(nameof(Implicit), Implicit);
         if (Password != null) yield return new(nameof(Password), Password);
         if (ClientCredentials != null) yield return new(nameof(ClientCredentials), ClientCredentials);
         if (AuthorizationCode != null) yield return new(nameof(AuthorizationCode), AuthorizationCode);
     }
-
-    IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
 
 }

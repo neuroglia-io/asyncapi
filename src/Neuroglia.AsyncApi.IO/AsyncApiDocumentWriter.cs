@@ -11,7 +11,6 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using Neuroglia.AsyncApi.v2;
 using Neuroglia.Serialization;
 
 namespace Neuroglia.AsyncApi.IO;
@@ -39,19 +38,18 @@ public class AsyncApiDocumentWriter(IJsonSerializer jsonSerializer, IYamlSeriali
     protected IYamlSerializer YamlSerializer { get; } = yamlSerializer;
 
     /// <inheritdoc/>
-    public virtual async Task WriteAsync(V2AsyncApiDocument document, Stream stream, AsyncApiDocumentFormat format = AsyncApiDocumentFormat.Yaml, CancellationToken cancellationToken = default)
+    public virtual async Task WriteAsync(IAsyncApiDocument document, Stream stream, AsyncApiDocumentFormat format = AsyncApiDocumentFormat.Yaml, CancellationToken cancellationToken = default)
     {
         ArgumentNullException.ThrowIfNull(document);
         ArgumentNullException.ThrowIfNull(stream);
-
         switch (format)
         {
             case AsyncApiDocumentFormat.Json:
-                if (this.JsonSerializer is IAsyncSerializer asyncJsonSerializer) await asyncJsonSerializer.SerializeAsync(stream, document, typeof(V2AsyncApiDocument), cancellationToken).ConfigureAwait(false);
+                if (this.JsonSerializer is IAsyncSerializer asyncJsonSerializer) await asyncJsonSerializer.SerializeAsync(stream, document, document.GetType(), cancellationToken).ConfigureAwait(false);
                 else this.JsonSerializer.Serialize(document, stream);
                 break;
             case AsyncApiDocumentFormat.Yaml:
-                if (this.YamlSerializer is IAsyncSerializer asyncYamlSerializer) await asyncYamlSerializer.SerializeAsync(stream, document, typeof(V2AsyncApiDocument), cancellationToken).ConfigureAwait(false);
+                if (this.YamlSerializer is IAsyncSerializer asyncYamlSerializer) await asyncYamlSerializer.SerializeAsync(stream, document, document.GetType(), cancellationToken).ConfigureAwait(false);
                 else this.YamlSerializer.Serialize(document, stream);
                 break;
             default:

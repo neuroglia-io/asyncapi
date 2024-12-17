@@ -27,6 +27,7 @@
   <ItemGroup>
     <ProjectReference Include="..\..\src\Neuroglia.AsyncApi.CloudEvents\Neuroglia.AsyncApi.CloudEvents.csproj" />
     <ProjectReference Include="..\..\src\Neuroglia.AsyncApi.Generation\Neuroglia.AsyncApi.Generation.csproj" />
+    <ProjectReference Include="..\..\src\Neuroglia.AsyncApi.IO\Neuroglia.AsyncApi.IO.csproj" />
   </ItemGroup>
 
 </Project>

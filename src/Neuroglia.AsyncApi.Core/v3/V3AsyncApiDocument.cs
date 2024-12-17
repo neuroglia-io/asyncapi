@@ -18,6 +18,7 @@ namespace Neuroglia.AsyncApi.v3;
 /// </summary>
 [DataContract]
 public record V3AsyncApiDocument
+    : IAsyncApiDocument
 {
 
     /// <summary>
@@ -68,13 +69,13 @@ public record V3AsyncApiDocument
     /// Gets/sets a name/value map of the operations this application MUST implement.
     /// </summary>
     [Required, MinLength(1)]
-    [DataMember(Order = 6, Name = "channels"), JsonPropertyOrder(6), JsonPropertyName("channels"), YamlMember(Order = 6, Alias = "channels")]
+    [DataMember(Order = 7, Name = "operations"), JsonPropertyOrder(7), JsonPropertyName("operations"), YamlMember(Order = 7, Alias = "operations")]
     public virtual EquatableDictionary<string, V3OperationDefinition> Operations { get; set; } = null!;
 
     /// <summary>
     /// Gets/sets an element to hold various reusable objects for the specification. Everything that is defined inside this object represents a resource that MAY or MAY NOT be used in the rest of the document and MAY or MAY NOT be used by the implemented Application.
     /// </summary>
-    [DataMember(Order = 7, Name = "components"), JsonPropertyOrder(7), JsonPropertyName("components"), YamlMember(Order = 7, Alias = "components")]
+    [DataMember(Order = 8, Name = "components"), JsonPropertyOrder(8), JsonPropertyName("components"), YamlMember(Order = 8, Alias = "components")]
     public virtual V3ComponentDefinitionCollection? Components { get; set; }
 
     /// <inheritdoc/>

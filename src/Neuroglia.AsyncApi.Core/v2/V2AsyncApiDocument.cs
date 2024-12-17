@@ -18,6 +18,7 @@ namespace Neuroglia.AsyncApi.v2;
 /// </summary>
 [DataContract]
 public record V2AsyncApiDocument
+    : IAsyncApiDocument
 {
 
     /// <summary>

@@ -11,22 +11,20 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using Neuroglia.AsyncApi.v2;
-
 namespace Neuroglia.AsyncApi.IO;
 
 /// <summary>
-/// Defines the fundamentals of a service used to read <see cref="V2AsyncApiDocument"/>s
+/// Defines the fundamentals of a service used to read <see cref="IAsyncApiDocument"/>s
 /// </summary>
 public interface IAsyncApiDocumentReader
 {
 
     /// <summary>
-    /// Reads a <see cref="V2AsyncApiDocument"/> from the specified <see cref="Stream"/>
+    /// Reads an <see cref="IAsyncApiDocument"/> from the specified <see cref="Stream"/>
     /// </summary>
-    /// <param name="stream">The <see cref="Stream"/> to read the <see cref="V2AsyncApiDocument"/> from</param>
+    /// <param name="stream">The <see cref="Stream"/> to read the <see cref="IAsyncApiDocument"/> from</param>
     /// <param name="cancellationToken">A <see cref="CancellationToken"/></param>
-    /// <returns>A new <see cref="V2AsyncApiDocument"/></returns>
-    Task<V2AsyncApiDocument?> ReadAsync(Stream stream, CancellationToken cancellationToken = default);
+    /// <returns>A new <see cref="IAsyncApiDocument"/></returns>
+    Task<IAsyncApiDocument?> ReadAsync(Stream stream, CancellationToken cancellationToken = default);
 
 }

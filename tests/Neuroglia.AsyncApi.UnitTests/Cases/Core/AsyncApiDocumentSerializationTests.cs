@@ -20,7 +20,7 @@ public class AsyncApiDocumentSerializationTests
     public void SerializeAndDeserialize_AsyncApiDocument_Should_Work()
     {
         //arrange
-        var document = AsyncApiDocumentFactory.Create();
+        var document = AsyncApiDocumentFactory.CreateV2();
 
         //act
         var json = JsonSerializer.Default.SerializeToText(document);
