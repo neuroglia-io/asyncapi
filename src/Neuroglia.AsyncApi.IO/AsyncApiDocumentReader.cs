@@ -39,7 +39,7 @@ public class AsyncApiDocumentReader(IJsonSerializer jsonSerializer, IYamlSeriali
     protected IYamlSerializer YamlSerializer { get; } = yamlSerializer;
 
     /// <inheritdoc/>
-    public virtual async Task<AsyncApiDocument?> ReadAsync(Stream stream, CancellationToken cancellationToken = default)
+    public virtual async Task<V2AsyncApiDocument?> ReadAsync(Stream stream, CancellationToken cancellationToken = default)
     {
         ArgumentNullException.ThrowIfNull(stream);
         var offset = stream.Position;
@@ -47,14 +47,14 @@ public class AsyncApiDocumentReader(IJsonSerializer jsonSerializer, IYamlSeriali
         string input = reader.ReadToEnd();
         stream.Position = offset;
         var serializer = this.ResolveDocumentFormat(input) == AsyncApiDocumentFormat.Json ? (ITextSerializer)this.JsonSerializer : this.YamlSerializer;
-        return serializer is IAsyncSerializer asyncSerializer ? await asyncSerializer.DeserializeAsync<AsyncApiDocument>(stream, cancellationToken) : serializer.Deserialize<AsyncApiDocument>(stream);
+        return serializer is IAsyncSerializer asyncSerializer ? await asyncSerializer.DeserializeAsync<V2AsyncApiDocument>(stream, cancellationToken) : serializer.Deserialize<V2AsyncApiDocument>(stream);
     }
 
     /// <summary>
-    /// Resolves the <see cref="AsyncApiDocumentFormat"/> of the specified raw <see cref="AsyncApiDocument"/>
+    /// Resolves the <see cref="AsyncApiDocumentFormat"/> of the specified raw <see cref="V2AsyncApiDocument"/>
     /// </summary>
-    /// <param name="input">The raw <see cref="AsyncApiDocument"/> to get the format of</param>
-    /// <returns>The <see cref="AsyncApiDocumentFormat"/> of the specified raw <see cref="AsyncApiDocument"/></returns>
+    /// <param name="input">The raw <see cref="V2AsyncApiDocument"/> to get the format of</param>
+    /// <returns>The <see cref="AsyncApiDocumentFormat"/> of the specified raw <see cref="V2AsyncApiDocument"/></returns>
     protected virtual AsyncApiDocumentFormat ResolveDocumentFormat(string input) => input.TrimStart().StartsWith('{') && input.TrimEnd().EndsWith('}') ? AsyncApiDocumentFormat.Json : AsyncApiDocumentFormat.Yaml;
 
 }

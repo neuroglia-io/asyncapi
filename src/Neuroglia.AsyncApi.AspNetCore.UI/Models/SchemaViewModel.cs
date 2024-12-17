@@ -21,7 +21,7 @@ public record SchemaViewModel
 {
 
     /// <inheritdoc/>
-    public SchemaViewModel(AsyncApiDocument document, JsonSchema schema) : base(document) => this.Schema = schema;
+    public SchemaViewModel(V2AsyncApiDocument document, JsonSchema schema) : base(document) => this.Schema = schema;
 
     /// <summary>
     /// Gets the <see cref="JsonSchema"/> to render

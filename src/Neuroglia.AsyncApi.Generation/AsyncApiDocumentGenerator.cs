@@ -38,7 +38,7 @@ public class AsyncApiDocumentGenerator(IServiceProvider serviceProvider, IJsonSc
     protected IJsonSchemaExampleGenerator ExampleGenerator { get; } = exampleGenerator;
 
     /// <inheritdoc/>
-    public virtual async Task<IEnumerable<AsyncApiDocument>> GenerateAsync(IEnumerable<Type> markupTypes, AsyncApiDocumentGenerationOptions options, CancellationToken cancellationToken = default)
+    public virtual async Task<IEnumerable<V2AsyncApiDocument>> GenerateAsync(IEnumerable<Type> markupTypes, AsyncApiDocumentGenerationOptions options, CancellationToken cancellationToken = default)
     {
         ArgumentNullException.ThrowIfNull(markupTypes);
 
@@ -46,20 +46,20 @@ public class AsyncApiDocumentGenerator(IServiceProvider serviceProvider, IJsonSc
             .Select(t => t.Assembly)
             .Distinct()
             .SelectMany(t => t.GetTypes()).Where(t => t.GetCustomAttribute<AsyncApiAttribute>() != null);
-        var documents = new List<AsyncApiDocument>(types.Count());
+        var documents = new List<V2AsyncApiDocument>(types.Count());
         foreach (var type in types) documents.Add(await this.GenerateDocumentForAsync(type, options, cancellationToken).ConfigureAwait(false));
 
         return documents;
     }
 
     /// <summary>
-    /// Generates a new <see cref="AsyncApiDocument"/> for the specified type
+    /// Generates a new <see cref="V2AsyncApiDocument"/> for the specified type
     /// </summary>
-    /// <param name="type">The type to generate a code-first <see cref="AsyncApiDocument"/> for</param>
+    /// <param name="type">The type to generate a code-first <see cref="V2AsyncApiDocument"/> for</param>
     /// <param name="options">The <see cref="AsyncApiDocumentGenerationOptions"/> to use</param>
     /// <param name="cancellationToken">A <see cref="CancellationToken"/></param>
-    /// <returns>A new <see cref="AsyncApiDocument"/></returns>
-    protected virtual async Task<AsyncApiDocument> GenerateDocumentForAsync(Type type, AsyncApiDocumentGenerationOptions options, CancellationToken cancellationToken = default)
+    /// <returns>A new <see cref="V2AsyncApiDocument"/></returns>
+    protected virtual async Task<V2AsyncApiDocument> GenerateDocumentForAsync(Type type, AsyncApiDocumentGenerationOptions options, CancellationToken cancellationToken = default)
     {
         ArgumentNullException.ThrowIfNull(type);
 
@@ -85,11 +85,11 @@ public class AsyncApiDocumentGenerator(IServiceProvider serviceProvider, IJsonSc
     }
 
     /// <summary>
-    /// Builds a new <see cref="ChannelDefinition"/>
+    /// Builds a new <see cref="V2ChannelDefinition"/>
     /// </summary>
     /// <param name="builder">The <see cref="IAsyncApiDocumentBuilder"/> to configure</param>
-    /// <param name="channel">The attribute used to describe the <see cref="ChannelDefinition"/> to configure</param>
-    /// <param name="methods">A <see cref="List{T}"/> containing the <see cref="ChannelDefinition"/>'s <see cref="OperationDefinition"/>s <see cref="MethodInfo"/>s</param>
+    /// <param name="channel">The attribute used to describe the <see cref="V2ChannelDefinition"/> to configure</param>
+    /// <param name="methods">A <see cref="List{T}"/> containing the <see cref="V2ChannelDefinition"/>'s <see cref="V2OperationDefinition"/>s <see cref="MethodInfo"/>s</param>
     /// <param name="options">The <see cref="AsyncApiDocumentGenerationOptions"/> to use</param>
     /// <param name="cancellationToken">A <see cref="CancellationToken"/></param>
     /// <returns>A new awaitable <see cref="Task"/></returns>
@@ -126,11 +126,11 @@ public class AsyncApiDocumentGenerator(IServiceProvider serviceProvider, IJsonSc
     }
 
     /// <summary>
-    /// Configures and builds a new <see cref="MessageDefinition"/> for the specified <see cref="OperationDefinition"/>
+    /// Configures and builds a new <see cref="V2MessageDefinition"/> for the specified <see cref="V2OperationDefinition"/>
     /// </summary>
     /// <param name="messageBuilder">The <see cref="IMessageDefinitionBuilder"/> to configure</param>
-    /// <param name="operation">The attribute used to describe the <see cref="OperationDefinition"/> to configure</param>
-    /// <param name="operationMethod">The <see cref="MethodInfo"/> marked with the specified <see cref="OperationDefinition"/> attribute</param>
+    /// <param name="operation">The attribute used to describe the <see cref="V2OperationDefinition"/> to configure</param>
+    /// <param name="operationMethod">The <see cref="MethodInfo"/> marked with the specified <see cref="V2OperationDefinition"/> attribute</param>
     /// <param name="options">The <see cref="AsyncApiDocumentGenerationOptions"/> to use</param>
     protected virtual void ConfigureOperationMessageFor(IMessageDefinitionBuilder messageBuilder, OperationAttribute operation, MethodInfo operationMethod, AsyncApiDocumentGenerationOptions options)
     {

@@ -14,23 +14,23 @@
 namespace Neuroglia.AsyncApi.AspNetCore.UI.Models;
 
 /// <summary>
-/// Holds the data used to render a <see cref="ServerDefinition"/> view
+/// Holds the data used to render a <see cref="V2ServerDefinition"/> view
 /// </summary>
 public record ServerDefinitionViewModel
     : AsyncApiDocumentViewModel
 {
 
     /// <inheritdoc/>
-    public ServerDefinitionViewModel(AsyncApiDocument document, string key, ServerDefinition server) : base(document) { this.Key = key; this.Server = server; }
+    public ServerDefinitionViewModel(V2AsyncApiDocument document, string key, V2ServerDefinition server) : base(document) { this.Key = key; this.Server = server; }
 
     /// <summary>
-    /// Gets the key of the <see cref="ServerDefinition"/> to render
+    /// Gets the key of the <see cref="V2ServerDefinition"/> to render
     /// </summary>
     public string Key { get; }
 
     /// <summary>
-    /// Gets the <see cref="ServerDefinition"/> to render
+    /// Gets the <see cref="V2ServerDefinition"/> to render
     /// </summary>
-    public ServerDefinition Server { get; }
+    public V2ServerDefinition Server { get; }
 
 }

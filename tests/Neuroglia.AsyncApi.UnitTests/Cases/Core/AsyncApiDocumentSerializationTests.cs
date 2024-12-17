@@ -28,10 +28,10 @@ public class AsyncApiDocumentSerializationTests
 
         //act
         var json = JsonSerializer.Default.SerializeToText(document);
-        var jsonDeserialized = JsonSerializer.Default.Deserialize<AsyncApiDocument>(json);
+        var jsonDeserialized = JsonSerializer.Default.Deserialize<V2AsyncApiDocument>(json);
 
         var yaml = YamlSerializer.Default.SerializeToText(document);
-        var yamlDeserialized = YamlSerializer.Default.Deserialize<AsyncApiDocument>(yaml);
+        var yamlDeserialized = YamlSerializer.Default.Deserialize<V2AsyncApiDocument>(yaml);
 
         //assert
         jsonDeserialized.Should().Be(document);

@@ -20,14 +20,14 @@ using System.Text;
 namespace Neuroglia.AsyncApi;
 
 /// <summary>
-/// Represents the middleware used to serve <see cref="AsyncApiDocument"/>s
+/// Represents the middleware used to serve <see cref="V2AsyncApiDocument"/>s
 /// </summary>
 /// <remarks>
 /// Initializes a new <see cref="AsyncApiDocumentServingMiddleware"/>
 /// </remarks>
 /// <param name="options">The service used to access the current <see cref="AsyncApiDocumentServingOptions"/></param>
-/// <param name="documentProvider">The service used to provide <see cref="AsyncApiDocument"/>s</param>
-/// <param name="documentWriter">The service used to write <see cref="AsyncApiDocument"/>s</param>
+/// <param name="documentProvider">The service used to provide <see cref="V2AsyncApiDocument"/>s</param>
+/// <param name="documentWriter">The service used to write <see cref="V2AsyncApiDocument"/>s</param>
 /// <param name="next">The the next <see cref="RequestDelegate"/> in the pipeline</param>
 public class AsyncApiDocumentServingMiddleware(IOptions<AsyncApiDocumentServingOptions> options, IAsyncApiDocumentProvider documentProvider, IAsyncApiDocumentWriter documentWriter, RequestDelegate next)
 {
@@ -38,12 +38,12 @@ public class AsyncApiDocumentServingMiddleware(IOptions<AsyncApiDocumentServingO
     protected virtual AsyncApiDocumentServingOptions Options { get; } = options.Value;
 
     /// <summary>
-    /// Gets the service used to provide <see cref="AsyncApiDocument"/>s
+    /// Gets the service used to provide <see cref="V2AsyncApiDocument"/>s
     /// </summary>
     protected virtual IAsyncApiDocumentProvider DocumentProvider { get; } = documentProvider;
 
     /// <summary>
-    /// Gets the service used to write <see cref="AsyncApiDocument"/>s
+    /// Gets the service used to write <see cref="V2AsyncApiDocument"/>s
     /// </summary>
     protected virtual IAsyncApiDocumentWriter DocumentWriter { get; } = documentWriter;
 
@@ -53,9 +53,9 @@ public class AsyncApiDocumentServingMiddleware(IOptions<AsyncApiDocumentServingO
     protected virtual RequestDelegate Next { get; } = next;
 
     /// <summary>
-    /// Gets a route/<see cref="AsyncApiDocument"/> mapping of the routes rendered based on the configured template for all available <see cref="AsyncApiDocument"/>s 
+    /// Gets a route/<see cref="V2AsyncApiDocument"/> mapping of the routes rendered based on the configured template for all available <see cref="V2AsyncApiDocument"/>s 
     /// </summary>
-    protected virtual Dictionary<string, AsyncApiDocument> DocumentRoutes { get; } = documentProvider.ToDictionary(d => d, options.Value.GenerateRoutesFor).SelectMany(kvp => kvp.Value.Select(r => new KeyValuePair<string, AsyncApiDocument>(r, kvp.Key))).ToDictionary(kvp => kvp.Key, kvp => kvp.Value);
+    protected virtual Dictionary<string, V2AsyncApiDocument> DocumentRoutes { get; } = documentProvider.ToDictionary(d => d, options.Value.GenerateRoutesFor).SelectMany(kvp => kvp.Value.Select(r => new KeyValuePair<string, V2AsyncApiDocument>(r, kvp.Key))).ToDictionary(kvp => kvp.Key, kvp => kvp.Value);
 
     /// <summary>
     /// Invokes the <see cref="AsyncApiDocumentServingMiddleware"/>
@@ -108,11 +108,11 @@ public class AsyncApiDocumentServingMiddleware(IOptions<AsyncApiDocumentServingO
     }
 
     /// <summary>
-    /// Renders the Async API document version list for the specified <see cref="AsyncApiDocument"/>s 
+    /// Renders the Async API document version list for the specified <see cref="V2AsyncApiDocument"/>s 
     /// </summary>
-    /// <param name="versions">The <see cref="IGrouping{TKey, TElement}"/> of <see cref="AsyncApiDocument"/> versions to render the list for</param>
+    /// <param name="versions">The <see cref="IGrouping{TKey, TElement}"/> of <see cref="V2AsyncApiDocument"/> versions to render the list for</param>
     /// <returns>The encoded html of the Async API document version list</returns>
-    protected virtual byte[] RenderAsyncApiDocumentVersionList(IGrouping<string, AsyncApiDocument> versions)
+    protected virtual byte[] RenderAsyncApiDocumentVersionList(IGrouping<string, V2AsyncApiDocument> versions)
     {
         string html = $@"
 {versions.Key}

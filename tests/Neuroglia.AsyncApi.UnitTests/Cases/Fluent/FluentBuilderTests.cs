@@ -16,7 +16,6 @@ using Json.Schema.Generation;
 using Microsoft.Extensions.DependencyInjection;
 using Neuroglia.AsyncApi.FluentBuilders;
 using Neuroglia.AsyncApi.v2.Bindings.Http;
-using Neuroglia.AsyncApi.v2;
 using System.Net.Mime;
 
 namespace Neuroglia.AsyncApi.UnitTests.Cases.Fluent;

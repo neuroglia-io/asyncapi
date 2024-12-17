@@ -20,9 +20,9 @@ namespace Neuroglia.AsyncApi.FluentBuilders;
 /// Initializes a new <see cref="OperationDefinitionBuilder"/>
 /// </remarks>
 /// <param name="serviceProvider">The current <see cref="IServiceProvider"/></param>
-/// <param name="validators">An <see cref="IEnumerable{T}"/> containing the services used to validate <see cref="OperationTraitDefinition"/>s</param>
-public class OperationDefinitionBuilder(IServiceProvider serviceProvider, IEnumerable<IValidator<OperationTraitDefinition>> validators)
-    : OperationTraitDefinitionBuilder<IOperationDefinitionBuilder, OperationDefinition>(serviceProvider, validators), IOperationDefinitionBuilder
+/// <param name="validators">An <see cref="IEnumerable{T}"/> containing the services used to validate <see cref="V2OperationTraitDefinition"/>s</param>
+public class OperationDefinitionBuilder(IServiceProvider serviceProvider, IEnumerable<IValidator<V2OperationTraitDefinition>> validators)
+    : OperationTraitDefinitionBuilder<IOperationDefinitionBuilder, V2OperationDefinition>(serviceProvider, validators), IOperationDefinitionBuilder
 {
 
     /// <inheritdoc/>
@@ -32,7 +32,7 @@ public class OperationDefinitionBuilder(IServiceProvider serviceProvider, IEnume
 
         var builder = ActivatorUtilities.CreateInstance<MessageDefinitionBuilder>(this.ServiceProvider);
         setup(builder);
-        this.Trait.Message = OperationMessageDefinition.From(builder.Build());
+        this.Trait.Message = V2OperationMessageDefinition.From(builder.Build());
 
         return this;
     }
@@ -48,7 +48,7 @@ public class OperationDefinitionBuilder(IServiceProvider serviceProvider, IEnume
             {
                 var builder = ActivatorUtilities.CreateInstance<MessageDefinitionBuilder>(this.ServiceProvider);
                 setup(builder);
-                return OperationMessageDefinition.From(builder.Build());
+                return V2OperationMessageDefinition.From(builder.Build());
             }))
         };
 

@@ -13,7 +13,7 @@
 
 using Json.Schema;
 using Neuroglia.AsyncApi;
-using Neuroglia.AsyncApi.v2;
+using Neuroglia.AsyncApi.Bindings.Http;
 using Neuroglia.AsyncApi.v2.Bindings.Http;
 using Neuroglia.AsyncApi.v2.Bindings.Mqtt;
 using Neuroglia.Data.Schemas.Json;
@@ -69,7 +69,7 @@ builder.Services.AddAsyncApiDocument(document => document
         .WithSubscribeOperation(operation => operation
             .WithOperationId("ObserveCloudEvents")
             .WithDescription("Observes cloud events published by the StreetLightsApi")
-            .WithBinding(new HttpOperationBindingDefinition() { Method = Neuroglia.AsyncApi.v2.Bindings.Http.HttpMethod.POST, Type = HttpBindingOperationType.Response })
+            .WithBinding(new HttpOperationBindingDefinition() { Method = Neuroglia.AsyncApi.Bindings.Http.HttpMethod.POST, Type = HttpBindingOperationType.Response })
             .WithMessages
             (
                 message => message

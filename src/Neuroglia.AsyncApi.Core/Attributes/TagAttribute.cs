@@ -16,7 +16,7 @@ using Neuroglia.AsyncApi.v2;
 namespace Neuroglia.AsyncApi;
 
 /// <summary>
-/// Represents an <see cref="Attribute"/> used to tag an <see cref="OperationDefinition"/> method
+/// Represents an <see cref="Attribute"/> used to tag an <see cref="V2OperationDefinition"/> method
 /// </summary>
 [AttributeUsage(AttributeTargets.Class | AttributeTargets.Method, AllowMultiple = true)]
 public class TagAttribute

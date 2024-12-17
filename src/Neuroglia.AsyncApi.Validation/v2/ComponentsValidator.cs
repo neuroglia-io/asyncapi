@@ -16,10 +16,10 @@ using Neuroglia.AsyncApi.v2;
 namespace Neuroglia.AsyncApi.Validation;
 
 /// <summary>
-/// Represents the service used to validate the <see cref="ComponentDefinitionCollection"/>
+/// Represents the service used to validate the <see cref="V2ComponentDefinitionCollection"/>
 /// </summary>
 public class ComponentsValidator
-    : AbstractValidator<ComponentDefinitionCollection>
+    : AbstractValidator<V2ComponentDefinitionCollection>
 {
 
     /// <summary>

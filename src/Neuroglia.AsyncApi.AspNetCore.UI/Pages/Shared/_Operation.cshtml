@@ -8,9 +8,9 @@
     var schema = string.IsNullOrWhiteSpace(jsonPayload) ? null : JsonSchema.FromText(jsonPayload);
     var operationRef = $"{operation.OperationId!.ToLowerInvariant()}-{EnumHelper.Stringify(operationType).ToLowerInvariant()}";
 
-    var badgeColor = operationType == OperationType.Publish ? "info" : "info";
-    var badgeTooltip = operationType == OperationType.Publish ? "An operation used to publish a message to the specified channel." : "An operation used to subscribe to messages from the specified channel.";
-    var badgeText = operationType == OperationType.Publish ? "PUB" : "SUB";
+    var badgeColor = operationType == V2OperationType.Publish ? "info" : "info";
+    var badgeTooltip = operationType == V2OperationType.Publish ? "An operation used to publish a message to the specified channel." : "An operation used to subscribe to messages from the specified channel.";
+    var badgeText = operationType == V2OperationType.Publish ? "PUB" : "SUB";
 }
 
 <div class="m-3">

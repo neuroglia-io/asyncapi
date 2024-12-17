@@ -21,7 +21,7 @@ public record CorrelationIdDefinitionViewModel
 {
 
     /// <inheritdoc/>
-    public CorrelationIdDefinitionViewModel(AsyncApiDocument document, CorrelationIdDefinition correlationId) : base(document) { this.CorrelationId = correlationId; }
+    public CorrelationIdDefinitionViewModel(V2AsyncApiDocument document, CorrelationIdDefinition correlationId) : base(document) { this.CorrelationId = correlationId; }
 
     /// <summary>
     /// Gets the <see cref="CorrelationIdDefinition"/> to render

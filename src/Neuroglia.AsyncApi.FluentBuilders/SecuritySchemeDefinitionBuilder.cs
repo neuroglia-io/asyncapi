@@ -11,16 +11,14 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using Neuroglia.AsyncApi.v2;
-
 namespace Neuroglia.AsyncApi.FluentBuilders;
 
 /// <summary>
 /// Represents the default implementation of the <see cref="ISecuritySchemeDefinitionBuilder"/> interface
 /// </summary>
 /// <param name="serviceProvider">The current <see cref="IServiceProvider"/></param>
-/// <param name="validators">An <see cref="IEnumerator{T}"/> containing the <see cref="IValidator"/>s used to validate built <see cref="SecuritySchemeDefinition"/>s</param>
-public class SecuritySchemeDefinitionBuilder(IServiceProvider serviceProvider, IEnumerable<IValidator<SecuritySchemeDefinition>> validators)
+/// <param name="validators">An <see cref="IEnumerator{T}"/> containing the <see cref="IValidator"/>s used to validate built <see cref="V2SecuritySchemeDefinition"/>s</param>
+public class SecuritySchemeDefinitionBuilder(IServiceProvider serviceProvider, IEnumerable<IValidator<V2SecuritySchemeDefinition>> validators)
     : ISecuritySchemeDefinitionBuilder
 {
 
@@ -30,14 +28,14 @@ public class SecuritySchemeDefinitionBuilder(IServiceProvider serviceProvider, I
     protected virtual IServiceProvider ServiceProvider { get; } = serviceProvider;
 
     /// <summary>
-    /// Gets the services used to validate <see cref="SecuritySchemeDefinition"/>s
+    /// Gets the services used to validate <see cref="V2SecuritySchemeDefinition"/>s
     /// </summary>
-    protected virtual IEnumerable<IValidator<SecuritySchemeDefinition>> Validators { get; } = validators;
+    protected virtual IEnumerable<IValidator<V2SecuritySchemeDefinition>> Validators { get; } = validators;
 
     /// <summary>
-    /// Gets the <see cref="SecuritySchemeDefinition"/> to configure
+    /// Gets the <see cref="V2SecuritySchemeDefinition"/> to configure
     /// </summary>
-    protected SecuritySchemeDefinition SecurityScheme { get; } = new();
+    protected V2SecuritySchemeDefinition SecurityScheme { get; } = new();
 
     /// <inheritdoc/>
     public virtual ISecuritySchemeDefinitionBuilder WithType(SecuritySchemeType type)
@@ -116,7 +114,7 @@ public class SecuritySchemeDefinitionBuilder(IServiceProvider serviceProvider, I
     }
 
     /// <inheritdoc/>
-    public virtual SecuritySchemeDefinition Build()
+    public virtual V2SecuritySchemeDefinition Build()
     {
         var validationResults = this.Validators.Select(v => v.Validate(this.SecurityScheme));
         if (!validationResults.All(r => r.IsValid)) throw new ValidationException(validationResults.Where(r => !r.IsValid).SelectMany(r => r.Errors));

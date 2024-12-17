@@ -11,6 +11,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+using Neuroglia.AsyncApi.Bindings;
 using Neuroglia.Data.Schemas.Json;
 
 namespace Neuroglia.AsyncApi.FluentBuilders;
@@ -19,18 +20,18 @@ namespace Neuroglia.AsyncApi.FluentBuilders;
 /// Represents the base class for all <see cref="IMessageTraitDefinitionBuilder{TBuilder, TTrait}"/> implementations
 /// </summary>
 /// <typeparam name="TBuilder">The type of <see cref="IMessageTraitDefinitionBuilder{TBuilder, TTrait}"/> to return for chaining purposes</typeparam>
-/// <typeparam name="TTrait">The type of <see cref="MessageTraitDefinition"/> to build</typeparam>
+/// <typeparam name="TTrait">The type of <see cref="V2MessageTraitDefinition"/> to build</typeparam>
 public abstract class MessageTraitDefinitionBuilder<TBuilder, TTrait>
     : IMessageTraitDefinitionBuilder<TBuilder, TTrait>
     where TBuilder : IMessageTraitDefinitionBuilder<TBuilder, TTrait>
-    where TTrait : MessageTraitDefinition, new()
+    where TTrait : V2MessageTraitDefinition, new()
 {
 
     /// <summary>
     /// Initializes a new <see cref="MessageTraitDefinitionBuilder{TBuilder, TTrait}"/>
     /// </summary>
     /// <param name="serviceProvider">The current <see cref="IServiceProvider"/></param>
-    /// <param name="validators">An <see cref="IEnumerable{T}"/> containing the services used to validate <see cref="MessageTraitDefinition"/>s</param>
+    /// <param name="validators">An <see cref="IEnumerable{T}"/> containing the services used to validate <see cref="V2MessageTraitDefinition"/>s</param>
     protected MessageTraitDefinitionBuilder(IServiceProvider serviceProvider, IEnumerable<IValidator<TTrait>> validators)
     {
         this.ServiceProvider = serviceProvider;
@@ -43,12 +44,12 @@ public abstract class MessageTraitDefinitionBuilder<TBuilder, TTrait>
     protected IServiceProvider ServiceProvider { get; }
 
     /// <summary>
-    /// Gets an <see cref="IEnumerable{T}"/> containing the services used to validate <see cref="MessageTraitDefinition"/>s
+    /// Gets an <see cref="IEnumerable{T}"/> containing the services used to validate <see cref="V2MessageTraitDefinition"/>s
     /// </summary>
     protected IEnumerable<IValidator<TTrait>> Validators { get; }
 
     /// <summary>
-    /// Gets the <see cref="MessageTraitDefinition"/> to configure
+    /// Gets the <see cref="V2MessageTraitDefinition"/> to configure
     /// </summary>
     protected virtual TTrait Trait { get; } = new();
 

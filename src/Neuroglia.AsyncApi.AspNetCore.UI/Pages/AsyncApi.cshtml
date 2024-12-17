@@ -80,11 +80,11 @@
                 {
                     if (channel.Value.Publish != null)
                     {
-                        <partial name="_Operation" model="new OperationDefinitionViewModel(document, channel.Key, OperationType.Publish, channel.Value.Publish)" />
+                        <partial name="_Operation" model="new OperationDefinitionViewModel(document, channel.Key, V2OperationType.Publish, channel.Value.Publish)" />
                     }
                     if (channel.Value.Subscribe != null)
                     {
-                        <partial name="_Operation" model="new OperationDefinitionViewModel(document, channel.Key, OperationType.Subscribe, channel.Value.Subscribe)" />
+                        <partial name="_Operation" model="new OperationDefinitionViewModel(document, channel.Key, V2OperationType.Subscribe, channel.Value.Subscribe)" />
                     }
                 }
             </div>

@@ -14,18 +14,18 @@
 namespace Neuroglia.AsyncApi.AspNetCore.UI.Models;
 
 /// <summary>
-/// Holds the data used to render an <see cref="ChannelDefinition"/> view
+/// Holds the data used to render an <see cref="V2ChannelDefinition"/> view
 /// </summary>
 public record ChannelDefinitionViewModel
     : AsyncApiDocumentViewModel
 {
 
     /// <inheritdoc/>
-    public ChannelDefinitionViewModel(AsyncApiDocument document, ChannelDefinition channel) : base(document) => this.Channel = channel;
+    public ChannelDefinitionViewModel(V2AsyncApiDocument document, V2ChannelDefinition channel) : base(document) => this.Channel = channel;
     
     /// <summary>
-    /// Gets the <see cref="ChannelDefinition"/> to render
+    /// Gets the <see cref="V2ChannelDefinition"/> to render
     /// </summary>
-    public ChannelDefinition Channel { get; }
+    public V2ChannelDefinition Channel { get; }
 
 }

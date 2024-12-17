@@ -21,7 +21,7 @@ public record SecurityRequirementViewModel
 {
 
     /// <inheritdoc/>
-    public SecurityRequirementViewModel(AsyncApiDocument document, string parentRef, string key, object? requirement) : base(document) { this.ParentRef = parentRef; this.Key = key; this.Requirement = requirement; }
+    public SecurityRequirementViewModel(V2AsyncApiDocument document, string parentRef, string key, object? requirement) : base(document) { this.ParentRef = parentRef; this.Key = key; this.Requirement = requirement; }
 
     /// <summary>
     /// Gets a reference to the requirement's parent component

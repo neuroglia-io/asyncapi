@@ -73,12 +73,12 @@ public static class IServiceCollectionExtensions
     }
     
     /// <summary>
-    /// Adds and configures a new <see cref="AsyncApiDocument"/>
+    /// Adds and configures a new <see cref="V2AsyncApiDocument"/>
     /// </summary>
     /// <param name="services">The <see cref="IServiceCollection"/> to configure</param>
-    /// <param name="document">The <see cref="AsyncApiDocument"/> to add</param>
+    /// <param name="document">The <see cref="V2AsyncApiDocument"/> to add</param>
     /// <returns>The configured <see cref="IServiceCollection"/></returns>
-    public static IServiceCollection AddAsyncApiDocument(this IServiceCollection services, AsyncApiDocument document)
+    public static IServiceCollection AddAsyncApiDocument(this IServiceCollection services, V2AsyncApiDocument document)
     {
         services.AddSingleton(document);
 
@@ -86,10 +86,10 @@ public static class IServiceCollectionExtensions
     }
 
     /// <summary>
-    /// Adds and configures a new <see cref="AsyncApiDocument"/>
+    /// Adds and configures a new <see cref="V2AsyncApiDocument"/>
     /// </summary>
     /// <param name="services">The <see cref="IServiceCollection"/> to configure</param>
-    /// <param name="setup">An <see cref="Action{T}"/> used to setup the <see cref="IAsyncApiDocumentBuilder"/> used to build the <see cref="AsyncApiDocument"/> to add</param>
+    /// <param name="setup">An <see cref="Action{T}"/> used to setup the <see cref="IAsyncApiDocumentBuilder"/> used to build the <see cref="V2AsyncApiDocument"/> to add</param>
     /// <returns>The configured <see cref="IServiceCollection"/></returns>
     public static IServiceCollection AddAsyncApiDocument(this IServiceCollection services, Action<IServiceProvider, IAsyncApiDocumentBuilder> setup)
     {
@@ -104,10 +104,10 @@ public static class IServiceCollectionExtensions
     }
 
     /// <summary>
-    /// Adds and configures a new <see cref="AsyncApiDocument"/>
+    /// Adds and configures a new <see cref="V2AsyncApiDocument"/>
     /// </summary>
     /// <param name="services">The <see cref="IServiceCollection"/> to configure</param>
-    /// <param name="setup">An <see cref="Action{T}"/> used to setup the <see cref="IAsyncApiDocumentBuilder"/> used to build the <see cref="AsyncApiDocument"/> to add</param>
+    /// <param name="setup">An <see cref="Action{T}"/> used to setup the <see cref="IAsyncApiDocumentBuilder"/> used to build the <see cref="V2AsyncApiDocument"/> to add</param>
     /// <returns>The configured <see cref="IServiceCollection"/></returns>
     public static IServiceCollection AddAsyncApiDocument(this IServiceCollection services, Action<IAsyncApiDocumentBuilder> setup)
     {

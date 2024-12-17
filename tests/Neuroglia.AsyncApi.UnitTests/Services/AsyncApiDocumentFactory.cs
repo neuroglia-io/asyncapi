@@ -11,8 +11,8 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+using Neuroglia.AsyncApi.Bindings.Mqtt;
 using Neuroglia.AsyncApi.v2;
-using Neuroglia.AsyncApi.v2.Bindings.Mqtt;
 using System.Net.Mime;
 
 namespace Neuroglia.AsyncApi.UnitTests.Services;
@@ -20,9 +20,9 @@ namespace Neuroglia.AsyncApi.UnitTests.Services;
 internal static class AsyncApiDocumentFactory
 {
 
-    public static AsyncApiDocument Create()
+    public static V2AsyncApiDocument Create()
     {
-        return new AsyncApiDocument()
+        return new V2AsyncApiDocument()
         {
             AsyncApi = AsyncApiSpecVersion.V2,
             Id = "fake-document",
@@ -46,7 +46,7 @@ internal static class AsyncApiDocumentFactory
             {
                 {
                     "fake-server",
-                    new ServerDefinition()
+                    new V2ServerDefinition()
                     {
                         Url = new("https://fake.contact.com"),
                         Description = "Fake AsyncAPI server",
@@ -85,7 +85,7 @@ internal static class AsyncApiDocumentFactory
             {
                 {
                     "fake-channel",
-                    new ChannelDefinition()
+                    new V2ChannelDefinition()
                     {
                         Publish = new()
                         {

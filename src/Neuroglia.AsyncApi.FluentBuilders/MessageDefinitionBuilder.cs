@@ -22,9 +22,9 @@ namespace Neuroglia.AsyncApi.FluentBuilders;
 /// Initializes a new <see cref="MessageDefinitionBuilder"/>
 /// </remarks>
 /// <param name="serviceProvider">The current <see cref="IServiceProvider"/></param>
-/// <param name="validators">An <see cref="IEnumerable{T}"/> containing the services used to validate <see cref="MessageTraitDefinition"/>s</param>
-public class MessageDefinitionBuilder(IServiceProvider serviceProvider, IEnumerable<IValidator<MessageDefinition>> validators)
-    : MessageTraitDefinitionBuilder<IMessageDefinitionBuilder, MessageDefinition>(serviceProvider, validators), IMessageDefinitionBuilder
+/// <param name="validators">An <see cref="IEnumerable{T}"/> containing the services used to validate <see cref="V2MessageTraitDefinition"/>s</param>
+public class MessageDefinitionBuilder(IServiceProvider serviceProvider, IEnumerable<IValidator<V2MessageDefinition>> validators)
+    : MessageTraitDefinitionBuilder<IMessageDefinitionBuilder, V2MessageDefinition>(serviceProvider, validators), IMessageDefinitionBuilder
 {
 
     /// <inheritdoc/>
@@ -59,7 +59,7 @@ public class MessageDefinitionBuilder(IServiceProvider serviceProvider, IEnumera
     }
 
     /// <inheritdoc/>
-    public virtual IMessageDefinitionBuilder WithTrait(MessageTraitDefinition trait)
+    public virtual IMessageDefinitionBuilder WithTrait(V2MessageTraitDefinition trait)
     {
         ArgumentNullException.ThrowIfNull(trait);
 
@@ -73,7 +73,7 @@ public class MessageDefinitionBuilder(IServiceProvider serviceProvider, IEnumera
     public virtual IMessageDefinitionBuilder WithTraitReference(string reference)
     {
         if (string.IsNullOrWhiteSpace(reference)) throw new ArgumentNullException(nameof(reference));
-        return this.WithTrait(new MessageTraitDefinition() { Reference = reference });
+        return this.WithTrait(new V2MessageTraitDefinition() { Reference = reference });
     }
 
 }

@@ -14,7 +14,7 @@
 namespace Neuroglia.AsyncApi.AspNetCore.UI.Models;
 
 /// <summary>
-/// Holds the data used to render an <see cref="AsyncApiDocument"/> view
+/// Holds the data used to render an <see cref="V2AsyncApiDocument"/> view
 /// </summary>
 public record AsyncApiDocumentViewModel
 {
@@ -22,12 +22,12 @@ public record AsyncApiDocumentViewModel
     /// <summary>
     /// Initializes a new <see cref="AsyncApiDocumentViewModel"/>
     /// </summary>
-    /// <param name="document">The <see cref="AsyncApiDocument"/> to render the view for</param>
-    public AsyncApiDocumentViewModel(AsyncApiDocument document) => this.Document = document;
+    /// <param name="document">The <see cref="V2AsyncApiDocument"/> to render the view for</param>
+    public AsyncApiDocumentViewModel(V2AsyncApiDocument document) => this.Document = document;
 
     /// <summary>
-    /// Gets the <see cref="AsyncApiDocument"/> to render the view for
+    /// Gets the <see cref="V2AsyncApiDocument"/> to render the view for
     /// </summary>
-    public AsyncApiDocument Document { get; }
+    public V2AsyncApiDocument Document { get; }
 
 }

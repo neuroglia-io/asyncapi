@@ -16,7 +16,7 @@ using Neuroglia.AsyncApi.v2;
 namespace Neuroglia.AsyncApi;
 
 /// <summary>
-/// Represents an <see cref="Attribute"/> used to mark a class as an Async Api to generate a new <see cref="AsyncApiDocument"/> for
+/// Represents an <see cref="Attribute"/> used to mark a class as an Async Api to generate a new <see cref="V2AsyncApiDocument"/> for
 /// </summary>
 [AttributeUsage(AttributeTargets.Class, AllowMultiple = false)]
 public class AsyncApiAttribute
@@ -37,52 +37,52 @@ public class AsyncApiAttribute
     }
 
     /// <summary>
-    /// Gets/sets the generated <see cref="AsyncApiDocument"/>'s id
+    /// Gets/sets the generated <see cref="V2AsyncApiDocument"/>'s id
     /// </summary>
     public virtual string? Id { get; set; }
 
     /// <summary>
-    /// Gets the generated <see cref="AsyncApiDocument"/>'s title
+    /// Gets the generated <see cref="V2AsyncApiDocument"/>'s title
     /// </summary>
     public virtual string Title { get; }
 
     /// <summary>
-    /// Gets the generated <see cref="AsyncApiDocument"/>'s version
+    /// Gets the generated <see cref="V2AsyncApiDocument"/>'s version
     /// </summary>
     public virtual string Version { get; }
 
     /// <summary>
-    /// Gets/sets the generated <see cref="AsyncApiDocument"/>'s description
+    /// Gets/sets the generated <see cref="V2AsyncApiDocument"/>'s description
     /// </summary>
     public virtual string? Description { get; set; }
 
     /// <summary>
-    /// Gets/sets the generated <see cref="AsyncApiDocument"/>'s terms of service <see cref="Uri"/>
+    /// Gets/sets the generated <see cref="V2AsyncApiDocument"/>'s terms of service <see cref="Uri"/>
     /// </summary>
     public virtual string? TermsOfServiceUrl { get; set; }
 
     /// <summary>
-    /// Gets/sets the generated <see cref="AsyncApiDocument"/>'s contact name
+    /// Gets/sets the generated <see cref="V2AsyncApiDocument"/>'s contact name
     /// </summary>
     public virtual string? ContactName { get; set; }
 
     /// <summary>
-    /// Gets/sets the generated <see cref="AsyncApiDocument"/>'s contact url
+    /// Gets/sets the generated <see cref="V2AsyncApiDocument"/>'s contact url
     /// </summary>
     public virtual string? ContactUrl { get; set; }
 
     /// <summary>
-    /// Gets/sets the generated <see cref="AsyncApiDocument"/>'s contact email
+    /// Gets/sets the generated <see cref="V2AsyncApiDocument"/>'s contact email
     /// </summary>
     public virtual string? ContactEmail { get; set; }
 
     /// <summary>
-    /// Gets/sets the generated <see cref="AsyncApiDocument"/>'s license name
+    /// Gets/sets the generated <see cref="V2AsyncApiDocument"/>'s license name
     /// </summary>
     public virtual string? LicenseName { get; set; }
 
     /// <summary>
-    /// Gets/sets the generated <see cref="AsyncApiDocument"/>'s license <see cref="Uri"/>
+    /// Gets/sets the generated <see cref="V2AsyncApiDocument"/>'s license <see cref="Uri"/>
     /// </summary>
     public virtual string? LicenseUrl { get; set; }
 

@@ -27,7 +27,7 @@ public class AsyncApiGenerationOptions
     public virtual List<Type> MarkupTypes { get; set; } = [];
 
     /// <summary>
-    /// Gets/sets the <see cref="Action{T}"/> used to apply a default configuration to generated <see cref="AsyncApiDocument"/>s
+    /// Gets/sets the <see cref="Action{T}"/> used to apply a default configuration to generated <see cref="V2AsyncApiDocument"/>s
     /// </summary>
     public virtual Action<IAsyncApiDocumentBuilder>? DefaultDocumentConfiguration { get; set; }
 

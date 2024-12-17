@@ -11,7 +11,13 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+global using Json.Schema;
+global using Neuroglia.AsyncApi.Bindings;
+global using Neuroglia.Serialization.Json.Converters;
+global using System.Collections;
+global using System.ComponentModel;
 global using System.ComponentModel.DataAnnotations;
 global using System.Runtime.Serialization;
 global using System.Text.Json.Serialization;
+global using YamlDotNet.Core;
 global using YamlDotNet.Serialization;

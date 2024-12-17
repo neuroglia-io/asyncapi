@@ -11,8 +11,6 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using Neuroglia.AsyncApi.v2;
-
 namespace Neuroglia.AsyncApi.FluentBuilders;
 
 /// <summary>
@@ -21,20 +19,20 @@ namespace Neuroglia.AsyncApi.FluentBuilders;
 /// <remarks>
 /// Initializes a new <see cref="VariableDefinitionBuilder"/>
 /// </remarks>
-/// <param name="validators">The services used to validate <see cref="VariableDefinition"/>s</param>
-public class VariableDefinitionBuilder(IEnumerable<IValidator<VariableDefinition>> validators)
+/// <param name="validators">The services used to validate <see cref="ServerVariableDefinition"/>s</param>
+public class VariableDefinitionBuilder(IEnumerable<IValidator<ServerVariableDefinition>> validators)
     : IVariableDefinitionBuilder
 {
 
     /// <summary>
-    /// Gets the services used to validate <see cref="VariableDefinition"/>s
+    /// Gets the services used to validate <see cref="ServerVariableDefinition"/>s
     /// </summary>
-    protected virtual IEnumerable<IValidator<VariableDefinition>> Validators { get; } = validators;
+    protected virtual IEnumerable<IValidator<ServerVariableDefinition>> Validators { get; } = validators;
 
     /// <summary>
-    /// Gets the <see cref="VariableDefinition"/> to build
+    /// Gets the <see cref="ServerVariableDefinition"/> to build
     /// </summary>
-    protected VariableDefinition Variable { get; } = new();
+    protected ServerVariableDefinition Variable { get; } = new();
 
     /// <inheritdoc/>
     public virtual IVariableDefinitionBuilder WithEnumValues(params string[] values)
@@ -67,6 +65,6 @@ public class VariableDefinitionBuilder(IEnumerable<IValidator<VariableDefinition
     }
 
     /// <inheritdoc/>
-    public virtual VariableDefinition Build() => this.Variable;
+    public virtual ServerVariableDefinition Build() => this.Variable;
 
 }

@@ -16,13 +16,13 @@ using Neuroglia.AsyncApi.v2;
 namespace Neuroglia.AsyncApi.Generation;
 
 /// <summary>
-/// Represents the options used to configure <see cref="AsyncApiDocument"/> generation
+/// Represents the options used to configure <see cref="V2AsyncApiDocument"/> generation
 /// </summary>
 public class AsyncApiDocumentGenerationOptions
 {
 
     /// <summary>
-    /// Gets/sets an <see cref="Action{T}"/> used to configure the <see cref="AsyncApiDocument"/>s to configure
+    /// Gets/sets an <see cref="Action{T}"/> used to configure the <see cref="V2AsyncApiDocument"/>s to configure
     /// </summary>
     public Action<IAsyncApiDocumentBuilder>? DefaultConfiguration { get; set; }
 

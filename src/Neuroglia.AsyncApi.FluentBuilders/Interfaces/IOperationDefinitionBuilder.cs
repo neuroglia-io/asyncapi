@@ -16,30 +16,30 @@ using Neuroglia.AsyncApi.v2;
 namespace Neuroglia.AsyncApi.FluentBuilders;
 
 /// <summary>
-/// Defines the fundamentals of a service used to build <see cref="OperationDefinition"/>s
+/// Defines the fundamentals of a service used to build <see cref="V2OperationDefinition"/>s
 /// </summary>
 public interface IOperationDefinitionBuilder
-    : IOperationTraitDefinitionBuilder<IOperationDefinitionBuilder, OperationDefinition>
+    : IOperationTraitDefinitionBuilder<IOperationDefinitionBuilder, V2OperationDefinition>
 {
 
     /// <summary>
-    /// Configures the <see cref="OperationDefinition"/> to build to use the specified <see cref="OperationTraitDefinition"/>
+    /// Configures the <see cref="V2OperationDefinition"/> to build to use the specified <see cref="V2OperationTraitDefinition"/>
     /// </summary>
-    /// <param name="setup">An <see cref="Action{T}"/> used to setup the <see cref="OperationTraitDefinition"/> to use</param>
+    /// <param name="setup">An <see cref="Action{T}"/> used to setup the <see cref="V2OperationTraitDefinition"/> to use</param>
     /// <returns>The configured <see cref="IOperationDefinitionBuilder"/></returns>
     IOperationDefinitionBuilder WithTrait(Action<IOperationTraitBuilder> setup);
 
     /// <summary>
-    /// Configures the <see cref="OperationDefinition"/> to build to use the specified <see cref="MessageDefinition"/>
+    /// Configures the <see cref="V2OperationDefinition"/> to build to use the specified <see cref="V2MessageDefinition"/>
     /// </summary>
-    /// <param name="setup">An <see cref="Action{T}"/> used to setup the <see cref="MessageDefinition"/> to use</param>
+    /// <param name="setup">An <see cref="Action{T}"/> used to setup the <see cref="V2MessageDefinition"/> to use</param>
     /// <returns>The configured <see cref="IOperationDefinitionBuilder"/></returns>
     IOperationDefinitionBuilder WithMessage(Action<IMessageDefinitionBuilder> setup);
 
     /// <summary>
-    /// Configures the <see cref="OperationDefinition"/> to build to use the specified <see cref="MessageDefinition"/>s
+    /// Configures the <see cref="V2OperationDefinition"/> to build to use the specified <see cref="V2MessageDefinition"/>s
     /// </summary>
-    /// <param name="setups">An array containing the <see cref="Action{T}"/> used to setup the <see cref="MessageDefinition"/>s to use</param>
+    /// <param name="setups">An array containing the <see cref="Action{T}"/> used to setup the <see cref="V2MessageDefinition"/>s to use</param>
     /// <returns>The configured <see cref="IOperationDefinitionBuilder"/></returns>
     IOperationDefinitionBuilder WithMessages(params Action<IMessageDefinitionBuilder>[] setups);
 

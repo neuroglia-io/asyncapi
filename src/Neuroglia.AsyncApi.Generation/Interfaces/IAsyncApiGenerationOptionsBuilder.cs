@@ -36,9 +36,9 @@ public interface IAsyncApiGenerationOptionsBuilder
     IAsyncApiGenerationOptionsBuilder WithMarkupType<TMarkup>();
 
     /// <summary>
-    /// Configures the <see cref="AsyncApiGenerationOptions"/> to use the specified <see cref="Action{T}"/> to setup the default configuration for generated <see cref="AsyncApiDocument"/>s
+    /// Configures the <see cref="AsyncApiGenerationOptions"/> to use the specified <see cref="Action{T}"/> to setup the default configuration for generated <see cref="V2AsyncApiDocument"/>s
     /// </summary>
-    /// <param name="configurationAction">The <see cref="Action{T}"/> used to configure the <see cref="IAsyncApiDocumentBuilder"/> used to build <see cref="AsyncApiDocument"/>s</param>
+    /// <param name="configurationAction">The <see cref="Action{T}"/> used to configure the <see cref="IAsyncApiDocumentBuilder"/> used to build <see cref="V2AsyncApiDocument"/>s</param>
     /// <returns>The configured <see cref="IAsyncApiGenerationOptionsBuilder"/></returns>
     IAsyncApiGenerationOptionsBuilder UseDefaultConfiguration(Action<IAsyncApiDocumentBuilder> configurationAction);
 

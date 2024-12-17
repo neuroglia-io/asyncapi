@@ -141,7 +141,7 @@ public class CloudEventMessageDefinitionBuilder(IMessageDefinitionBuilder underl
     }
 
     /// <inheritdoc/>
-    public virtual MessageDefinition Build()
+    public virtual V2MessageDefinition Build()
     {
         var cloudEventSchema = new JsonSchemaBuilder().Ref(CloudEventSchemaUri).Build();
 

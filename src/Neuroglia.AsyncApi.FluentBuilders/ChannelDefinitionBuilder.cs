@@ -11,8 +11,8 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+using Neuroglia.AsyncApi.Bindings;
 using Neuroglia.AsyncApi.v2;
-using Neuroglia.AsyncApi.v2.Bindings;
 
 namespace Neuroglia.AsyncApi.FluentBuilders;
 
@@ -23,8 +23,8 @@ namespace Neuroglia.AsyncApi.FluentBuilders;
 /// Initializes a new <see cref="ChannelDefinitionBuilder"/>
 /// </remarks>
 /// <param name="serviceProvider">The current <see cref="IServiceProvider"/></param>
-/// <param name="validators">The services used to validate <see cref="ChannelDefinition"/>s</param>
-public class ChannelDefinitionBuilder(IServiceProvider serviceProvider, IEnumerable<IValidator<ChannelDefinition>> validators)
+/// <param name="validators">The services used to validate <see cref="V2ChannelDefinition"/>s</param>
+public class ChannelDefinitionBuilder(IServiceProvider serviceProvider, IEnumerable<IValidator<V2ChannelDefinition>> validators)
     : IChannelDefinitionBuilder
 {
 
@@ -34,14 +34,14 @@ public class ChannelDefinitionBuilder(IServiceProvider serviceProvider, IEnumera
     protected virtual IServiceProvider ServiceProvider { get; } = serviceProvider;
 
     /// <summary>
-    /// Gets the services used to validate <see cref="ChannelDefinition"/>s
+    /// Gets the services used to validate <see cref="V2ChannelDefinition"/>s
     /// </summary>
-    protected virtual IEnumerable<IValidator<ChannelDefinition>> Validators { get; } = validators;
+    protected virtual IEnumerable<IValidator<V2ChannelDefinition>> Validators { get; } = validators;
 
     /// <summary>
-    /// Gets the <see cref="ChannelDefinition"/> to build
+    /// Gets the <see cref="V2ChannelDefinition"/> to build
     /// </summary>
-    protected virtual ChannelDefinition Channel { get; } = new();
+    protected virtual V2ChannelDefinition Channel { get; } = new();
 
     /// <inheritdoc/>
     public virtual IChannelDefinitionBuilder WithDescription(string? description)
@@ -72,17 +72,17 @@ public class ChannelDefinitionBuilder(IServiceProvider serviceProvider, IEnumera
     }
 
     /// <inheritdoc/>
-    public virtual IChannelDefinitionBuilder WithOperation(OperationType type, Action<IOperationDefinitionBuilder> setup)
+    public virtual IChannelDefinitionBuilder WithOperation(V2OperationType type, Action<IOperationDefinitionBuilder> setup)
     {
         ArgumentNullException.ThrowIfNull(setup);
         var builder = ActivatorUtilities.CreateInstance<OperationDefinitionBuilder>(this.ServiceProvider);
         setup(builder);
         switch (type)
         {
-            case OperationType.Publish:
+            case V2OperationType.Publish:
                 this.Channel.Publish = builder.Build();
                 break;
-            case OperationType.Subscribe:
+            case V2OperationType.Subscribe:
                 this.Channel.Subscribe = builder.Build();
                 break;
             default:
@@ -92,13 +92,13 @@ public class ChannelDefinitionBuilder(IServiceProvider serviceProvider, IEnumera
     }
 
     /// <inheritdoc/>
-    public virtual IChannelDefinitionBuilder WithSubscribeOperation(Action<IOperationDefinitionBuilder> setup) => this.WithOperation(OperationType.Subscribe, setup);
+    public virtual IChannelDefinitionBuilder WithSubscribeOperation(Action<IOperationDefinitionBuilder> setup) => this.WithOperation(V2OperationType.Subscribe, setup);
 
     /// <inheritdoc/>
-    public virtual IChannelDefinitionBuilder WithPublishOperation(Action<IOperationDefinitionBuilder> setup) => this.WithOperation(OperationType.Publish, setup);
+    public virtual IChannelDefinitionBuilder WithPublishOperation(Action<IOperationDefinitionBuilder> setup) => this.WithOperation(V2OperationType.Publish, setup);
 
     /// <inheritdoc/>
-    public virtual ChannelDefinition Build()
+    public virtual V2ChannelDefinition Build()
     {
         var validationResults = this.Validators.Select(v => v.Validate(this.Channel));
         if (!validationResults.All(r => r.IsValid)) throw new ValidationException(validationResults.Where(r => !r.IsValid).SelectMany(r => r.Errors));

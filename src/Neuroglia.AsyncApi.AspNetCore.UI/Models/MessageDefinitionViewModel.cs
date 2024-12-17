@@ -14,14 +14,14 @@
 namespace Neuroglia.AsyncApi.AspNetCore.UI.Models;
 
 /// <summary>
-/// Holds the data used to render a <see cref="MessageDefinition"/> view
+/// Holds the data used to render a <see cref="V2MessageDefinition"/> view
 /// </summary>
 public record MessageDefinitionViewModel
     : AsyncApiDocumentViewModel
 {
 
     /// <inheritdoc/>
-    public MessageDefinitionViewModel(AsyncApiDocument document, int index, string operationRef, MessageDefinition definition)
+    public MessageDefinitionViewModel(V2AsyncApiDocument document, int index, string operationRef, V2MessageDefinition definition)
         : base(document)
     {
         this.Index = index;
@@ -40,8 +40,8 @@ public record MessageDefinitionViewModel
     public string OperationRef { get; }
 
     /// <summary>
-    /// Gets the <see cref="MessageDefinition"/> to render
+    /// Gets the <see cref="V2MessageDefinition"/> to render
     /// </summary>
-    public MessageDefinition Definition { get; }
+    public V2MessageDefinition Definition { get; }
 
 }

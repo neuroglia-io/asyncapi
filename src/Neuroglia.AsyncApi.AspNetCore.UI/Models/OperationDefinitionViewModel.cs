@@ -14,28 +14,28 @@
 namespace Neuroglia.AsyncApi.AspNetCore.UI.Models;
 
 /// <summary>
-/// Holds the data used to render a <see cref="OperationDefinition"/> view
+/// Holds the data used to render a <see cref="V2OperationDefinition"/> view
 /// </summary>
 public record OperationDefinitionViewModel
     : AsyncApiDocumentViewModel
 {
 
     /// <inheritdoc/>
-    public OperationDefinitionViewModel(AsyncApiDocument document, string channelKey, OperationType operationType, OperationDefinition operation) : base(document) { this.ChannelKey = channelKey; this.OperationType = operationType; this.Operation = operation; }
+    public OperationDefinitionViewModel(V2AsyncApiDocument document, string channelKey, V2OperationType operationType, V2OperationDefinition operation) : base(document) { this.ChannelKey = channelKey; this.OperationType = operationType; this.Operation = operation; }
 
     /// <summary>
-    /// Gets the key of the <see cref="ChannelDefinition"/> the <see cref="OperationDefinition"/> to render belongs to
+    /// Gets the key of the <see cref="V2ChannelDefinition"/> the <see cref="V2OperationDefinition"/> to render belongs to
     /// </summary>
     public string ChannelKey { get; }
 
     /// <summary>
-    /// Gets the type of the <see cref="OperationDefinition"/> to render
+    /// Gets the type of the <see cref="V2OperationDefinition"/> to render
     /// </summary>
-    public OperationType OperationType { get; }
+    public V2OperationType OperationType { get; }
 
     /// <summary>
-    /// Gets the <see cref="OperationDefinition"/> to render
+    /// Gets the <see cref="V2OperationDefinition"/> to render
     /// </summary>
-    public OperationDefinition Operation { get; }
+    public V2OperationDefinition Operation { get; }
 
 }

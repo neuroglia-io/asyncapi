@@ -11,7 +11,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using Neuroglia.AsyncApi.v2.Bindings;
+using Neuroglia.AsyncApi.Bindings;
 
 namespace Neuroglia.AsyncApi.AspNetCore.UI.Models;
 
@@ -23,7 +23,7 @@ public record BindingDefinitionViewModel
 {
 
     /// <inheritdoc/>
-    public BindingDefinitionViewModel(AsyncApiDocument document, IBindingDefinition binding, string parentRef) : base(document) { this.Binding = binding; this.ParentRef = parentRef; }
+    public BindingDefinitionViewModel(V2AsyncApiDocument document, IBindingDefinition binding, string parentRef) : base(document) { this.Binding = binding; this.ParentRef = parentRef; }
 
     /// <summary>
     /// Gets the <see cref="IBindingDefinition"/> to render

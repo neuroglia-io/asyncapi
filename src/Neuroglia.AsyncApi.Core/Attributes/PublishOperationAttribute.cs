@@ -16,7 +16,7 @@ using Neuroglia.AsyncApi.v2;
 namespace Neuroglia.AsyncApi;
 
 /// <summary>
-/// Represents an <see cref="Attribute"/> used to mark a method as an <see cref="OperationDefinition"/> of type <see cref="OperationType.Publish"/>
+/// Represents an <see cref="Attribute"/> used to mark a method as an <see cref="V2OperationDefinition"/> of type <see cref="V2OperationType.Publish"/>
 /// </summary>
 public class PublishOperationAttribute
     : OperationAttribute
@@ -25,12 +25,12 @@ public class PublishOperationAttribute
     /// <summary>
     /// Initializes a new <see cref="PublishOperationAttribute"/>
     /// </summary>
-    /// <param name="messageType">The <see cref="OperationDefinition"/>'s message type</param>
-    public PublishOperationAttribute(Type messageType) : base(OperationType.Publish, messageType) { }
+    /// <param name="messageType">The <see cref="V2OperationDefinition"/>'s message type</param>
+    public PublishOperationAttribute(Type messageType) : base(V2OperationType.Publish, messageType) { }
 
     /// <summary>
     /// Initializes a new <see cref="PublishOperationAttribute"/>
     /// </summary>
-    public PublishOperationAttribute() : base(OperationType.Publish) { }
+    public PublishOperationAttribute() : base(V2OperationType.Publish) { }
 
 }

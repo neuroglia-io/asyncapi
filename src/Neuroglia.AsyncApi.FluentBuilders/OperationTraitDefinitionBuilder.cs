@@ -11,8 +11,8 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+using Neuroglia.AsyncApi.Bindings;
 using Neuroglia.AsyncApi.v2;
-using Neuroglia.AsyncApi.v2.Bindings;
 
 namespace Neuroglia.AsyncApi.FluentBuilders;
 
@@ -20,18 +20,18 @@ namespace Neuroglia.AsyncApi.FluentBuilders;
 /// Represents the base class for all <see cref="IOperationTraitDefinitionBuilder{TBuilder, TTrait}"/> implementations
 /// </summary>
 /// <typeparam name="TBuilder">The type of <see cref="IOperationTraitDefinitionBuilder{TBuilder, TTrait}"/> to return for chaining purposes</typeparam>
-/// <typeparam name="TTrait">The type of <see cref="OperationTraitDefinition"/> to build</typeparam>
+/// <typeparam name="TTrait">The type of <see cref="V2OperationTraitDefinition"/> to build</typeparam>
 public abstract class OperationTraitDefinitionBuilder<TBuilder, TTrait>
     : IOperationTraitDefinitionBuilder<TBuilder, TTrait>
     where TBuilder : IOperationTraitDefinitionBuilder<TBuilder, TTrait>
-    where TTrait : OperationTraitDefinition, new()
+    where TTrait : V2OperationTraitDefinition, new()
 {
 
     /// <summary>
     /// Initializes a new <see cref="OperationTraitDefinitionBuilder{TBuilder, TTrait}"/>
     /// </summary>
     /// <param name="serviceProvider">The current <see cref="IServiceProvider"/></param>
-    /// <param name="validators">An <see cref="IEnumerable{T}"/> containing the services used to validate <see cref="OperationTraitDefinition"/>s</param>
+    /// <param name="validators">An <see cref="IEnumerable{T}"/> containing the services used to validate <see cref="V2OperationTraitDefinition"/>s</param>
     protected OperationTraitDefinitionBuilder(IServiceProvider serviceProvider, IEnumerable<IValidator<TTrait>> validators)
     {
         this.ServiceProvider = serviceProvider;
@@ -44,12 +44,12 @@ public abstract class OperationTraitDefinitionBuilder<TBuilder, TTrait>
     protected IServiceProvider ServiceProvider { get; }
 
     /// <summary>
-    /// Gets an <see cref="IEnumerable{T}"/> containing the services used to validate <see cref="OperationTraitDefinition"/>s
+    /// Gets an <see cref="IEnumerable{T}"/> containing the services used to validate <see cref="V2OperationTraitDefinition"/>s
     /// </summary>
     protected IEnumerable<IValidator<TTrait>> Validators { get; }
 
     /// <summary>
-    /// Gets the <see cref="MessageTraitDefinition"/> to configure
+    /// Gets the <see cref="V2MessageTraitDefinition"/> to configure
     /// </summary>
     protected virtual TTrait Trait { get; } = new();
 

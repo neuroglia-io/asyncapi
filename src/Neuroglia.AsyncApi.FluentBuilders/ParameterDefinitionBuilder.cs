@@ -22,8 +22,8 @@ namespace Neuroglia.AsyncApi.FluentBuilders;
 /// Initializes a new <see cref="ParameterDefinitionBuilder"/>
 /// </remarks>
 /// <param name="serviceProvider">The current <see cref="IServiceProvider"/></param>
-/// <param name="validators">The services used to validate <see cref="ParameterDefinition"/>s</param>
-public class ParameterDefinitionBuilder(IServiceProvider serviceProvider, IEnumerable<IValidator<ParameterDefinition>> validators)
+/// <param name="validators">The services used to validate <see cref="V2ParameterDefinition"/>s</param>
+public class ParameterDefinitionBuilder(IServiceProvider serviceProvider, IEnumerable<IValidator<V2ParameterDefinition>> validators)
     : IParameterDefinitionBuilder
 {
 
@@ -33,14 +33,14 @@ public class ParameterDefinitionBuilder(IServiceProvider serviceProvider, IEnume
     protected virtual IServiceProvider ServiceProvider { get; } = serviceProvider;
 
     /// <summary>
-    /// Gets the services used to validate <see cref="ParameterDefinition"/>s
+    /// Gets the services used to validate <see cref="V2ParameterDefinition"/>s
     /// </summary>
-    protected virtual IEnumerable<IValidator<ParameterDefinition>> Validators { get; } = validators;
+    protected virtual IEnumerable<IValidator<V2ParameterDefinition>> Validators { get; } = validators;
 
     /// <summary>
-    /// Gets the <see cref="ParameterDefinition"/> to configure
+    /// Gets the <see cref="V2ParameterDefinition"/> to configure
     /// </summary>
-    protected virtual ParameterDefinition Parameter { get; } = new();
+    protected virtual V2ParameterDefinition Parameter { get; } = new();
 
     /// <inheritdoc/>
     public virtual IParameterDefinitionBuilder OfType<TParameter>() => this.OfType(typeof(TParameter));
@@ -75,7 +75,7 @@ public class ParameterDefinitionBuilder(IServiceProvider serviceProvider, IEnume
     }
 
     /// <inheritdoc/>
-    public virtual ParameterDefinition Build()
+    public virtual V2ParameterDefinition Build()
     {
         var validationResults = this.Validators.Select(v => v.Validate(this.Parameter));
         if (!validationResults.All(r => r.IsValid)) throw new ValidationException(validationResults.Where(r => !r.IsValid).SelectMany(r => r.Errors));

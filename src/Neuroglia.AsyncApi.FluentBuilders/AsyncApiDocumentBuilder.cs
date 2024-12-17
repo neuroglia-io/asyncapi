@@ -11,8 +11,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using Neuroglia.AsyncApi.v2;
-using Neuroglia.AsyncApi.v2.Bindings;
+using Neuroglia.AsyncApi.Bindings;
 
 namespace Neuroglia.AsyncApi.FluentBuilders;
 
@@ -23,8 +22,8 @@ namespace Neuroglia.AsyncApi.FluentBuilders;
 /// Initializes a new <see cref="AsyncApiDocumentBuilder"/>
 /// </remarks>
 /// <param name="serviceProvider">The current <see cref="IServiceProvider"/></param>
-/// <param name="validators">The services used to validate <see cref="AsyncApiDocument"/>s</param>
-public class AsyncApiDocumentBuilder(IServiceProvider serviceProvider, IEnumerable<IValidator<AsyncApiDocument>> validators)
+/// <param name="validators">The services used to validate <see cref="V2AsyncApiDocument"/>s</param>
+public class AsyncApiDocumentBuilder(IServiceProvider serviceProvider, IEnumerable<IValidator<V2AsyncApiDocument>> validators)
     : IAsyncApiDocumentBuilder
 {
 
@@ -34,14 +33,14 @@ public class AsyncApiDocumentBuilder(IServiceProvider serviceProvider, IEnumerab
     protected virtual IServiceProvider ServiceProvider { get; } = serviceProvider;
 
     /// <summary>
-    /// Gets the services used to validate <see cref="AsyncApiDocument"/>s
+    /// Gets the services used to validate <see cref="V2AsyncApiDocument"/>s
     /// </summary>
-    protected virtual IEnumerable<IValidator<AsyncApiDocument>> Validators { get; } = validators;
+    protected virtual IEnumerable<IValidator<V2AsyncApiDocument>> Validators { get; } = validators;
 
     /// <summary>
-    /// Gets the <see cref="AsyncApiDocument"/> to configure
+    /// Gets the <see cref="V2AsyncApiDocument"/> to configure
     /// </summary>
-    protected virtual AsyncApiDocument Document { get; } = new();
+    protected virtual V2AsyncApiDocument Document { get; } = new();
 
     /// <inheritdoc/>
     public virtual IAsyncApiDocumentBuilder WithSpecVersion(string version)
@@ -161,7 +160,7 @@ public class AsyncApiDocumentBuilder(IServiceProvider serviceProvider, IEnumerab
     }
 
     /// <inheritdoc/>
-    public virtual IAsyncApiDocumentBuilder WithSecurityScheme(string name, SecuritySchemeDefinition scheme)
+    public virtual IAsyncApiDocumentBuilder WithSecurityScheme(string name, V2SecuritySchemeDefinition scheme)
     {
         if (string.IsNullOrWhiteSpace(name)) throw new ArgumentNullException(nameof(name));
         ArgumentNullException.ThrowIfNull(scheme);
@@ -196,7 +195,7 @@ public class AsyncApiDocumentBuilder(IServiceProvider serviceProvider, IEnumerab
     }
 
     /// <inheritdoc/>
-    public virtual IAsyncApiDocumentBuilder WithMessageComponent(string name, MessageDefinition message)
+    public virtual IAsyncApiDocumentBuilder WithMessageComponent(string name, V2MessageDefinition message)
     {
         if (string.IsNullOrWhiteSpace(name))throw new ArgumentNullException(nameof(name));
         ArgumentNullException.ThrowIfNull(message);
@@ -217,7 +216,7 @@ public class AsyncApiDocumentBuilder(IServiceProvider serviceProvider, IEnumerab
     }
 
     /// <inheritdoc/>
-    public virtual IAsyncApiDocumentBuilder WithParameterComponent(string name, ParameterDefinition parameter)
+    public virtual IAsyncApiDocumentBuilder WithParameterComponent(string name, V2ParameterDefinition parameter)
     {
         if (string.IsNullOrWhiteSpace(name))throw new ArgumentNullException(nameof(name));
         ArgumentNullException.ThrowIfNull(parameter);
@@ -250,7 +249,7 @@ public class AsyncApiDocumentBuilder(IServiceProvider serviceProvider, IEnumerab
     }
 
     /// <inheritdoc/>
-    public virtual IAsyncApiDocumentBuilder WithOperationTraitComponent(string name, OperationTraitDefinition trait)
+    public virtual IAsyncApiDocumentBuilder WithOperationTraitComponent(string name, V2OperationTraitDefinition trait)
     {
         if (string.IsNullOrWhiteSpace(name))throw new ArgumentNullException(nameof(name));
         ArgumentNullException.ThrowIfNull(trait);
@@ -271,7 +270,7 @@ public class AsyncApiDocumentBuilder(IServiceProvider serviceProvider, IEnumerab
     }
 
     /// <inheritdoc/>
-    public virtual IAsyncApiDocumentBuilder WithMessageTraitComponent(string name, MessageTraitDefinition trait)
+    public virtual IAsyncApiDocumentBuilder WithMessageTraitComponent(string name, V2MessageTraitDefinition trait)
     {
         if (string.IsNullOrWhiteSpace(name))throw new ArgumentNullException(nameof(name));
         ArgumentNullException.ThrowIfNull(trait);
@@ -336,7 +335,7 @@ public class AsyncApiDocumentBuilder(IServiceProvider serviceProvider, IEnumerab
     }
 
     /// <inheritdoc/>
-    public virtual AsyncApiDocument Build()
+    public virtual V2AsyncApiDocument Build()
     {
         var validationResults = this.Validators.Select(v => v.Validate(this.Document));
         if (!validationResults.All(r => r.IsValid)) throw new ValidationException(validationResults.Where(r => !r.IsValid).SelectMany(r => r.Errors));

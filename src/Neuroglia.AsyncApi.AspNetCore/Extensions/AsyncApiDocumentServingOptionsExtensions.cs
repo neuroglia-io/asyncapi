@@ -22,12 +22,12 @@ public static class AsyncApiDocumentServingOptionsExtensions
 {
 
     /// <summary>
-    /// Generates routes for the specified <see cref="AsyncApiDocument"/>
+    /// Generates routes for the specified <see cref="V2AsyncApiDocument"/>
     /// </summary>
     /// <param name="options">The current <see cref="AsyncApiDocumentServingOptions"/></param>
-    /// <param name="document">The <see cref="AsyncApiDocument"/> to generate the routes for</param>
+    /// <param name="document">The <see cref="V2AsyncApiDocument"/> to generate the routes for</param>
     /// <returns>A new <see cref="IEnumerable{T}"/> containing the egenerated routes</returns>
-    public static IEnumerable<string> GenerateRoutesFor(this AsyncApiDocumentServingOptions options, AsyncApiDocument document)
+    public static IEnumerable<string> GenerateRoutesFor(this AsyncApiDocumentServingOptions options, V2AsyncApiDocument document)
     {
         ArgumentNullException.ThrowIfNull(options);
         ArgumentNullException.ThrowIfNull(document);
@@ -40,13 +40,13 @@ public static class AsyncApiDocumentServingOptionsExtensions
     }
 
     /// <summary>
-    /// Generates route for the specified <see cref="AsyncApiDocument"/>
+    /// Generates route for the specified <see cref="V2AsyncApiDocument"/>
     /// </summary>
     /// <param name="options">The current <see cref="AsyncApiDocumentServingOptions"/></param>
-    /// <param name="document">The <see cref="AsyncApiDocument"/> to generate the route for</param>
+    /// <param name="document">The <see cref="V2AsyncApiDocument"/> to generate the route for</param>
     /// <param name="format">The <see cref="AsyncApiDocumentFormat"/> to generate the route for</param>
     /// <returns>The generated route</returns>
-    public static string GenerateRouteFor(this AsyncApiDocumentServingOptions options, AsyncApiDocument document, AsyncApiDocumentFormat format)
+    public static string GenerateRouteFor(this AsyncApiDocumentServingOptions options, V2AsyncApiDocument document, AsyncApiDocumentFormat format)
     {
         ArgumentNullException.ThrowIfNull(options);
         ArgumentNullException.ThrowIfNull(document);

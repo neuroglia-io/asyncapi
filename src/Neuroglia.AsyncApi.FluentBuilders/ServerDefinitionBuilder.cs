@@ -11,8 +11,8 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+using Neuroglia.AsyncApi.Bindings;
 using Neuroglia.AsyncApi.v2;
-using Neuroglia.AsyncApi.v2.Bindings;
 
 namespace Neuroglia.AsyncApi.FluentBuilders;
 
@@ -23,8 +23,8 @@ namespace Neuroglia.AsyncApi.FluentBuilders;
 /// Initializes a new <see cref="ServerDefinitionBuilder"/>
 /// </remarks>
 /// <param name="serviceProvider">The current <see cref="IServiceProvider"/></param>
-/// <param name="validators">The services used to validate <see cref="ServerDefinition"/>s</param>
-public class ServerDefinitionBuilder(IServiceProvider serviceProvider, IEnumerable<IValidator<ServerDefinition>> validators)
+/// <param name="validators">The services used to validate <see cref="V2ServerDefinition"/>s</param>
+public class ServerDefinitionBuilder(IServiceProvider serviceProvider, IEnumerable<IValidator<V2ServerDefinition>> validators)
     : IServerDefinitionBuilder
 {
 
@@ -34,14 +34,14 @@ public class ServerDefinitionBuilder(IServiceProvider serviceProvider, IEnumerab
     protected virtual IServiceProvider ServiceProvider { get; } = serviceProvider;
 
     /// <summary>
-    /// Gets the services used to validate <see cref="ServerDefinition"/>s
+    /// Gets the services used to validate <see cref="V2ServerDefinition"/>s
     /// </summary>
-    protected virtual IEnumerable<IValidator<ServerDefinition>> Validators { get; } = validators;
+    protected virtual IEnumerable<IValidator<V2ServerDefinition>> Validators { get; } = validators;
 
     /// <summary>
-    /// Gets the <see cref="ServerDefinition"/> to configure
+    /// Gets the <see cref="V2ServerDefinition"/> to configure
     /// </summary>
-    protected virtual ServerDefinition Server { get; } = new();
+    protected virtual V2ServerDefinition Server { get; } = new();
 
     /// <inheritdoc/>
     public virtual IServerDefinitionBuilder WithUrl(Uri uri)
@@ -97,7 +97,7 @@ public class ServerDefinitionBuilder(IServiceProvider serviceProvider, IEnumerab
     }
 
     /// <inheritdoc/>
-    public virtual ServerDefinition Build()
+    public virtual V2ServerDefinition Build()
     {
         var validationResults = this.Validators.Select(v => v.Validate(this.Server));
         if (!validationResults.All(r => r.IsValid)) throw new ValidationException(validationResults.Where(r => !r.IsValid).SelectMany(r => r.Errors!));

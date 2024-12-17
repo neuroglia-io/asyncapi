@@ -22,8 +22,8 @@ namespace Neuroglia.AsyncApi.FluentBuilders;
 /// Initializes a new <see cref="OperationTraitBuilder"/>
 /// </remarks>
 /// <param name="serviceProvider">The current <see cref="IServiceProvider"/></param>
-/// <param name="validators">An <see cref="IEnumerable{T}"/> containing the services used to validate <see cref="OperationTraitDefinition"/>s</param>
-public class OperationTraitBuilder(IServiceProvider serviceProvider, IEnumerable<IValidator<OperationTraitDefinition>> validators)
-    : OperationTraitDefinitionBuilder<IOperationTraitBuilder, OperationTraitDefinition>(serviceProvider, validators), IOperationTraitBuilder
+/// <param name="validators">An <see cref="IEnumerable{T}"/> containing the services used to validate <see cref="V2OperationTraitDefinition"/>s</param>
+public class OperationTraitBuilder(IServiceProvider serviceProvider, IEnumerable<IValidator<V2OperationTraitDefinition>> validators)
+    : OperationTraitDefinitionBuilder<IOperationTraitBuilder, V2OperationTraitDefinition>(serviceProvider, validators), IOperationTraitBuilder
 {
 }

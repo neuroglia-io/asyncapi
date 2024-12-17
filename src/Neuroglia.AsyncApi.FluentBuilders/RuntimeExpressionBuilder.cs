@@ -12,7 +12,6 @@
 // limitations under the License.
 
 using Neuroglia.AsyncApi.FluentBuilders;
-using Neuroglia.AsyncApi.v2;
 
 namespace Neuroglia.AsyncApi.FluentBuilders;
 
