@@ -11,10 +11,12 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+using Neuroglia.AsyncApi.v2;
+
 namespace StreetLightsApi.Server.Messages;
 
-[Tag("light", "A tag for light-related messages"), Tag("measurement", "A tag for measurement-related messages")]
-[Message(Name = "LightMeasured", Description = "A message used to measure light")]
+[TagV2("light", "A tag for light-related messages"), TagV2("measurement", "A tag for measurement-related messages")]
+[MessageV2(Name = "LightMeasured", Description = "A message used to measure light")]
 public class LightMeasuredEvent
 {
 
@@ -33,6 +35,6 @@ public class LightMeasuredEvent
     [Description("The event's metadata")]
     public IDictionary<string, string>? Metadata { get; set; }
 
-    public List<Todo> Todos { get; set; }
+    public List<Todo> Todo { get; set; } = [];
 
 }

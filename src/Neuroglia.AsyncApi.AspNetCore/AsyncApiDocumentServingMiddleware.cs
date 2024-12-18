@@ -20,14 +20,14 @@ using System.Text;
 namespace Neuroglia.AsyncApi;
 
 /// <summary>
-/// Represents the middleware used to serve <see cref="V2AsyncApiDocument"/>s
+/// Represents the middleware used to serve <see cref="IAsyncApiDocument"/>s
 /// </summary>
 /// <remarks>
 /// Initializes a new <see cref="AsyncApiDocumentServingMiddleware"/>
 /// </remarks>
 /// <param name="options">The service used to access the current <see cref="AsyncApiDocumentServingOptions"/></param>
-/// <param name="documentProvider">The service used to provide <see cref="V2AsyncApiDocument"/>s</param>
-/// <param name="documentWriter">The service used to write <see cref="V2AsyncApiDocument"/>s</param>
+/// <param name="documentProvider">The service used to provide <see cref="IAsyncApiDocument"/>s</param>
+/// <param name="documentWriter">The service used to write <see cref="IAsyncApiDocument"/>s</param>
 /// <param name="next">The the next <see cref="RequestDelegate"/> in the pipeline</param>
 public class AsyncApiDocumentServingMiddleware(IOptions<AsyncApiDocumentServingOptions> options, IAsyncApiDocumentProvider documentProvider, IAsyncApiDocumentWriter documentWriter, RequestDelegate next)
 {
@@ -53,9 +53,9 @@ public class AsyncApiDocumentServingMiddleware(IOptions<AsyncApiDocumentServingO
     protected virtual RequestDelegate Next { get; } = next;
 
     /// <summary>
-    /// Gets a route/<see cref="V2AsyncApiDocument"/> mapping of the routes rendered based on the configured template for all available <see cref="V2AsyncApiDocument"/>s 
+    /// Gets a route/<see cref="IAsyncApiDocument"/> mapping of the routes rendered based on the configured template for all available <see cref="IAsyncApiDocument"/>s 
     /// </summary>
-    protected virtual Dictionary<string, V2AsyncApiDocument> DocumentRoutes { get; } = documentProvider.ToDictionary(d => d, options.Value.GenerateRoutesFor).SelectMany(kvp => kvp.Value.Select(r => new KeyValuePair<string, V2AsyncApiDocument>(r, kvp.Key))).ToDictionary(kvp => kvp.Key, kvp => kvp.Value);
+    protected virtual Dictionary<string, IAsyncApiDocument> DocumentRoutes { get; } = documentProvider.ToDictionary(d => d, options.Value.GenerateRoutesFor).SelectMany(kvp => kvp.Value.Select(r => new KeyValuePair<string, IAsyncApiDocument>(r, kvp.Key))).ToDictionary(kvp => kvp.Key, kvp => kvp.Value);
 
     /// <summary>
     /// Invokes the <see cref="AsyncApiDocumentServingMiddleware"/>
@@ -93,12 +93,12 @@ public class AsyncApiDocumentServingMiddleware(IOptions<AsyncApiDocumentServingO
     protected virtual byte[] RenderAsyncApiDocumentList()
     {
         string html = $@"<ul>
-{string.Join(Environment.NewLine, this.DocumentProvider.ToList().GroupBy(d => d.Info.Title).Select(dg => @$"    <li>
+{string.Join(Environment.NewLine, this.DocumentProvider.ToList().GroupBy(d => d.Title).Select(dg => @$"    <li>
         {dg.Key}
         <ul>
             {string.Join(Environment.NewLine, dg.Select(d => @$"
             <li>
-                <a href=""{this.Options.PathTemplate}/{d.Info.Title.ToLower().Replace(" ", "")}/{d.Info.Version}"">{d.Info.Version}</a>
+                <a href=""{this.Options.PathTemplate}/{d.Title.ToLower().Replace(" ", "")}/{d.Version}"">{d.Version}</a>
             </li>"))}
         </ul>
     </li>"))}

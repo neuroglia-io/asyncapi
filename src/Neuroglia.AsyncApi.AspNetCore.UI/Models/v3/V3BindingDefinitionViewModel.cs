@@ -11,26 +11,26 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using Neuroglia.AsyncApi.v2;
-
-namespace Neuroglia.AsyncApi;
+namespace Neuroglia.AsyncApi.AspNetCore.UI.Models.v3;
 
 /// <summary>
-/// Represents an <see cref="Attribute"/> used to mark a method as an <see cref="V2OperationDefinition"/> of type <see cref="V2OperationType.Subscribe"/>
+/// Holds the data used to render an <see cref="IBindingDefinition"/> view
 /// </summary>
-public class SubscribeOperationAttribute
-    : OperationAttribute
+public record V3BindingDefinitionViewModel
+    : V3AsyncApiDocumentViewModel
 {
-    
-    /// <summary>
-    /// Initializes a new <see cref="SubscribeOperationAttribute"/>
-    /// </summary>
-    /// <param name="messageType">The <see cref="V2OperationDefinition"/>'s message type</param>
-    public SubscribeOperationAttribute(Type messageType) : base(V2OperationType.Subscribe, messageType) { }
+
+    /// <inheritdoc/>
+    public V3BindingDefinitionViewModel(V3AsyncApiDocument document, IBindingDefinition binding, string parentRef) : base(document) { Binding = binding; ParentRef = parentRef; }
 
     /// <summary>
-    /// Initializes a new <see cref="OperationAttribute"/>
+    /// Gets the <see cref="IBindingDefinition"/> to render
     /// </summary>
-    public SubscribeOperationAttribute() : base(V2OperationType.Subscribe) { }
+    public IBindingDefinition Binding { get; }
+
+    /// <summary>
+    /// Gets the reference of the <see cref="IBindingDefinition"/>'s parent component
+    /// </summary>
+    public string ParentRef { get; }
 
 }

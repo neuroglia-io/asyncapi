@@ -1,12 +1,13 @@
-﻿@model ServerDefinitionViewModel
+﻿@model V2ServerDefinitionViewModel
 @{ 
     var server = this.Model.Server;
 }
 
 <div class="m-3">
     <div class="card">
-        <a data-bs-toggle="collapse" href="#@this.Model.Key" role="button" aria-expanded="false" title="@server.Description">
+        <a class="collapsed" data-bs-toggle="collapse" href="#@this.Model.Key" role="button" aria-expanded="false" title="@server.Description">
             <div class="card-header bg-transparent">
+                <i class="caret text-dark"></i>
                 <span class="badge bg-info me-2" title="The server's protocol and protocol version">@($"{server.Protocol}{(string.IsNullOrWhiteSpace(server.ProtocolVersion) || server.ProtocolVersion == "latest" ? string.Empty : " " + server.ProtocolVersion)}".ToUpperInvariant())</span>
                 <span class="h5 text-secondary">@this.Model.Key</span>
                 <small class="font-italic text-muted ms-1"> [@server.Url]</small>
@@ -25,6 +26,7 @@
             {
                 <div class="card border-0">
                     <a data-bs-toggle="collapse" href="#@(this.Model.Key)_variables" role="button" aria-expanded="false">
+                        <i class="caret text-dark"></i>
                         <div class="card-header bg-transparent">
                             <span class="font-weight-bold text-secondary">Variables</span>
                         </div>
@@ -48,6 +50,7 @@
             {
                 <div class="card border-0">
                     <a data-bs-toggle="collapse" href="#@(this.Model.Key)_security" role="button" aria-expanded="false">
+                        <i class="caret text-dark"></i>
                         <div class="card-header bg-transparent">
                             <span class="font-weight-bold text-secondary">Security Schemes</span>
                         </div>
@@ -65,6 +68,7 @@
                 <div class="card border-0">
                     <div class="card-header bg-transparent">
                         <a data-bs-toggle="collapse" href="#@(this.Model.Key)_bindings" role="button" aria-expanded="false">
+                            <i class="caret text-dark"></i>
                             <span class="font-weight-bold text-secondary">Bindings</span>
                         </a>
                     </div>
@@ -77,7 +81,7 @@
                         {
                             @foreach (var binding in server.Bindings.AsEnumerable())
                             {
-                                <partial name="_Binding" model="new BindingDefinitionViewModel(this.Model.Document, binding, this.Model.Key)" />
+                                <partial name="v2/_V2Binding" model="new V2BindingDefinitionViewModel(this.Model.Document, binding, this.Model.Key)" />
                             }
                         }
                         

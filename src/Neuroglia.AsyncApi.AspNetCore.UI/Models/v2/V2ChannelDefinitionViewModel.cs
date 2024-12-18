@@ -11,18 +11,18 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-namespace Neuroglia.AsyncApi.AspNetCore.UI.Models;
+namespace Neuroglia.AsyncApi.AspNetCore.UI.Models.v2;
 
 /// <summary>
 /// Holds the data used to render an <see cref="V2ChannelDefinition"/> view
 /// </summary>
-public record ChannelDefinitionViewModel
-    : AsyncApiDocumentViewModel
+public record V2ChannelDefinitionViewModel
+    : V2AsyncApiDocumentViewModel
 {
 
     /// <inheritdoc/>
-    public ChannelDefinitionViewModel(V2AsyncApiDocument document, V2ChannelDefinition channel) : base(document) => this.Channel = channel;
-    
+    public V2ChannelDefinitionViewModel(V2AsyncApiDocument document, V2ChannelDefinition channel) : base(document) => Channel = channel;
+
     /// <summary>
     /// Gets the <see cref="V2ChannelDefinition"/> to render
     /// </summary>

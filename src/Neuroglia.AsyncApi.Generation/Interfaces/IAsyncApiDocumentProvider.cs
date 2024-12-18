@@ -14,27 +14,27 @@
 namespace Neuroglia.AsyncApi.Generation;
 
 /// <summary>
-/// Defines the fundamentals of a service used to manage <see cref="V2AsyncApiDocument"/>s
+/// Defines the fundamentals of a service used to manage <see cref="IAsyncApiDocument"/>s
 /// </summary>
 public interface IAsyncApiDocumentProvider
-    : IEnumerable<V2AsyncApiDocument>
+    : IEnumerable<IAsyncApiDocument>
 {
 
     /// <summary>
-    /// Gets the <see cref="V2AsyncApiDocument"/> with the specified title and version
+    /// Gets the <see cref="IAsyncApiDocument"/> with the specified title and version
     /// </summary>
-    /// <param name="title">The title of the <see cref="V2AsyncApiDocument"/> to get</param>
-    /// <param name="version">The version of the <see cref="V2AsyncApiDocument"/> to get</param>
+    /// <param name="title">The title of the <see cref="IAsyncApiDocument"/> to get</param>
+    /// <param name="version">The version of the <see cref="IAsyncApiDocument"/> to get</param>
     /// <param name="cancellationToken">A <see cref="CancellationToken"/></param>
-    /// <returns>The <see cref="V2AsyncApiDocument"/> with the specified title and version, if any</returns>
-    Task<V2AsyncApiDocument?> GetDocumentAsync(string title, string version, CancellationToken cancellationToken = default);
+    /// <returns>The <see cref="IAsyncApiDocument"/> with the specified title and version, if any</returns>
+    Task<IAsyncApiDocument?> GetDocumentAsync(string title, string version, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Gets the <see cref="V2AsyncApiDocument"/> with the specified id
+    /// Gets the <see cref="IAsyncApiDocument"/> with the specified id
     /// </summary>
-    /// <param name="id">The id of the <see cref="V2AsyncApiDocument"/> to get</param>
+    /// <param name="id">The id of the <see cref="IAsyncApiDocument"/> to get</param>
     /// <param name="cancellationToken">A <see cref="CancellationToken"/></param>
-    /// <returns>The <see cref="V2AsyncApiDocument"/> with the specified id, if any</returns>
-    Task<V2AsyncApiDocument?> GetDocumentAsync(string id, CancellationToken cancellationToken = default);
+    /// <returns>The <see cref="IAsyncApiDocument"/> with the specified id, if any</returns>
+    Task<IAsyncApiDocument?> GetDocumentAsync(string id, CancellationToken cancellationToken = default);
 
 }

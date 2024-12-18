@@ -11,13 +11,15 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+using Neuroglia.AsyncApi.AspNetCore.UI.Models.v2;
+
 namespace Neuroglia.AsyncApi.AspNetCore.UI.Models;
 
 /// <summary>
 /// Holds the data used to render a <see cref="JsonSchema"/> view
 /// </summary>
 public record SchemaViewModel
-    : AsyncApiDocumentViewModel
+    : V2AsyncApiDocumentViewModel
 {
 
     /// <inheritdoc/>

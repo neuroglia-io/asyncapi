@@ -11,22 +11,22 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-namespace Neuroglia.AsyncApi.AspNetCore.UI.Models;
+namespace Neuroglia.AsyncApi.AspNetCore.UI.Models.v2;
 
 /// <summary>
 /// Holds the data used to render a <see cref="V2MessageDefinition"/> view
 /// </summary>
-public record MessageDefinitionViewModel
-    : AsyncApiDocumentViewModel
+public record V2MessageDefinitionViewModel
+    : V2AsyncApiDocumentViewModel
 {
 
     /// <inheritdoc/>
-    public MessageDefinitionViewModel(V2AsyncApiDocument document, int index, string operationRef, V2MessageDefinition definition)
+    public V2MessageDefinitionViewModel(V2AsyncApiDocument document, int index, string operationRef, V2MessageDefinition definition)
         : base(document)
     {
-        this.Index = index;
-        this.OperationRef = operationRef;
-        this.Definition = definition;
+        Index = index;
+        OperationRef = operationRef;
+        Definition = definition;
     }
 
     /// <summary>

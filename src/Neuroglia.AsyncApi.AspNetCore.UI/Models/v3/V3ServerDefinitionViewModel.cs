@@ -11,28 +11,26 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using Neuroglia.AsyncApi.Bindings;
-
-namespace Neuroglia.AsyncApi.AspNetCore.UI.Models;
+namespace Neuroglia.AsyncApi.AspNetCore.UI.Models.v3;
 
 /// <summary>
-/// Holds the data used to render an <see cref="IBindingDefinition"/> view
+/// Holds the data used to render a <see cref="V3ServerDefinition"/> view
 /// </summary>
-public record BindingDefinitionViewModel
-    : AsyncApiDocumentViewModel
+public record V3ServerDefinitionViewModel
+    : V3AsyncApiDocumentViewModel
 {
 
     /// <inheritdoc/>
-    public BindingDefinitionViewModel(V2AsyncApiDocument document, IBindingDefinition binding, string parentRef) : base(document) { this.Binding = binding; this.ParentRef = parentRef; }
+    public V3ServerDefinitionViewModel(V3AsyncApiDocument document, string key, V3ServerDefinition server) : base(document) { Key = key; Server = server; }
 
     /// <summary>
-    /// Gets the <see cref="IBindingDefinition"/> to render
+    /// Gets the key of the <see cref="V3ServerDefinition"/> to render
     /// </summary>
-    public IBindingDefinition Binding { get; }
+    public string Key { get; }
 
     /// <summary>
-    /// Gets the reference of the <see cref="IBindingDefinition"/>'s parent component
+    /// Gets the <see cref="V3ServerDefinition"/> to render
     /// </summary>
-    public string ParentRef { get; }
+    public V3ServerDefinition Server { get; }
 
 }

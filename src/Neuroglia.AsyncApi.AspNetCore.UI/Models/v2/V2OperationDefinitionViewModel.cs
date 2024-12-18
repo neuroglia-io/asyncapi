@@ -11,17 +11,17 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-namespace Neuroglia.AsyncApi.AspNetCore.UI.Models;
+namespace Neuroglia.AsyncApi.AspNetCore.UI.Models.v2;
 
 /// <summary>
 /// Holds the data used to render a <see cref="V2OperationDefinition"/> view
 /// </summary>
-public record OperationDefinitionViewModel
-    : AsyncApiDocumentViewModel
+public record V2OperationDefinitionViewModel
+    : V2AsyncApiDocumentViewModel
 {
 
     /// <inheritdoc/>
-    public OperationDefinitionViewModel(V2AsyncApiDocument document, string channelKey, V2OperationType operationType, V2OperationDefinition operation) : base(document) { this.ChannelKey = channelKey; this.OperationType = operationType; this.Operation = operation; }
+    public V2OperationDefinitionViewModel(V2AsyncApiDocument document, string channelKey, V2OperationType operationType, V2OperationDefinition operation) : base(document) { ChannelKey = channelKey; OperationType = operationType; Operation = operation; }
 
     /// <summary>
     /// Gets the key of the <see cref="V2ChannelDefinition"/> the <see cref="V2OperationDefinition"/> to render belongs to

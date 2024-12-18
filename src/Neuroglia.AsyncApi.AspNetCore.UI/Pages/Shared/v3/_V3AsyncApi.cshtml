@@ -1,0 +1,104 @@
+﻿@model Neuroglia.AsyncApi.AspNetCore.UI.Pages.AsyncApiDocumentModel
+@inject Microsoft.Extensions.Options.IOptions<AsyncApiDocumentServingOptions> ServingOptions
+@{
+    var document = (this.Model.Document as V3AsyncApiDocument)!;
+}
+<div>
+
+    <div>
+        <div class="pb-3">
+            <span class="h1 p-0 m-0 align-middle">@document.Info.Title </span>
+            <span class="badge fs-5 rounded-pill bg-secondary text-light align-middle">@document.Info.Version</span>
+            <div class="btn-group ms-1" role="group" title="Download Async API document">
+                <button id="downloadBtnGroup" type="button" class="btn btn-sm dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                    <i class="bi bi-download"></i>
+                </button>
+                <ul class="dropdown-menu" aria-labelledby="downloadBtnGroup">
+                    <li>
+                        <a class="dropdown-item" href="@ServingOptions.Value.GenerateRouteFor(document, AsyncApiDocumentFormat.Json)" target="_blank">
+                            <small>JSON</small>
+                        </a>
+                    </li>
+                    <li>
+                        <a class="dropdown-item" href="@ServingOptions.Value.GenerateRouteFor(document, AsyncApiDocumentFormat.Yaml)" target="_blank">
+                            <small>YAML</small>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+
+        </div>
+        @if (document.Info.License != null || document.Info.TermsOfService != null)
+        {
+            <div class="mb-3">
+                @if (document.Info.License != null && document.Info.License.Url != null)
+                {
+                    <a class="badge rounded-pill border border-secondary text-secondary" href="@document.Info.License.Url" target="_blank" title="View the license of the @document.Info.Title @document.Info.Version">@document.Info.License.Name</a>
+                }
+                @if (document.Info.TermsOfService != null)
+                {
+                    <a class="badge rounded-pill border border-secondary text-secondary" href="@document.Info.TermsOfService" target="_blank" title="View the Terms of Service of the @document.Info.Title @document.Info.Version">Terms of Service</a>
+                }
+            </div>
+        }
+        @if (!string.IsNullOrWhiteSpace(document.Info.Description))
+        {
+            <small class="text-secondary">@Html.Raw(Markdown.ToHtml(document.Info.Description ?? string.Empty))</small>
+        }
+    </div>
+
+    <div class="card border-0">
+        <a data-bs-toggle="collapse" href="#servers" role="button" aria-expanded="false">
+            <div class="card-header bg-transparent d-flex align-items-center">
+                <i class="caret text-dark me-2"></i>
+                <span class="card-title h3 text-secondary">Servers</span>
+            </div>
+        </a>
+        <div id="servers" class="card-body p-0 collapse show">
+            @if (document.Servers != null)
+            {
+                foreach (var server in document.Servers)
+                {
+                    <partial name="v3/_V3Server" model="new V3ServerDefinitionViewModel(document, server.Key, server.Value)" />
+                }
+            }
+        </div>
+    </div>
+
+    <div class="card border-0">
+        <a data-bs-toggle="collapse" href="#channels" role="button" aria-expanded="false">
+            <div class="card-header bg-transparent d-flex align-items-center">
+                <i class="caret text-dark me-2"></i>
+                <span class="card-title h3 text-secondary">Channels</span>
+            </div>
+        </a>
+        <div id="channels" class="card-body p-0 collapse show">
+            @if (document.Channels != null)
+            {
+                foreach (var channel in document.Channels)
+                {
+                    <partial name="v3/_V3Channel" model="new V3ChannelDefinitionViewModel(document, channel.Key, channel.Value)" />
+                }
+            }
+        </div>
+    </div>
+
+    <div class="card border-0">
+        <a data-bs-toggle="collapse" href="#operations" role="button" aria-expanded="false">
+            <div class="card-header bg-transparent d-flex align-items-center">
+                <i class="caret text-dark me-2"></i>
+                <span class="card-title h3 text-secondary">Operations</span>
+            </div>
+        </a>
+        <div id="operations" class="card-body p-0 collapse show">
+            @if (document.Servers != null)
+            {
+                foreach (var operation in document.Operations)
+                {
+                    <partial name="v3/_V3Operation" model="new V3OperationDefinitionViewModel(document, operation.Key, operation.Value)" />
+                }
+            }
+        </div>
+    </div>
+
+</div>

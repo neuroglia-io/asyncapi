@@ -34,7 +34,7 @@ builder.Services.AddRazorPages()
 builder.Services.AddAsyncApiUI();
 builder.Services.AddAsyncApiGeneration(builder =>
     builder.WithMarkupType<StreetLightsService>()
-        .UseDefaultConfiguration(asyncApi =>
+        .UseDefaultV2DocumentConfiguration(asyncApi =>
         {
             asyncApi
                 .WithTermsOfService(new Uri("https://www.websitepolicies.com/blog/sample-terms-service-template"))
@@ -42,6 +42,24 @@ builder.Services.AddAsyncApiGeneration(builder =>
                     .WithUrl(new Uri("mqtt://test.mosquitto.org"))
                     .WithProtocol(AsyncApiProtocol.Mqtt)
                     .WithDescription("The Mosquitto test MQTT server")
+                    .WithBinding(new MqttServerBindingDefinition()
+                    {
+                        ClientId = "StreetLightsAPI:1.0.0",
+                        CleanSession = true
+                    }));
+        })
+        .UseDefaultV3DocumentConfiguration(asyncApi =>
+        {
+            asyncApi
+                .WithTermsOfService(new Uri("https://www.websitepolicies.com/blog/sample-terms-service-template"))
+                .WithServer("mosquitto", server => server
+                    .WithHost("mqtt://test.mosquitto.org")
+                    .WithPathName("/{environment}")
+                    .WithProtocol(AsyncApiProtocol.Mqtt)
+                    .WithDescription("The **Mosquitto test MQTT server**. Use the `env` variable to point to either `production` or `staging`.")
+                    .WithVariable("environment", variable => variable
+                        .WithDescription("Environment to connect to.")
+                        .WithEnumValues("production", "staging"))
                     .WithBinding(new MqttServerBindingDefinition()
                     {
                         ClientId = "StreetLightsAPI:1.0.0",

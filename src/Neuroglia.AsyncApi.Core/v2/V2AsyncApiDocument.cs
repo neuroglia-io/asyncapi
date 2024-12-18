@@ -115,6 +115,10 @@ public record V2AsyncApiDocument
         return TryGetOperation(operationId, out operation, out _);
     }
 
+    string IAsyncApiDocument.Title => this.Info.Title;
+
+    string IAsyncApiDocument.Version => this.Info.Version;
+
     /// <inheritdoc/>
     public override string? ToString() => this.Info == null || string.IsNullOrWhiteSpace(this.Info.Title) ? Id : this.Info?.Title;
 

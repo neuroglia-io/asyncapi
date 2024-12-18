@@ -11,9 +11,6 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using Neuroglia.AsyncApi.FluentBuilders.v2;
-using Neuroglia.AsyncApi.v2;
-
 namespace Neuroglia.AsyncApi.Generation;
 
 /// <summary>
@@ -41,7 +38,14 @@ public interface IAsyncApiGenerationOptionsBuilder
     /// </summary>
     /// <param name="configurationAction">The <see cref="Action{T}"/> used to configure the <see cref="IV2AsyncApiDocumentBuilder"/> used to build <see cref="V2AsyncApiDocument"/>s</param>
     /// <returns>The configured <see cref="IAsyncApiGenerationOptionsBuilder"/></returns>
-    IAsyncApiGenerationOptionsBuilder UseDefaultConfiguration(Action<IV2AsyncApiDocumentBuilder> configurationAction);
+    IAsyncApiGenerationOptionsBuilder UseDefaultV2DocumentConfiguration(Action<IV2AsyncApiDocumentBuilder> configurationAction);
+
+    /// <summary>
+    /// Configures the <see cref="AsyncApiGenerationOptions"/> to use the specified <see cref="Action{T}"/> to setup the default configuration for generated <see cref="V3AsyncApiDocument"/>s
+    /// </summary>
+    /// <param name="configurationAction">The <see cref="Action{T}"/> used to configure the <see cref="IV3AsyncApiDocumentBuilder"/> used to build <see cref="V3AsyncApiDocument"/>s</param>
+    /// <returns>The configured <see cref="IAsyncApiGenerationOptionsBuilder"/></returns>
+    IAsyncApiGenerationOptionsBuilder UseDefaultV3DocumentConfiguration(Action<IV3AsyncApiDocumentBuilder> configurationAction);
 
     /// <summary>
     /// Builds new <see cref="AsyncApiGenerationOptions"/>

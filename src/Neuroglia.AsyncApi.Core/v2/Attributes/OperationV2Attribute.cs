@@ -11,28 +11,26 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using Neuroglia.AsyncApi.v2;
-
-namespace Neuroglia.AsyncApi;
+namespace Neuroglia.AsyncApi.v2;
 
 /// <summary>
 /// Represents an <see cref="Attribute"/> used to mark a method as an <see cref="V2OperationDefinition"/>
 /// </summary>
 /// <remarks>
-/// Initializes a new <see cref="OperationAttribute"/>
+/// Initializes a new <see cref="OperationV2Attribute"/>
 /// </remarks>
 /// <param name="operationType">The <see cref="V2OperationDefinition"/>'s type</param>
 /// <param name="messageType">The <see cref="V2OperationDefinition"/>'s message type</param>
 [AttributeUsage(AttributeTargets.Method, AllowMultiple = true)]
-public abstract class OperationAttribute(V2OperationType operationType, Type? messageType)
+public abstract class OperationV2Attribute(V2OperationType operationType, Type? messageType)
     : Attribute
 {
 
     /// <summary>
-    /// Initializes a new <see cref="OperationAttribute"/>
+    /// Initializes a new <see cref="OperationV2Attribute"/>
     /// </summary>
     /// <param name="operationType">The <see cref="V2OperationDefinition"/>'s type</param>
-    protected OperationAttribute(V2OperationType operationType) : this(operationType, null) { }
+    protected OperationV2Attribute(V2OperationType operationType) : this(operationType, null) { }
 
     /// <summary>
     /// Gets the <see cref="V2OperationDefinition"/>'s type

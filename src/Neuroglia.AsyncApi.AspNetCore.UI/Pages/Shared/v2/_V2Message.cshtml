@@ -1,7 +1,7 @@
 ﻿@inject IJsonSerializer Serializer
 @inject IJsonSchemaResolver JsonSchemaResolver
 @inject IJsonSchemaExampleGenerator ExampleGenerator
-@model MessageDefinitionViewModel
+@model V2MessageDefinitionViewModel
 @{
     var operationRef = this.Model.OperationRef;
     var messageRef = $"{operationRef}_message{this.Model.Index}";
@@ -10,10 +10,11 @@
     if (payloadSchema != null) payloadSchema = await this.JsonSchemaResolver.ResolveSchemaAsync(payloadSchema);
 }
 <div class="card my-3">
-    <a data-bs-toggle="collapse" href="#@messageRef" role="button" aria-expanded="false" title="@message?.Summary">
+    <a data-bs-toggle="collapse" href="#@messageRef" role="button" aria-expanded="false" title="@message?.Summary" class="collapsed">
         <div class="card-header">
             <div class="row">
                 <div class="col-md-9">
+                    <i class="caret text-dark"></i>
                     <span class="fw-bold fs-5 text-secondary align-middle">#@Model.Index</span>
                     <span class="text-muted align-middle mx-2">@message?.Name</span>
                     <span class="badge border border-secondary text-secondary">@message?.ContentType</span>
@@ -42,8 +43,9 @@
         }
 
         <div class="card border-0">
-            <a data-bs-toggle="collapse" href="#@(messageRef)_bindings" role="button" aria-expanded="false">
+            <a data-bs-toggle="collapse" href="#@(messageRef)_bindings" role="button" aria-expanded="false" class="collapsed">
                 <div class="card-header bg-transparent">
+                    <i class="caret text-dark"></i>
                     <span class="font-weight-bold text-secondary">Bindings</span>
                 </div>
             </a>
@@ -56,7 +58,7 @@
                 {
                     @foreach (var binding in message.Bindings.AsEnumerable())
                     {
-                        <partial name="_Binding" model="new BindingDefinitionViewModel(this.Model.Document, binding, messageRef)" />
+                        <partial name="v2/_V2Binding" model="new V2BindingDefinitionViewModel(this.Model.Document, binding, messageRef)" />
                     }
                 }
             </div>
@@ -67,6 +69,7 @@
             <div class="card border-0">
                 <a data-bs-toggle="collapse" href="#@(messageRef)_correlationId" role="button" aria-expanded="false">
                     <div class="card-header bg-transparent">
+                        <i class="caret text-dark"></i>
                         <span class="font-weight-bold text-secondary">Correlation Id</span>
                     </div>
                 </a>
@@ -87,6 +90,7 @@
             <div class="card border-0">
                 <a data-bs-toggle="collapse" href="#@(messageRef)_payload" role="button" aria-expanded="false" title="@payloadSchema.GetDescription()">
                     <div class="card-header bg-transparent">
+                        <i class="caret text-dark"></i>
                         <span class="font-weight-bold text-secondary">Payload</span><span class="badge bg-secondary text-light ms-2">@(type == null ? "object" : EnumHelper.Stringify(type.Value).ToLowerInvariant())</span>
                     </div>
                 </a>

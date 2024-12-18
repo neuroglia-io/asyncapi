@@ -11,6 +11,8 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+using Neuroglia.AsyncApi.Generation.v2.Interfaces;
+
 namespace Neuroglia.AsyncApi.UnitTests.Cases.Generation;
 
 public class JsonSchemaExampleGeneratorTests

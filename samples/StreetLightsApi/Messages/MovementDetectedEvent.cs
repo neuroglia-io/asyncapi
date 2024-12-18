@@ -11,10 +11,12 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+using Neuroglia.AsyncApi.v2;
+
 namespace StreetLightsApi.Server.Messages;
 
-[Tag("movement", "A tag for movement-related messages"), Tag("sensor", "A tag for sensor-related messages")]
-[Message(Name = "MovementDetected")]
+[TagV2("movement", "A tag for movement-related messages"), TagV2("sensor", "A tag for sensor-related messages")]
+[MessageV2(Name = "MovementDetected")]
 public class MovementDetectedEvent
 {
 

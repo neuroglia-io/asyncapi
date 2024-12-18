@@ -80,6 +80,10 @@ public record V3AsyncApiDocument
     [DataMember(Order = 8, Name = "components"), JsonPropertyOrder(8), JsonPropertyName("components"), YamlMember(Order = 8, Alias = "components")]
     public virtual V3ComponentDefinitionCollection? Components { get; set; }
 
+    string IAsyncApiDocument.Title => this.Info.Title;
+
+    string IAsyncApiDocument.Version => this.Info.Version;
+
     /// <inheritdoc/>
     public override string? ToString() => this.Info == null || string.IsNullOrWhiteSpace(this.Info.Title) ? Id : this.Info?.Title;
 

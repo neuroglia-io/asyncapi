@@ -11,41 +11,44 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using Neuroglia.AsyncApi.v2;
-
-namespace Neuroglia.AsyncApi;
+namespace Neuroglia.AsyncApi.v3;
 
 /// <summary>
-/// Represents an <see cref="Attribute"/> used to configure an <see cref="V2OperationDefinition"/>'s <see cref="V2MessageDefinition"/>
+/// Represents an <see cref="Attribute"/> used to configure an <see cref="V3OperationDefinition"/>'s <see cref="V3MessageDefinition"/>
 /// </summary>
 [AttributeUsage(AttributeTargets.Class | AttributeTargets.Method, AllowMultiple = false)]
-public class MessageAttribute
+public class MessageV3Attribute
     : Attribute
 {
-    
+
     /// <summary>
-    /// Gets/sets the <see cref="V2MessageDefinition"/>'s name
+    /// Gets/sets the <see cref="V3MessageDefinition"/>'s name
     /// </summary>
     public virtual string? Name { get; set; }
 
     /// <summary>
-    /// Gets/sets the <see cref="V2MessageDefinition"/>'s title
+    /// Gets/sets the <see cref="V3MessageDefinition"/>'s title
     /// </summary>
     public virtual string? Title { get; set; }
 
     /// <summary>
-    /// Gets/sets the <see cref="V2MessageDefinition"/>'s description
+    /// Gets/sets the <see cref="V3MessageDefinition"/>'s description
     /// </summary>
     public virtual string? Description { get; set; }
 
     /// <summary>
-    /// Gets/sets the <see cref="V2MessageDefinition"/>'s summary
+    /// Gets/sets the <see cref="V3MessageDefinition"/>'s summary
     /// </summary>
     public virtual string? Summary { get; set; }
 
     /// <summary>
-    /// Gets/sets the <see cref="V2MessageDefinition"/>'s content type
+    /// Gets/sets the <see cref="V3MessageDefinition"/>'s content type
     /// </summary>
     public virtual string? ContentType { get; set; }
+
+    /// <summary>
+    /// Gets/sets the url at which to get the <see cref="V3MessageDefinition"/>'s external documentation, if any
+    /// </summary>
+    public virtual Uri? ExternalDocumentationUrl { get; init; }
 
 }

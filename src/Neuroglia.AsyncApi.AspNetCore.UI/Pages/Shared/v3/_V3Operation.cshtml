@@ -1,0 +1,64 @@
+﻿@model V3OperationDefinitionViewModel
+@{
+    var operation = Model.Operation;
+    var badgeColor = operation.Action == V3OperationAction.Send ? "info" : "info";
+    var badgeTooltip = operation.Action == V3OperationAction.Send ? "An operation used to publish a message to the specified channel." : "An operation used to subscribe to messages from the specified channel.";
+    var badgeText = operation.Action == V3OperationAction.Send ? "send" : "receive";
+}
+<div class="my-3">
+    <div class="card">
+
+        <a data-bs-toggle="collapse" href="#@Model.OperationName" role="button" aria-expanded="false" title="@(string.IsNullOrWhiteSpace(operation.Summary) ? Model.OperationName : operation.Summary)" class="collapsed">
+            <div class="card-header bg-transparent">
+                <div class="row d-flex align-items-center">
+                    <div class="col-md-6">
+                        <i class="caret text-dark me-2"></i>
+                        <span class="badge border me-2 border-@badgeColor text-@badgeColor w-60-px" title="@badgeTooltip">@badgeText</span>
+                        <span class="my-1 text-secondary text-decoration-underline">@Model.OperationName</span>
+                        <small class="font-italic text-muted ms-1"> [@operation.Channel.Reference]</small>
+                    </div>
+                    <div class="col-md-6 text-end">
+                        @if (operation.Tags != null)
+                        {
+                            foreach (var tag in operation.Tags)
+                            {
+                                <span class="badge rounded-pill border border-secondary text-secondary" title="@tag.Description">@tag.Name</span>
+                            }
+                        }
+                    </div>
+                </div>
+            </div>
+        </a>
+
+        <div id="@Model.OperationName" class="card-body collapse">
+
+            @if (!string.IsNullOrWhiteSpace(operation.Description))
+            {
+                <small class="text-secondary">@Html.Raw(Markdown.ToHtml(operation.Description))</small>
+            }
+
+            <div class="card border-0">
+                <a data-bs-toggle="collapse" href="#@(Model.OperationName)_bindings" role="button" aria-expanded="false">
+                    <div class="card-header bg-transparent">
+                        <i class="caret text-dark"></i>
+                        <span class="font-weight-bold text-secondary">Bindings</span>
+                    </div>
+                </a>
+                <div id="@(Model.OperationName)_bindings" class="card-body m-0 p-0 collapse show">
+                    @if (operation.Bindings == null || !operation.Bindings.AsEnumerable().Any())
+                    {
+                        <p class="alert alert-warning fst-italic my-3">No bindings defined.</p>
+                    }
+                    else
+                    {
+                        @foreach (var binding in operation.Bindings.AsEnumerable())
+                        {
+                            <partial name="v2/_V2Binding" model="new V3BindingDefinitionViewModel(this.Model.Document, binding, Model.OperationName)" />
+                        }
+                    }
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>

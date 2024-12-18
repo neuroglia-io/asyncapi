@@ -29,4 +29,19 @@ public interface IAsyncApiDocument
     /// </remarks>
     string AsyncApi { get; }
 
+    /// <summary>
+    /// Gets the identifier of the application the AsyncAPI document is defining
+    /// </summary>
+    string? Id { get; }
+
+    /// <summary>
+    /// Gets the document's title
+    /// </summary>
+    string Title { get; }
+
+    /// <summary>
+    /// Gets the document's version
+    /// </summary>
+    string Version { get; }
+
 }

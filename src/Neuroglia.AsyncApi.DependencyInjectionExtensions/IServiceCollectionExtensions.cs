@@ -16,7 +16,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.Hosting;
 using Neuroglia.AsyncApi.FluentBuilders.v2;
-using Neuroglia.AsyncApi.FluentBuilders.v2;
+using Neuroglia.AsyncApi.FluentBuilders.v3;
 using Neuroglia.AsyncApi.Generation;
 using Neuroglia.AsyncApi.IO;
 using Neuroglia.AsyncApi.v2;
@@ -44,6 +44,7 @@ public static class IServiceCollectionExtensions
         services.TryAddSingleton<IAsyncApiDocumentReader, AsyncApiDocumentReader>();
         services.TryAddSingleton<IAsyncApiDocumentWriter, AsyncApiDocumentWriter>();
         services.TryAddTransient<IV2AsyncApiDocumentBuilder, V2AsyncApiDocumentBuilder>();
+        services.TryAddTransient<IV3AsyncApiDocumentBuilder, V3AsyncApiDocumentBuilder>();
         services.AddValidatorsFromAssemblyContaining<AsyncApiDocumentValidator>(ServiceLifetime.Transient);
         return services;
     }

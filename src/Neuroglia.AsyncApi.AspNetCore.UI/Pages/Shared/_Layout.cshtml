@@ -1,6 +1,10 @@
-﻿@inject Neuroglia.AsyncApi.Generation.IAsyncApiDocumentProvider DocumentProvider
-@inject Microsoft.Extensions.Options.IOptions<Neuroglia.AsyncApi.Generation.AsyncApiDocumentGenerationOptions> Options;
+﻿@inject IAsyncApiDocumentProvider DocumentProvider
+@inject Microsoft.Extensions.Options.IOptions<AsyncApiDocumentGenerationOptions> Options;
 @{ 
+    if (!this.Context.Request.Query.TryGetValue("specVersion", out var documentSpecVersion))
+    {
+        documentSpecVersion = string.Empty;
+    }
     if(!this.Context.Request.Query.TryGetValue("title", out var documentTitle))
     {
         documentTitle = string.Empty;
@@ -76,6 +80,27 @@
             margin: 5px;
         }
 
+        a[data-bs-toggle="collapse"] i.caret:before {
+            display: inline-block;
+            font-family: bootstrap-icons !important;
+            font-style: normal;
+            font-weight: normal !important;
+            font-variant: normal;
+            text-transform: none;
+            line-height: 1;
+            vertical-align: -.125em;
+            content: "\f22c";
+        }
+
+        a[data-bs-toggle="collapse"].collapsed i.caret:before {
+            content: "\f22c";
+            transform: rotate(270deg);
+        }
+
+        .w-60-px{
+            width: 60px;
+        }
+
     </style>
 </head>
 <body>
@@ -90,17 +115,10 @@
                     </div>
                     <div class="col-md-4 p-0 m-0 text-end">
                         <select class="form-select form-select-sm js-asyncapi-document">
-                            @foreach (var document in this.DocumentProvider)
+                            @foreach (var document in this.DocumentProvider.OrderBy(d => d.Title).ThenBy(d => d.Version).ThenBy(d => d.AsyncApi))
                             {
-                                var selected = document.Info.Title.Equals(documentTitle, StringComparison.OrdinalIgnoreCase) && document.Info.Version.Equals(documentVersion, StringComparison.OrdinalIgnoreCase);
-                                if (selected)
-                                {
-                                    <option value="@(document.Info.Title)__@(document.Info.Version)" selected>@document.Info.Title @document.Info.Version</option>
-                                }
-                                else
-                                {
-                                    <option value="@(document.Info.Title)__@(document.Info.Version)">@document.Info.Title @document.Info.Version</option>
-                                }
+                                var selected = document.AsyncApi.Equals(documentSpecVersion, StringComparison.OrdinalIgnoreCase) && document.Title.Equals(documentTitle, StringComparison.OrdinalIgnoreCase) && document.Version.Equals(documentVersion, StringComparison.OrdinalIgnoreCase);
+                                <option value="@($"{document.AsyncApi}__{document.Title}__{document.Version}")" selected="@selected">@($"{document.Title} {document.Version} [{document.AsyncApi}]")</option>
                             }
                         </select>
                     </div>
@@ -125,9 +143,11 @@
         $('select.js-asyncapi-document').on('change', function () {
             var $this = $(this);
             const components = $(this).val().split("__");
-            const title = components[0];
-            const version = components[1];
+            const specVersion = components[0];
+            const title = components[1];
+            const version = components[2];
             const newUrl = new URL(window.location.href);
+            newUrl.searchParams.set("specVersion", specVersion);
             newUrl.searchParams.set("title", title);
             newUrl.searchParams.set("version", version);
             window.location = newUrl.href;

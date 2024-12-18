@@ -11,13 +11,15 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+using Neuroglia.AsyncApi.AspNetCore.UI.Models.v2;
+
 namespace Neuroglia.AsyncApi.AspNetCore.UI.Models;
 
 /// <summary>
 /// Holds the data used to render an <see cref="CorrelationIdDefinition"/> view
 /// </summary>
 public record CorrelationIdDefinitionViewModel
-    : AsyncApiDocumentViewModel
+    : V2AsyncApiDocumentViewModel
 {
 
     /// <inheritdoc/>

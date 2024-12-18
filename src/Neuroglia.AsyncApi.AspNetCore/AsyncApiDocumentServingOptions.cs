@@ -11,19 +11,17 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using Neuroglia.AsyncApi.v2;
-
 namespace Neuroglia.AsyncApi;
 
 /// <summary>
-/// Represents the options used to configure how to serve <see cref="V2AsyncApiDocument"/>s
+/// Represents the options used to configure how to serve <see cref="IAsyncApiDocument"/>s
 /// </summary>
 public class AsyncApiDocumentServingOptions
 {
 
     /// <summary>
-    /// Gets/sets the path prefix of <see cref="V2AsyncApiDocument"/>s
+    /// Gets/sets the path prefix of <see cref="IAsyncApiDocument"/>s
     /// </summary>
-    public virtual string PathTemplate { get; set; } = "/asyncapi/{title}.{version}.[json|yaml]";
+    public virtual string PathTemplate { get; set; } = "/asyncapi/{specVersion}/{title}/{version}/doc.[json|yaml]";
 
 }

@@ -11,23 +11,16 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-namespace Neuroglia.AsyncApi.AspNetCore.UI.Models;
+namespace Neuroglia.AsyncApi.v3;
 
 /// <summary>
-/// Holds the data used to render an <see cref="V2AsyncApiDocument"/> view
+/// Represents an <see cref="Attribute"/> used to mark a class as an Async Api to generate a new <see cref="V3AsyncApiDocument"/> for
 /// </summary>
-public record AsyncApiDocumentViewModel
+/// <param name="title">The <see cref="AsyncApiAttribute"/>'s title</param>
+/// <param name="version">The <see cref="AsyncApiAttribute"/>'s version</param>
+[AttributeUsage(AttributeTargets.Class | AttributeTargets.Interface, AllowMultiple = false)]
+public class AsyncApiV3Attribute(string title, string version)
+    : AsyncApiAttribute(title, version)
 {
-
-    /// <summary>
-    /// Initializes a new <see cref="AsyncApiDocumentViewModel"/>
-    /// </summary>
-    /// <param name="document">The <see cref="V2AsyncApiDocument"/> to render the view for</param>
-    public AsyncApiDocumentViewModel(V2AsyncApiDocument document) => this.Document = document;
-
-    /// <summary>
-    /// Gets the <see cref="V2AsyncApiDocument"/> to render the view for
-    /// </summary>
-    public V2AsyncApiDocument Document { get; }
 
 }

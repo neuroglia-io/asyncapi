@@ -11,9 +11,11 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+using Neuroglia.AsyncApi.v2;
+
 namespace StreetLightsApi.Server.Services;
 
-[AsyncApi("Movement Sensor API", "1.0.0", Description = "The Movement Sensor API allows you to get remotely notified about movements captured by sensors.", LicenseName = "Apache 2.0", LicenseUrl = "https://www.apache.org/licenses/LICENSE-2.0")]
+[AsyncApiV2("Movement Sensor API", "1.0.0", Description = "The Movement Sensor API allows you to get remotely notified about movements captured by sensors.", LicenseName = "Apache 2.0", LicenseUrl = "https://www.apache.org/licenses/LICENSE-2.0")]
 public class MovementSensorService(ILogger<MovementSensorService> logger, IJsonSerializer serializer)
     : BackgroundService
 {
@@ -39,8 +41,8 @@ public class MovementSensorService(ILogger<MovementSensorService> logger, IJsonS
         await this.MqttClient.SubscribeAsync("OnMovementDetected", cancellationToken: stoppingToken).ConfigureAwait(false);
     }
 
-    [Tag("movement", "A tag for movement-related operations"), Tag("sensor", "A tag for sensor-related operations")]
-    [Channel("movement/detected"), SubscribeOperation(OperationId = "OnMovementDetected", Summary = "Inform about movement captured by sensors")]
+    [TagV2("movement", "A tag for movement-related operations"), TagV2("sensor", "A tag for sensor-related operations")]
+    [ChannelV2("movement/detected"), SubscribeOperationV2(OperationId = "OnMovementDetected", Summary = "Inform about movement captured by sensors")]
     protected Task OnMovementDetected(MovementDetectedEvent e)
     {
         this.Logger.LogInformation("Movement detected by sensor with id '{sensorId}' at {sentAt}", e.SensorId, e.SentAt);

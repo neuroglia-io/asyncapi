@@ -11,19 +11,14 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using Neuroglia.AsyncApi.FluentBuilders.v2;
-
 namespace Neuroglia.AsyncApi.Generation;
 
 /// <summary>
 /// Represents the default implementation of the <see cref="IAsyncApiGenerationOptionsBuilder"/> interface
 /// </summary>
-/// <remarks>
-/// Initializes a new <see cref="AsyncApiGenerationOptionsBuilder"/>
-/// </remarks>
 /// <param name="options">The <see cref="AsyncApiGenerationOptions"/> to configure</param>
 public class AsyncApiGenerationOptionsBuilder(AsyncApiGenerationOptions options)
-        : IAsyncApiGenerationOptionsBuilder
+    : IAsyncApiGenerationOptionsBuilder
 {
 
     /// <summary>
@@ -40,23 +35,31 @@ public class AsyncApiGenerationOptionsBuilder(AsyncApiGenerationOptions options)
     public virtual IAsyncApiGenerationOptionsBuilder WithMarkupType(Type markupType)
     {
         ArgumentNullException.ThrowIfNull(markupType);
-
-        this.Options.MarkupTypes.Add(markupType);
-
+        Options.MarkupTypes.Add(markupType);
         return this;
     }
 
     /// <inheritdoc/>
-    public virtual IAsyncApiGenerationOptionsBuilder WithMarkupType<TMarkup>() => this.WithMarkupType(typeof(TMarkup));
+    public virtual IAsyncApiGenerationOptionsBuilder WithMarkupType<TMarkup>() => WithMarkupType(typeof(TMarkup));
 
     /// <inheritdoc/>
-    public virtual IAsyncApiGenerationOptionsBuilder UseDefaultConfiguration(Action<IV2AsyncApiDocumentBuilder> configurationAction)
+    public virtual IAsyncApiGenerationOptionsBuilder UseDefaultV2DocumentConfiguration(Action<IV2AsyncApiDocumentBuilder> configurationAction)
     {
-        this.Options.DefaultDocumentConfiguration = configurationAction;
+        ArgumentNullException.ThrowIfNull(configurationAction);
+        Options.DefaultV2DocumentConfiguration = configurationAction;
         return this;
     }
 
     /// <inheritdoc/>
-    public virtual AsyncApiGenerationOptions Build() => this.Options;
+    public virtual IAsyncApiGenerationOptionsBuilder UseDefaultV3DocumentConfiguration(Action<IV3AsyncApiDocumentBuilder> configurationAction)
+    {
+        ArgumentNullException.ThrowIfNull(configurationAction);
+        Options.DefaultV3DocumentConfiguration = configurationAction;
+        return this;
+    }
+
+    /// <inheritdoc/>
+    public virtual AsyncApiGenerationOptions Build() => Options;
+
 
 }

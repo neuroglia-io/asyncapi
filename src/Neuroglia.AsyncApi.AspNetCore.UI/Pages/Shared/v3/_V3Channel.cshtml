@@ -1,0 +1,59 @@
+﻿@model V3ChannelDefinitionViewModel
+@{
+    var channel = Model.Channel;
+}
+<div class="my-3">
+    <div class="card">
+
+        <a data-bs-toggle="collapse" href="#@Model.ChannelName" role="button" aria-expanded="false" title="@(string.IsNullOrWhiteSpace(channel.Summary) ? Model.ChannelName : channel.Summary)" class="collapsed">
+            <div class="card-header bg-transparent">
+                <div class="row d-flex align-items-center">
+                    <div class="col-md-6">
+                        <i class="caret text-dark me-2"></i>
+                        <span class="my-1 text-secondary text-decoration-underline">@Model.channelName</span>
+                    </div>
+                    <div class="col-md-6 text-end">
+                        @if (channel.Tags != null)
+                        {
+                            foreach (var tag in channel.Tags)
+                            {
+                                <span class="badge rounded-pill border border-secondary text-secondary" title="@tag.Description">@tag.Name</span>
+                            }
+                        }
+                    </div>
+                </div>
+            </div>
+        </a>
+
+        <div id="@Model.ChannelName" class="card-body collapse">
+
+            @if (!string.IsNullOrWhiteSpace(channel.Description))
+            {
+                <small class="text-secondary">@Html.Raw(Markdown.ToHtml(channel.Description))</small>
+            }
+
+            <div class="card border-0">
+                <a data-bs-toggle="collapse" href="#@(Model.ChannelName)_bindings" role="button" aria-expanded="false">
+                    <div class="card-header bg-transparent">
+                        <i class="caret text-dark"></i>
+                        <span class="font-weight-bold text-secondary">Bindings</span>
+                    </div>
+                </a>
+                <div id="@(Model.ChannelName)_bindings" class="card-body m-0 p-0 collapse show">
+                    @if (channel.Bindings == null || !channel.Bindings.AsEnumerable().Any())
+                    {
+                        <p class="alert alert-warning fst-italic my-3">No bindings defined.</p>
+                    }
+                    else
+                    {
+                        @foreach (var binding in channel.Bindings.AsEnumerable())
+                        {
+                            <partial name="v2/_V2Binding" model="new V3BindingDefinitionViewModel(this.Model.Document, binding, Model.ChannelName)" />
+                        }
+                    }
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>

@@ -1,0 +1,195 @@
+﻿@model Neuroglia.AsyncApi.AspNetCore.UI.Pages.AsyncApiDocumentModel
+@inject Microsoft.Extensions.Options.IOptions<AsyncApiDocumentServingOptions> ServingOptions
+@{
+    var document = (this.Model.Document as V2AsyncApiDocument)!;
+}
+<div>
+    <div>
+        <div class="pb-3">
+            <span class="h1 p-0 m-0 align-middle">@document.Info.Title </span>
+            <span class="badge fs-5 rounded-pill bg-secondary text-light align-middle">@document.Info.Version</span>
+            <div class="btn-group ms-1" role="group" title="Download Async API document">
+                <button id="downloadBtnGroup" type="button" class="btn btn-sm dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                    <i class="bi bi-download"></i>
+                </button>
+                <ul class="dropdown-menu" aria-labelledby="downloadBtnGroup">
+                    <li>
+                        <a class="dropdown-item" href="@ServingOptions.Value.GenerateRouteFor(document, AsyncApiDocumentFormat.Json)" target="_blank">
+                            <small>JSON</small>
+                        </a>
+                    </li>
+                    <li>
+                        <a class="dropdown-item" href="@ServingOptions.Value.GenerateRouteFor(document, AsyncApiDocumentFormat.Yaml)" target="_blank">
+                            <small>YAML</small>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+
+        </div>
+        @if (document.Info.License != null || document.Info.TermsOfService != null)
+        {
+            <div class="mb-3">
+                @if (document.Info.License != null && document.Info.License.Url != null)
+                {
+                    <a class="badge rounded-pill border border-secondary text-secondary" href="@document.Info.License.Url" target="_blank" title="View the license of the @document.Info.Title @document.Info.Version">@document.Info.License.Name</a>
+                }
+                @if (document.Info.TermsOfService != null)
+                {
+                    <a class="badge rounded-pill border border-secondary text-secondary" href="@document.Info.TermsOfService" target="_blank" title="View the Terms of Service of the @document.Info.Title @document.Info.Version">Terms of Service</a>
+                }
+            </div>
+        }
+        @if (!string.IsNullOrWhiteSpace(document.Info.Description))
+        {
+            <p><small class="text-secondary">@document.Info.Description</small></p>
+        }
+    </div>
+    <div class="card border-0">
+        <a data-bs-toggle="collapse" href="#servers" role="button" aria-expanded="false">
+            <div class="card-header bg-transparent">
+                <i class="caret text-dark"></i>
+                <span class="card-title h3 text-secondary">Servers</span>
+            </div>
+        </a>
+        <div id="servers" class="card-body p-0 collapse show">
+            @if (document.Servers != null)
+            {
+                foreach (var server in document.Servers)
+                {
+                    <partial name="v2/_V2Server" model="new V2ServerDefinitionViewModel(document, server.Key, server.Value)" />
+                }
+            }
+        </div>
+    </div>
+    <div class="card border-0">
+        <a data-bs-toggle="collapse" href="#operations" role="button" aria-expanded="false">
+            <div class="card-header bg-transparent">
+                <i class="caret text-dark"></i>
+                <span class="card-title h3 text-secondary">Operations</span>
+            </div>
+        </a>
+        <div id="operations" class="card-body p-0 collapse show">
+            @foreach (var channel in document.Channels)
+            {
+                if (channel.Value.Publish != null)
+                {
+                    <partial name="v2/_V2Operation" model="new V2OperationDefinitionViewModel(document, channel.Key, V2OperationType.Publish, channel.Value.Publish)" />
+                }
+                if (channel.Value.Subscribe != null)
+                {
+                    <partial name="v2/_V2Operation" model="new V2OperationDefinitionViewModel(document, channel.Key, V2OperationType.Subscribe, channel.Value.Subscribe)" />
+                }
+            }
+        </div>
+    </div>
+    @if (document.Components != null)
+    {
+        <div class="card border-0">
+            <a data-bs-toggle="collapse" href="#components" role="button" aria-expanded="false">
+                <div class="card-header bg-transparent">
+                    <i class="caret text-dark"></i>
+                    <span class="card-title h3 text-secondary">Components</span>
+                </div>
+            </a>
+            <div id="components" class="card-body collapse show">
+                @if (document.Components.Schemas != null)
+                {
+                    <div class="card">
+                        <a data-bs-toggle="collapse" href="#components_schemas" role="button" aria-expanded="false">
+                            <div class="card-header bg-transparent">
+                                <i class="caret text-dark"></i>
+                                <span class="text-secondary">Schemas</span>
+                            </div>
+                        </a>
+                        <div id="components_schemas" class="card-body collapse">
+                            @{
+                                var index = 0;
+                                foreach (var schema in document.Components.Schemas)
+                                {
+                                    var reference = $"components_schemas_{index}";
+                                    <div class="card">
+                                        <a data-bs-toggle="collapse" href="#components_schemas_@index" role="button" aria-expanded="false">
+                                            <div class="card-header bg-transparent">
+                                                <i class="caret text-dark"></i>
+                                                <span class="fw-bold text-secondary">@schema.Key</span>
+                                            </div>
+                                        </a>
+                                        <div id="components_schemas_@index" class="card-body collapse">
+                                            <partial name="_Schema" model="new SchemaViewModel(document, schema.Value)" />
+                                        </div>
+                                    </div>
+                                    index++;
+                                }
+                            }
+                        </div>
+                    </div>
+                }
+                @if (document.Components.Messages != null)
+                {
+                    <div class="card">
+                        <a data-bs-toggle="collapse" href="#components_messages" role="button" aria-expanded="false">
+                            <div class="card-header bg-transparent">
+                                <i class="caret text-dark"></i>
+                                <span class="text-secondary">Messages</span>
+                            </div>
+                        </a>
+                        <div id="components_messages" class="card-body collapse">
+                            @{
+                                var index = 0;
+                                foreach (var message in document.Components.Messages)
+                                {
+                                    var reference = $"components_messages_{index}";
+                                    <div class="card">
+                                        <a data-bs-toggle="collapse" href="#@reference" role="button" aria-expanded="false">
+                                            <div class="card-header bg-transparent">
+                                                <i class="caret text-dark"></i>
+                                                <span class="fw-bold text-secondary">@message.Key</span>
+                                            </div>
+                                        </a>
+                                        <div id="@reference" class="card-body collapse">
+                                            <partial name="v2/_V2Message" model="new V2MessageDefinitionViewModel(document, index, reference, message.Value)" />
+                                        </div>
+                                    </div>
+                                    index++;
+                                }
+                            }
+                        </div>
+                    </div>
+                }
+                @if (document.Components.SecuritySchemes != null)
+                {
+                    <div class="card">
+                        <a data-bs-toggle="collapse" href="#components_security_schemes" role="button" aria-expanded="false">
+                            <div class="card-header bg-transparent">
+                                <i class="caret text-dark"></i>
+                                <span class="text-secondary">Security Schemes</span>
+                            </div>
+                        </a>
+                        <div id="components_security_schemes" class="card-body collapse">
+                            @{
+                                var index = 0;
+                                foreach (var scheme in document.Components.SecuritySchemes)
+                                {
+                                    var reference = $"components_security_schemes_{index}";
+                                    <div class="card">
+                                        <a data-bs-toggle="collapse" href="#@reference" role="button" aria-expanded="false">
+                                            <div class="card-header bg-transparent">
+                                                <i class="caret text-dark"></i>
+                                                <span class="fw-bold text-secondary">@scheme.Key</span>
+                                            </div>
+                                        </a>
+                                        <div id="@reference" class="card-body collapse">
+                                            <partial name="_V2SecurityScheme" model="new SecuritySchemeDefinitionViewModel(document, reference, scheme.Value)" />
+                                        </div>
+                                    </div>
+                                    index++;
+                                }
+                            }
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+    }
+</div>

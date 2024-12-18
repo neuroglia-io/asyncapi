@@ -11,26 +11,24 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using Neuroglia.AsyncApi.v2;
-
-namespace Neuroglia.AsyncApi;
+namespace Neuroglia.AsyncApi.v2;
 
 /// <summary>
-/// Represents an <see cref="Attribute"/> used to mark a method as an <see cref="V2OperationDefinition"/> of type <see cref="V2OperationType.Publish"/>
+/// Represents an <see cref="Attribute"/> used to mark a method as an <see cref="V2OperationDefinition"/> of type <see cref="V2OperationType.Subscribe"/>
 /// </summary>
-public class PublishOperationAttribute
-    : OperationAttribute
+public class SubscribeOperationV2Attribute
+    : OperationV2Attribute
 {
 
     /// <summary>
-    /// Initializes a new <see cref="PublishOperationAttribute"/>
+    /// Initializes a new <see cref="SubscribeOperationV2Attribute"/>
     /// </summary>
     /// <param name="messageType">The <see cref="V2OperationDefinition"/>'s message type</param>
-    public PublishOperationAttribute(Type messageType) : base(V2OperationType.Publish, messageType) { }
+    public SubscribeOperationV2Attribute(Type messageType) : base(V2OperationType.Subscribe, messageType) { }
 
     /// <summary>
-    /// Initializes a new <see cref="PublishOperationAttribute"/>
+    /// Initializes a new <see cref="OperationV2Attribute"/>
     /// </summary>
-    public PublishOperationAttribute() : base(V2OperationType.Publish) { }
+    public SubscribeOperationV2Attribute() : base(V2OperationType.Subscribe) { }
 
 }
