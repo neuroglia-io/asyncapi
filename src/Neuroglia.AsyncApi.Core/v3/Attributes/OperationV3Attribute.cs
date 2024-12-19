@@ -42,21 +42,46 @@ public class OperationV3Attribute(string name, V3OperationAction action, string 
     /// <summary>
     /// Gets/sets the <see cref="V3OperationDefinition"/>'s title
     /// </summary>
-    public virtual string? Title { get; init; }
+    public string? Title { get; init; }
 
     /// <summary>
     /// Gets/sets the <see cref="V3OperationDefinition"/>'s summary
     /// </summary>
-    public virtual string? Summary { get; init; }
+    public string? Summary { get; init; }
 
     /// <summary>
     /// Gets/sets the <see cref="V3OperationDefinition"/>'s summary
     /// </summary>
-    public virtual string? Description { get; init; }
+    public string? Description { get; init; }
+
+    /// <summary>
+    /// Gets/sets a reference to the operation's bindings, if any
+    /// </summary>
+    public string? Bindings { get; set; }
 
     /// <summary>
     /// Gets/sets the url at which to get the <see cref="V3OperationDefinition"/>'s external documentation, if any
     /// </summary>
-    public virtual Uri? ExternalDocumentationUrl { get; init; }
+    public Uri? ExternalDocumentationUrl { get; init; }
+
+    /// <summary>
+    /// Gets/sets references to the tags to mark the <see cref="V3OperationDefinition"/> with
+    /// </summary>
+    public string[]? Tags { get; set; }
+
+    /// <summary>
+    /// Gets/sets a reference to the operation's <see cref="V3MessageDefinition"/>. Ignored if either <see cref="MessagePayloadType"/> or <see cref="HeadersPayloadType"/> have been set.
+    /// </summary>
+    public string? Message { get; init; }
+
+    /// <summary>
+    /// Gets/sets the type of the <see cref="V3OperationDefinition"/>'s message payload. Ignored if <see cref="Message"/> has been set.
+    /// </summary>
+    public Type? MessagePayloadType { get; init; }
+
+    /// <summary>
+    /// Gets/sets the type of the <see cref="V3OperationDefinition"/>'s message headers. Ignored if <see cref="Message"/> has been set.
+    /// </summary>
+    public Type? HeadersPayloadType { get; init; }
 
 }

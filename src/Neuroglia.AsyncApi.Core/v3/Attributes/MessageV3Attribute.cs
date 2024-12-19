@@ -24,31 +24,51 @@ public class MessageV3Attribute
     /// <summary>
     /// Gets/sets the <see cref="V3MessageDefinition"/>'s name
     /// </summary>
-    public virtual string? Name { get; set; }
+    public string? Name { get; set; }
 
     /// <summary>
     /// Gets/sets the <see cref="V3MessageDefinition"/>'s title
     /// </summary>
-    public virtual string? Title { get; set; }
+    public string? Title { get; set; }
 
     /// <summary>
     /// Gets/sets the <see cref="V3MessageDefinition"/>'s description
     /// </summary>
-    public virtual string? Description { get; set; }
+    public string? Description { get; set; }
 
     /// <summary>
     /// Gets/sets the <see cref="V3MessageDefinition"/>'s summary
     /// </summary>
-    public virtual string? Summary { get; set; }
+    public string? Summary { get; set; }
 
     /// <summary>
     /// Gets/sets the <see cref="V3MessageDefinition"/>'s content type
     /// </summary>
-    public virtual string? ContentType { get; set; }
+    public string? ContentType { get; set; }
+
+    /// <summary>
+    /// Gets/sets a reference to the message's bindings, if any
+    /// </summary>
+    public string? Bindings { get; set; }
+
+    /// <summary>
+    /// Gets/sets a reference to the message's payload schema, if any
+    /// </summary>
+    public string? PayloadSchema { get; init; }
+
+    /// <summary>
+    /// Gets/sets a reference to the message's headers schema, if any
+    /// </summary>
+    public string? HeadersSchema { get; init; }
 
     /// <summary>
     /// Gets/sets the url at which to get the <see cref="V3MessageDefinition"/>'s external documentation, if any
     /// </summary>
-    public virtual Uri? ExternalDocumentationUrl { get; init; }
+    public Uri? ExternalDocumentationUrl { get; init; }
+
+    /// <summary>
+    /// Gets/sets references to the tags to mark the <see cref="V3MessageDefinition"/> with
+    /// </summary>
+    public string[]? Tags { get; set; }
 
 }

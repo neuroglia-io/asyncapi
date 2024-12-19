@@ -16,21 +16,14 @@ namespace Neuroglia.AsyncApi.AspNetCore.UI.Models.v3;
 /// <summary>
 /// Holds the data used to render a <see cref="V3ServerDefinition"/> view
 /// </summary>
-public record V3ServerDefinitionViewModel
-    : V3AsyncApiDocumentViewModel
+/// <param name="Document">The <see cref="V3AsyncApiDocument"/> that defines the <see cref="V3ServerDefinition"/> to render</param>
+/// <param name="Path">The path to the <see cref="V3ServerDefinition"/> to render</param>
+/// <param name="Name">The The name of the <see cref="V3ServerDefinition"/> to render</param>
+/// <param name="Definition">The <see cref="V3ServerDefinition"/> to render</param>
+public record V3ServerDefinitionViewModel(V3AsyncApiDocument Document, string Path, string Name, V3ServerDefinition Definition)
+    : V3AsyncApiDocumentViewModel(Document)
 {
 
-    /// <inheritdoc/>
-    public V3ServerDefinitionViewModel(V3AsyncApiDocument document, string key, V3ServerDefinition server) : base(document) { Key = key; Server = server; }
 
-    /// <summary>
-    /// Gets the key of the <see cref="V3ServerDefinition"/> to render
-    /// </summary>
-    public string Key { get; }
-
-    /// <summary>
-    /// Gets the <see cref="V3ServerDefinition"/> to render
-    /// </summary>
-    public V3ServerDefinition Server { get; }
 
 }

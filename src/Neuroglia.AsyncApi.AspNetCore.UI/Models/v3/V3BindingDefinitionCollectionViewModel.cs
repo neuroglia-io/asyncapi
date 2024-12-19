@@ -14,12 +14,13 @@
 namespace Neuroglia.AsyncApi.AspNetCore.UI.Models.v3;
 
 /// <summary>
-/// Holds the data used to render an <see cref="IBindingDefinition"/> view
+/// Holds the data used to render an <see cref="IBindingDefinitionCollection"/> view
 /// </summary>
 /// <param name="Document">The <see cref="V3AsyncApiDocument"/> that defines the <see cref="IBindingDefinition"/> to render</param>
-/// <param name="Binding">The <see cref="IBindingDefinition"/> to render</param>
-/// <param name="ParentRef">The component the <see cref="IBindingDefinition"/> is defined by</param>
-public record V3BindingDefinitionViewModel(V3AsyncApiDocument Document, IBindingDefinition Binding, string ParentRef)
+/// <param name="ComponentReference">A reference to the component that defines the <see cref="IBindingDefinitionCollection"/> to render</param>
+/// <param name="BindingCollectionName">The name of the <see cref="IBindingDefinitionCollection"/> to render</param>
+/// <param name="BindingCollection">The <see cref="IBindingDefinitionCollection"/> to render</param>
+public record V3BindingDefinitionCollectionViewModel(V3AsyncApiDocument Document, string ComponentReference, string BindingCollectionName, IBindingDefinitionCollection BindingCollection)
     : V3AsyncApiDocumentViewModel(Document)
 {
 

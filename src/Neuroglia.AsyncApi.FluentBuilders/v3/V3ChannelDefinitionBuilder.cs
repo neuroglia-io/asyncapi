@@ -45,8 +45,9 @@ public class V3ChannelDefinitionBuilder(IServiceProvider serviceProvider, IEnume
     }
 
     /// <inheritdoc/>
-    public virtual IV3ChannelDefinitionBuilder WithAddress(string? address)
+    public virtual IV3ChannelDefinitionBuilder WithAddress(string address)
     {
+        ArgumentException.ThrowIfNullOrWhiteSpace(address);
         Channel.Address = address;
         return this;
     }

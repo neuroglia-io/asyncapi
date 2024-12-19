@@ -16,21 +16,13 @@ namespace Neuroglia.AsyncApi.AspNetCore.UI.Models.v3;
 /// <summary>
 /// Holds the data used to render an <see cref="V3ChannelDefinition"/> view
 /// </summary>
-/// <param name="document">The document the <see cref="V3ChannelDefinition"/> to render belongs to</param>
-/// <param name="channelName">The name of the <see cref="V3ChannelDefinition"/> to render</param>
-/// <param name="channel">The <see cref="V3ChannelDefinition"/> to render</param>
-public record V3ChannelDefinitionViewModel(V3AsyncApiDocument document, string channelName, V3ChannelDefinition channel)
-    : V3AsyncApiDocumentViewModel(document)
+/// <param name="Document">The document the <see cref="V3ChannelDefinition"/> to render belongs to</param>
+/// <param name="Path">The path to the <see cref="V3ChannelDefinition"/> to render</param>
+/// <param name="Name">The name of the <see cref="V3ChannelDefinition"/> to render</param>
+/// <param name="Definition">The <see cref="V3ChannelDefinition"/> to render</param>
+public record V3ChannelDefinitionViewModel(V3AsyncApiDocument Document, string Path, string Name, V3ChannelDefinition Definition)
+    : V3AsyncApiDocumentViewModel(Document)
 {
 
-    /// <summary>
-    /// Gets the name of the <see cref="V3ChannelDefinition"/> to render
-    /// </summary>
-    public string ChannelName { get; } = channelName;
-
-    /// <summary>
-    /// Gets the <see cref="V3ChannelDefinition"/> to render
-    /// </summary>
-    public V3ChannelDefinition Channel { get; } = channel;
 
 }

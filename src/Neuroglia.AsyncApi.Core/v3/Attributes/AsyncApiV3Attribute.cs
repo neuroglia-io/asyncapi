@@ -23,4 +23,9 @@ public class AsyncApiV3Attribute(string title, string version)
     : AsyncApiAttribute(title, version)
 {
 
+    /// <summary>
+    /// Gets/sets references to the tags to mark the <see cref="V3AsyncApiDocument"/> with
+    /// </summary>
+    public string[]? Tags { get; set; }
+
 }

@@ -75,7 +75,7 @@
                     <div id="@(this.Model.Key)_bindings" class="card-body m-0 p-0 collapse show">
                         @if (server.Bindings == null || !server.Bindings.AsEnumerable().Any())
                         {
-                            <p class="alert alert-warning fst-italic my-3">No bindings defined.</p>
+                            <p class="alert alert-warning fst-italic my-3"><small>No bindings defined.</small></p>
                         }
                         else
                         {

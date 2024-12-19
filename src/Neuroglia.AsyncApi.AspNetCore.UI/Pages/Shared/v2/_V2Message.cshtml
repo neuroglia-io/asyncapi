@@ -74,7 +74,7 @@
                     </div>
                 </a>
                 <div id="@(messageRef)_correlationId" class="card-body m-0 p-0 collapse show">
-                    <partial name="_CorrelationId" model="new CorrelationIdDefinitionViewModel(this.Model.Document, message.CorrelationId)" />
+                    <partial name="v2/_V2CorrelationId" model="new V2CorrelationIdDefinitionViewModel(this.Model.Document, message.CorrelationId)" />
                 </div>
             </div>
         }
@@ -100,7 +100,7 @@
                     <div id="@(messageRef)_payload" class="card-body collapse show">
                         <div class="row">
                             <div class="col-7 p-3">
-                                <partial name="_Schema" model="new SchemaViewModel(this.Model.Document, payloadSchema)" />
+                                <partial name="v2/_V2Schema" model="new V2SchemaViewModel(this.Model.Document, payloadSchema)" />
                             </div>
                             <div class="col-5 bg-secondary text-light p-3 rounded-1">
                                 @{

@@ -1,0 +1,350 @@
+﻿@model V3ComponentsViewModel
+@inject Neuroglia.AsyncApi.Generation.IJsonSchemaExampleGenerator ExampleGenerator
+@{
+    var components = Model.Document.Components!;
+}
+<div>
+    
+    @if (components.Schemas != null)
+    {
+        <div class="card border-0 mb-3">
+            <a data-bs-toggle="collapse" href="#schema_components" role="button" aria-expanded="false" class="collapsed">
+                <div class="card-header bg-transparent d-flex align-items-center">
+                    <i class="caret text-dark me-2"></i>
+                    <span class="card-title h5 text-secondary">Schemas</span>
+                </div>
+            </a>
+            <div id="schema_components" class="card-body p-0 collapse">
+                @foreach(var schemaKvp in components.Schemas)
+                {
+                    <partial name="v3/_V3Schema" model="new V3SchemaViewModel(Model.Document, schemaKvp.Value, schemaKvp.Key)" />
+                }
+            </div>
+        </div>
+    }
+
+    @if(components.Servers != null)
+    {
+        <div class="card border-0 mb-3">
+            <a data-bs-toggle="collapse" href="#server_components" role="button" aria-expanded="false" class="collapsed">
+                <div class="card-header bg-transparent d-flex align-items-center">
+                    <i class="caret text-dark me-2"></i>
+                    <span class="card-title h5 text-secondary">Servers</span>
+                </div>
+            </a>
+            <div id="server_components" class="card-body p-0 collapse">
+                @foreach (var server in components.Servers)
+                {
+                    <partial name="v3/_V3Server" model="@(new V3ServerDefinitionViewModel(Model.Document, "#/components/servers/", server.Key, server.Value))" />
+                }
+            </div>
+        </div>
+    }
+
+    @if (components.Channels != null)
+    {
+        <div class="card border-0 mb-3">
+            <a data-bs-toggle="collapse" href="#channel_components" role="button" aria-expanded="false" class="collapsed">
+                <div class="card-header bg-transparent d-flex align-items-center">
+                    <i class="caret text-dark me-2"></i>
+                    <span class="card-title h5 text-secondary">Channels</span>
+                </div>
+            </a>
+            <div id="channel_components" class="card-body p-0 collapse">
+                @foreach (var channel in components.Channels)
+                {
+                    <partial name="v3/_V3Channel" model="@(new V3ChannelDefinitionViewModel(Model.Document, "#/components/channels/", channel.Key, channel.Value))" />
+                }
+            </div>
+        </div>
+    }
+
+    @if (components.Operations != null)
+    {
+        <div class="card border-0 mb-3">
+            <a data-bs-toggle="collapse" href="#operation_components" role="button" aria-expanded="false" class="collapsed">
+                <div class="card-header bg-transparent d-flex align-items-center">
+                    <i class="caret text-dark me-2"></i>
+                    <span class="card-title h5 text-secondary">Operations</span>
+                </div>
+            </a>
+            <div id="operation_components" class="card-body p-0 collapse">
+                @foreach (var operation in components.Operations)
+                {
+                    <partial name="v3/_V3Operation" model="@(new V3OperationDefinitionViewModel(Model.Document, operation.Key, operation.Value))" />
+                }
+            </div>
+        </div>
+    }
+
+    @if (components.Messages != null)
+    {
+        <div class="card border-0 mb-3">
+            <a data-bs-toggle="collapse" href="#message_components" role="button" aria-expanded="false" class="collapsed">
+                <div class="card-header bg-transparent d-flex align-items-center">
+                    <i class="caret text-dark me-2"></i>
+                    <span class="card-title h5 text-secondary">Messages</span>
+                </div>
+            </a>
+            <div id="message_components" class="card-body p-0 collapse">
+                @foreach (var message in components.Messages)
+                {
+                    <partial name="v3/_V3Message" model="new V3MessageDefinitionViewModel(Model.Document, message.Key, message.Value)" />
+                }
+            </div>
+        </div>
+    }
+
+    @* @if (components.SecuritySchemes != null)
+    {
+        <div class="card border-0 mb-3">
+            <a data-bs-toggle="collapse" href="#securityScheme_components" role="button" aria-expanded="false" class="collapsed">
+                <div class="card-header bg-transparent d-flex align-items-center">
+                    <i class="caret text-dark me-2"></i>
+                    <span class="card-title h5 text-secondary">Security Schemes</span>
+                </div>
+            </a>
+            <div id="securityScheme_components" class="card-body p-0 collapse">
+                @foreach (var scheme in components.SecuritySchemes)
+                {
+                    <partial name="v3/_V3SecurityScheme" model="new V3SecuritySchemeDefinitionViewModel(Model.Document, scheme.Key, scheme.Value)" />
+                }
+            </div>
+        </div>
+    }
+
+    @if (components.ServerVariables != null)
+    {
+        <div class="card border-0 mb-3">
+            <a data-bs-toggle="collapse" href="#serverVariable_components" role="button" aria-expanded="false" class="collapsed">
+                <div class="card-header bg-transparent d-flex align-items-center">
+                    <i class="caret text-dark me-2"></i>
+                    <span class="card-title h5 text-secondary">Server Variables</span>
+                </div>
+            </a>
+            <div id="serverVariable_components" class="card-body p-0 collapse">
+                @foreach (var variable in components.ServerVariables)
+                {
+                    <partial name="v3/_V3Variable" model="new V3ServerVariableDefinitionViewModel(Model.Document, variable.Key, variable.Value)" />
+                }
+            </div>
+        </div>
+    }
+
+    @if (components.Parameters != null)
+    {
+        <div class="card border-0 mb-3">
+            <a data-bs-toggle="collapse" href="#parameter_components" role="button" aria-expanded="false" class="collapsed">
+                <div class="card-header bg-transparent d-flex align-items-center">
+                    <i class="caret text-dark me-2"></i>
+                    <span class="card-title h5 text-secondary">Parameters</span>
+                </div>
+            </a>
+            <div id="parameter_components" class="card-body p-0 collapse">
+                @foreach (var parameter in components.Parameters)
+                {
+                    <partial name="v3/_V3Parameter" model="new V3ParameterDefinitionViewModel(Model.Document, parameter.Key, parameter.Value)" />
+                }
+            </div>
+        </div>
+    }
+
+    @if (components.CorrelationIds != null)
+    {
+        <div class="card border-0 mb-3">
+            <a data-bs-toggle="collapse" href="#correlationId_components" role="button" aria-expanded="false" class="collapsed">
+                <div class="card-header bg-transparent d-flex align-items-center">
+                    <i class="caret text-dark me-2"></i>
+                    <span class="card-title h5 text-secondary">Correlation Ids</span>
+                </div>
+            </a>
+            <div id="correlationId_components" class="card-body p-0 collapse">
+                @foreach (var correlationId in components.CorrelationIds)
+                {
+                    <partial name="v3/_V3CorrelationId" model="new V3CorrelationIdDefinitionViewModel(Model.Document, correlationId.Key, correlationId.Value)" />
+                }
+            </div>
+        </div>
+    }
+
+    @if (components.Replies != null)
+    {
+        <div class="card border-0 mb-3">
+            <a data-bs-toggle="collapse" href="#reply_components" role="button" aria-expanded="false" class="collapsed">
+                <div class="card-header bg-transparent d-flex align-items-center">
+                    <i class="caret text-dark me-2"></i>
+                    <span class="card-title h5 text-secondary">Replies</span>
+                </div>
+            </a>
+            <div id="reply_components" class="card-body p-0 collapse">
+                @foreach (var reply in components.Replies)
+                {
+                    <partial name="v3/_V3Reply" model="new V3ReplyDefinitionViewModel(Model.Document, reply.Key, reply.Value)" />
+                }
+            </div>
+        </div>
+    }
+
+    @if (components.ReplyAddresses != null)
+    {
+        <div class="card border-0 mb-3">
+            <a data-bs-toggle="collapse" href="#replyAddress_components" role="button" aria-expanded="false" class="collapsed">
+                <div class="card-header bg-transparent d-flex align-items-center">
+                    <i class="caret text-dark me-2"></i>
+                    <span class="card-title h5 text-secondary">Reply Addresses</span>
+                </div>
+            </a>
+            <div id="replyAddress_components" class="card-body p-0 collapse">
+                @foreach (var replyAddress in components.ReplyAddresses)
+                {
+                    <partial name="v3/_V3ReplyAddress" model="new V3ReplyAddressDefinitionViewModel(Model.Document, replyAddress.Key, replyAddress.Value)" />
+                }
+            </div>
+        </div>
+    }
+
+    @if (components.ExternalDocs != null)
+    {
+        <div class="card border-0 mb-3">
+            <a data-bs-toggle="collapse" href="#externalDocs_components" role="button" aria-expanded="false" class="collapsed">
+                <div class="card-header bg-transparent d-flex align-items-center">
+                    <i class="caret text-dark me-2"></i>
+                    <span class="card-title h5 text-secondary">External Documentations</span>
+                </div>
+            </a>
+            <div id="externalDocs_components" class="card-body p-0 collapse">
+                @foreach (var externalDoc in components.ExternalDocs)
+                {
+                    <partial name="v3/_V3ExternalDocumentation" model="new V3ExternalDocumentationDefinitionViewModel(Model.Document, externalDoc.Key, externalDoc.Value)" />
+                }
+            </div>
+        </div>
+    }
+
+    @if (components.Tags != null)
+    {
+        <div class="card border-0 mb-3">
+            <a data-bs-toggle="collapse" href="#tag_components" role="button" aria-expanded="false" class="collapsed">
+                <div class="card-header bg-transparent d-flex align-items-center">
+                    <i class="caret text-dark me-2"></i>
+                    <span class="card-title h5 text-secondary">Tags</span>
+                </div>
+            </a>
+            <div id="tag_components" class="card-body p-0 collapse">
+                @foreach (var tag in components.Tags)
+                {
+                    <partial name="v3/_V3Tag" model="new V3TagDefinitionViewModel(Model.Document, tag.Key, tag.Value)" />
+                }
+            </div>
+        </div>
+    }
+
+    @if (components.OperationTraits != null)
+    {
+        <div class="card border-0 mb-3">
+            <a data-bs-toggle="collapse" href="#operationTrait_components" role="button" aria-expanded="false" class="collapsed">
+                <div class="card-header bg-transparent d-flex align-items-center">
+                    <i class="caret text-dark me-2"></i>
+                    <span class="card-title h5 text-secondary">Operation Traits</span>
+                </div>
+            </a>
+            <div id="operationTrait_components" class="card-body p-0 collapse">
+                @foreach (var trait in components.OperationTraits)
+                {
+                    <partial name="v3/_V3OperationTrait" model="new V3OperationTraitDefinitionViewModel(Model.Document, trait.Key, trait.Value)" />
+                }
+            </div>
+        </div>
+    }
+
+    @if (components.MessageTraits != null)
+    {
+        <div class="card border-0 mb-3">
+            <a data-bs-toggle="collapse" href="#messageTrait_components" role="button" aria-expanded="false" class="collapsed">
+                <div class="card-header bg-transparent d-flex align-items-center">
+                    <i class="caret text-dark me-2"></i>
+                    <span class="card-title h5 text-secondary">Message Traits</span>
+                </div>
+            </a>
+            <div id="messageTrait_components" class="card-body p-0 collapse">
+                @foreach (var trait in components.MessageTraits)
+                {
+                    <partial name="v3/_V3MessageTrait" model="new V3MessageTraitDefinitionViewModel(Model.Document, trait.Key, trait.Value)" />
+                }
+            </div>
+        </div>
+    } *@
+
+    @if (components.ServerBindings != null)
+    {
+        <div class="card border-0 mb-3">
+            <a data-bs-toggle="collapse" href="#serverBindings_components" role="button" aria-expanded="false" class="collapsed">
+                <div class="card-header bg-transparent d-flex align-items-center">
+                    <i class="caret text-dark me-2"></i>
+                    <span class="card-title h5 text-secondary">Server Bindings</span>
+                </div>
+            </a>
+            <div id="serverBindings_components" class="card-body p-0 collapse">
+                @foreach (var binding in components.ServerBindings)
+                {
+                    <partial name="v3/_V3BindingCollection" model="@(new V3BindingDefinitionCollectionViewModel(Model.Document, $"server_binding_{binding.Key}", binding.Key, binding.Value))" />
+                }
+            </div>
+        </div>
+    }
+
+    @if (components.ChannelBindings != null)
+    {
+        <div class="card border-0 mb-3">
+            <a data-bs-toggle="collapse" href="#channelBindings_components" role="button" aria-expanded="false" class="collapsed">
+                <div class="card-header bg-transparent d-flex align-items-center">
+                    <i class="caret text-dark me-2"></i>
+                    <span class="card-title h5 text-secondary">Channel Bindings</span>
+                </div>
+            </a>
+            <div id="channelBindings_components" class="card-body p-0 collapse">
+                @foreach (var binding in components.ChannelBindings)
+                {
+                    <partial name="v3/_V3BindingCollection" model="@(new V3BindingDefinitionCollectionViewModel(Model.Document, $"channel_binding_{binding.Key}", binding.Key, binding.Value))" />
+                }
+            </div>
+        </div>
+    }
+
+    @if (components.OperationBindings != null)
+    {
+        <div class="card border-0 mb-3">
+            <a data-bs-toggle="collapse" href="#operationBindings_components" role="button" aria-expanded="false" class="collapsed">
+                <div class="card-header bg-transparent d-flex align-items-center">
+                    <i class="caret text-dark me-2"></i>
+                    <span class="card-title h5 text-secondary">Operation Bindings</span>
+                </div>
+            </a>
+            <div id="operationBindings_components" class="card-body p-0 collapse">
+                @foreach (var binding in components.OperationBindings)
+                {
+                    <partial name="v3/_V3BindingCollection" model="@(new V3BindingDefinitionCollectionViewModel(Model.Document, $"operation_binding_{binding.Key}", binding.Key, binding.Value))" />
+                }
+            </div>
+        </div>
+    }
+
+    @if (components.MessageBindings != null)
+    {
+        <div class="card border-0 mb-3">
+            <a data-bs-toggle="collapse" href="#messageBindings_components" role="button" aria-expanded="false" class="collapsed">
+                <div class="card-header bg-transparent d-flex align-items-center">
+                    <i class="caret text-dark me-2"></i>
+                    <span class="card-title h5 text-secondary">Message Bindings</span>
+                </div>
+            </a>
+            <div id="messageBindings_components" class="card-body p-0 collapse">
+                @foreach (var binding in components.MessageBindings)
+                {
+                    <partial name="v3/_V3BindingCollection" model="@(new V3BindingDefinitionCollectionViewModel(Model.Document, $"message_binding_{binding.Key}", binding.Key, binding.Value))" />
+                }
+            </div>
+        </div>
+    }
+
+</div>

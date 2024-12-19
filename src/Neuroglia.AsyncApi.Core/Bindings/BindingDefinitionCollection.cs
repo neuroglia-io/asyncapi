@@ -54,4 +54,6 @@ public abstract record BindingDefinitionCollection<TBinding>
     /// <returns>A new <see cref="IEnumerable{T}"/> containing the <see cref="IBindingDefinition"/>s the <see cref="BindingDefinitionCollection{TBinding}"/> is made out of</returns>
     public abstract IEnumerable<TBinding> AsEnumerable();
 
+    IEnumerable<IBindingDefinition> IBindingDefinitionCollection.AsEnumerable() => this.AsEnumerable().Cast<IBindingDefinition>();
+
 }

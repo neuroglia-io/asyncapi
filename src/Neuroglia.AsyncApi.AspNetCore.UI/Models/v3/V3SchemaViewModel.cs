@@ -14,15 +14,18 @@
 namespace Neuroglia.AsyncApi.AspNetCore.UI.Models.v3;
 
 /// <summary>
-/// Holds the data used to render an <see cref="IBindingDefinition"/> view
+/// Holds the data used to render a <see cref="JsonSchema"/> view
 /// </summary>
-/// <param name="Document">The <see cref="V3AsyncApiDocument"/> that defines the <see cref="IBindingDefinition"/> to render</param>
-/// <param name="Binding">The <see cref="IBindingDefinition"/> to render</param>
-/// <param name="ParentRef">The component the <see cref="IBindingDefinition"/> is defined by</param>
-public record V3BindingDefinitionViewModel(V3AsyncApiDocument Document, IBindingDefinition Binding, string ParentRef)
-    : V3AsyncApiDocumentViewModel(Document)
+public record V3JsonSchemaViewModel
+    : V3AsyncApiDocumentViewModel
 {
 
+    /// <inheritdoc/>
+    public V3JsonSchemaViewModel(V3AsyncApiDocument document, JsonSchema schema) : base(document) => Schema = schema;
 
+    /// <summary>
+    /// Gets the <see cref="JsonSchema"/> to render
+    /// </summary>
+    public JsonSchema Schema { get; }
 
 }

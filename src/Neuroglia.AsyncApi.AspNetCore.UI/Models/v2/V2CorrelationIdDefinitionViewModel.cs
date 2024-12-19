@@ -11,18 +11,22 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-namespace Neuroglia.AsyncApi.AspNetCore.UI.Models.v3;
+namespace Neuroglia.AsyncApi.AspNetCore.UI.Models.v2;
 
 /// <summary>
-/// Holds the data used to render an <see cref="IBindingDefinition"/> view
+/// Holds the data used to render an <see cref="V2CorrelationIdDefinition"/> view
 /// </summary>
-/// <param name="Document">The <see cref="V3AsyncApiDocument"/> that defines the <see cref="IBindingDefinition"/> to render</param>
-/// <param name="Binding">The <see cref="IBindingDefinition"/> to render</param>
-/// <param name="ParentRef">The component the <see cref="IBindingDefinition"/> is defined by</param>
-public record V3BindingDefinitionViewModel(V3AsyncApiDocument Document, IBindingDefinition Binding, string ParentRef)
-    : V3AsyncApiDocumentViewModel(Document)
+public record V2CorrelationIdDefinitionViewModel
+    : V2AsyncApiDocumentViewModel
 {
 
+    /// <inheritdoc/>
+    public V2CorrelationIdDefinitionViewModel(V2AsyncApiDocument document, V2CorrelationIdDefinition correlationId) : base(document) { CorrelationId = correlationId; }
+
+    /// <summary>
+    /// Gets the <see cref="V2CorrelationIdDefinition"/> to render
+    /// </summary>
+    public V2CorrelationIdDefinition CorrelationId { get; }
 
 
 }

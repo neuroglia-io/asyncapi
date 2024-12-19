@@ -25,7 +25,7 @@ public interface IV3ChannelDefinitionBuilder
     /// </summary>
     /// <param name="address">The address to use</param>
     /// <returns>The configured <see cref="IV3ChannelDefinitionBuilder"/></returns>
-    IV3ChannelDefinitionBuilder WithAddress(string? address);
+    IV3ChannelDefinitionBuilder WithAddress(string address);
 
     /// <summary>
     /// Configures the <see cref="V3ChannelDefinition"/> to use the specified <see cref="V3MessageDefinition"/>

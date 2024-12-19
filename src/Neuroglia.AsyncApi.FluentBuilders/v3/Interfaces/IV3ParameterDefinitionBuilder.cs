@@ -53,7 +53,7 @@ public interface IV3ParameterDefinitionBuilder
     /// </summary>
     /// <param name="location">The location to use</param>
     /// <returns>The configured <see cref="IV3ParameterDefinitionBuilder"/></returns>
-    IV3ParameterDefinitionBuilder WithLocation(string location);
+    IV3ParameterDefinitionBuilder WithLocation(string? location);
 
     /// <summary>
     /// Builds the configured <see cref="V3ParameterDefinition"/>

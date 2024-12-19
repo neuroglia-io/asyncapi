@@ -1,16 +1,17 @@
 ﻿@model V3ChannelDefinitionViewModel
 @{
-    var channel = Model.Channel;
+    var channel = Model.Definition;
 }
 <div class="my-3">
     <div class="card">
 
-        <a data-bs-toggle="collapse" href="#@Model.ChannelName" role="button" aria-expanded="false" title="@(string.IsNullOrWhiteSpace(channel.Summary) ? Model.ChannelName : channel.Summary)" class="collapsed">
+        <a data-bs-toggle="collapse" href="#@Model.Name" role="button" aria-expanded="false" title="@(string.IsNullOrWhiteSpace(channel.Summary) ? Model.Name : channel.Summary)" class="collapsed">
             <div class="card-header bg-transparent">
                 <div class="row d-flex align-items-center">
                     <div class="col-md-6">
                         <i class="caret text-dark me-2"></i>
-                        <span class="my-1 text-secondary text-decoration-underline">@Model.channelName</span>
+                        <span class="my-1 text-secondary text-decoration-underline">@Model.Name</span>
+                        <small class="border border-secondary rounded px-2 font-italic text-muted ms-2">@Html.Raw(Model.Definition.Address.WrapPlaceholdersWithCodeTags())</small>
                     </div>
                     <div class="col-md-6 text-end">
                         @if (channel.Tags != null)
@@ -25,35 +26,120 @@
             </div>
         </a>
 
-        <div id="@Model.ChannelName" class="card-body collapse">
+        <div id="@Model.Name" class="card-body collapse">
 
             @if (!string.IsNullOrWhiteSpace(channel.Description))
             {
                 <small class="text-secondary">@Html.Raw(Markdown.ToHtml(channel.Description))</small>
             }
 
+            @if (channel.Parameters != null)
+            {
+                <div class="card border-0">
+                    <a data-bs-toggle="collapse" href="#@(this.Model.Name)_parameters" role="button" aria-expanded="true">
+                        <div class="card-header bg-transparent">
+                            <i class="caret text-dark"></i>
+                            <span class="font-weight-bold text-secondary">Parameters</span>
+                        </div>
+                    </a>
+                    <div id="@(this.Model.Name)_parameters" class="card-body m-0 p-0 collapse show">
+                        <table class="table my-3">
+                            <tbody>
+                                @foreach (var parameterKvp in channel.Parameters)
+                                {
+                                    <tr class="js-channel-parameter" data-parameter="@parameterKvp.Key">
+                                        <td>
+                                            <code>@parameterKvp.Key</code>
+                                        </td>
+                                        <td>
+                                            <small class="text-secondary">@Html.Raw(Markdown.ToHtml(parameterKvp.Value.Description ?? string.Empty))</small>
+                                            @if (parameterKvp.Value.Enum != null && parameterKvp.Value.Enum.Count > 0)
+                                            {
+                                                <small class="text-secondary">Supported values: @Html.Raw(string.Join(", ", parameterKvp.Value.Enum.Select(v => $"<code>{v}</code>")))</small>
+                                            }
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            }
+
             <div class="card border-0">
-                <a data-bs-toggle="collapse" href="#@(Model.ChannelName)_bindings" role="button" aria-expanded="false">
+                <a data-bs-toggle="collapse" href="#@(Model.Name)_servers" role="button" aria-expanded="false">
+                    <div class="card-header bg-transparent">
+                        <i class="caret text-dark"></i>
+                        <span class="font-weight-bold text-secondary">Servers</span>
+                    </div>
+                </a>
+                <div id="@(Model.Name)_servers" class="card-body m-0 p-0 collapse show">
+                    <table class="table my-3">
+                        <tbody>
+                            @foreach (var serverKvp in channel.Servers.ToDictionary(s => s.Reference, s => Model.Document.DereferenceServer(s.Reference)))
+                            {
+                                <tr class="js-channel-server" data-server="@serverKvp.Key">
+                                    <td>
+                                        <small><a href="#@serverKvp.Key@serverKvp.Key">@serverKvp.Key.Split('/', StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries)[^1]</a></small>
+                                    </td>
+                                    <td>
+                                        <small class="text-muted">@Html.Raw(Markdown.ToHtml(serverKvp.Value.Description ?? string.Empty))</small>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div class="card border-0">
+                <a data-bs-toggle="collapse" href="#@(Model.Name)_operations" role="button" aria-expanded="false">
+                    <div class="card-header bg-transparent">
+                        <i class="caret text-dark"></i>
+                        <span class="font-weight-bold text-secondary">Operations</span>
+                    </div>
+                </a>
+                <div id="@(Model.Name)_operations" class="card-body m-0 p-0 collapse show">
+                    <table class="table my-3">
+                        <tbody>
+                            @foreach (var operationKvp in Model.Document.GetOperationsFor($"{Model.Path}{Model.Name}"))
+                            {
+                                <tr class="js-server-channel" data-channel="@operationKvp.Key">
+                                    <td>
+                                        <small><a href="#@operationKvp.Key@operationKvp.Key">@operationKvp.Key.Split('/', StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries)[^1]</a></small>
+                                    </td>
+                                    <td>
+                                        <small class="text-muted">@Html.Raw(Markdown.ToHtml(operationKvp.Value.Description ?? string.Empty))</small>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div class="card border-0">
+                <a data-bs-toggle="collapse" href="#@(Model.Name)_bindings" role="button" aria-expanded="false">
                     <div class="card-header bg-transparent">
                         <i class="caret text-dark"></i>
                         <span class="font-weight-bold text-secondary">Bindings</span>
                     </div>
                 </a>
-                <div id="@(Model.ChannelName)_bindings" class="card-body m-0 p-0 collapse show">
+                <div id="@(Model.Name)_bindings" class="card-body m-0 p-0 collapse show">
                     @if (channel.Bindings == null || !channel.Bindings.AsEnumerable().Any())
                     {
-                        <p class="alert alert-warning fst-italic my-3">No bindings defined.</p>
+                        <p class="alert alert-warning fst-italic my-3"><small>No bindings defined.</small></p>
                     }
                     else
                     {
                         @foreach (var binding in channel.Bindings.AsEnumerable())
                         {
-                            <partial name="v2/_V2Binding" model="new V3BindingDefinitionViewModel(this.Model.Document, binding, Model.ChannelName)" />
+                            <partial name="v2/_V2Binding" model="new V3BindingDefinitionViewModel(this.Model.Document, binding, Model.Name)" />
                         }
                     }
                 </div>
             </div>
-        </div>
 
+        </div>
     </div>
 </div>

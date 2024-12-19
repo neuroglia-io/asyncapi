@@ -28,6 +28,12 @@ public interface IV3SchemaDefinitionBuilder
     IV3SchemaDefinitionBuilder WithSchema(object schema);
 
     /// <summary>
+    /// Configures the <see cref="V3SchemaDefinition"/> to use the specified <see cref="JsonSchema"/>
+    /// </summary>
+    /// <param name="setup">An <see cref="Action{T}"/> used to setup the <see cref="JsonSchema"/> to use</param>
+    void WithJsonSchema(Action<JsonSchemaBuilder> setup);
+
+    /// <summary>
     /// Configures the <see cref="V3SchemaDefinition"/> to use the specified format
     /// </summary>
     /// <param name="format">The format to use</param>

@@ -116,7 +116,7 @@
                                             </div>
                                         </a>
                                         <div id="components_schemas_@index" class="card-body collapse">
-                                            <partial name="_Schema" model="new SchemaViewModel(document, schema.Value)" />
+                                            <partial name="v2/_V2Schema" model="new V2SchemaViewModel(document, schema.Value)" />
                                         </div>
                                     </div>
                                     index++;
@@ -180,7 +180,7 @@
                                             </div>
                                         </a>
                                         <div id="@reference" class="card-body collapse">
-                                            <partial name="_V2SecurityScheme" model="new SecuritySchemeDefinitionViewModel(document, reference, scheme.Value)" />
+                                            <partial name="v2/_V2SecurityScheme" model="new SecuritySchemeDefinitionViewModel(document, reference, scheme.Value)" />
                                         </div>
                                     </div>
                                     index++;

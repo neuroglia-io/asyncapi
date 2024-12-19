@@ -55,11 +55,15 @@
             </div>
         </a>
         <div id="servers" class="card-body p-0 collapse show">
-            @if (document.Servers != null)
+            @if (document.Servers == null)
+            {
+                <p class="alert alert-warning fst-italic my-3"><small>No servers defined.</small></p>
+            }
+            else
             {
                 foreach (var server in document.Servers)
                 {
-                    <partial name="v3/_V3Server" model="new V3ServerDefinitionViewModel(document, server.Key, server.Value)" />
+                    <partial name="v3/_V3Server" model="@(new V3ServerDefinitionViewModel(document, "#/servers/", server.Key, server.Value))" />
                 }
             }
         </div>
@@ -73,11 +77,15 @@
             </div>
         </a>
         <div id="channels" class="card-body p-0 collapse show">
-            @if (document.Channels != null)
+            @if (document.Channels == null)
+            {
+                <p class="alert alert-warning fst-italic my-3"><small>No channels defined.</small></p>
+            }
+            else
             {
                 foreach (var channel in document.Channels)
                 {
-                    <partial name="v3/_V3Channel" model="new V3ChannelDefinitionViewModel(document, channel.Key, channel.Value)" />
+                    <partial name="v3/_V3Channel" model="@(new V3ChannelDefinitionViewModel(document, "#/channels/", channel.Key, channel.Value))" />
                 }
             }
         </div>
@@ -91,12 +99,35 @@
             </div>
         </a>
         <div id="operations" class="card-body p-0 collapse show">
-            @if (document.Servers != null)
+            @if (document.Operations == null)
+            {
+                <p class="alert alert-warning fst-italic my-3"><small>No operations defined.</small></p>
+            }
+            else
             {
                 foreach (var operation in document.Operations)
                 {
                     <partial name="v3/_V3Operation" model="new V3OperationDefinitionViewModel(document, operation.Key, operation.Value)" />
                 }
+            }
+        </div>
+    </div>
+
+    <div class="card border-0">
+        <a data-bs-toggle="collapse" href="#components" role="button" aria-expanded="false">
+            <div class="card-header bg-transparent d-flex align-items-center">
+                <i class="caret text-dark me-2"></i>
+                <span class="card-title h3 text-secondary">Components</span>
+            </div>
+        </a>
+        <div id="components" class="card-body p-0 collapse show pt-3">
+            @if (document.Components == null)
+            {
+                <p class="alert alert-warning fst-italic my-3"><small>No components defined.</small></p>
+            }
+            else
+            {
+                <partial name="v3/_V3Components" model="new V3ComponentsViewModel(document)" />
             }
         </div>
     </div>

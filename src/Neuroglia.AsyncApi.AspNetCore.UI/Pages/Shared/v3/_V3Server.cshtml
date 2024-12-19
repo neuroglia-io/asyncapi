@@ -1,38 +1,38 @@
 ﻿@model V3ServerDefinitionViewModel
 @{
-    var server = this.Model.Server;
+    var server = this.Model.Definition;
     var serverAddress = $"{server.Host}{server.PathName}";
 }
 
 <div class="my-3">
     <div class="card">
-        <a data-bs-toggle="collapse" href="#@this.Model.Key" role="button" aria-expanded="false" title="@server.Description" class="collapsed">
+        <a data-bs-toggle="collapse" href="#@this.Model.Name" role="button" aria-expanded="false" title="@server.Description" class="collapsed">
             <div class="card-header bg-transparent d-flex align-items-center">
                 <i class="caret text-dark me-2"></i>
                 <span class="badge bg-info me-2" title="The server's protocol and protocol version">@($"{server.Protocol}{(string.IsNullOrWhiteSpace(server.ProtocolVersion) || server.ProtocolVersion == "latest" ? string.Empty : " " + server.ProtocolVersion)}".ToUpperInvariant())</span>
-                <span class="my-1 text-secondary text-decoration-underline">@this.Model.Key</span>
-                <small class="font-italic text-muted ms-1"> [@Html.Raw(serverAddress.WrapPlaceholdersWithCodeTags())]</small>
+                <span class="my-1 text-secondary text-decoration-underline">@this.Model.Name</span>
+                <small class="border border-secondary rounded px-2 font-italic text-muted ms-2">@Html.Raw(serverAddress.WrapPlaceholdersWithCodeTags())</small>
                 @if(server.Security != null && server.Security.Any())
                 {
                     <i class="bi bi-lock-full text-secondary ms-2" role="button" title="The server has security requirements"></i>
                 }
             </div>
         </a>
-        <div id="@this.Model.Key" class="card-body collapse">
+        <div id="@this.Model.Name" class="card-body collapse">
             @if (!string.IsNullOrWhiteSpace(server.Description))
             {
-                <p><small class="text-secondary">@Html.Raw(Markdown.ToHtml(server.Description ?? string.Empty))</small></p>
+                <small class="text-secondary">@Html.Raw(Markdown.ToHtml(server.Description ?? string.Empty))</small>
             }
             @if (server.Variables != null)
             {
                 <div class="card border-0">
-                    <a data-bs-toggle="collapse" href="#@(this.Model.Key)_variables" role="button" aria-expanded="true">
+                    <a data-bs-toggle="collapse" href="#@(this.Model.Name)_variables" role="button" aria-expanded="true">
                         <div class="card-header bg-transparent">
                             <i class="caret text-dark"></i>
                             <span class="font-weight-bold text-secondary">Variables</span>
                         </div>
                     </a>
-                    <div id="@(this.Model.Key)_variables" class="card-body m-0 p-0 collapse show">
+                    <div id="@(this.Model.Name)_variables" class="card-body m-0 p-0 collapse show">
                         <table class="table my-3">
                             <tbody>
                                 @foreach (var variableKvp in server.Variables)
@@ -55,16 +55,43 @@
                     </div>
                 </div>
             }
+
+            <div class="card border-0">
+                <a data-bs-toggle="collapse" href="#@(Model.Name)_servers" role="button" aria-expanded="false">
+                    <div class="card-header bg-transparent">
+                        <i class="caret text-dark"></i>
+                        <span class="font-weight-bold text-secondary">Channels</span>
+                    </div>
+                </a>
+                <div id="@(Model.Name)_servers" class="card-body m-0 p-0 collapse show">
+                    <table class="table my-3">
+                        <tbody>
+                            @foreach (var channelKvp in Model.Document.GetChannelsFor($"{Model.Path}{Model.Name}"))
+                            {
+                                <tr class="js-server-channel" data-channel="@channelKvp.Key">
+                                    <td>
+                                        <small><a href="#@channelKvp.Key@channelKvp.Key">@channelKvp.Key.Split('/', StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries)[^1]</a></small>
+                                    </td>
+                                    <td>
+                                        <small class="text-muted">@Html.Raw(Markdown.ToHtml(channelKvp.Value.Description ?? string.Empty))</small>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
             @if (server.Security != null)
             {
                 <div class="card border-0">
-                    <a data-bs-toggle="collapse" href="#@(this.Model.Key)_security" role="button" aria-expanded="false" class="collapsed">
+                    <a data-bs-toggle="collapse" href="#@(this.Model.Name)_security" role="button" aria-expanded="false" class="collapsed">
                         <div class="card-header bg-transparent">
                             <i class="caret text-dark"></i>
                             <span class="font-weight-bold text-secondary">Security Schemes</span>
                         </div>
                     </a>
-                    <div id="@(this.Model.Key)_security" class="card-body m-0 p-0 collapse show">
+                    <div id="@(this.Model.Name)_security" class="card-body m-0 p-0 collapse show">
                         @foreach (var securityRequirement in server.Security)
                         {
                             @* <partial name="_SecurityRequirement" model="new SecurityRequirementViewModel(this.Model.Document, this.Model.Key, securityRequirement.Key, securityRequirement.Value)" /> *@
@@ -76,21 +103,21 @@
             {
                 <div class="card border-0">
                     <div class="card-header bg-transparent">
-                        <a data-bs-toggle="collapse" href="#@(this.Model.Key)_bindings" role="button" aria-expanded="false">
+                        <a data-bs-toggle="collapse" href="#@(this.Model.Name)_bindings" role="button" aria-expanded="false">
                             <i class="caret text-dark"></i>
                             <span class="font-weight-bold text-secondary">Bindings</span>
                         </a>
                     </div>
-                    <div id="@(this.Model.Key)_bindings" class="card-body m-0 p-0 collapse show">
+                    <div id="@(this.Model.Name)_bindings" class="card-body m-0 p-0 collapse show">
                         @if (server.Bindings == null || !server.Bindings.AsEnumerable().Any())
                         {
-                            <p class="alert alert-warning fst-italic my-3">No bindings defined.</p>
+                            <p class="alert alert-warning fst-italic my-3"><small>No bindings defined.</small></p>
                         }
                         else
                         {
                             @foreach (var binding in server.Bindings.AsEnumerable())
                             {
-                                <partial name="v3/_V3Binding" model="new V3BindingDefinitionViewModel(this.Model.Document, binding, this.Model.Key)" />
+                                <partial name="v3/_V3Binding" model="new V3BindingDefinitionViewModel(this.Model.Document, binding, this.Model.Name)" />
                             }
                         }
                     </div>

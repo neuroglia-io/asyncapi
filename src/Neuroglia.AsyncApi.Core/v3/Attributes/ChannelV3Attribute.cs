@@ -30,7 +30,7 @@ public class ChannelV3Attribute(string name)
     /// <summary>
     /// Gets/sets the <see cref="V3ChannelDefinition"/>'s address
     /// </summary>
-    public string? Address { get; init; }
+    public string Address { get; init; } = "unknown";
 
     /// <summary>
     /// Gets/sets the <see cref="V3ChannelDefinition"/>'s title
@@ -58,8 +58,18 @@ public class ChannelV3Attribute(string name)
     public string[]? Servers { get; init; }
 
     /// <summary>
+    /// Gets/sets a reference to the channel's bindings, if any
+    /// </summary>
+    public string? Bindings { get; set; }
+
+    /// <summary>
     /// Gets/sets the url at which to get the <see cref="V3ChannelDefinition"/>'s external documentation, if any
     /// </summary>
     public virtual Uri? ExternalDocumentationUrl { get; init; }
+
+    /// <summary>
+    /// Gets/sets references to the tags to mark the <see cref="V3ChannelDefinition"/> with
+    /// </summary>
+    public string[]? Tags { get; set; }
 
 }

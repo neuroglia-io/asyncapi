@@ -11,6 +11,8 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+using Neuroglia.Data.Schemas.Json;
+
 namespace Neuroglia.AsyncApi.Generation;
 
 public partial class AsyncApiDocumentGenerator
@@ -27,38 +29,47 @@ public partial class AsyncApiDocumentGenerator
     {
         ArgumentNullException.ThrowIfNull(type);
         ArgumentNullException.ThrowIfNull(options);
-        var asyncApi = type.GetCustomAttribute<AsyncApiV3Attribute>() ?? throw new ArgumentException($"The specified type '{type.Name}' is not marked with the {nameof(AsyncApiV3Attribute)}", nameof(type));
-        var builder = this.ServiceProvider.GetRequiredService<IV3AsyncApiDocumentBuilder>();
-        options.V3BuilderSetup?.Invoke(builder);
-        builder
-            .WithId(asyncApi.Id!)
-            .WithTitle(asyncApi.Title)
-            .WithVersion(asyncApi.Version);
-        if (!string.IsNullOrWhiteSpace(asyncApi.Description)) builder.WithDescription(asyncApi.Description);
-        if (!string.IsNullOrWhiteSpace(asyncApi.LicenseName) && !string.IsNullOrWhiteSpace(asyncApi.LicenseUrl)) builder.WithLicense(asyncApi.LicenseName, new Uri(asyncApi.LicenseUrl, UriKind.RelativeOrAbsolute));
-        if (!string.IsNullOrWhiteSpace(asyncApi.TermsOfServiceUrl)) builder.WithTermsOfService(new Uri(asyncApi.TermsOfServiceUrl, UriKind.RelativeOrAbsolute));
-        if (!string.IsNullOrWhiteSpace(asyncApi.ContactName)) builder.WithContact(asyncApi.ContactName, string.IsNullOrWhiteSpace(asyncApi.ContactUrl) ? null : new Uri(asyncApi.ContactUrl, UriKind.RelativeOrAbsolute), asyncApi.ContactEmail);
-        foreach(var channel in type.GetCustomAttributes<ChannelV3Attribute>())
+        var asyncApiAttribute = type.GetCustomAttribute<AsyncApiV3Attribute>() ?? throw new ArgumentException($"The specified type '{type.Name}' is not marked with the {nameof(AsyncApiV3Attribute)}", nameof(type));
+        var document = this.ServiceProvider.GetRequiredService<IV3AsyncApiDocumentBuilder>();
+        options.V3BuilderSetup?.Invoke(document);
+        document
+            .WithId(asyncApiAttribute.Id!)
+            .WithTitle(asyncApiAttribute.Title)
+            .WithVersion(asyncApiAttribute.Version);
+        if (!string.IsNullOrWhiteSpace(asyncApiAttribute.Description)) document.WithDescription(asyncApiAttribute.Description);
+        if (!string.IsNullOrWhiteSpace(asyncApiAttribute.LicenseName) && !string.IsNullOrWhiteSpace(asyncApiAttribute.LicenseUrl)) document.WithLicense(asyncApiAttribute.LicenseName, new Uri(asyncApiAttribute.LicenseUrl, UriKind.RelativeOrAbsolute));
+        if (!string.IsNullOrWhiteSpace(asyncApiAttribute.TermsOfServiceUrl)) document.WithTermsOfService(new Uri(asyncApiAttribute.TermsOfServiceUrl, UriKind.RelativeOrAbsolute));
+        if (!string.IsNullOrWhiteSpace(asyncApiAttribute.ContactName)) document.WithContact(asyncApiAttribute.ContactName, string.IsNullOrWhiteSpace(asyncApiAttribute.ContactUrl) ? null : new Uri(asyncApiAttribute.ContactUrl, UriKind.RelativeOrAbsolute), asyncApiAttribute.ContactEmail);
+        if (asyncApiAttribute.Tags != null)
         {
-            await this.GenerateV3ChannelForAsync(builder, channel, options, cancellationToken);
+            foreach (var tagReference in asyncApiAttribute.Tags)
+            {
+                document.WithTag(tag => tag.Use(tagReference));
+            }
+        }
+        var channelParameters = type.GetCustomAttributes<ChannelParameterV3Attribute>();
+        foreach (var channel in type.GetCustomAttributes<ChannelV3Attribute>())
+        {
+            await this.GenerateV3ChannelForAsync(document, channel, channelParameters.Where(c => c.Channel == channel.Name), options, cancellationToken);
         }
         foreach (var method in type.GetMethods(BindingFlags.Default | BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.FlattenHierarchy).Where(m => m.GetCustomAttribute<OperationV3Attribute>() != null))
         {
             var operation = method.GetCustomAttribute<OperationV3Attribute>()!;
-            await this.GenerateV3OperationForAsync(builder, operation, method, options, cancellationToken);
+            await this.GenerateV3OperationForAsync(document, operation, method, options, cancellationToken);
         }
-        return builder.Build();
+        return document.Build();
     }
 
     /// <summary>
     /// Builds a new <see cref="V3ChannelDefinition"/>
     /// </summary>
     /// <param name="document">The <see cref="IV3AsyncApiDocumentBuilder"/> to configure</param>
-    /// <param name="channelAttribute">The attribute used to describe the <see cref="V3ChannelDefinition"/> to configure</param>
+    /// <param name="channelAttribute">The attribute used to describe the <see cref="V3ChannelDefinition"/> to build</param>
+    /// <param name="channelParameterAttributes">An <see cref="IEnumerable{T}"/> containing the <see cref="ChannelParameterV3Attribute"/>s that apply to the <see cref="V3ChannelDefinition"/> to build</param>
     /// <param name="options">The <see cref="AsyncApiDocumentGenerationOptions"/> to use</param>
     /// <param name="cancellationToken">A <see cref="CancellationToken"/></param>
     /// <returns>A new awaitable <see cref="Task"/></returns>
-    protected virtual Task GenerateV3ChannelForAsync(IV3AsyncApiDocumentBuilder document, ChannelV3Attribute channelAttribute, AsyncApiDocumentGenerationOptions options, CancellationToken cancellationToken = default)
+    protected virtual Task GenerateV3ChannelForAsync(IV3AsyncApiDocumentBuilder document, ChannelV3Attribute channelAttribute, IEnumerable<ChannelParameterV3Attribute>? channelParameterAttributes, AsyncApiDocumentGenerationOptions options, CancellationToken cancellationToken = default)
     {
         ArgumentNullException.ThrowIfNull(document);
         ArgumentNullException.ThrowIfNull(channelAttribute);
@@ -77,9 +88,41 @@ public partial class AsyncApiDocumentGenerator
                     channel.WithServer(server);
                 }
             }
-            if (channelAttribute?.ExternalDocumentationUrl != null)
+            if (channelParameterAttributes != null)
+            {
+                foreach (var parameterAttribute in channelParameterAttributes)
+                {
+                    channel.WithParameter(parameterAttribute.Name, parameter =>
+                    {
+                        parameter
+                            .WithDefaultValue(parameterAttribute.Default)
+                            .WithEnumValues(parameterAttribute.Enum)
+                            .WithDescription(parameterAttribute.Description)
+                            .WithLocation(parameterAttribute.Location);
+                        if (parameterAttribute.Examples != null)
+                        {
+                            foreach(var example in parameterAttribute.Examples)
+                            {
+                                parameter.WithExample(example);
+                            }
+                        }
+                    });
+                }
+            }
+            if (!string.IsNullOrEmpty(channelAttribute.Bindings))
+            {
+                channel.WithBindings(bindings => bindings.Use(channelAttribute.Bindings));
+            }
+            if (channelAttribute.ExternalDocumentationUrl != null)
             {
                 channel.WithExternalDocumentation(doc => doc.WithUrl(channelAttribute.ExternalDocumentationUrl));
+            }
+            if (channelAttribute.Tags != null)
+            {
+                foreach(var tagReference in channelAttribute.Tags)
+                {
+                    channel.WithTag(tag => tag.Use(tagReference));
+                }
             }
         });
         return Task.CompletedTask;
@@ -101,40 +144,45 @@ public partial class AsyncApiDocumentGenerator
         ArgumentNullException.ThrowIfNull(operationMethod);
         ArgumentNullException.ThrowIfNull(options);
         var operationParameters = operationMethod.GetParameters().Where(p => p.ParameterType != typeof(CancellationToken)).ToList();
-        var requestMessageType = operationParameters.Count == 1 ? operationParameters[0].ParameterType : null;
-        var requestMessageAttribute = operationMethod.GetCustomAttribute<MessageV3Attribute>();
-        JsonSchema? requestMessagePayloadSchema = null;
-        var schemaGeneratorConfiguration = new SchemaGeneratorConfiguration()
+        var requestMessagePayloadType = operationAttribute.MessagePayloadType;
+        var requestMessageAttribute = operationMethod.GetCustomAttribute<MessageV3Attribute>() ?? requestMessagePayloadType?.GetCustomAttribute<MessageV3Attribute>();
+        var requestMessagePayloadSchema = (JsonSchema?)null;
+        var requestMessageHeadersSchema = operationAttribute.HeadersPayloadType == null ? null : new JsonSchemaBuilder().FromType(operationAttribute.HeadersPayloadType, Data.Schemas.Json.JsonSchemaGeneratorConfiguration.Default);
+        if (requestMessageAttribute == null)
         {
-            PropertyNameResolver = PropertyNameResolvers.CamelCase,
-            Optimize = false
-        };
-        schemaGeneratorConfiguration.Generators.Add(new DateTimeOffsetJsonSchemaGenerator());
-        schemaGeneratorConfiguration.Refiners.Add(new XmlDocumentationJsonSchemaRefiner());
-        if (requestMessageType == null)
-        {
-            var schemaBuilder = new JsonSchemaBuilder();
-            var messageSchemaProperties = new Dictionary<string, JsonSchema>();
-            var requiredProperties = new List<string>();
-            requestMessageType = typeof(object);
-            foreach (var parameter in operationParameters)
+            if (requestMessagePayloadType == null)
             {
-                if (parameter.TryGetCustomAttribute<ExcludeAttribute>(out _)) continue;
-                var parameterSchema = schemaBuilder.FromType(parameter.ParameterType, schemaGeneratorConfiguration);
-                messageSchemaProperties.Add(parameter.Name!, parameterSchema);
-                if (parameter.TryGetCustomAttribute<RequiredAttribute>(out _) || !parameter.ParameterType.IsNullable() || parameter.DefaultValue == DBNull.Value) requiredProperties.Add(parameter.Name!);
+                if (operationParameters.Count == 1)
+                {
+                    requestMessagePayloadType = operationParameters[0].ParameterType;
+                    requestMessagePayloadSchema = new JsonSchemaBuilder().FromType(requestMessagePayloadType, Data.Schemas.Json.JsonSchemaGeneratorConfiguration.Default);
+                }
+                else
+                {
+                    var schemaBuilder = new JsonSchemaBuilder();
+                    var messageSchemaProperties = new Dictionary<string, JsonSchema>();
+                    var requiredProperties = new List<string>();
+                    requestMessagePayloadType = typeof(object);
+                    foreach (var parameter in operationParameters)
+                    {
+                        if (parameter.TryGetCustomAttribute<ExcludeAttribute>(out _)) continue;
+                        var parameterSchema = schemaBuilder.FromType(parameter.ParameterType, Data.Schemas.Json.JsonSchemaGeneratorConfiguration.Default);
+                        messageSchemaProperties.Add(parameter.Name!, parameterSchema);
+                        if (parameter.TryGetCustomAttribute<RequiredAttribute>(out _) || !parameter.ParameterType.IsNullable() || parameter.DefaultValue == DBNull.Value) requiredProperties.Add(parameter.Name!);
+                    }
+                    schemaBuilder.Properties(messageSchemaProperties);
+                    schemaBuilder.Required(requiredProperties);
+                    requestMessagePayloadSchema = schemaBuilder.Build();
+                }
             }
-            schemaBuilder.Properties(messageSchemaProperties);
-            schemaBuilder.Required(requiredProperties);
-            requestMessagePayloadSchema = schemaBuilder.Build();
+            else
+            {
+                requestMessagePayloadSchema = new JsonSchemaBuilder().FromType(requestMessagePayloadType, Data.Schemas.Json.JsonSchemaGeneratorConfiguration.Default).Build();
+            }
         }
-        else
-        {
-            requestMessagePayloadSchema = new JsonSchemaBuilder().FromType(requestMessageType, schemaGeneratorConfiguration).Build();
-        }
-        requestMessageAttribute ??= requestMessageType?.GetCustomAttribute<MessageV3Attribute>();
-        var requestMessageName = $"{operationAttribute.Name}-request";
-        var replyMessageName = $"{operationAttribute.Name}-reply";
+        var requestMessageName = $"{operationAttribute.Name}Request";
+        var replyMessageName = $"{operationAttribute.Name}Reply";
+        var requestMessageReference = operationAttribute.Message ?? $"#/components/messages/{requestMessageName}";
         document.WithOperation(operationAttribute.Name, operation => 
         {
             operation
@@ -143,38 +191,79 @@ public partial class AsyncApiDocumentGenerator
                 .WithTitle(operationAttribute.Title)
                 .WithSummary(operationAttribute.Summary)
                 .WithDescription(operationAttribute.Description)
-                .WithMessage($"#/components/messages/{requestMessageName}");
+                .WithMessage(requestMessageReference);
+            if (!string.IsNullOrEmpty(operationAttribute.Bindings))
+            {
+                operation.WithBindings(bindings => bindings.Use(operationAttribute.Bindings));
+            }
             if (operationAttribute.ExternalDocumentationUrl != null)
             {
                 operation.WithExternalDocumentation(doc => doc.WithUrl(operationAttribute.ExternalDocumentationUrl));
             }
-            foreach(var tagAttribute in operationMethod.GetCustomAttributes<TagV2Attribute>())
+            if (operationAttribute.Tags != null)
             {
-                operation.WithTag(tag => tag
+                foreach (var tagReference in operationAttribute.Tags)
+                {
+                    operation.WithTag(tag => tag.Use(tagReference));
+                }
+            }
+            foreach (var tagAttribute in operationMethod.GetCustomAttributes<TagV2Attribute>())
+            {
+                operation
+                    .WithTag(tag => tag
                     .WithName(tagAttribute.Name)
                     .WithDescription(tagAttribute.Description));
             }
         });
-        document.WithMessageComponent(requestMessageName, message =>
+        if (string.IsNullOrWhiteSpace(operationAttribute.Message))
         {
-            message
-                .WithName(requestMessageAttribute?.Name)
-                .WithTitle(requestMessageAttribute?.Title)
-                .WithDescription(requestMessageAttribute?.Description)
-                .WithSummary(requestMessageAttribute?.Summary)
-                .WithDescription(requestMessageAttribute?.Description);
-            if (requestMessagePayloadSchema != null)
+            document.WithMessageComponent(requestMessageName, message =>
             {
                 message
-                    .WithPayloadSchema(schema => schema
-                        .WithFormat("application/schema+json")
-                        .WithSchema(requestMessagePayloadSchema));
-            }
-            if (requestMessageAttribute?.ExternalDocumentationUrl != null)
-            {
-                message.WithExternalDocumentation(doc => doc.WithUrl(requestMessageAttribute.ExternalDocumentationUrl));
-            }
-        });
+                    .WithName(requestMessageAttribute?.Name)
+                    .WithTitle(requestMessageAttribute?.Title)
+                    .WithDescription(requestMessageAttribute?.Description)
+                    .WithSummary(requestMessageAttribute?.Summary)
+                    .WithDescription(requestMessageAttribute?.Description);
+                if (!string.IsNullOrEmpty(requestMessageAttribute?.Bindings))
+                {
+                    message.WithBindings(bindings => bindings.Use(requestMessageAttribute.Bindings));
+                }
+                if (!string.IsNullOrWhiteSpace(requestMessageAttribute?.PayloadSchema))
+                {
+                    message.WithPayloadSchema(schema => schema.Use(requestMessageAttribute.PayloadSchema));
+                }
+                else if (requestMessagePayloadSchema != null)
+                {
+                    message
+                        .WithPayloadSchema(schema => schema
+                            .WithFormat("application/schema+json")
+                            .WithSchema(requestMessagePayloadSchema));
+                }
+                if (!string.IsNullOrWhiteSpace(requestMessageAttribute?.HeadersSchema))
+                {
+                    message.WithHeadersSchema(schema => schema.Use(requestMessageAttribute.HeadersSchema));
+                }
+                else if (requestMessageHeadersSchema != null)
+                {
+                    message
+                        .WithHeadersSchema(schema => schema
+                            .WithFormat("application/schema+json")
+                            .WithSchema(requestMessageHeadersSchema));
+                }
+                if (requestMessageAttribute?.ExternalDocumentationUrl != null)
+                {
+                    message.WithExternalDocumentation(doc => doc.WithUrl(requestMessageAttribute.ExternalDocumentationUrl));
+                }
+                if (requestMessageAttribute?.Tags != null)
+                {
+                    foreach (var tagReference in requestMessageAttribute.Tags)
+                    {
+                        message.WithTag(tag => tag.Use(tagReference));
+                    }
+                }
+            });
+        }
         return Task.CompletedTask;
     }
 

@@ -16,12 +16,31 @@ namespace Neuroglia.AsyncApi.Bindings;
 /// <summary>
 /// Defines the fundamentals of a collection of <see cref="IBindingDefinition"/>s
 /// </summary>
+public interface IBindingDefinitionCollection
+    : IReferenceable
+{
+
+    /// <summary>
+    /// Converts the <see cref="BindingDefinitionCollection{TBinding}"/> into a new <see cref="IEnumerable{T}"/> containing the <see cref="IBindingDefinition"/>s the <see cref="BindingDefinitionCollection{TBinding}"/> is made out of
+    /// </summary>
+    /// <returns>A new <see cref="IEnumerable{T}"/> containing the <see cref="IBindingDefinition"/>s the <see cref="BindingDefinitionCollection{TBinding}"/> is made out of</returns>
+    IEnumerable<IBindingDefinition> AsEnumerable();
+
+}
+
+/// <summary>
+/// Defines the fundamentals of a collection of <see cref="IBindingDefinition"/>s
+/// </summary>
 /// <typeparam name="TBinding">The type of <see cref="IBindingDefinition"/> contained by the <see cref="IBindingDefinitionCollection{TBinding}"/></typeparam>
 public interface IBindingDefinitionCollection<TBinding>
-    : IReferenceable
+    : IBindingDefinitionCollection
     where TBinding : IBindingDefinition
 {
 
-
+    /// <summary>
+    /// Converts the <see cref="BindingDefinitionCollection{TBinding}"/> into a new <see cref="IEnumerable{T}"/> containing the <see cref="IBindingDefinition"/>s the <see cref="BindingDefinitionCollection{TBinding}"/> is made out of
+    /// </summary>
+    /// <returns>A new <see cref="IEnumerable{T}"/> containing the <see cref="IBindingDefinition"/>s the <see cref="BindingDefinitionCollection{TBinding}"/> is made out of</returns>
+    new IEnumerable<TBinding> AsEnumerable();
 
 }

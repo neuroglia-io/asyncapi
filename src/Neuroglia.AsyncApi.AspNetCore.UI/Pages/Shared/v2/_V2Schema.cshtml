@@ -1,6 +1,6 @@
 ﻿@using Json.Pointer
 @using System.Text.Json
-@model SchemaViewModel
+@model V2SchemaViewModel
 @{
     var schema = this.Model.Schema;
     var schemaJson = Neuroglia.Serialization.Json.JsonSerializer.Default.SerializeToElement(schema)!;

@@ -16,21 +16,13 @@ namespace Neuroglia.AsyncApi.AspNetCore.UI.Models.v3;
 /// <summary>
 /// Holds the data used to render a <see cref="V3OperationDefinition"/> view
 /// </summary>
-/// <param name="document">The <see cref="V3AsyncApiDocument"/> that defines the <see cref="V3OperationDefinition"/> to render</param>
-/// <param name="operationName">The name of the <see cref="V3OperationDefinition"/> to render</param>
-/// <param name="operation">The <see cref="V3OperationDefinition"/> to render</param>
-public record V3OperationDefinitionViewModel(V3AsyncApiDocument document, string operationName, V3OperationDefinition operation)
-    : V3AsyncApiDocumentViewModel(document)
+/// <param name="Document">The <see cref="V3AsyncApiDocument"/> that defines the <see cref="V3OperationDefinition"/> to render</param>
+/// <param name="Name">The name of the <see cref="V3OperationDefinition"/> to render</param>
+/// <param name="Definition">The <see cref="V3OperationDefinition"/> to render</param>
+public record V3OperationDefinitionViewModel(V3AsyncApiDocument Document, string Name, V3OperationDefinition Definition)
+    : V3AsyncApiDocumentViewModel(Document)
 {
 
-    /// <summary>
-    /// Gets the name of the <see cref="V3OperationDefinition"/> to render
-    /// </summary>
-    public string OperationName { get; } = operationName;
 
-    /// <summary>
-    /// Gets the <see cref="V3OperationDefinition"/> to render
-    /// </summary>
-    public V3OperationDefinition Operation { get; } = operation;
 
 }

@@ -45,6 +45,16 @@ public class V3SchemaDefinitionBuilder(IServiceProvider serviceProvider, IEnumer
     }
 
     /// <inheritdoc/>
+    public virtual void WithJsonSchema(Action<JsonSchemaBuilder> setup)
+    {
+        ArgumentNullException.ThrowIfNull(setup);
+        var builder = new JsonSchemaBuilder();
+        setup(builder);
+        Schema.SchemaFormat = "application/schema+json";
+        Schema.Schema = builder.Build();
+    }
+
+    /// <inheritdoc/>
     public virtual IV3SchemaDefinitionBuilder WithFormat(string format)
     {
         ArgumentException.ThrowIfNullOrWhiteSpace(format);

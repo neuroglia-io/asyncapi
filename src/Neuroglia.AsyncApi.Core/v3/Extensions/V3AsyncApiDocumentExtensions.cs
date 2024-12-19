@@ -20,6 +20,33 @@ public static class V3AsyncApiDocumentExtensions
 {
 
     /// <summary>
+    /// Gets all the <see cref="V3ChannelDefinition"/>s defined by the specified <see cref="V3ServerDefinition"/>
+    /// </summary>
+    /// <param name="document">The extended <see cref="V3AsyncApiDocument"/></param>
+    /// <param name="serverReference">A reference to the <see cref="V3ServerDefinition"/> to get the <see cref="V3ChannelDefinition"/>s for</param>
+    /// <returns>A new <see cref="IEnumerable{T}"/> containing all the <see cref="V3ChannelDefinition"/>s defined by the specified <see cref="V3ServerDefinition"/></returns>
+    public static IEnumerable<KeyValuePair<string, V3ChannelDefinition>> GetChannelsFor(this V3AsyncApiDocument document, string serverReference)
+    {
+        ArgumentException.ThrowIfNullOrWhiteSpace(serverReference);
+        foreach(var channelKvp in document.Channels.Where(c => c.Value.Servers.Any(s => s.Reference == serverReference))) yield return channelKvp;
+        if (document.Components?.Channels != null) foreach (var channelKvp in document.Components.Channels.Where(c => c.Value.Servers.Any(s => s.Reference == serverReference))) yield return channelKvp;
+        
+    }
+
+    /// <summary>
+    /// Gets all the <see cref="V3OperationDefinition"/>s defined by the specified <see cref="V3OperationDefinition"/>
+    /// </summary>
+    /// <param name="document">The extended <see cref="V3AsyncApiDocument"/></param>
+    /// <param name="channelReference">A reference to the <see cref="V3OperationDefinition "/> to get the <see cref="V3OperationDefinition"/>s for</param>
+    /// <returns>A new <see cref="IEnumerable{T}"/> containing all the <see cref="V3OperationDefinition"/>s defined by the specified <see cref="V3ChannelDefinition"/></returns>
+    public static IEnumerable<KeyValuePair<string, V3OperationDefinition>> GetOperationsFor(this V3AsyncApiDocument document, string channelReference)
+    {
+        ArgumentException.ThrowIfNullOrWhiteSpace(channelReference);
+        foreach (var operationKvp in document.Operations.Where(o => o.Value.Channel.Reference == channelReference)) yield return operationKvp;
+        if (document.Components?.Operations != null) foreach (var operationKvp in document.Components.Operations.Where(o => o.Value.Channel.Reference == channelReference)) yield return operationKvp;
+    }
+
+    /// <summary>
     /// Dereferences the specified component
     /// </summary>
     /// <param name="document">The extended <see cref="V3AsyncApiDocument"/></param>

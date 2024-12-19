@@ -28,7 +28,7 @@ public record V3ChannelDefinition
     /// It MAY contain Channel Address Expressions. Query parameters and fragments SHALL NOT be used, instead use bindings to define them.
     /// </summary>
     [DataMember(Order = 1, Name = "address"), JsonPropertyOrder(1), JsonPropertyName("address"), YamlMember(Order = 1, Alias = "address", ScalarStyle = ScalarStyle.SingleQuoted)]
-    public virtual string? Address { get; set; }
+    public virtual string Address { get; set; } = "unknown";
 
     /// <summary>
     /// Gets/sets a map of the messages that will be sent to this channel by any application at any time. Every message sent to this channel MUST be valid against one, and only one, of the message objects defined in this map.

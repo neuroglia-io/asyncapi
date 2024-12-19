@@ -1,0 +1,75 @@
+﻿@using Json.Pointer
+@using System.Text.Json
+@model V3JsonSchemaViewModel
+@{
+    var schema = this.Model.Schema;
+    var schemaJson = Neuroglia.Serialization.Json.JsonSerializer.Default.SerializeToElement(schema)!;
+    var jsonType = schema.GetJsonType();
+    var properties = schema.GetProperties();
+    if ((properties == null || !properties.Any()) && (properties == null || !properties.Any())) return;
+    var required = schema.GetRequired();
+}
+@switch (jsonType)
+{
+    case SchemaValueType.Object:
+        <table class="table">
+            <tbody>
+                @foreach (var property in properties)
+                {
+                    var propertyType = property.Value.GetJsonType();
+                    var nullable = (propertyType & SchemaValueType.Null) == SchemaValueType.Null;
+                    propertyType = propertyType & ~SchemaValueType.Null;
+                    var propertyTypeName = propertyType.HasValue ? EnumHelper.Stringify(propertyType.Value).ToLowerInvariant() : "object";
+                    var typeDescription = string.Empty;
+                    var typeFlags = propertyType.HasValue ? EnumHelper.GetFlags<SchemaValueType>(propertyType.Value) : Array.Empty<SchemaValueType>();
+                    if (propertyType.HasValue && typeFlags.Count() > 1)
+                    {
+                        propertyTypeName = "oneOf";
+                        typeDescription = string.Join("\n", typeFlags.Select(t => EnumHelper.Stringify(t).ToLowerInvariant()));
+                    }
+                    var constValue = property.Value.GetConst();
+                    var format = property.Value.GetFormat();
+                    var pattern = property.Value.GetPattern();
+                    var enumValue = property.Value.GetEnum();
+                    var description = property.Value.GetDescription();
+                    <tr>
+                        <td class="fit">
+                            <small class="text-secondary fw-bold">@property.Key</small>
+                        </td>
+                        <td class="fit">
+                            <span class="badge bg-secondary text-light" title="@typeDescription" role="button">@propertyTypeName</span>
+                            @if (required?.Contains(property.Key) == true)
+                            {
+                                <span class="badge border bg-warning" title="The value is required." role="button">required</span>
+                            }
+                            @if (nullable)
+                            {
+                                <span class="badge border border-secondary text-secondary" title="The value is nullable" role="button">nullable</span>
+                            }
+                            @if (constValue != null)
+                            {
+                                <span class="badge border border-secondary text-secondary" title="The value must be equal to '@(constValue.GetValue<string>())'" role="button">const</span>
+                            }
+                            @if (format != null)
+                            {
+                                <span class="badge border border-secondary text-secondary" title="The value must be formatted using the '@(format.Key)' JSON Schema format." role="button">format</span>
+                            }
+                            @if (pattern != null)
+                            {
+                                <span class="badge border border-secondary text-secondary" title="The value must be validated by the regular expression." role="button">pattern</span>
+                            }
+                            @if (enumValue != null)
+                            {
+                                <span class="badge border border-secondary text-secondary" title="The value must be one of the following: @(string.Join(", ", enumValue.Select(v => v == null ? "null" : v.GetValue<string>())))" role="button">enum</span>
+                            }
+                        </td>
+                        <td>
+                            <small class="text-muted">@description</small>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+        break;
+    default: break;
+}

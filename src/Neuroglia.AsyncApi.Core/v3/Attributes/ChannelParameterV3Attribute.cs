@@ -53,4 +53,9 @@ public class ChannelParameterV3Attribute(string channel, string name)
     /// </summary>
     public string? Location { get; init; }
 
+    /// <summary>
+    /// Gets/sets the <see cref="V3ParameterDefinition"/>'s examples, if any
+    /// </summary>
+    public string[]? Examples { get; init; }
+
 }

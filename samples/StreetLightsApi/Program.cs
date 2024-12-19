@@ -11,7 +11,9 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+using Json.Schema.Generation;
 using Neuroglia.AsyncApi.Bindings.Mqtt;
+using StreetLightsApi.Messages;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -64,7 +66,47 @@ builder.Services.AddAsyncApiGeneration(builder =>
                     {
                         ClientId = "StreetLightsAPI:1.0.0",
                         CleanSession = true
-                    }));
+                    }))
+                .WithServerComponent("http", server => server
+                    .WithHost("https://test.com")
+                    .WithPathName("/{environment}")
+                    .WithProtocol(AsyncApiProtocol.Http)
+                    .WithDescription("The **HTTP test server**. Use the `env` variable to point to either `production` or `staging`.")
+                    .WithVariable("environment", variable => variable
+                        .WithDescription("Environment to connect to.")
+                        .WithEnumValues("production", "staging"))
+                    .WithBindings(bindings => bindings
+                        .Use("#/components/serverBindings/http")))
+                .WithChannelComponent("lightingMeasuredHTTP", channel => channel
+                    .WithDescription("This channel is used to exchange messages about lightning measurements.")
+                    .WithServer("#/components/servers/http")
+                    .WithBindings(bindings => bindings
+                        .Use("#/components/channelBindings/http")))
+                .WithOperationComponent("addStreetLight", operation => operation
+                    .WithAction(Neuroglia.AsyncApi.v3.V3OperationAction.Receive)
+                    .WithChannel("#/components/channels/lightingMeasuredHTTP")
+                    .WithDescription("Adds a new **streetlight** to the API.")
+                    .WithMessage("#/components/messages/addStreetLightRequest")
+                    .WithBindings(bindings => bindings
+                        .Use("#/components/operationBindings/http")))
+                .WithMessageComponent("addStreetLightRequest", message => message
+                    .WithPayloadSchema(schema => schema
+                        .WithJsonSchema(jsonSchema => jsonSchema
+                            .FromType<AddStreetLightRequest>(Neuroglia.AsyncApi.JsonSchemaGeneratorConfiguration.Default)))
+                    .WithBindings(bindings => bindings
+                        .Use("#/components/messageBindings/http")))
+                .WithServerBindingsComponent("http", bindings => bindings
+                    .WithBinding(new HttpServerBindingDefinition()))
+                .WithChannelBindingsComponent("http", bindings => bindings
+                    .WithBinding(new HttpChannelBindingDefinition()))
+                .WithOperationBindingsComponent("http", bindings => bindings
+                    .WithBinding(new HttpOperationBindingDefinition()
+                    {
+                        Method = Neuroglia.AsyncApi.Bindings.Http.HttpMethod.POST,
+                        Type = HttpBindingOperationType.Request
+                    }))
+                .WithMessageBindingsComponent("http", bindings => bindings
+                    .WithBinding(new HttpMessageBindingDefinition()));
         }));
 builder.Services.AddAsyncApiDocument(document => document
     .WithTitle("Cloud Event API")

@@ -11,23 +11,24 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using Neuroglia.AsyncApi.AspNetCore.UI.Models.v2;
+namespace StreetLightsApi.Messages;
 
-namespace Neuroglia.AsyncApi.AspNetCore.UI.Models;
-
-/// <summary>
-/// Holds the data used to render a <see cref="JsonSchema"/> view
-/// </summary>
-public record SchemaViewModel
-    : V2AsyncApiDocumentViewModel
+public class AddStreetLightRequest
 {
 
-    /// <inheritdoc/>
-    public SchemaViewModel(V2AsyncApiDocument document, JsonSchema schema) : base(document) => this.Schema = schema;
+    /// <summary>
+    /// Gets/sets the id of the street to add a new light to
+    /// </summary>
+    public required string StreetId { get; init; }
 
     /// <summary>
-    /// Gets the <see cref="JsonSchema"/> to render
+    /// Gets/sets the latitude of the light to add
     /// </summary>
-    public JsonSchema Schema { get; }
+    public required decimal Latitude { get; init; }
+
+    /// <summary>
+    /// Gets/sets the longitude of the light to add
+    /// </summary>
+    public required decimal Longitude { get; init; }
 
 }

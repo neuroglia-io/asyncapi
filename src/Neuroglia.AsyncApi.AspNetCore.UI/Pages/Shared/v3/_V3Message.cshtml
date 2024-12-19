@@ -1,0 +1,88 @@
+﻿@model V3MessageDefinitionViewModel
+@inject Neuroglia.Serialization.IJsonSerializer JsonSerializer
+@inject Neuroglia.AsyncApi.Generation.IJsonSchemaExampleGenerator ExampleGenerator
+@{
+    var message = Model.Message;
+}
+
+<div class="card my-3">
+    <a data-bs-toggle="collapse" href="#@Model.MessageName" role="button" aria-expanded="false" title="@message.Summary" class="collapsed">
+        <div class="card-header">
+            <div class="row">
+                <div class="col-md-9">
+                    <i class="caret text-dark"></i>
+                    <span class="text-muted align-middle mx-2">@Model.MessageName</span>
+                    <span class="badge border border-secondary text-secondary">@message.ContentType</span>
+                    @if (message.CorrelationId != null)
+                    {
+                        <i class="bi bi-link ms-2 text-dark" role="button" title="The message is correlatable"></i>
+                    }
+                </div>
+                <div class="col-md-3 text-end">
+                    @if (message.Tags != null)
+                    {
+                        foreach (var tag in message.Tags)
+                        {
+                            <span class="badge rounded-pill border border-secondary text-secondary" title="@tag.Description">@tag.Name</span>
+                        }
+                    }
+                </div>
+            </div>
+        </div>
+    </a>
+    <div id="@Model.MessageName" class="card-body collapse">
+        
+        @if (!string.IsNullOrWhiteSpace(message.Description))
+        {
+            <small class="text-secondary">@Html.Raw(Markdown.ToHtml(message.Description))</small>
+        }
+
+        @if (message.CorrelationId != null)
+        {
+            <div class="card border-0">
+                <a data-bs-toggle="collapse" href="#@(Model.MessageName)_correlationId" role="button" aria-expanded="false">
+                    <div class="card-header bg-transparent">
+                        <i class="caret text-dark"></i>
+                        <span class="font-weight-bold text-secondary">Correlation Id</span>
+                    </div>
+                </a>
+                <div id="@(Model.MessageName)_correlationId" class="card-body m-0 p-0 collapse show">
+                    <partial name="v3/_V3CorrelationId" model="new V3CorrelationIdDefinitionViewModel(this.Model.Document, message.CorrelationId)" />
+                </div>
+            </div>
+        }
+
+        @if (message.Payload == null)
+        {
+            <p class="alert alert-warning fst-italic m-3"><small>The message does not specify a payload schema.</small></p>
+        }
+        else
+        {
+            var schemaDefinition = string.IsNullOrWhiteSpace(message.Payload.Reference) ? message.Payload : Model.Document.DereferenceSchema(message.Payload.Reference);
+            <partial name="v3/_V3Schema" model="new V3SchemaViewModel(Model.Document, schemaDefinition, Model.MessageName, message.Examples)" />
+        }
+
+        <div class="card border-0">
+            <a data-bs-toggle="collapse" href="#@(Model.MessageName)_bindings" role="button" aria-expanded="false" class="collapsed">
+                <div class="card-header bg-transparent">
+                    <i class="caret text-dark"></i>
+                    <span class="font-weight-bold text-secondary">Bindings</span>
+                </div>
+            </a>
+            <div id="@(Model.MessageName)_bindings" class="card-body m-0 p-0 collapse">
+                @if (message.Bindings == null || !message.Bindings.AsEnumerable().Any())
+                {
+                    <p class="alert alert-warning fst-italic my-3"><small>No bindings defined.</small></p>
+                }
+                else
+                {
+                    @foreach (var binding in message.Bindings.AsEnumerable())
+                    {
+                        <partial name="v2/_V2Binding" model="new V3BindingDefinitionViewModel(this.Model.Document, binding, Model.MessageName)" />
+                    }
+                }
+            </div>
+        </div>
+
+    </div>
+</div>

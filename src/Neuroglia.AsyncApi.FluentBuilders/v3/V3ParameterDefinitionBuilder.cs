@@ -75,9 +75,8 @@ public class V3ParameterDefinitionBuilder(IServiceProvider serviceProvider, IEnu
     }
 
     /// <inheritdoc/>
-    public virtual IV3ParameterDefinitionBuilder WithLocation(string location)
+    public virtual IV3ParameterDefinitionBuilder WithLocation(string? location)
     {
-        ArgumentException.ThrowIfNullOrWhiteSpace(location);
         Parameter.Location = location;
         return this;
     }

@@ -11,24 +11,18 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using Neuroglia.AsyncApi.AspNetCore.UI.Models.v2;
-
-namespace Neuroglia.AsyncApi.AspNetCore.UI.Models;
+namespace Neuroglia.AsyncApi.AspNetCore.UI.Models.v3;
 
 /// <summary>
-/// Holds the data used to render an <see cref="V2CorrelationIdDefinition"/> view
+/// Holds the data used to render a <see cref="V3MessageDefinition"/> view
 /// </summary>
-public record CorrelationIdDefinitionViewModel
-    : V2AsyncApiDocumentViewModel
+/// <param name="Document">The <see cref="V3AsyncApiDocument"/> that defines the <see cref="V3MessageDefinition"/> to render</param>
+/// <param name="MessageName">The name of the <see cref="V3MessageDefinition"/> to render</param>
+/// <param name="Message">The <see cref="V3MessageDefinition"/> to render</param>
+public record V3MessageDefinitionViewModel(V3AsyncApiDocument Document, string MessageName, V3MessageDefinition Message)
+    : V3AsyncApiDocumentViewModel(Document)
 {
 
-    /// <inheritdoc/>
-    public CorrelationIdDefinitionViewModel(V2AsyncApiDocument document, V2CorrelationIdDefinition correlationId) : base(document) { this.CorrelationId = correlationId; }
-
-    /// <summary>
-    /// Gets the <see cref="V2CorrelationIdDefinition"/> to render
-    /// </summary>
-    public V2CorrelationIdDefinition CorrelationId { get; }
 
 
 }

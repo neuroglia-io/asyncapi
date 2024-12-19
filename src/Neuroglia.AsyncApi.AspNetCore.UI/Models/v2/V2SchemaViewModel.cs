@@ -11,26 +11,21 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using Json.Schema.Generation.Generators;
-using Json.Schema.Generation.Intents;
-
-namespace Neuroglia.AsyncApi.Generation;
+namespace Neuroglia.AsyncApi.AspNetCore.UI.Models.v2;
 
 /// <summary>
-/// Represents an <see cref="ISchemaGenerator"/> used to generate <see cref="JsonSchema"/>s for <see cref="DateTimeOffset"/>s
+/// Holds the data used to render a <see cref="JsonSchema"/> view
 /// </summary>
-public class DateTimeOffsetJsonSchemaGenerator
-    : ISchemaGenerator
+public record V2SchemaViewModel
+    : V2AsyncApiDocumentViewModel
 {
 
     /// <inheritdoc/>
-    public virtual bool Handles(Type type) => type == typeof(DateTimeOffset);
+    public V2SchemaViewModel(V2AsyncApiDocument document, JsonSchema schema) : base(document) => Schema = schema;
 
-    /// <inheritdoc/>
-    public virtual void AddConstraints(SchemaGenerationContextBase context)
-    {
-        context.Intents.Add(new TypeIntent(SchemaValueType.String));
-        context.Intents.Add(new FormatIntent(new("date-time")));
-    }
+    /// <summary>
+    /// Gets the <see cref="JsonSchema"/> to render
+    /// </summary>
+    public JsonSchema Schema { get; }
 
 }
