@@ -28,7 +28,7 @@ public static class V3AsyncApiDocumentExtensions
     public static ReferenceableComponentDefinition Dereference(this V3AsyncApiDocument document, string reference)
     {
         ArgumentException.ThrowIfNullOrWhiteSpace(reference);
-        var componentType = reference.Split('/', StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries)[^1];
+        var componentType = reference.Split('/', StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries)[^2];
         return componentType switch
         {
             "servers" => document.DereferenceServer(reference),
@@ -42,7 +42,7 @@ public static class V3AsyncApiDocumentExtensions
             "correlationIds" => document.DereferenceCorrelationId(reference),
             "replies" => document.DereferenceReply(reference),
             "replyAddresses" => document.DereferenceReplyAddress(reference),
-            "externalDocs" => document.DereferenceExternalDoc(reference),
+            "externalDocs" => document.DereferenceExternalDocumentation(reference),
             "tags" => document.DereferenceTag(reference),
             "operationTraits" => document.DereferenceOperationTrait(reference),
             "messageTraits" => document.DereferenceMessageTrait(reference),
@@ -248,7 +248,7 @@ public static class V3AsyncApiDocumentExtensions
     /// <param name="document">The extended <see cref="V3AsyncApiDocument"/></param>
     /// <param name="reference">The reference to the <see cref="V3ExternalDocumentationDefinition"/> to get</param>
     /// <returns>The specified <see cref="V3ExternalDocumentationDefinition"/></returns>
-    public static V3ExternalDocumentationDefinition DereferenceExternalDoc(this V3AsyncApiDocument document, string reference)
+    public static V3ExternalDocumentationDefinition DereferenceExternalDocumentation(this V3AsyncApiDocument document, string reference)
     {
         ArgumentException.ThrowIfNullOrWhiteSpace(reference);
         if (!reference.StartsWith("#/components/externalDocs/")) throw new InvalidDataException($"The specified value '{reference}' is not a valid external docs reference");
