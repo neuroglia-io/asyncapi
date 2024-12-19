@@ -14,10 +14,10 @@
 namespace Neuroglia.AsyncApi.Validation;
 
 /// <summary>
-/// Represents the service used to validate the <see cref="LicenseDefinition"/>
+/// Represents the service used to validate the <see cref="V2LicenseDefinition"/>
 /// </summary>
 public class LicenseValidator
-    : AbstractValidator<LicenseDefinition>
+    : AbstractValidator<V2LicenseDefinition>
 {
 
     /// <summary>

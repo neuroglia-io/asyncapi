@@ -95,6 +95,13 @@ public interface IV3MessageTraitDefinitionBuilder<TBuilder, TTrait>
     TBuilder WithBinding(IMessageBindingDefinition binding);
 
     /// <summary>
+    /// Configures the <see cref="V3MessageTraitDefinition"/> to use the specified <see cref="MessageBindingDefinitionCollection"/>
+    /// </summary>
+    /// <param name="setup">An <see cref="Action{T}"/> used to setup the <see cref="MessageBindingDefinitionCollection"/> to use</param>
+    /// <returns>The configured <see cref="IV3MessageTraitDefinitionBuilder{TBuilder, TTrait}"/></returns>
+    TBuilder WithBindings(Action<IMessageBindingDefinitionCollectionBuilder> setup);
+
+    /// <summary>
     /// Adds the specified example to the <see cref="V3MessageTraitDefinition"/> to build
     /// </summary>
     /// <param name="setup">An <see cref="Action{T}"/> used to setup the example to add</param>

@@ -50,13 +50,13 @@ public record V2ApiInfo
     /// Gets/sets the contact information for the exposed API.
     /// </summary>
     [DataMember(Order = 5, Name = "contact"), JsonPropertyOrder(5), JsonPropertyName("contact"), YamlMember(Order = 5, Alias = "contact")]
-    public virtual ContactDefinition? Contact { get; set; }
+    public virtual V2ContactDefinition? Contact { get; set; }
 
     /// <summary>
     /// Gets/sets the license information for the exposed API.
     /// </summary>
     [DataMember(Order = 6, Name = "license"), JsonPropertyOrder(6), JsonPropertyName("license"), YamlMember(Order = 6, Alias = "license")]
-    public virtual LicenseDefinition? License { get; set; }
+    public virtual V2LicenseDefinition? License { get; set; }
 
     /// <inheritdoc/>
     public override string ToString() => this.Title;

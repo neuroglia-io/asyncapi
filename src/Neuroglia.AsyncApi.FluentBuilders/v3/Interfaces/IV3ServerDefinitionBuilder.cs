@@ -100,6 +100,13 @@ public interface IV3ServerDefinitionBuilder
     IV3ServerDefinitionBuilder WithBinding(IServerBindingDefinition binding);
 
     /// <summary>
+    /// Configures the <see cref="V3ServerDefinition"/> to use the specified <see cref="ServerBindingDefinitionCollection"/>
+    /// </summary>
+    /// <param name="setup">An <see cref="Action{T}"/> used to setup the <see cref="ServerBindingDefinitionCollection"/> to use</param>
+    /// <returns>The configured <see cref="IV3ServerDefinitionBuilder"/></returns>
+    IV3ServerDefinitionBuilder WithBindings(Action<IServerBindingDefinitionCollectionBuilder> setup);
+
+    /// <summary>
     /// Builds the configured <see cref="V3ServerDefinition"/>
     /// </summary>
     /// <returns>A new <see cref="V3ServerDefinition"/></returns>

@@ -252,12 +252,28 @@ public interface IV3AsyncApiDocumentBuilder
     IV3AsyncApiDocumentBuilder WithServerBindingsComponent(string name, ServerBindingDefinitionCollection bindings);
 
     /// <summary>
+    /// Adds the specified reusable <see cref="ServerBindingDefinitionCollection"/> to the <see cref="V3AsyncApiDocument"/> to build
+    /// </summary>
+    /// <param name="name">The name of the reusable <see cref="ServerBindingDefinitionCollection"/> to add</param>
+    /// <param name="setup">An <see cref="Action{T}"/> used to setup the <see cref="ServerBindingDefinitionCollection"/> to add</param>
+    /// <returns>The configured <see cref="IV3AsyncApiDocumentBuilder"/></returns>
+    IV3AsyncApiDocumentBuilder WithServerBindingsComponent(string name, Action<IServerBindingDefinitionCollectionBuilder> setup);
+
+    /// <summary>
     /// Adds the specified reusable <see cref="ChannelBindingDefinitionCollection"/> to the <see cref="V3AsyncApiDocument"/> to build
     /// </summary>
     /// <param name="name">The name of the reusable <see cref="ChannelBindingDefinitionCollection"/> to add</param>
     /// <param name="bindings">The reusable <see cref="ChannelBindingDefinitionCollection"/> to add</param>
     /// <returns>The configured <see cref="IV3AsyncApiDocumentBuilder"/></returns>
     IV3AsyncApiDocumentBuilder WithChannelBindingsComponent(string name, ChannelBindingDefinitionCollection bindings);
+
+    /// <summary>
+    /// Adds the specified reusable <see cref="ChannelBindingDefinitionCollection"/> to the <see cref="V3AsyncApiDocument"/> to build
+    /// </summary>
+    /// <param name="name">The name of the reusable <see cref="ChannelBindingDefinitionCollection"/> to add</param>
+    /// <param name="setup">An <see cref="Action{T}"/> used to setup the <see cref="ChannelBindingDefinitionCollection"/> to add</param>
+    /// <returns>The configured <see cref="IV3AsyncApiDocumentBuilder"/></returns>
+    IV3AsyncApiDocumentBuilder WithChannelBindingsComponent(string name, Action<IChannelBindingDefinitionCollectionBuilder> setup);
 
     /// <summary>
     /// Adds the specified reusable <see cref="OperationBindingDefinitionCollection"/> to the <see cref="V3AsyncApiDocument"/> to build
@@ -268,12 +284,28 @@ public interface IV3AsyncApiDocumentBuilder
     IV3AsyncApiDocumentBuilder WithOperationBindingsComponent(string name, OperationBindingDefinitionCollection bindings);
 
     /// <summary>
+    /// Adds the specified reusable <see cref="OperationBindingDefinitionCollection"/> to the <see cref="V3AsyncApiDocument"/> to build
+    /// </summary>
+    /// <param name="name">The name of the reusable <see cref="OperationBindingDefinitionCollection"/> to add</param>
+    /// <param name="setup">An <see cref="Action{T}"/> used to setup the <see cref="OperationBindingDefinitionCollection"/> to add</param>
+    /// <returns>The configured <see cref="IV3AsyncApiDocumentBuilder"/></returns>
+    IV3AsyncApiDocumentBuilder WithOperationBindingsComponent(string name, Action<IOperationBindingDefinitionCollectionBuilder> setup);
+
+    /// <summary>
     /// Adds the specified reusable <see cref="MessageBindingDefinitionCollection"/> to the <see cref="V3AsyncApiDocument"/> to build
     /// </summary>
     /// <param name="name">The name of the reusable <see cref="MessageBindingDefinitionCollection"/> to add</param>
     /// <param name="bindings">The reusable <see cref="MessageBindingDefinitionCollection"/> to add</param>
     /// <returns>The configured <see cref="IV3AsyncApiDocumentBuilder"/></returns>
     IV3AsyncApiDocumentBuilder WithMessageBindingsComponent(string name, MessageBindingDefinitionCollection bindings);
+
+    /// <summary>
+    /// Adds the specified reusable <see cref="MessageBindingDefinitionCollection"/> to the <see cref="V3AsyncApiDocument"/> to build
+    /// </summary>
+    /// <param name="name">The name of the reusable <see cref="MessageBindingDefinitionCollection"/> to add</param>
+    /// <param name="setup">An <see cref="Action{T}"/> used to setup the <see cref="MessageBindingDefinitionCollection"/> to add</param>
+    /// <returns>The configured <see cref="IV3AsyncApiDocumentBuilder"/></returns>
+    IV3AsyncApiDocumentBuilder WithMessageBindingsComponent(string name, Action<IMessageBindingDefinitionCollectionBuilder> setup);
 
     /// <summary>
     /// Builds the configured <see cref="V3AsyncApiDocument"/>

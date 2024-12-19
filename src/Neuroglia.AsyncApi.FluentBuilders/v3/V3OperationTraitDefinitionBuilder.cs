@@ -111,6 +111,16 @@ public abstract class V3OperationTraitDefinitionBuilder<TBuilder, TTrait>(IServi
     }
 
     /// <inheritdoc/>
+    public virtual TBuilder WithBindings(Action<IOperationBindingDefinitionCollectionBuilder> setup)
+    {
+        ArgumentNullException.ThrowIfNull(setup);
+        var builder = ActivatorUtilities.CreateInstance<OperationBindingDefinitionCollectionBuilder>(this.ServiceProvider);
+        setup(builder);
+        Trait.Bindings = builder.Build();
+        return (TBuilder)(object)this;
+    }
+
+    /// <inheritdoc/>
     public virtual TTrait Build()
     {
         var validationResults = Validators.Select(v => v.Validate(Trait));

@@ -139,6 +139,16 @@ public class V3ChannelDefinitionBuilder(IServiceProvider serviceProvider, IEnume
     }
 
     /// <inheritdoc/>
+    public virtual IV3ChannelDefinitionBuilder WithBindings(Action<IChannelBindingDefinitionCollectionBuilder> setup)
+    {
+        ArgumentNullException.ThrowIfNull(setup);
+        var builder = ActivatorUtilities.CreateInstance<ChannelBindingDefinitionCollectionBuilder>(this.ServiceProvider);
+        setup(builder);
+        Channel.Bindings = builder.Build();
+        return this;
+    }
+
+    /// <inheritdoc/>
     public virtual V3ChannelDefinition Build()
     {
         var validationResults = Validators.Select(v => v.Validate(Channel));

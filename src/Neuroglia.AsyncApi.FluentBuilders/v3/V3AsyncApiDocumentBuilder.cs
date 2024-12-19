@@ -387,6 +387,19 @@ public class V3AsyncApiDocumentBuilder(IServiceProvider serviceProvider, IEnumer
     }
 
     /// <inheritdoc/>
+    public virtual IV3AsyncApiDocumentBuilder WithServerBindingsComponent(string name, Action<IServerBindingDefinitionCollectionBuilder> setup)
+    {
+        ArgumentException.ThrowIfNullOrWhiteSpace(name);
+        ArgumentNullException.ThrowIfNull(setup);
+        var builder = ActivatorUtilities.CreateInstance<ServerBindingDefinitionCollectionBuilder>(this.ServiceProvider);
+        setup(builder);
+        Document.Components ??= new();
+        Document.Components.ServerBindings ??= [];
+        Document.Components.ServerBindings[name] = builder.Build();
+        return this;
+    }
+
+    /// <inheritdoc/>
     public virtual IV3AsyncApiDocumentBuilder WithChannelBindingsComponent(string name, ChannelBindingDefinitionCollection bindings)
     {
         ArgumentException.ThrowIfNullOrWhiteSpace(name);
@@ -394,6 +407,19 @@ public class V3AsyncApiDocumentBuilder(IServiceProvider serviceProvider, IEnumer
         Document.Components ??= new();
         Document.Components.ChannelBindings ??= [];
         Document.Components.ChannelBindings[name] = bindings;
+        return this;
+    }
+
+    /// <inheritdoc/>
+    public virtual IV3AsyncApiDocumentBuilder WithChannelBindingsComponent(string name, Action<IChannelBindingDefinitionCollectionBuilder> setup)
+    {
+        ArgumentException.ThrowIfNullOrWhiteSpace(name);
+        ArgumentNullException.ThrowIfNull(setup);
+        var builder = ActivatorUtilities.CreateInstance<ChannelBindingDefinitionCollectionBuilder>(this.ServiceProvider);
+        setup(builder);
+        Document.Components ??= new();
+        Document.Components.ChannelBindings ??= [];
+        Document.Components.ChannelBindings[name] = builder.Build();
         return this;
     }
 
@@ -409,6 +435,19 @@ public class V3AsyncApiDocumentBuilder(IServiceProvider serviceProvider, IEnumer
     }
 
     /// <inheritdoc/>
+    public virtual IV3AsyncApiDocumentBuilder WithOperationBindingsComponent(string name, Action<IOperationBindingDefinitionCollectionBuilder> setup)
+    {
+        ArgumentException.ThrowIfNullOrWhiteSpace(name);
+        ArgumentNullException.ThrowIfNull(setup);
+        var builder = ActivatorUtilities.CreateInstance<OperationBindingDefinitionCollectionBuilder>(this.ServiceProvider);
+        setup(builder);
+        Document.Components ??= new();
+        Document.Components.OperationBindings ??= [];
+        Document.Components.OperationBindings[name] = builder.Build();
+        return this;
+    }
+
+    /// <inheritdoc/>
     public virtual IV3AsyncApiDocumentBuilder WithMessageBindingsComponent(string name, MessageBindingDefinitionCollection bindings)
     {
         ArgumentException.ThrowIfNullOrWhiteSpace(name);
@@ -416,6 +455,19 @@ public class V3AsyncApiDocumentBuilder(IServiceProvider serviceProvider, IEnumer
         Document.Components ??= new();
         Document.Components.MessageBindings ??= [];
         Document.Components.MessageBindings[name] = bindings;
+        return this;
+    }
+
+    /// <inheritdoc/>
+    public virtual IV3AsyncApiDocumentBuilder WithMessageBindingsComponent(string name, Action<IMessageBindingDefinitionCollectionBuilder> setup)
+    {
+        ArgumentException.ThrowIfNullOrWhiteSpace(name);
+        ArgumentNullException.ThrowIfNull(setup);
+        var builder = ActivatorUtilities.CreateInstance<MessageBindingDefinitionCollectionBuilder>(this.ServiceProvider);
+        setup(builder);
+        Document.Components ??= new();
+        Document.Components.MessageBindings ??= [];
+        Document.Components.MessageBindings[name] = builder.Build();
         return this;
     }
 

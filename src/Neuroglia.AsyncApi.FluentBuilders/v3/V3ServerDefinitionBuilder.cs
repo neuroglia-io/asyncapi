@@ -141,6 +141,16 @@ public class V3ServerDefinitionBuilder(IServiceProvider serviceProvider, IEnumer
     }
 
     /// <inheritdoc/>
+    public virtual IV3ServerDefinitionBuilder WithBindings(Action<IServerBindingDefinitionCollectionBuilder> setup)
+    {
+        ArgumentNullException.ThrowIfNull(setup);
+        var builder = ActivatorUtilities.CreateInstance<ServerBindingDefinitionCollectionBuilder>(this.ServiceProvider);
+        setup(builder);
+        Server.Bindings = builder.Build();
+        return this;
+    }
+
+    /// <inheritdoc/>
     public virtual V3ServerDefinition Build()
     {
         var validationResults = Validators.Select(v => v.Validate(Server));

@@ -11,30 +11,32 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-namespace Neuroglia.AsyncApi;
+namespace Neuroglia.AsyncApi.v2;
 
 /// <summary>
-/// Represents an object used to provide license information for the exposed API
+/// Represents an object used to provide contact information for the exposed API
 /// </summary>
 [DataContract]
-public record LicenseDefinition
+public record V2ContactDefinition
 {
 
     /// <summary>
-    /// Gets/sets the license name used for the API.
+    /// Gets/sets the identifying name of the contact person/organization.
     /// </summary>
-    [Required]
     [DataMember(Order = 1, Name = "name"), JsonPropertyOrder(1), JsonPropertyName("name"), YamlMember(Order = 1, Alias = "name")]
-    public virtual string Name { get; set; } = null!;
+    public virtual string? Name { get; set; }
 
     /// <summary>
-    /// Gets/sets the <see cref="Uri"/> to the license used for the API.
+    /// Gets/sets the <see cref="Uri"/> pointing to the contact information.
     /// </summary>
-    [Required]
     [DataMember(Order = 2, Name = "url"), JsonPropertyOrder(2), JsonPropertyName("url"), YamlMember(Order = 2, Alias = "url")]
     public virtual Uri? Url { get; set; }
 
-    /// <inheritdoc/>
-    public override string ToString() => Name;
+    /// <summary>
+    /// Gets/sets the <see cref="Uri"/> pointing to the contact information.
+    /// </summary>
+    [DataType(DataType.EmailAddress)]
+    [DataMember(Order = 3, Name = "email"), JsonPropertyOrder(3), JsonPropertyName("email"), YamlMember(Order = 3, Alias = "email")]
+    public virtual string? Email { get; set; }
 
 }

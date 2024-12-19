@@ -11,13 +11,13 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-namespace Neuroglia.AsyncApi;
+namespace Neuroglia.AsyncApi.v3;
 
 /// <summary>
 /// Represents an object used to provide contact information for the exposed API
 /// </summary>
 [DataContract]
-public record ContactDefinition
+public record V3ContactDefinition
 {
 
     /// <summary>

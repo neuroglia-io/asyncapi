@@ -13,7 +13,6 @@
 
 using Neuroglia.AsyncApi.Bindings.Http;
 using Neuroglia.AsyncApi.FluentBuilders.v2;
-using Neuroglia.AsyncApi.FluentBuilders.v2;
 
 namespace Neuroglia.AsyncApi.UnitTests.Cases.CloudEvents;
 

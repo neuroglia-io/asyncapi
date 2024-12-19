@@ -50,13 +50,13 @@ public record V3ApiInfo
     /// Gets/sets the contact information for the exposed API.
     /// </summary>
     [DataMember(Order = 5, Name = "contact"), JsonPropertyOrder(5), JsonPropertyName("contact"), YamlMember(Order = 5, Alias = "contact")]
-    public virtual ContactDefinition? Contact { get; set; }
+    public virtual V3ContactDefinition? Contact { get; set; }
 
     /// <summary>
     /// Gets/sets the license information for the exposed API.
     /// </summary>
     [DataMember(Order = 6, Name = "license"), JsonPropertyOrder(6), JsonPropertyName("license"), YamlMember(Order = 6, Alias = "license")]
-    public virtual LicenseDefinition? License { get; set; }
+    public virtual V3LicenseDefinition? License { get; set; }
 
     /// <summary>
     /// Gets/sets a list of tags for application API documentation control. Tags can be used for logical grouping of applications.

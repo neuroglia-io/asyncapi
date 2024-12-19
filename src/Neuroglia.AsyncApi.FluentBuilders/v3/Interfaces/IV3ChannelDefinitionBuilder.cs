@@ -93,6 +93,13 @@ public interface IV3ChannelDefinitionBuilder
     IV3ChannelDefinitionBuilder WithBinding(IChannelBindingDefinition binding);
 
     /// <summary>
+    /// Configures the <see cref="V3ChannelDefinition"/> to use the specified <see cref="ChannelBindingDefinitionCollection"/>
+    /// </summary>
+    /// <param name="setup">An <see cref="Action{T}"/> used to setup the <see cref="ChannelBindingDefinitionCollection"/> to use</param>
+    /// <returns>The configured <see cref="IV3ChannelDefinitionBuilder"/></returns>
+    IV3ChannelDefinitionBuilder WithBindings(Action<IChannelBindingDefinitionCollectionBuilder> setup);
+
+    /// <summary>
     /// Builds the configured <see cref="V3ChannelDefinition"/>
     /// </summary>
     /// <returns>A new <see cref="V3ChannelDefinition"/></returns>

@@ -134,6 +134,16 @@ public abstract class V3MessageTraitDefinitionBuilder<TBuilder, TTrait>(IService
     }
 
     /// <inheritdoc/>
+    public virtual TBuilder WithBindings(Action<IMessageBindingDefinitionCollectionBuilder> setup)
+    {
+        ArgumentNullException.ThrowIfNull(setup);
+        var builder = ActivatorUtilities.CreateInstance<MessageBindingDefinitionCollectionBuilder>(this.ServiceProvider);
+        setup(builder);
+        Trait.Bindings = builder.Build();
+        return (TBuilder)(object)this;
+    }
+
+    /// <inheritdoc/>
     public virtual TBuilder WithExample(Action<IV3MessageExampleDefinitionBuilder> setup)
     {
         ArgumentNullException.ThrowIfNull(setup);

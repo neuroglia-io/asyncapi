@@ -68,7 +68,7 @@ public class FluentBuilderTests
         var channelParameterName = "fakeChannelParam";
         var channelParameterLocation = "/MQMD/CorrelId";
         var channelParameterDescription = "Fake Channel Param Description";
-        var channelParameterSchema = new JsonSchemaBuilder().FromType<LicenseDefinition>();
+        var channelParameterSchema = new JsonSchemaBuilder().FromType<V2LicenseDefinition>();
         var publishOperationId = "fake-publish-operation";
         var publishOperationDescription = "Fake Publish Operation Description";
         var publishOperationSummary = "Fake Publish Operation Summary";
@@ -109,7 +109,7 @@ public class FluentBuilderTests
                     .WithSummary(publishOperationSummary)
                     .WithBinding(new HttpOperationBindingDefinition())
                     .WithMessage(message => message
-                        .WithPayloadOfType<LicenseDefinition>()))
+                        .WithPayloadOfType<V2LicenseDefinition>()))
                 .WithSubscribeOperation(subscribe => subscribe
                     .WithOperationId(subscribeOperationId)
                     .WithDescription(subscribeOperationDescription)
@@ -117,8 +117,8 @@ public class FluentBuilderTests
                     .WithBinding(new HttpOperationBindingDefinition())
                     .WithMessages
                     (
-                        message1 => message1.WithPayloadOfType<LicenseDefinition>(),
-                        message2 => message2.WithPayloadOfType<ContactDefinition>()
+                        message1 => message1.WithPayloadOfType<V2LicenseDefinition>(),
+                        message2 => message2.WithPayloadOfType<V2ContactDefinition>()
                     )))
             .WithTag(tag => tag
                 .WithName(tagName)
@@ -229,7 +229,7 @@ public class FluentBuilderTests
         var channelParameterName = "fakeChannelParam";
         var channelParameterLocation = "/MQMD/CorrelId";
         var channelParameterDescription = "Fake Channel Param Description";
-        var channelParameterSchema = new JsonSchemaBuilder().FromType<LicenseDefinition>();
+        var channelParameterSchema = new JsonSchemaBuilder().FromType<V2LicenseDefinition>();
         var sendMessageName = "fake-receive-message";
         var sendOperationName = "fake-send-operation";
         var sendOperationChannelRef = $"#/channels/{channelName}";

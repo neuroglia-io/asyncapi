@@ -74,6 +74,13 @@ public interface IV3OperationTraitDefinitionBuilder<TBuilder, TTrait>
     TBuilder WithBinding(IOperationBindingDefinition binding);
 
     /// <summary>
+    /// Configures the <see cref="V3OperationTraitDefinition"/> to use the specified <see cref="OperationBindingDefinitionCollection"/>
+    /// </summary>
+    /// <param name="setup">An <see cref="Action{T}"/> used to setup the <see cref="OperationBindingDefinitionCollection"/> to use</param>
+    /// <returns>The configured <see cref="IV3OperationTraitDefinitionBuilder{TBuilder, TTrait}"/></returns>
+    TBuilder WithBindings(Action<IOperationBindingDefinitionCollectionBuilder> setup);
+
+    /// <summary>
     /// Builds a new <see cref="V3OperationTraitDefinition"/>
     /// </summary>
     /// <returns>A new <see cref="V3OperationTraitDefinition"/></returns>

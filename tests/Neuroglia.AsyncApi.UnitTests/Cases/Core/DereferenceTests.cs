@@ -437,7 +437,7 @@ public class DereferenceTests
         var document = this.DocumentBuilder
             .WithTitle("fake")
             .WithVersion("1.0.0")
-            .WithServerBindingsComponent(componentName, new())
+            .WithServerBindingsComponent(componentName, new ServerBindingDefinitionCollection())
             .Build();
 
         //act
@@ -458,7 +458,7 @@ public class DereferenceTests
         var document = this.DocumentBuilder
             .WithTitle("fake")
             .WithVersion("1.0.0")
-            .WithChannelBindingsComponent(componentName, new())
+            .WithChannelBindingsComponent(componentName, new ChannelBindingDefinitionCollection())
             .Build();
 
         //act
@@ -479,7 +479,7 @@ public class DereferenceTests
         var document = this.DocumentBuilder
             .WithTitle("fake")
             .WithVersion("1.0.0")
-            .WithOperationBindingsComponent(componentName, new())
+            .WithOperationBindingsComponent(componentName, new OperationBindingDefinitionCollection())
             .Build();
 
         //act
@@ -500,7 +500,7 @@ public class DereferenceTests
         var document = this.DocumentBuilder
             .WithTitle("fake")
             .WithVersion("1.0.0")
-            .WithMessageBindingsComponent(componentName, new())
+            .WithMessageBindingsComponent(componentName, new MessageBindingDefinitionCollection())
             .Build();
 
         //act
