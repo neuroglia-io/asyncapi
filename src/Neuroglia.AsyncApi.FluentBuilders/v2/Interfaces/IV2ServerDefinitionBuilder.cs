@@ -42,12 +42,12 @@ public interface IV2ServerDefinitionBuilder
     IV2ServerDefinitionBuilder WithDescription(string? description);
 
     /// <summary>
-    /// Adds the specified <see cref="ServerVariableDefinition"/> to the <see cref="V2ServerDefinition"/> to build
+    /// Adds the specified <see cref="V2ServerVariableDefinition"/> to the <see cref="V2ServerDefinition"/> to build
     /// </summary>
-    /// <param name="name">The name of the <see cref="ServerVariableDefinition"/> to add</param>
-    /// <param name="setup">An <see cref="Action{T}"/> used to setup the <see cref="ServerVariableDefinition"/> to add</param>
+    /// <param name="name">The name of the <see cref="V2ServerVariableDefinition"/> to add</param>
+    /// <param name="setup">An <see cref="Action{T}"/> used to setup the <see cref="V2ServerVariableDefinition"/> to add</param>
     /// <returns>The configured <see cref="IV2ServerDefinitionBuilder"/></returns>
-    IV2ServerDefinitionBuilder WithVariable(string name, Action<IServerVariableDefinitionBuilder> setup);
+    IV2ServerDefinitionBuilder WithVariable(string name, Action<IV2ServerVariableDefinitionBuilder> setup);
 
     /// <summary>
     /// Configures the <see cref="V2ServerDefinition"/> to build to use the specified <see cref="V2SecuritySchemeDefinition"/>

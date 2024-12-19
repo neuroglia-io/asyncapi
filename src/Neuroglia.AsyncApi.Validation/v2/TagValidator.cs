@@ -14,10 +14,10 @@
 namespace Neuroglia.AsyncApi.Validation;
 
 /// <summary>
-/// Represents the service used to validate the <see cref="TagDefinition"/>
+/// Represents the service used to validate the <see cref="V2TagDefinition"/>
 /// </summary>
 public class TagValidator
-    : AbstractValidator<TagDefinition>
+    : AbstractValidator<V2TagDefinition>
 {
 
     /// <summary>

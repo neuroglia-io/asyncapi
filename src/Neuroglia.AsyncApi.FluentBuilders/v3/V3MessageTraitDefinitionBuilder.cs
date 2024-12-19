@@ -59,10 +59,10 @@ public abstract class V3MessageTraitDefinitionBuilder<TBuilder, TTrait>(IService
     }
 
     /// <inheritdoc/>
-    public virtual TBuilder WithCorrelationId(Action<ICorrelationIdDefinitionBuilder> setup)
+    public virtual TBuilder WithCorrelationId(Action<IV3CorrelationIdDefinitionBuilder> setup)
     {
         ArgumentNullException.ThrowIfNull(setup);
-        var builder = ActivatorUtilities.CreateInstance<CorrelationIdDefinitionBuilder>(this.ServiceProvider);
+        var builder = ActivatorUtilities.CreateInstance<V3CorrelationIdDefinitionBuilder>(this.ServiceProvider);
         setup(builder);
         Trait.CorrelationId = builder.Build();
         return (TBuilder)(object)this;
@@ -104,10 +104,10 @@ public abstract class V3MessageTraitDefinitionBuilder<TBuilder, TTrait>(IService
     }
 
     /// <inheritdoc/>
-    public virtual TBuilder WithTag(Action<ITagDefinitionBuilder> setup)
+    public virtual TBuilder WithTag(Action<IV3TagDefinitionBuilder> setup)
     {
         ArgumentNullException.ThrowIfNull(setup);
-        var builder = ActivatorUtilities.CreateInstance<TagDefinitionBuilder>(this.ServiceProvider);
+        var builder = ActivatorUtilities.CreateInstance<V3TagDefinitionBuilder>(this.ServiceProvider);
         setup(builder);
         Trait.Tags ??= [];
         Trait.Tags.Add(builder.Build());
@@ -115,10 +115,10 @@ public abstract class V3MessageTraitDefinitionBuilder<TBuilder, TTrait>(IService
     }
 
     /// <inheritdoc/>
-    public virtual TBuilder WithExternalDocumentation(Action<IExternalDocumentationDefinitionBuilder> setup)
+    public virtual TBuilder WithExternalDocumentation(Action<IV3ExternalDocumentationDefinitionBuilder> setup)
     {
         ArgumentNullException.ThrowIfNull(setup);
-        var builder = ActivatorUtilities.CreateInstance<ExternalDocumentationDefinitionBuilder>(this.ServiceProvider);
+        var builder = ActivatorUtilities.CreateInstance<V3ExternalDocumentationDefinitionBuilder>(this.ServiceProvider);
         setup(builder);
         Trait.ExternalDocs = builder.Build();
         return (TBuilder)(object)this;

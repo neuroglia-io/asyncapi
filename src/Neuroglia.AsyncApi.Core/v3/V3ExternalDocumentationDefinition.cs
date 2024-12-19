@@ -11,36 +11,30 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-namespace Neuroglia.AsyncApi;
+namespace Neuroglia.AsyncApi.v3;
 
 /// <summary>
-/// Represents an object used to define a tag assigned to an Async API component
+/// Represents an object used to define a reference to an external documentation
 /// </summary>
 [DataContract]
-public record TagDefinition
+public record V3ExternalDocumentationDefinition
     : ReferenceableComponentDefinition
 {
 
     /// <summary>
-    /// Gets/sets the name of the tag.
+    /// Gets/sets the <see cref="Uri"/> for the target documentation.
     /// </summary>
     [Required]
-    [DataMember(Order = 1, Name = "name"), JsonPropertyOrder(1), JsonPropertyName("name"), YamlMember(Order = 1, Alias = "name")]
-    public virtual string Name { get; set; } = null!;
+    [DataMember(Order = 1, Name = "url"), JsonPropertyOrder(1), JsonPropertyName("url"), YamlMember(Order = 1, Alias = "url")]
+    public virtual Uri Url { get; set; } = null!;
 
     /// <summary>
-    /// Gets/sets an optional description of this channel item. <see href="https://spec.commonmark.org/">CommonMark</see> syntax can be used for rich text representation.
+    /// Gets/sets an optional description of this documentation. <see href="https://spec.commonmark.org/">CommonMark</see> syntax can be used for rich text representation.
     /// </summary>
     [DataMember(Order = 2, Name = "description"), JsonPropertyOrder(2), JsonPropertyName("description"), YamlMember(Order = 2, Alias = "description")]
     public virtual string? Description { get; set; }
 
-    /// <summary>
-    /// Gets/sets an object containing additional external documentation for this tag.
-    /// </summary>
-    [DataMember(Order = 3, Name = "externalDocs"), JsonPropertyOrder(3), JsonPropertyName("externalDocs"), YamlMember(Order = 3, Alias = "externalDocs")]
-    public virtual ExternalDocumentationDefinition? ExternalDocs { get; set; }
-
     /// <inheritdoc/>
-    public override string ToString() => Name;
+    public override string ToString() => Url.ToString();
 
 }

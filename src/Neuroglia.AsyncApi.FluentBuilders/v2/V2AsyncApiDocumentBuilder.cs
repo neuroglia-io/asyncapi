@@ -115,11 +115,11 @@ public class V2AsyncApiDocumentBuilder(IServiceProvider serviceProvider, IEnumer
     }
 
     /// <inheritdoc/>
-    public virtual IV2AsyncApiDocumentBuilder WithTag(Action<ITagDefinitionBuilder> setup)
+    public virtual IV2AsyncApiDocumentBuilder WithTag(Action<IV2TagDefinitionBuilder> setup)
     {
         ArgumentNullException.ThrowIfNull(setup);
         Document.Tags ??= [];
-        var builder = ActivatorUtilities.CreateInstance<TagDefinitionBuilder>(ServiceProvider);
+        var builder = ActivatorUtilities.CreateInstance<V2TagDefinitionBuilder>(ServiceProvider);
         setup(builder);
         Document.Tags.Add(builder.Build());
         return this;
@@ -236,7 +236,7 @@ public class V2AsyncApiDocumentBuilder(IServiceProvider serviceProvider, IEnumer
     }
 
     /// <inheritdoc/>
-    public virtual IV2AsyncApiDocumentBuilder WithCorrelationIdComponent(string name, CorrelationIdDefinition correlationId)
+    public virtual IV2AsyncApiDocumentBuilder WithCorrelationIdComponent(string name, V2CorrelationIdDefinition correlationId)
     {
         if (string.IsNullOrWhiteSpace(name)) throw new ArgumentNullException(nameof(name));
         ArgumentNullException.ThrowIfNull(correlationId);

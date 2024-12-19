@@ -11,15 +11,15 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-namespace Neuroglia.AsyncApi.FluentBuilders;
+namespace Neuroglia.AsyncApi.FluentBuilders.v2;
 
 /// <summary>
-/// Represents the default implementation of the <see cref="ICorrelationIdDefinitionBuilder"/> interface
+/// Represents the default implementation of the <see cref="IV2CorrelationIdDefinitionBuilder"/> interface
 /// </summary>
 /// <param name="serviceProvider">The current <see cref="IServiceProvider"/></param>
-/// <param name="validators">An <see cref="IEnumerable{T}"/> containing the services used to validate <see cref="CorrelationIdDefinition"/></param>
-public class CorrelationIdDefinitionBuilder(IServiceProvider serviceProvider, IEnumerable<IValidator<CorrelationIdDefinition>> validators)
-    : ICorrelationIdDefinitionBuilder
+/// <param name="validators">An <see cref="IEnumerable{T}"/> containing the services used to validate <see cref="V2CorrelationIdDefinition"/></param>
+public class V2CorrelationIdDefinitionBuilder(IServiceProvider serviceProvider, IEnumerable<IValidator<V2CorrelationIdDefinition>> validators)
+    : IV2CorrelationIdDefinitionBuilder
 {
 
     /// <summary>
@@ -28,14 +28,14 @@ public class CorrelationIdDefinitionBuilder(IServiceProvider serviceProvider, IE
     protected IServiceProvider ServiceProvider { get; } = serviceProvider;
 
     /// <summary>
-    /// Gets an <see cref="IEnumerable{T}"/> containing the services used to validate <see cref="CorrelationIdDefinition"/>
+    /// Gets an <see cref="IEnumerable{T}"/> containing the services used to validate <see cref="V2CorrelationIdDefinition"/>
     /// </summary>
-    protected IEnumerable<IValidator<CorrelationIdDefinition>> Validators { get; }  = validators;
+    protected IEnumerable<IValidator<V2CorrelationIdDefinition>> Validators { get; } = validators;
 
     /// <summary>
-    /// Gets the <see cref="CorrelationIdDefinition"/> to configure
+    /// Gets the <see cref="V2CorrelationIdDefinition"/> to configure
     /// </summary>
-    protected CorrelationIdDefinition CorrelationId { get; } = new();
+    protected V2CorrelationIdDefinition CorrelationId { get; } = new();
 
     /// <inheritdoc/>
     public virtual void Use(string reference)
@@ -45,7 +45,7 @@ public class CorrelationIdDefinitionBuilder(IServiceProvider serviceProvider, IE
     }
 
     /// <inheritdoc/>
-    public virtual ICorrelationIdDefinitionBuilder WithLocation(string location)
+    public virtual IV2CorrelationIdDefinitionBuilder WithLocation(string location)
     {
         ArgumentException.ThrowIfNullOrWhiteSpace(location);
         CorrelationId.Location = location;
@@ -53,14 +53,14 @@ public class CorrelationIdDefinitionBuilder(IServiceProvider serviceProvider, IE
     }
 
     /// <inheritdoc/>
-    public virtual ICorrelationIdDefinitionBuilder WithDescription(string? description)
+    public virtual IV2CorrelationIdDefinitionBuilder WithDescription(string? description)
     {
         CorrelationId.Description = description;
         return this;
     }
 
     /// <inheritdoc/>
-    public virtual CorrelationIdDefinition Build()
+    public virtual V2CorrelationIdDefinition Build()
     {
         var validationResults = Validators.Select(v => v.Validate(CorrelationId));
         if (!validationResults.All(r => r.IsValid)) throw new ValidationException(validationResults.Where(r => !r.IsValid).SelectMany(r => r.Errors));

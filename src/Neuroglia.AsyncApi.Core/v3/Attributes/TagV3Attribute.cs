@@ -22,17 +22,17 @@ public class TagV3Attribute
 {
 
     /// <summary>
-    /// Gets a reference to the <see cref="TagDefinition"/> to use
+    /// Gets a reference to the <see cref="V3TagDefinition"/> to use
     /// </summary>
     public virtual string? Reference { get; init; }
 
     /// <summary>
-    /// Gets the name of the <see cref="TagDefinition"/> to generate
+    /// Gets the name of the <see cref="V3TagDefinition"/> to generate
     /// </summary>
-    public virtual string? Name { get; init; } 
+    public virtual string? Name { get; init; }
 
     /// <summary>
-    /// Gets the description of the <see cref="TagDefinition"/> to generate
+    /// Gets the description of the <see cref="V3TagDefinition"/> to generate
     /// </summary>
     public virtual string? Description { get; init; }
 

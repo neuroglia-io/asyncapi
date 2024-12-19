@@ -54,16 +54,16 @@ public abstract class V2OperationTraitDefinitionBuilder<TBuilder, TTrait>
     public virtual TBuilder WithExternalDocumentation(Uri uri, string? description = null)
     {
         ArgumentNullException.ThrowIfNull(uri);
-        Trait.ExternalDocs = new ExternalDocumentationDefinition() { Url = uri, Description = description };
+        Trait.ExternalDocs = new V2ExternalDocumentationDefinition() { Url = uri, Description = description };
         return (TBuilder)(object)this;
     }
 
     /// <inheritdoc/>
-    public virtual TBuilder WithTag(Action<ITagDefinitionBuilder> setup)
+    public virtual TBuilder WithTag(Action<IV2TagDefinitionBuilder> setup)
     {
         ArgumentNullException.ThrowIfNull(setup);
         Trait.Tags ??= [];
-        var builder = ActivatorUtilities.CreateInstance<TagDefinitionBuilder>(ServiceProvider);
+        var builder = ActivatorUtilities.CreateInstance<V2TagDefinitionBuilder>(ServiceProvider);
         setup(builder);
         Trait.Tags.Add(builder.Build());
         return (TBuilder)(object)this;

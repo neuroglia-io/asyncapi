@@ -62,13 +62,13 @@ public record V3ApiInfo
     /// Gets/sets a list of tags for application API documentation control. Tags can be used for logical grouping of applications.
     /// </summary>
     [DataMember(Order = 7, Name = "tags"), JsonPropertyOrder(7), JsonPropertyName("tags"), YamlMember(Order = 7, Alias = "tags")]
-    public virtual EquatableList<TagDefinition>? Tags { get; set; }
+    public virtual EquatableList<V3TagDefinition>? Tags { get; set; }
 
     /// <summary>
     /// Gets/sets additional external documentation of the exposed API.
     /// </summary>
     [DataMember(Order = 8, Name = "externalDocs"), JsonPropertyOrder(8), JsonPropertyName("externalDocs"), YamlMember(Order = 8, Alias = "externalDocs")]
-    public virtual ExternalDocumentationDefinition? ExternalDocs { get; set; }
+    public virtual V3ExternalDocumentationDefinition? ExternalDocs { get; set; }
 
     /// <inheritdoc/>
     public override string ToString() => this.Title;

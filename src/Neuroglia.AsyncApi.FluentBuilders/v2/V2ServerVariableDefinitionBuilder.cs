@@ -11,54 +11,52 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using Neuroglia.AsyncApi.FluentBuilders;
-
-namespace Neuroglia.AsyncApi.FluentBuilders;
+namespace Neuroglia.AsyncApi.FluentBuilders.v2;
 
 /// <summary>
-/// Represents the default implementation of the <see cref="IServerVariableDefinitionBuilder"/> interface
+/// Represents the default implementation of the <see cref="IV2ServerVariableDefinitionBuilder"/> interface
 /// </summary>
 /// <remarks>
-/// Initializes a new <see cref="ServerVariableDefinitionBuilder"/>
+/// Initializes a new <see cref="V2ServerVariableDefinitionBuilder"/>
 /// </remarks>
-/// <param name="validators">The services used to validate <see cref="ServerVariableDefinition"/>s</param>
-public class ServerVariableDefinitionBuilder(IEnumerable<IValidator<ServerVariableDefinition>> validators)
-    : IServerVariableDefinitionBuilder
+/// <param name="validators">The services used to validate <see cref="V2ServerVariableDefinition"/>s</param>
+public class V2ServerVariableDefinitionBuilder(IEnumerable<IValidator<V2ServerVariableDefinition>> validators)
+    : IV2ServerVariableDefinitionBuilder
 {
 
     /// <summary>
-    /// Gets the services used to validate <see cref="ServerVariableDefinition"/>s
+    /// Gets the services used to validate <see cref="V2ServerVariableDefinition"/>s
     /// </summary>
-    protected virtual IEnumerable<IValidator<ServerVariableDefinition>> Validators { get; } = validators;
+    protected virtual IEnumerable<IValidator<V2ServerVariableDefinition>> Validators { get; } = validators;
 
     /// <summary>
-    /// Gets the <see cref="ServerVariableDefinition"/> to build
+    /// Gets the <see cref="V2ServerVariableDefinition"/> to build
     /// </summary>
-    protected ServerVariableDefinition Variable { get; } = new();
+    protected V2ServerVariableDefinition Variable { get; } = new();
 
     /// <inheritdoc/>
-    public virtual IServerVariableDefinitionBuilder WithEnumValues(params string[] values)
+    public virtual IV2ServerVariableDefinitionBuilder WithEnumValues(params string[] values)
     {
         Variable.Enum = new(values);
         return this;
     }
 
     /// <inheritdoc/>
-    public virtual IServerVariableDefinitionBuilder WithDefaultValue(string value)
+    public virtual IV2ServerVariableDefinitionBuilder WithDefaultValue(string value)
     {
         Variable.Default = value;
         return this;
     }
 
     /// <inheritdoc/>
-    public virtual IServerVariableDefinitionBuilder WithDescription(string? description)
+    public virtual IV2ServerVariableDefinitionBuilder WithDescription(string? description)
     {
         Variable.Description = description;
         return this;
     }
 
     /// <inheritdoc/>
-    public virtual IServerVariableDefinitionBuilder WithExample(string example)
+    public virtual IV2ServerVariableDefinitionBuilder WithExample(string example)
     {
         if (string.IsNullOrWhiteSpace(example)) throw new ArgumentNullException(nameof(example));
         Variable.Examples ??= [];
@@ -67,6 +65,6 @@ public class ServerVariableDefinitionBuilder(IEnumerable<IValidator<ServerVariab
     }
 
     /// <inheritdoc/>
-    public virtual ServerVariableDefinition Build() => Variable;
+    public virtual V2ServerVariableDefinition Build() => Variable;
 
 }

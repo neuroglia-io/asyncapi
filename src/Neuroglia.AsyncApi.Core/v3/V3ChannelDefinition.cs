@@ -70,13 +70,13 @@ public record V3ChannelDefinition
     /// Gets/sets a list of tags for logical grouping of channels.
     /// </summary>
     [DataMember(Order = 8, Name = "tags"), JsonPropertyOrder(8), JsonPropertyName("tags"), YamlMember(Order = 8, Alias = "tags", ScalarStyle = ScalarStyle.SingleQuoted)]
-    public virtual EquatableList<TagDefinition>? Tags { get; set; }
+    public virtual EquatableList<V3TagDefinition>? Tags { get; set; }
 
     /// <summary>
     /// Gets/sets additional external documentation for this channel.
     /// </summary>
     [DataMember(Order = 9, Name = "externalDocs"), JsonPropertyOrder(9), JsonPropertyName("externalDocs"), YamlMember(Order = 9, Alias = "externalDocs", ScalarStyle = ScalarStyle.SingleQuoted)]
-    public virtual ExternalDocumentationDefinition? ExternalDocs { get; set; }
+    public virtual V3ExternalDocumentationDefinition? ExternalDocs { get; set; }
 
     /// <summary>
     /// Gets/sets additional external documentation for this channel.

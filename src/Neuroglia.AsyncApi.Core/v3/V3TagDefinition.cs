@@ -11,30 +11,36 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-namespace Neuroglia.AsyncApi;
+namespace Neuroglia.AsyncApi.v3;
 
 /// <summary>
-/// Represents an object used to define a reference to an external documentation
+/// Represents an object used to define a tag assigned to an Async API component
 /// </summary>
 [DataContract]
-public record ExternalDocumentationDefinition
+public record V3TagDefinition
     : ReferenceableComponentDefinition
 {
 
     /// <summary>
-    /// Gets/sets the <see cref="Uri"/> for the target documentation.
+    /// Gets/sets the name of the tag.
     /// </summary>
     [Required]
-    [DataMember(Order = 1, Name = "url"), JsonPropertyOrder(1), JsonPropertyName("url"), YamlMember(Order = 1, Alias = "url")]
-    public virtual Uri Url { get; set; } = null!;
+    [DataMember(Order = 1, Name = "name"), JsonPropertyOrder(1), JsonPropertyName("name"), YamlMember(Order = 1, Alias = "name")]
+    public virtual string Name { get; set; } = null!;
 
     /// <summary>
-    /// Gets/sets an optional description of this documentation. <see href="https://spec.commonmark.org/">CommonMark</see> syntax can be used for rich text representation.
+    /// Gets/sets an optional description of this channel item. <see href="https://spec.commonmark.org/">CommonMark</see> syntax can be used for rich text representation.
     /// </summary>
     [DataMember(Order = 2, Name = "description"), JsonPropertyOrder(2), JsonPropertyName("description"), YamlMember(Order = 2, Alias = "description")]
     public virtual string? Description { get; set; }
 
+    /// <summary>
+    /// Gets/sets an object containing additional external documentation for this tag.
+    /// </summary>
+    [DataMember(Order = 3, Name = "externalDocs"), JsonPropertyOrder(3), JsonPropertyName("externalDocs"), YamlMember(Order = 3, Alias = "externalDocs")]
+    public virtual V3ExternalDocumentationDefinition? ExternalDocs { get; set; }
+
     /// <inheritdoc/>
-    public override string ToString() => Url.ToString();
+    public override string ToString() => Name;
 
 }

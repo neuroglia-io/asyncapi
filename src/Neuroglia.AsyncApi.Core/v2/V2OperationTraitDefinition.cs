@@ -43,13 +43,13 @@ public record V2OperationTraitDefinition
     /// Gets/sets a <see cref="List{T}"/> of tags for API documentation control. Tags can be used for logical grouping of operations.
     /// </summary>
     [DataMember(Order = 4, Name = "tags"), JsonPropertyOrder(4), JsonPropertyName("tags"), YamlMember(Order = 4, Alias = "tags")]
-    public virtual EquatableList<TagDefinition>? Tags { get; set; }
+    public virtual EquatableList<V2TagDefinition>? Tags { get; set; }
 
     /// <summary>
     /// Gets/sets an object containing additional external documentation for this operation.
     /// </summary>
     [DataMember(Order = 5, Name = "externalDocs"), JsonPropertyOrder(5), JsonPropertyName("externalDocs"), YamlMember(Order = 5, Alias = "externalDocs")]
-    public virtual ExternalDocumentationDefinition? ExternalDocs { get; set; }
+    public virtual V2ExternalDocumentationDefinition? ExternalDocs { get; set; }
 
     /// <summary>
     /// Gets/sets an object used to configure the <see cref="V2OperationTraitDefinition"/>'s <see cref="IOperationBindingDefinition"/>s

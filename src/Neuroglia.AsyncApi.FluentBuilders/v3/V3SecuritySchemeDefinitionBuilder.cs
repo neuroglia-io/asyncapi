@@ -101,7 +101,7 @@ public class V3SecuritySchemeDefinitionBuilder(IServiceProvider serviceProvider,
     /// <inheritdoc/>
     public virtual IV3SecuritySchemeDefinitionBuilder WithOAuthFlows(Action<IOAuthFlowDefinitionCollectionBuilder> setup)
     {
-        ArgumentNullException.ThrowIfNull(nameof(setup));
+        ArgumentNullException.ThrowIfNull(setup);
         var builder = ActivatorUtilities.CreateInstance<OAuthFlowDefinitionCollectionBuilder>(ServiceProvider);
         setup(builder);
         SecurityScheme.Flows = builder.Build();

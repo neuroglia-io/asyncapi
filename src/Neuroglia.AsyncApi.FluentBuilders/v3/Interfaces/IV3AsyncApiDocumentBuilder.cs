@@ -90,14 +90,14 @@ public interface IV3AsyncApiDocumentBuilder
     /// </summary>
     /// <param name="setup">An <see cref="Action{T}"/> used to setup the tag to use</param>
     /// <returns>The configured <see cref="IV3AsyncApiDocumentBuilder"/></returns>
-    IV3AsyncApiDocumentBuilder WithTag(Action<ITagDefinitionBuilder> setup);
+    IV3AsyncApiDocumentBuilder WithTag(Action<IV3TagDefinitionBuilder> setup);
 
     /// <summary>
     /// Marks the <see cref="V3AsyncApiDocument"/> to use the specified external documentation
     /// </summary>
     /// <param name="setup">An <see cref="Action{T}"/> used to setup the external documentation to use</param>
     /// <returns>The configured <see cref="IV3AsyncApiDocumentBuilder"/></returns>
-    IV3AsyncApiDocumentBuilder WithExternalDocumentation(Action<IExternalDocumentationDefinitionBuilder> setup);
+    IV3AsyncApiDocumentBuilder WithExternalDocumentation(Action<IV3ExternalDocumentationDefinitionBuilder> setup);
 
     /// <summary>
     /// Adds the specified <see cref="V3ServerDefinition"/> to the <see cref="V3AsyncApiDocument"/> to build
@@ -172,12 +172,12 @@ public interface IV3AsyncApiDocumentBuilder
     IV3AsyncApiDocumentBuilder WithSecuritySchemeComponent(string name, Action<IV3SecuritySchemeDefinitionBuilder> setup);
 
     /// <summary>
-    /// Adds the specified reusable <see cref="ServerVariableDefinition"/> to the <see cref="V3AsyncApiDocument"/> to build
+    /// Adds the specified reusable <see cref="V3ServerVariableDefinition"/> to the <see cref="V3AsyncApiDocument"/> to build
     /// </summary>
     /// <param name="name">The name of the reusable <see cref="V3MessageDefinition"/> to add</param>
-    /// <param name="setup">An <see cref="Action{T}"/> used to setup the reusable <see cref="ServerVariableDefinition"/> to add</param>
+    /// <param name="setup">An <see cref="Action{T}"/> used to setup the reusable <see cref="V3ServerVariableDefinition"/> to add</param>
     /// <returns>The configured <see cref="IV3AsyncApiDocumentBuilder"/></returns>
-    IV3AsyncApiDocumentBuilder WithServerVariableComponent(string name, Action<IServerVariableDefinitionBuilder> setup);
+    IV3AsyncApiDocumentBuilder WithServerVariableComponent(string name, Action<IV3ServerVariableDefinitionBuilder> setup);
 
     /// <summary>
     /// Adds the specified reusable <see cref="V3ParameterDefinition"/> to the <see cref="V3AsyncApiDocument"/> to build
@@ -188,12 +188,12 @@ public interface IV3AsyncApiDocumentBuilder
     IV3AsyncApiDocumentBuilder WithParameterComponent(string name, Action<IV3ParameterDefinitionBuilder> setup);
 
     /// <summary>
-    /// Adds the specified reusable <see cref="CorrelationIdDefinition"/> to the <see cref="V3AsyncApiDocument"/> to build
+    /// Adds the specified reusable <see cref="V2CorrelationIdDefinition"/> to the <see cref="V3AsyncApiDocument"/> to build
     /// </summary>
-    /// <param name="name">The name of the reusable <see cref="CorrelationIdDefinition"/> to add</param>
-    /// <param name="setup">An <see cref="Action{T}"/> used to setup the reusable <see cref="CorrelationIdDefinition"/> to add</param>
+    /// <param name="name">The name of the reusable <see cref="V2CorrelationIdDefinition"/> to add</param>
+    /// <param name="setup">An <see cref="Action{T}"/> used to setup the reusable <see cref="V2CorrelationIdDefinition"/> to add</param>
     /// <returns>The configured <see cref="IV3AsyncApiDocumentBuilder"/></returns>
-    IV3AsyncApiDocumentBuilder WithCorrelationIdComponent(string name, Action<ICorrelationIdDefinitionBuilder> setup);
+    IV3AsyncApiDocumentBuilder WithCorrelationIdComponent(string name, Action<IV3CorrelationIdDefinitionBuilder> setup);
 
     /// <summary>
     /// Adds the specified reusable <see cref="V3OperationReplyDefinition"/> to the <see cref="V3AsyncApiDocument"/> to build
@@ -212,20 +212,20 @@ public interface IV3AsyncApiDocumentBuilder
     IV3AsyncApiDocumentBuilder WithReplyAddressComponent(string name, Action<IV3OperationReplyAddressDefinitionBuilder> setup);
 
     /// <summary>
-    /// Adds the specified reusable <see cref="ExternalDocumentationDefinition"/> to the <see cref="V3AsyncApiDocument"/> to build
+    /// Adds the specified reusable <see cref="V3ExternalDocumentationDefinition"/> to the <see cref="V3AsyncApiDocument"/> to build
     /// </summary>
-    /// <param name="name">The name of the reusable <see cref="ExternalDocumentationDefinition"/> to add</param>
-    /// <param name="setup">An <see cref="Action{T}"/> used to setup the reusable <see cref="ExternalDocumentationDefinition"/> to add</param>
+    /// <param name="name">The name of the reusable <see cref="V3ExternalDocumentationDefinition"/> to add</param>
+    /// <param name="setup">An <see cref="Action{T}"/> used to setup the reusable <see cref="V3ExternalDocumentationDefinition"/> to add</param>
     /// <returns>The configured <see cref="IV3AsyncApiDocumentBuilder"/></returns>
-    IV3AsyncApiDocumentBuilder WithExternalDocumentationComponent(string name, Action<IExternalDocumentationDefinitionBuilder> setup);
+    IV3AsyncApiDocumentBuilder WithExternalDocumentationComponent(string name, Action<IV3ExternalDocumentationDefinitionBuilder> setup);
 
     /// <summary>
-    /// Adds the specified reusable <see cref="TagDefinition"/> to the <see cref="V3AsyncApiDocument"/> to build
+    /// Adds the specified reusable <see cref="V2TagDefinition"/> to the <see cref="V3AsyncApiDocument"/> to build
     /// </summary>
-    /// <param name="name">The name of the reusable <see cref="TagDefinition"/> to add</param>
-    /// <param name="setup">An <see cref="Action{T}"/> used to setup the reusable <see cref="TagDefinition"/> to add</param>
+    /// <param name="name">The name of the reusable <see cref="V2TagDefinition"/> to add</param>
+    /// <param name="setup">An <see cref="Action{T}"/> used to setup the reusable <see cref="V2TagDefinition"/> to add</param>
     /// <returns>The configured <see cref="IV3AsyncApiDocumentBuilder"/></returns>
-    IV3AsyncApiDocumentBuilder WithTagComponent(string name, Action<ITagDefinitionBuilder> setup);
+    IV3AsyncApiDocumentBuilder WithTagComponent(string name, Action<IV3TagDefinitionBuilder> setup);
 
     /// <summary>
     /// Adds the specified reusable <see cref="V3OperationTraitDefinition"/> to the <see cref="V3AsyncApiDocument"/> to build

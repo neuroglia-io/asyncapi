@@ -36,7 +36,7 @@ public interface IV3MessageTraitDefinitionBuilder<TBuilder, TTrait>
     /// </summary>
     /// <param name="setup">An <see cref="Action{T}"/> used to configure the  correlation id to use</param>
     /// <returns>The configured <see cref="IV3MessageTraitDefinitionBuilder{TBuilder, TTrait}"/></returns>
-    TBuilder WithCorrelationId(Action<ICorrelationIdDefinitionBuilder> setup);
+    TBuilder WithCorrelationId(Action<IV3CorrelationIdDefinitionBuilder> setup);
 
     /// <summary>
     /// Configures the <see cref="V3MessageTraitDefinition"/> to build to use the specified content type
@@ -78,14 +78,14 @@ public interface IV3MessageTraitDefinitionBuilder<TBuilder, TTrait>
     /// </summary>
     /// <param name="setup">An <see cref="Action{T}"/> used to setup the tag to use</param>
     /// <returns>The configured <see cref="IV3MessageTraitDefinitionBuilder{TBuilder, TTrait}"/></returns>
-    TBuilder WithTag(Action<ITagDefinitionBuilder> setup);
+    TBuilder WithTag(Action<IV3TagDefinitionBuilder> setup);
 
     /// <summary>
     /// Adds the specified external documentation to the <see cref="V3MessageTraitDefinition"/> to build
     /// </summary>
-    /// <param name="setup">An <see cref="Action{T}"/> used to setup the <see cref="ExternalDocumentationDefinition"/> to use</param>
+    /// <param name="setup">An <see cref="Action{T}"/> used to setup the <see cref="V3ExternalDocumentationDefinition"/> to use</param>
     /// <returns>The configured <see cref="IV3MessageTraitDefinitionBuilder{TBuilder, TTrait}"/></returns>
-    TBuilder WithExternalDocumentation(Action<IExternalDocumentationDefinitionBuilder> setup);
+    TBuilder WithExternalDocumentation(Action<IV3ExternalDocumentationDefinitionBuilder> setup);
 
     /// <summary>
     /// Adds the specified <see cref="IMessageBindingDefinition"/> to the <see cref="V3MessageTraitDefinition"/> to build

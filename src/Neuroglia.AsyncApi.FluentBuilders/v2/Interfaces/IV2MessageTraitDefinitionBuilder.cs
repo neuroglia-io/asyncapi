@@ -115,7 +115,7 @@ public interface IV2MessageTraitDefinitionBuilder<TBuilder, TTrait>
     /// </summary>
     /// <param name="setup">An <see cref="Action{T}"/> used to setup the tag to use</param>
     /// <returns>The configured <see cref="IV2MessageTraitDefinitionBuilder{TBuilder, TTrait}"/></returns>
-    TBuilder WithTag(Action<ITagDefinitionBuilder> setup);
+    TBuilder WithTag(Action<IV2TagDefinitionBuilder> setup);
 
     /// <summary>
     /// Adds the specified example to the <see cref="V2MessageTraitDefinition"/> to build

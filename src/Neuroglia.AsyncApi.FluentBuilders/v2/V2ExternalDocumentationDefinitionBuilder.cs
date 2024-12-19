@@ -11,15 +11,15 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-namespace Neuroglia.AsyncApi.FluentBuilders;
+namespace Neuroglia.AsyncApi.FluentBuilders.v2;
 
 /// <summary>
-/// Represents the default implementation of the <see cref="IExternalDocumentationDefinitionBuilder"/> interface
+/// Represents the default implementation of the <see cref="IV2ExternalDocumentationDefinitionBuilder"/> interface
 /// </summary>
 /// <param name="serviceProvider">The current <see cref="IServiceProvider"/></param>
-/// <param name="validators">The services used to validate <see cref="ExternalDocumentationDefinition"/>s</param>
-public class ExternalDocumentationDefinitionBuilder(IServiceProvider serviceProvider, IEnumerable<IValidator<ExternalDocumentationDefinition>> validators)
-    : IExternalDocumentationDefinitionBuilder
+/// <param name="validators">The services used to validate <see cref="V2ExternalDocumentationDefinition"/>s</param>
+public class V2ExternalDocumentationDefinitionBuilder(IServiceProvider serviceProvider, IEnumerable<IValidator<V2ExternalDocumentationDefinition>> validators)
+    : IV2ExternalDocumentationDefinitionBuilder
 {
 
     /// <summary>
@@ -28,24 +28,17 @@ public class ExternalDocumentationDefinitionBuilder(IServiceProvider serviceProv
     protected virtual IServiceProvider ServiceProvider { get; } = serviceProvider;
 
     /// <summary>
-    /// Gets the services used to validate <see cref="ExternalDocumentationDefinition"/>s
+    /// Gets the services used to validate <see cref="V2ExternalDocumentationDefinition"/>s
     /// </summary>
-    protected virtual IEnumerable<IValidator<ExternalDocumentationDefinition>> Validators { get; } = validators;
+    protected virtual IEnumerable<IValidator<V2ExternalDocumentationDefinition>> Validators { get; } = validators;
 
     /// <summary>
-    /// Gets the <see cref="ExternalDocumentationDefinition"/> to configure
+    /// Gets the <see cref="V2ExternalDocumentationDefinition"/> to configure
     /// </summary>
-    protected virtual ExternalDocumentationDefinition ExternalDocumentation { get; } = new();
+    protected virtual V2ExternalDocumentationDefinition ExternalDocumentation { get; } = new();
 
     /// <inheritdoc/>
-    public virtual void Use(string reference)
-    {
-        ArgumentException.ThrowIfNullOrWhiteSpace(reference);
-        ExternalDocumentation.Reference = reference;
-    }
-
-    /// <inheritdoc/>
-    public virtual IExternalDocumentationDefinitionBuilder WithUrl(Uri url)
+    public virtual IV2ExternalDocumentationDefinitionBuilder WithUrl(Uri url)
     {
         ArgumentNullException.ThrowIfNull(url);
         ExternalDocumentation.Url = url;
@@ -53,14 +46,14 @@ public class ExternalDocumentationDefinitionBuilder(IServiceProvider serviceProv
     }
 
     /// <inheritdoc/>
-    public virtual IExternalDocumentationDefinitionBuilder WithDescription(string? description)
+    public virtual IV2ExternalDocumentationDefinitionBuilder WithDescription(string? description)
     {
         ExternalDocumentation.Description = description;
         return this;
     }
 
     /// <inheritdoc/>
-    public virtual ExternalDocumentationDefinition Build()
+    public virtual V2ExternalDocumentationDefinition Build()
     {
         var validationResults = Validators.Select(v => v.Validate(ExternalDocumentation));
         if (!validationResults.All(r => r.IsValid)) throw new ValidationException(validationResults.Where(r => !r.IsValid).SelectMany(r => r.Errors!));

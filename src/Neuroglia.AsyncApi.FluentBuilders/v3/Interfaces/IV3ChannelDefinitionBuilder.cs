@@ -76,14 +76,14 @@ public interface IV3ChannelDefinitionBuilder
     /// </summary>
     /// <param name="setup">An <see cref="Action{T}"/> used to setup the tag to use</param>
     /// <returns>The configured <see cref="IV3ChannelDefinitionBuilder"/></returns>
-    IV3ChannelDefinitionBuilder WithTag(Action<ITagDefinitionBuilder> setup);
+    IV3ChannelDefinitionBuilder WithTag(Action<IV3TagDefinitionBuilder> setup);
 
     /// <summary>
     /// Marks the <see cref="V3ChannelDefinition"/> to use the specified external documentation
     /// </summary>
     /// <param name="setup">An <see cref="Action{T}"/> used to setup the external documentation to use</param>
     /// <returns>The configured <see cref="IV3ChannelDefinitionBuilder"/></returns>
-    IV3ChannelDefinitionBuilder WithExternalDocumentation(Action<IExternalDocumentationDefinitionBuilder> setup);
+    IV3ChannelDefinitionBuilder WithExternalDocumentation(Action<IV3ExternalDocumentationDefinitionBuilder> setup);
 
     /// <summary>
     /// Configures the <see cref="V3ChannelDefinition"/> to use the specified binding

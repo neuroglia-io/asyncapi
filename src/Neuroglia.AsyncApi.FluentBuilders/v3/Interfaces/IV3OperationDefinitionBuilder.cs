@@ -55,10 +55,4 @@ public interface IV3OperationDefinitionBuilder
     /// <returns>The configured <see cref="IV3OperationDefinitionBuilder"/></returns>
     IV3OperationDefinitionBuilder WithReply(Action<IV3OperationReplyDefinitionBuilder> setup);
 
-    /// <summary>
-    /// Builds the configured <see cref="V3OperationDefinition"/>
-    /// </summary>
-    /// <returns>A new <see cref="V3OperationDefinition"/></returns>
-    V3OperationDefinition Build();
-
 }

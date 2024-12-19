@@ -40,7 +40,7 @@ public record V2MessageTraitDefinition
     /// Gets/sets the definition of the correlation ID used for message tracing or matching.
     /// </summary>
     [DataMember(Order = 3, Name = "correlationId"), JsonPropertyOrder(3), JsonPropertyName("correlationId"), YamlMember(Order = 3, Alias = "correlationId")]
-    public virtual CorrelationIdDefinition? CorrelationId { get; set; }
+    public virtual V2CorrelationIdDefinition? CorrelationId { get; set; }
 
     /// <summary>
     /// Gets/sets a string containing the name of the schema format used to define the message payload. 
@@ -84,13 +84,13 @@ public record V2MessageTraitDefinition
     /// gets/sets a <see cref="EquatableList{T}"/> of tags for API documentation control. Tags can be used for logical grouping of operations.
     /// </summary>
     [DataMember(Order = 10, Name = "tags"), JsonPropertyOrder(10), JsonPropertyName("tags"), YamlMember(Order = 10, Alias = "tags")]
-    public virtual EquatableList<TagDefinition>? Tags { get; set; }
+    public virtual EquatableList<V2TagDefinition>? Tags { get; set; }
 
     /// <summary>
     /// Gets/sets an object containing additional external documentation for this message.
     /// </summary>
     [DataMember(Order = 11, Name = "externalDocs"), JsonPropertyOrder(11), JsonPropertyName("externalDocs"), YamlMember(Order = 11, Alias = "externalDocs")]
-    public virtual ExternalDocumentationDefinition? ExternalDocs { get; set; }
+    public virtual V2ExternalDocumentationDefinition? ExternalDocs { get; set; }
 
     /// <summary>
     /// Gets/sets an object used to configure the <see cref="V2MessageTraitDefinition"/>'s <see cref="IMessageBindingDefinition"/>s

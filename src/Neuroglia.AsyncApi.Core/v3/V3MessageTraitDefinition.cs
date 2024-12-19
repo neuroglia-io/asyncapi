@@ -34,7 +34,7 @@ public record V3MessageTraitDefinition
     /// Gets/sets the definition of the correlation ID used for message tracing or matching.
     /// </summary>
     [DataMember(Order = 2, Name = "correlationId"), JsonPropertyOrder(2), JsonPropertyName("correlationId"), YamlMember(Order = 2, Alias = "correlationId")]
-    public virtual CorrelationIdDefinition? CorrelationId { get; set; }
+    public virtual V3CorrelationIdDefinition? CorrelationId { get; set; }
 
     /// <summary>
     /// Gets/sets the content type to use when encoding/decoding a message's payload. 
@@ -72,13 +72,13 @@ public record V3MessageTraitDefinition
     /// Gets/sets a list of tags for logical grouping and categorization of messages.
     /// </summary>
     [DataMember(Order = 8, Name = "tags"), JsonPropertyOrder(8), JsonPropertyName("tags"), YamlMember(Order = 8, Alias = "tags")]
-    public virtual EquatableList<TagDefinition>? Tags { get; set; }
+    public virtual EquatableList<V3TagDefinition>? Tags { get; set; }
 
     /// <summary>
     /// Gets/sets additional external documentation for this message.
     /// </summary>
     [DataMember(Order = 9, Name = "externalDocs"), JsonPropertyOrder(9), JsonPropertyName("externalDocs"), YamlMember(Order = 9, Alias = "externalDocs")]
-    public virtual ExternalDocumentationDefinition? ExternalDocs { get; set; }
+    public virtual V3ExternalDocumentationDefinition? ExternalDocs { get; set; }
 
     /// <summary>
     /// Gets/sets a map where the keys describe the name of the protocol and the values describe protocol-specific definitions for the message.

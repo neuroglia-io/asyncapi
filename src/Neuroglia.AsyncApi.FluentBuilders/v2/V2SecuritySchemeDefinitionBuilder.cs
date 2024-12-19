@@ -99,7 +99,7 @@ public class V2SecuritySchemeDefinitionBuilder(IServiceProvider serviceProvider,
     /// <inheritdoc/>
     public virtual IV2SecuritySchemeDefinitionBuilder WithOAuthFlows(Action<IOAuthFlowDefinitionCollectionBuilder> setup)
     {
-        ArgumentNullException.ThrowIfNull(nameof(setup));
+        ArgumentNullException.ThrowIfNull(setup);
 
         var builder = ActivatorUtilities.CreateInstance<OAuthFlowDefinitionCollectionBuilder>(ServiceProvider);
         setup(builder);

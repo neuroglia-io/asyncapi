@@ -46,10 +46,10 @@ public record V2ComponentDefinitionCollection
     public virtual EquatableDictionary<string, V2ParameterDefinition>? Parameters { get; set; }
 
     /// <summary>
-    /// Gets/sets a <see cref="IDictionary{TKey, TValue}"/> used to hold reusable <see cref="CorrelationIdDefinition"/>s
+    /// Gets/sets a <see cref="IDictionary{TKey, TValue}"/> used to hold reusable <see cref="V2CorrelationIdDefinition"/>s
     /// </summary>
     [DataMember(Order = 5, Name = "correlationIds"), JsonPropertyOrder(5), JsonPropertyName("correlationIds"), YamlMember(Order = 5, Alias = "correlationIds")]
-    public virtual EquatableDictionary<string, CorrelationIdDefinition>? CorrelationIds { get; set; }
+    public virtual EquatableDictionary<string, V2CorrelationIdDefinition>? CorrelationIds { get; set; }
 
     /// <summary>
     /// Gets/sets a <see cref="IDictionary{TKey, TValue}"/> used to hold reusable <see cref="V2OperationTraitDefinition"/>s

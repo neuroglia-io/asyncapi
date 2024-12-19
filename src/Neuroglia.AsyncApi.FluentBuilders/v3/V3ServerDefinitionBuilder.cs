@@ -90,9 +90,9 @@ public class V3ServerDefinitionBuilder(IServiceProvider serviceProvider, IEnumer
     }
 
     /// <inheritdoc/>
-    public virtual IV3ServerDefinitionBuilder WithVariable(string name, Action<IServerVariableDefinitionBuilder> setup)
+    public virtual IV3ServerDefinitionBuilder WithVariable(string name, Action<IV3ServerVariableDefinitionBuilder> setup)
     {
-        var builder = ActivatorUtilities.CreateInstance<ServerVariableDefinitionBuilder>(this.ServiceProvider);
+        var builder = ActivatorUtilities.CreateInstance<V3ServerVariableDefinitionBuilder>(this.ServiceProvider);
         setup(builder);
         Server.Variables ??= [];
         Server.Variables[name] = builder.Build();
@@ -100,20 +100,20 @@ public class V3ServerDefinitionBuilder(IServiceProvider serviceProvider, IEnumer
     }
 
     /// <inheritdoc/>
-    public virtual IV3ServerDefinitionBuilder WithExternalDocumentation(Action<IExternalDocumentationDefinitionBuilder> setup)
+    public virtual IV3ServerDefinitionBuilder WithExternalDocumentation(Action<IV3ExternalDocumentationDefinitionBuilder> setup)
     {
         ArgumentNullException.ThrowIfNull(setup);
-        var builder = ActivatorUtilities.CreateInstance<ExternalDocumentationDefinitionBuilder>(this.ServiceProvider);
+        var builder = ActivatorUtilities.CreateInstance<V3ExternalDocumentationDefinitionBuilder>(this.ServiceProvider);
         setup(builder);
         Server.ExternalDocs = builder.Build();
         return this;
     }
 
     /// <inheritdoc/>
-    public virtual IV3ServerDefinitionBuilder WithTag(Action<ITagDefinitionBuilder> setup)
+    public virtual IV3ServerDefinitionBuilder WithTag(Action<IV3TagDefinitionBuilder> setup)
     {
         ArgumentNullException.ThrowIfNull(setup);
-        var builder = ActivatorUtilities.CreateInstance<TagDefinitionBuilder>(this.ServiceProvider);
+        var builder = ActivatorUtilities.CreateInstance<V3TagDefinitionBuilder>(this.ServiceProvider);
         setup(builder);
         Server.Tags ??= [];
         Server.Tags.Add(builder.Build());

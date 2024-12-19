@@ -107,7 +107,7 @@ internal static class AsyncApiDocumentFactory
                             },
                             Tags =
                             [
-                                new TagDefinition()
+                                new V2TagDefinition()
                                 {
                                     Name = "fake-tag",
                                     Description = "Fake Tag Description",
@@ -140,7 +140,7 @@ internal static class AsyncApiDocumentFactory
             },
             Tags =
             [
-                new TagDefinition()
+                new V2TagDefinition()
                 {
                     Name = "fake-tag",
                     Description = "Fake Tag Description",

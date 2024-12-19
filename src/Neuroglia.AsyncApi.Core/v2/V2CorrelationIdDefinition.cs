@@ -11,13 +11,13 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-namespace Neuroglia.AsyncApi;
+namespace Neuroglia.AsyncApi.v2;
 
 /// <summary>
 /// Represents an object used to define an Async API correlation ID
 /// </summary>
 [DataContract]
-public record CorrelationIdDefinition
+public record V2CorrelationIdDefinition
     : ReferenceableComponentDefinition
 {
 

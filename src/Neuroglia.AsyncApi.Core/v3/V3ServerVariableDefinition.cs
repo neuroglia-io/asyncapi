@@ -11,13 +11,13 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-namespace Neuroglia.AsyncApi;
+namespace Neuroglia.AsyncApi.v3;
 
 /// <summary>
 /// Represents an object used to describe a Server Variable for server URL template substitution.
 /// </summary>
 [DataContract]
-public record ServerVariableDefinition
+public record V3ServerVariableDefinition
     : ReferenceableComponentDefinition
 {
 

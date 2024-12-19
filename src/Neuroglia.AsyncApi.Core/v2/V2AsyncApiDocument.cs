@@ -75,13 +75,13 @@ public record V2AsyncApiDocument
     /// Gets/sets a <see cref="List{T}"/> of tags used by the specification with additional metadata. Each tag name in the list MUST be unique.
     /// </summary>
     [DataMember(Order = 8, Name = "tags"), JsonPropertyOrder(8), JsonPropertyName("tags"), YamlMember(Order = 8, Alias = "tags")]
-    public virtual EquatableList<TagDefinition>? Tags { get; set; }
+    public virtual EquatableList<V2TagDefinition>? Tags { get; set; }
 
     /// <summary>
     /// Gets/sets an object containing additional external documentation.
     /// </summary>
     [DataMember(Order = 9, Name = "externalDocs"), JsonPropertyOrder(9), JsonPropertyName("externalDocs"), YamlMember(Order = 9, Alias = "externalDocs")]
-    public virtual ExternalDocumentationDefinition? ExternalDocs { get; set; }
+    public virtual V2ExternalDocumentationDefinition? ExternalDocs { get; set; }
 
     /// <summary>
     /// Attempts to get the <see cref="V2OperationDefinition"/> with the specified id

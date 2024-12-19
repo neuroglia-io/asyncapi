@@ -56,7 +56,7 @@ public record V2ServerDefinition
     /// Gets/sets an optional string describing the host designated by the URL. <see href="https://spec.commonmark.org/">CommonMark</see> syntax MAY be used for rich text representation.
     /// </summary>
     [DataMember(Order = 5, Name = "variables"), JsonPropertyOrder(5), JsonPropertyName("variables"), YamlMember(Order = 5, Alias = "variables")]
-    public virtual EquatableDictionary<string, ServerVariableDefinition>? Variables { get; set; }
+    public virtual EquatableDictionary<string, V2ServerVariableDefinition>? Variables { get; set; }
 
     /// <summary>
     /// Gets/sets an <see cref="IList{T}"/> of values that represent alternative security requirement objects that can be used. 

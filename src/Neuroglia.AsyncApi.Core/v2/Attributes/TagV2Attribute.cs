@@ -16,20 +16,20 @@ namespace Neuroglia.AsyncApi.v2;
 /// <summary>
 /// Represents an <see cref="Attribute"/> used to tag an Async API component
 /// </summary>
-/// <param name="name">The name of the <see cref="TagDefinition"/> to generate</param>
-/// <param name="description">The description of the <see cref="TagDefinition"/> to generate</param>
+/// <param name="name">The name of the <see cref="V2TagDefinition"/> to generate</param>
+/// <param name="description">The description of the <see cref="V2TagDefinition"/> to generate</param>
 [AttributeUsage(AttributeTargets.Class | AttributeTargets.Method, AllowMultiple = true)]
 public class TagV2Attribute(string name, string? description = null)
         : Attribute
 {
 
     /// <summary>
-    /// Gets the name of the <see cref="TagDefinition"/> to generate
+    /// Gets the name of the <see cref="V2TagDefinition"/> to generate
     /// </summary>
     public virtual string Name { get; } = name;
 
     /// <summary>
-    /// Gets the description of the <see cref="TagDefinition"/> to generate
+    /// Gets the description of the <see cref="V2TagDefinition"/> to generate
     /// </summary>
     public virtual string? Description { get; set; } = description;
 

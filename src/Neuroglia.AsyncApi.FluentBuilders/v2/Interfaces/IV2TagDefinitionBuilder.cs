@@ -11,41 +11,40 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-namespace Neuroglia.AsyncApi.FluentBuilders;
+namespace Neuroglia.AsyncApi.FluentBuilders.v2;
 
 /// <summary>
-/// Defines the fundamentals of a service used to build <see cref="TagDefinition"/>s
+/// Defines the fundamentals of a service used to build <see cref="V2TagDefinition"/>s
 /// </summary>
-public interface ITagDefinitionBuilder
-    : IReferenceableComponentDefinitionBuilder<TagDefinition>
+public interface IV2TagDefinitionBuilder
 {
 
     /// <summary>
-    /// Configures the <see cref="TagDefinition"/> to use the specified name
+    /// Configures the <see cref="V2TagDefinition"/> to use the specified name
     /// </summary>
     /// <param name="name">The name to use</param>
-    /// <returns>The configured <see cref="ITagDefinitionBuilder"/></returns>
-    ITagDefinitionBuilder WithName(string name);
+    /// <returns>The configured <see cref="IV2TagDefinitionBuilder"/></returns>
+    IV2TagDefinitionBuilder WithName(string name);
 
     /// <summary>
-    /// Configures the <see cref="TagDefinition"/> to use the specified description
+    /// Configures the <see cref="V2TagDefinition"/> to use the specified description
     /// </summary>
     /// <param name="description">The description to use</param>
-    /// <returns>The configured <see cref="ITagDefinitionBuilder"/></returns>
-    ITagDefinitionBuilder WithDescription(string? description);
+    /// <returns>The configured <see cref="IV2TagDefinitionBuilder"/></returns>
+    IV2TagDefinitionBuilder WithDescription(string? description);
 
     /// <summary>
-    /// Adds the specified external documentation to the <see cref="TagDefinition"/> to build
+    /// Adds the specified external documentation to the <see cref="V2TagDefinition"/> to build
     /// </summary>
     /// <param name="uri">The <see cref="Uri"/> to the documentation to add</param>
     /// <param name="description">The description of the documentation to add</param>
-    /// <returns>The configured <see cref="ITagDefinitionBuilder"/></returns>
-    ITagDefinitionBuilder WithExternalDocumentation(Uri uri, string? description = null);
+    /// <returns>The configured <see cref="IV2TagDefinitionBuilder"/></returns>
+    IV2TagDefinitionBuilder WithExternalDocumentation(Uri uri, string? description = null);
 
     /// <summary>
-    /// Builds a new <see cref="TagDefinition"/>
+    /// Builds a new <see cref="V2TagDefinition"/>
     /// </summary>
-    /// <returns>A new <see cref="TagDefinition"/></returns>
-    TagDefinition Build();
+    /// <returns>A new <see cref="V2TagDefinition"/></returns>
+    V2TagDefinition Build();
 
 }

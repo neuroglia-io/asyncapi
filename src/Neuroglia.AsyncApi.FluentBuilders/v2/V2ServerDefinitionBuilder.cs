@@ -11,8 +11,6 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using Neuroglia.AsyncApi.FluentBuilders;
-
 namespace Neuroglia.AsyncApi.FluentBuilders.v2;
 
 /// <summary>
@@ -66,10 +64,10 @@ public class V2ServerDefinitionBuilder(IServiceProvider serviceProvider, IEnumer
     }
 
     /// <inheritdoc/>
-    public virtual IV2ServerDefinitionBuilder WithVariable(string name, Action<IServerVariableDefinitionBuilder> setup)
+    public virtual IV2ServerDefinitionBuilder WithVariable(string name, Action<IV2ServerVariableDefinitionBuilder> setup)
     {
         if (string.IsNullOrWhiteSpace(name)) throw new ArgumentNullException(nameof(name));
-        var builder = ActivatorUtilities.CreateInstance<ServerVariableDefinitionBuilder>(ServiceProvider);
+        var builder = ActivatorUtilities.CreateInstance<V2ServerVariableDefinitionBuilder>(ServiceProvider);
         setup(builder);
         Server.Variables ??= [];
         Server.Variables.Add(name, builder.Build());

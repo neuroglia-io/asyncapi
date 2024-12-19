@@ -49,13 +49,13 @@ public record V3OperationTraitDefinition
     /// Gets/sets a list of tags for logical grouping and categorization of operations.
     /// </summary>
     [DataMember(Order = 5, Name = "tags"), JsonPropertyOrder(5), JsonPropertyName("tags"), YamlMember(Order = 5, Alias = "tags", ScalarStyle = ScalarStyle.SingleQuoted)]
-    public virtual EquatableList<TagDefinition>? Tags { get; set; }
+    public virtual EquatableList<V3TagDefinition>? Tags { get; set; }
 
     /// <summary>
     /// Gets/sets additional external documentation for this operation.
     /// </summary>
     [DataMember(Order = 6, Name = "externalDocs"), JsonPropertyOrder(6), JsonPropertyName("externalDocs"), YamlMember(Order = 6, Alias = "externalDocs", ScalarStyle = ScalarStyle.SingleQuoted)]
-    public virtual ExternalDocumentationDefinition? ExternalDocs { get; set; }
+    public virtual V3ExternalDocumentationDefinition? ExternalDocs { get; set; }
 
     /// <summary>
     /// Gets/sets a map where the keys describe the name of the protocol and the values describe protocol-specific definitions for the operation.

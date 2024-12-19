@@ -61,7 +61,7 @@ public record V3ComponentDefinitionCollection
     /// Gets/sets a key/value mapping that contains reusable Server Variable Objects. 
     /// </summary>
     [DataMember(Order = 7, Name = "serverVariables"), JsonPropertyOrder(7), JsonPropertyName("serverVariables"), YamlMember(Order = 7, Alias = "serverVariables")]
-    public virtual EquatableDictionary<string, ServerVariableDefinition>? ServerVariables { get; set; }
+    public virtual EquatableDictionary<string, V3ServerVariableDefinition>? ServerVariables { get; set; }
 
     /// <summary>
     /// Gets/sets a key/value mapping that contains reusable Parameter Objects. 
@@ -73,7 +73,7 @@ public record V3ComponentDefinitionCollection
     /// Gets/sets a key/value mapping that contains reusable Correlation Id Objects. 
     /// </summary>
     [DataMember(Order = 9, Name = "correlationIds"), JsonPropertyOrder(9), JsonPropertyName("correlationIds"), YamlMember(Order = 9, Alias = "correlationIds")]
-    public virtual EquatableDictionary<string, CorrelationIdDefinition>? CorrelationIds { get; set; }
+    public virtual EquatableDictionary<string, V3CorrelationIdDefinition>? CorrelationIds { get; set; }
 
     /// <summary>
     /// Gets/sets a key/value mapping that contains reusable Reply Objects. 
@@ -91,13 +91,13 @@ public record V3ComponentDefinitionCollection
     /// Gets/sets a key/value mapping that contains reusable External Documentation Objects. 
     /// </summary>
     [DataMember(Order = 12, Name = "externalDocs"), JsonPropertyOrder(12), JsonPropertyName("externalDocs"), YamlMember(Order = 12, Alias = "externalDocs")]
-    public virtual EquatableDictionary<string, ExternalDocumentationDefinition>? ExternalDocs { get; set; }
+    public virtual EquatableDictionary<string, V3ExternalDocumentationDefinition>? ExternalDocs { get; set; }
 
     /// <summary>
     /// Gets/sets a key/value mapping that contains reusable Tag Objects. 
     /// </summary>
     [DataMember(Order = 13, Name = "tags"), JsonPropertyOrder(13), JsonPropertyName("tags"), YamlMember(Order = 13, Alias = "tags")]
-    public virtual EquatableDictionary<string, TagDefinition>? Tags { get; set; }
+    public virtual EquatableDictionary<string, V3TagDefinition>? Tags { get; set; }
 
     /// <summary>
     /// Gets/sets a key/value mapping that contains reusable Operation Trait Objects. 

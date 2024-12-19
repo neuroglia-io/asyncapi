@@ -90,7 +90,7 @@ public interface IV2AsyncApiDocumentBuilder
     /// </summary>
     /// <param name="setup">An <see cref="Action{T}"/> used to setup the tag to use</param>
     /// <returns>The configured <see cref="IV2AsyncApiDocumentBuilder"/></returns>
-    IV2AsyncApiDocumentBuilder WithTag(Action<ITagDefinitionBuilder> setup);
+    IV2AsyncApiDocumentBuilder WithTag(Action<IV2TagDefinitionBuilder> setup);
 
     /// <summary>
     /// Adds the specified external documentation to the <see cref="V2AsyncApiDocument"/> to build
@@ -173,12 +173,12 @@ public interface IV2AsyncApiDocumentBuilder
     IV2AsyncApiDocumentBuilder WithParameterComponent(string name, Action<IV2ParameterDefinitionBuilder> setup);
 
     /// <summary>
-    /// Adds the specified <see cref="CorrelationIdDefinition"/>
+    /// Adds the specified <see cref="V2CorrelationIdDefinition"/>
     /// </summary>
-    /// <param name="name">The name of the <see cref="CorrelationIdDefinition"/> to add</param>
-    /// <param name="correlationId">The <see cref="CorrelationIdDefinition"/> to add</param>
+    /// <param name="name">The name of the <see cref="V2CorrelationIdDefinition"/> to add</param>
+    /// <param name="correlationId">The <see cref="V2CorrelationIdDefinition"/> to add</param>
     /// <returns>The configured <see cref="IV2AsyncApiDocumentBuilder"/></returns>
-    IV2AsyncApiDocumentBuilder WithCorrelationIdComponent(string name, CorrelationIdDefinition correlationId);
+    IV2AsyncApiDocumentBuilder WithCorrelationIdComponent(string name, V2CorrelationIdDefinition correlationId);
 
     /// <summary>
     /// Adds the specified <see cref="V2OperationTraitDefinition"/>

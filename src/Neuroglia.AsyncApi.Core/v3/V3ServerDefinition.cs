@@ -69,7 +69,7 @@ public record V3ServerDefinition
     /// Gets/sets a map between a variable name and its value. The value is used for substitution in the server's host and pathname template.
     /// </summary>
     [DataMember(Order = 8, Name = "variables"), JsonPropertyOrder(8), JsonPropertyName("variables"), YamlMember(Order = 8, Alias = "variables")]
-    public virtual EquatableDictionary<string, ServerVariableDefinition>? Variables { get; set; }
+    public virtual EquatableDictionary<string, V3ServerVariableDefinition>? Variables { get; set; }
 
     /// <summary>
     /// Gets/sets a declaration of which security schemes can be used with this server. The list of values includes alternative security scheme objects that can be used. Only one of the security scheme objects need to be satisfied to authorize a connection or operation.
@@ -81,13 +81,13 @@ public record V3ServerDefinition
     /// Gets/sets a list of tags for logical grouping and categorization of servers.
     /// </summary>
     [DataMember(Order = 10, Name = "tags"), JsonPropertyOrder(10), JsonPropertyName("tags"), YamlMember(Order = 10, Alias = "tags")]
-    public virtual EquatableList<TagDefinition>? Tags { get; set; }
+    public virtual EquatableList<V3TagDefinition>? Tags { get; set; }
 
     /// <summary>
     /// Gets/sets additional external documentation for this server.
     /// </summary>
     [DataMember(Order = 11, Name = "externalDocs"), JsonPropertyOrder(11), JsonPropertyName("externalDocs"), YamlMember(Order = 11, Alias = "externalDocs")]
-    public virtual ExternalDocumentationDefinition? ExternalDocs { get; set; }
+    public virtual V3ExternalDocumentationDefinition? ExternalDocs { get; set; }
 
     /// <summary>
     /// Gets/sets a map where the keys describe the name of the protocol and the values describe protocol-specific definitions for the server.

@@ -64,12 +64,12 @@ public interface IV3ServerDefinitionBuilder
     IV3ServerDefinitionBuilder WithSummary(string? summary);
 
     /// <summary>
-    /// Adds the specified <see cref="ServerVariableDefinition"/> to the <see cref="V3ServerDefinition"/> to build
+    /// Adds the specified <see cref="V3ServerVariableDefinition"/> to the <see cref="V3ServerDefinition"/> to build
     /// </summary>
-    /// <param name="name">The name of the <see cref="ServerVariableDefinition"/> to add</param>
-    /// <param name="setup">An <see cref="Action{T}"/> used to setup the <see cref="ServerVariableDefinition"/> to add</param>
+    /// <param name="name">The name of the <see cref="V3ServerVariableDefinition"/> to add</param>
+    /// <param name="setup">An <see cref="Action{T}"/> used to setup the <see cref="V3ServerVariableDefinition"/> to add</param>
     /// <returns>The configured <see cref="IV3ServerDefinitionBuilder"/></returns>
-    IV3ServerDefinitionBuilder WithVariable(string name, Action<IServerVariableDefinitionBuilder> setup);
+    IV3ServerDefinitionBuilder WithVariable(string name, Action<IV3ServerVariableDefinitionBuilder> setup);
 
     /// <summary>
     /// Configures the <see cref="V3ServerDefinition"/> to use the specified <see cref="V3SecuritySchemeDefinition"/>
@@ -83,14 +83,14 @@ public interface IV3ServerDefinitionBuilder
     /// </summary>
     /// <param name="setup">An <see cref="Action{T}"/> used to setup the tag to use</param>
     /// <returns>The configured <see cref="IV3ServerDefinitionBuilder"/></returns>
-    IV3ServerDefinitionBuilder WithTag(Action<ITagDefinitionBuilder> setup);
+    IV3ServerDefinitionBuilder WithTag(Action<IV3TagDefinitionBuilder> setup);
 
     /// <summary>
     /// Configures the <see cref="V3ServerDefinition"/> to use the specified external documentation
     /// </summary>
     /// <param name="setup">An <see cref="Action{T}"/> used to setup the external documentation to use</param>
     /// <returns>The configured <see cref="IV3ServerDefinitionBuilder"/></returns>
-    IV3ServerDefinitionBuilder WithExternalDocumentation(Action<IExternalDocumentationDefinitionBuilder> setup);
+    IV3ServerDefinitionBuilder WithExternalDocumentation(Action<IV3ExternalDocumentationDefinitionBuilder> setup);
 
     /// <summary>
     /// Adds the specified <see cref="IServerBindingDefinition"/> to the <see cref="V3ServerDefinition"/> to build

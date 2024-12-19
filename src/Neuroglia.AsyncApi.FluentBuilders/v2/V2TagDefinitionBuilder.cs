@@ -11,38 +11,31 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-namespace Neuroglia.AsyncApi.FluentBuilders;
+namespace Neuroglia.AsyncApi.FluentBuilders.v2;
 
 /// <summary>
-/// Represents the default implementation of the <see cref="ITagDefinitionBuilder"/>
+/// Represents the default implementation of the <see cref="IV2TagDefinitionBuilder"/>
 /// </summary>
 /// <remarks>
-/// Initializes a new <see cref="TagDefinitionBuilder"/>
+/// Initializes a new <see cref="V2TagDefinitionBuilder"/>
 /// </remarks>
-/// <param name="validators">An <see cref="IEnumerable{T}"/> containing the services used to validate <see cref="TagDefinition"/>s</param>
-public class TagDefinitionBuilder(IEnumerable<IValidator<TagDefinition>> validators)
-    : ITagDefinitionBuilder
+/// <param name="validators">An <see cref="IEnumerable{T}"/> containing the services used to validate <see cref="V2TagDefinition"/>s</param>
+public class V2TagDefinitionBuilder(IEnumerable<IValidator<V2TagDefinition>> validators)
+    : IV2TagDefinitionBuilder
 {
 
     /// <summary>
-    /// Gets the services used to validate <see cref="TagDefinition"/>s
+    /// Gets the services used to validate <see cref="V2TagDefinition"/>s
     /// </summary>
-    protected virtual IEnumerable<IValidator<TagDefinition>> Validators { get; } = validators;
+    protected virtual IEnumerable<IValidator<V2TagDefinition>> Validators { get; } = validators;
 
     /// <summary>
-    /// Gets the <see cref="TagDefinition"/> to configure
+    /// Gets the <see cref="V2TagDefinition"/> to configure
     /// </summary>
-    protected virtual TagDefinition Tag { get; } = new();
+    protected virtual V2TagDefinition Tag { get; } = new();
 
     /// <inheritdoc/>
-    public virtual void Use(string reference)
-    {
-        ArgumentException.ThrowIfNullOrWhiteSpace(reference);
-        Tag.Reference = reference;
-    }
-
-    /// <inheritdoc/>
-    public virtual ITagDefinitionBuilder WithName(string name)
+    public virtual IV2TagDefinitionBuilder WithName(string name)
     {
         if (string.IsNullOrWhiteSpace(name)) throw new ArgumentNullException(nameof(name));
         Tag.Name = name;
@@ -50,14 +43,14 @@ public class TagDefinitionBuilder(IEnumerable<IValidator<TagDefinition>> validat
     }
 
     /// <inheritdoc/>
-    public virtual ITagDefinitionBuilder WithDescription(string? description)
+    public virtual IV2TagDefinitionBuilder WithDescription(string? description)
     {
         Tag.Description = description;
         return this;
     }
 
     /// <inheritdoc/>
-    public virtual ITagDefinitionBuilder WithExternalDocumentation(Uri uri, string? description = null)
+    public virtual IV2TagDefinitionBuilder WithExternalDocumentation(Uri uri, string? description = null)
     {
         ArgumentNullException.ThrowIfNull(uri);
         Tag.ExternalDocs = new() { Url = uri, Description = description };
@@ -65,7 +58,7 @@ public class TagDefinitionBuilder(IEnumerable<IValidator<TagDefinition>> validat
     }
 
     /// <inheritdoc/>
-    public virtual TagDefinition Build()
+    public virtual V2TagDefinition Build()
     {
         var validationResults = Validators.Select(v => v.Validate(Tag));
         if (!validationResults.All(r => r.IsValid)) throw new ValidationException(validationResults.Where(r => !r.IsValid).SelectMany(r => r.Errors));

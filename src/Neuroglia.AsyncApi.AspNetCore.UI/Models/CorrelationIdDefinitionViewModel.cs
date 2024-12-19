@@ -16,19 +16,19 @@ using Neuroglia.AsyncApi.AspNetCore.UI.Models.v2;
 namespace Neuroglia.AsyncApi.AspNetCore.UI.Models;
 
 /// <summary>
-/// Holds the data used to render an <see cref="CorrelationIdDefinition"/> view
+/// Holds the data used to render an <see cref="V2CorrelationIdDefinition"/> view
 /// </summary>
 public record CorrelationIdDefinitionViewModel
     : V2AsyncApiDocumentViewModel
 {
 
     /// <inheritdoc/>
-    public CorrelationIdDefinitionViewModel(V2AsyncApiDocument document, CorrelationIdDefinition correlationId) : base(document) { this.CorrelationId = correlationId; }
+    public CorrelationIdDefinitionViewModel(V2AsyncApiDocument document, V2CorrelationIdDefinition correlationId) : base(document) { this.CorrelationId = correlationId; }
 
     /// <summary>
-    /// Gets the <see cref="CorrelationIdDefinition"/> to render
+    /// Gets the <see cref="V2CorrelationIdDefinition"/> to render
     /// </summary>
-    public CorrelationIdDefinition CorrelationId { get; }
+    public V2CorrelationIdDefinition CorrelationId { get; }
 
 
 }
