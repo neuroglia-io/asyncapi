@@ -1,73 +1,38 @@
-name: Bug Report
-description: Create a bug report
-labels: ["bug"]
-body:
+---
+name: Bug report
+about: Create a report to help us improve
+title: ''
+labels: ''
+assignees: ''
 
-- type: markdown
-  attributes:
-    value: |
-       :pray: Thanks for taking the time to fill out this bug report!
+---
 
-- type: markdown
-  attributes:
-    value: |
-       ## Bug Report
+**Describe the bug**
+A clear and concise description of what the bug is.
 
-- type: textarea
-  id: i-tried-this
-  attributes:
-    label: "I tried this:"
-    placeholder: "What did you try to do? A code snippet or example helps."
-  validations:
-    required: true
+**To Reproduce**
+Steps to reproduce the behavior:
+1. Go to '...'
+2. Click on '....'
+3. Scroll down to '....'
+4. See error
 
-- type: textarea
-  id: instead-what-happened
-  attributes:
-    label: "This happened:"
-    placeholder: "What happened instead of what you've expected?"
-  validations:
-    required: true
+**Expected behavior**
+A clear and concise description of what you expected to happen.
 
-- type: textarea
-  id: what-did-you-expect
-  attributes:
-    label: "I expected this:"
-    placeholder: "What did you expect to happen? Describe the output or behavior you expected to see (unless it's obvious)."
+**Screenshots**
+If applicable, add screenshots to help explain your problem.
 
-- type: textarea
-  id: workaround
-  attributes:
-    label: "Is there a workaround?"
-    placeholder: "What's the workaround to avoid this issue?"
+**Desktop (please complete the following information):**
+ - OS: [e.g. iOS]
+ - Browser [e.g. chrome, safari]
+ - Version [e.g. 22]
 
-- type: textarea
-  attributes:
-    label: Anything else?
-    placeholder: |
-      Links? References? Logs? Anything that will give us more context about the issue you are encountering.
-      Tip: You can attach images or log files by dragging files in.
+**Smartphone (please complete the following information):**
+ - Device: [e.g. iPhone6]
+ - OS: [e.g. iOS8.1]
+ - Browser [e.g. stock browser, safari]
+ - Version [e.g. 22]
 
-- type: markdown
-  attributes:
-    value: |
-       ## Environment
-
-- type: dropdown
-  id: platform
-  attributes:
-    label: "Platform(s)"
-    multiple: true
-    options:
-      - MacOS
-      - Linux
-      - Windows
-      - Other
-
-- type: textarea
-  attributes:
-    label: Community Notes
-    value: |
-      <!-- Please keep this note for the community -->
-      * Please vote by adding a 👍 reaction to the issue to help us prioritize.
-      * If you are interested to work on this issue, please leave a comment.
+**Additional context**
+Add any other context about the problem here.
