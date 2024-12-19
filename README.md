@@ -3,38 +3,41 @@
 ## Contents
 
 - [Neuroglia AsyncAPI](#neuroglia-asyncapi)
-  - [Contents](#contents)
-  - [Summary](#summary)
-  - [Status](#status)
-  - [Installation](#installation)
-      - [Core library](#core-library)
-      - [Fluent validation library](#fluent-validation-library)
-      - [Fluent builders library](#fluent-builders-library)
-      - [Input/Output library](#inputoutput-library)
-      - [Code-first generation library](#code-first-generation-library)
-      - [Dependency inject extensions library](#dependency-inject-extensions-library)
-      - [Cloud event extensions library](#cloud-event-extensions-library)
-      - [AsyncAPI document serving library](#asyncapi-document-serving-library)
-      - [AsyncAPI UI](#asyncapi-ui)
-  - [Usage](#usage)
+  + [Contents](#contents)
+  + [Summary](#summary)
+  + [Status](#status)
+  + [Installation](#installation)
+    - [Core library](#core-library)
+    - [Fluent validation library](#fluent-validation-library)
+    - [Fluent builders library](#fluent-builders-library)
+    - [Input/Output library](#inputoutput-library)
+    - [Code-first generation library](#code-first-generation-library)
+    - [Dependency inject extensions library](#dependency-inject-extensions-library)
+    - [Cloud event extensions library](#cloud-event-extensions-library)
+    - [AsyncAPI document serving library](#asyncapi-document-serving-library)
+    - [AsyncAPI UI](#asyncapi-ui)
+  + [Usage](#usage)
     - [Building an AsyncAPI Document](#building-an-asyncapi-document)
+      + [AsyncAPI v2](#asyncapi-v2)
+      + [AsyncAPI v3](#asyncapi-v3)
     - [Writing an AsyncAPI Document](#writing-an-asyncapi-document)
     - [Reading an AsyncAPI document](#reading-an-asyncapi-document)
     - [Generating code-first AsyncAPI documents](#generating-code-first-asyncapi-documents)
-      - [1. Mark your services with adequate attributes](#1-mark-your-services-with-adequate-attributes)
-      - [2.1. Generating documents manually](#21-generating-documents-manually)
-      - [2.2. Generating documents automatically and serve them using ASP](#22-generating-documents-automatically-and-serve-them-using-asp)
+      + [AsyncAPI v2](#asyncapi-v2-1)
+      + [AsyncAPI v3](#asyncapi-v3-1)
+    - [Generating documents manually](#21-generating-documents-manually)
+    - [Generating documents automatically and serve them using ASP](#22-generating-documents-automatically-and-serve-them-using-asp)
     - [Using the AsyncAPI UI](#using-the-asyncapi-ui)
-  - [Samples](#samples)
+  + [Samples](#samples)
     - [Streetlights API - Server](#streetlights-api---server)
 
 ## Summary
 A .NET used to visualize and interact with [AsyncAPI](https://www.asyncapi.com/docs/reference/specification/v3.0.0) documents. The UI is built using Razor Pages and Boostrap
 
 ## Status
-`Microsoft.NET.Sdk.Web`
+
 | Name | Description | Latest Release | Spec version |
-| :---: | :---: | :---: | :---: |
+|:------|:------------|:--------------:|:------------:|
 | [Neuroglia.AsyncApi.Core](https://www.nuget.org/packages/Neuroglia.AsyncApi.Core) | Contains `AsyncAPI` models and core services such as fluent builders, validators, reader, writer and code-first generator | [3.0.0](https://github.com/neuroglia-io/asyncapi/releases/tag/v3.0.0) | [v3.0.0](https://www.asyncapi.com/docs/reference/specification/v3.0.0) |
 | [Neuroglia.AsyncApi.Validation](https://www.nuget.org/packages/Neuroglia.AsyncApi.Validation) | Contains services to validate `AsyncAPI` documents | [3.0.0](https://github.com/neuroglia-io/asyncapi/releases/tag/v3.0.0) | [v3.0.0](https://www.asyncapi.com/docs/reference/specification/v3.0.0) |
 | [Neuroglia.AsyncApi.IO](https://www.nuget.org/packages/Neuroglia.AsyncApi.IO) | Contains services to read and write `AsyncAPI` documents | [3.0.0](https://github.com/neuroglia-io/asyncapi/releases/tag/v3.0.0) | [v3.0.0](https://www.asyncapi.com/docs/reference/specification/v3.0.0) |
@@ -95,7 +98,9 @@ dotnet add package Neuroglia.AsyncApi.AspNetCore.UI
 
 ## Usage
 
-### Building an AsyncAPI V2 Document
+### Building an AsyncAPI document
+
+#### AsyncAPI v2
 
 ```csharp
 var services = new ServiceCollection();
@@ -152,7 +157,13 @@ var document = builder
     .Build();
 ```
 
-### Writing an AsyncAPI Document 
+#### AsyncAPI V3
+
+```csharp
+
+```
+
+### Writing an AsyncAPI document 
 
 ```csharp
 var writer = serviceProvider.GetRequiredService<IAsyncApiDocumentWriter>();
@@ -169,7 +180,7 @@ var asyncApi = await reader.ReadAsync(stream, cancellationToken);
 
 ### Generating code-first AsyncAPI documents
 
-#### 1. Mark your services with adequate attributes
+#### AsyncAPI V2
 
 ```csharp
 [AsyncApiV2("Streetlights API", "1.0.0", Description = "The Smartylighting Streetlights API allows you to remotely manage the city lights.", LicenseName = "Apache 2.0", LicenseUrl = "https://www.apache.org/licenses/LICENSE-2.0")]
@@ -207,6 +218,12 @@ Note the usage of the following attributes:
 - `AsyncApiV2`: Marks a class for code-first `AsyncAPI` document generation. Used to provide information about the API (licensing, contact, ...)
 - `ChannelV2`: Marks a method or class for code-first `AsyncAPI` channel generation. Used to provide information about the channel marked methods belong to.
 - `OperationV2`: Marks a method for code-first `AsyncAPI` operation generation. Use to provide information about the `AsyncAPI` operation.
+
+#### AsyncAPI V3
+
+```csharp
+
+```
 
 #### 2.1. Generating documents manually
 
