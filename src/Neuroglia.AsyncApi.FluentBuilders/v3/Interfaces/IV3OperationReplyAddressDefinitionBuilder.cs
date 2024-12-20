@@ -14,30 +14,30 @@
 namespace Neuroglia.AsyncApi.FluentBuilders.v3;
 
 /// <summary>
-/// Defines the fundamentals of a service used to build <see cref="V3OperationReplyAddressDefinition"/>s
+/// Defines the fundamentals of a service used to build <see cref="V3ReplyAddressDefinition"/>s
 /// </summary>
 public interface IV3OperationReplyAddressDefinitionBuilder
-    : IReferenceableComponentDefinitionBuilder<V3OperationReplyAddressDefinition>
+    : IReferenceableComponentDefinitionBuilder<V3ReplyAddressDefinition>
 {
 
     /// <summary>
-    /// Configures the <see cref="V3OperationReplyAddressDefinition"/> to use the specified description
+    /// Configures the <see cref="V3ReplyAddressDefinition"/> to use the specified description
     /// </summary>
     /// <param name="description">The description to use</param>
     /// <returns>The configured <see cref="IV3OperationReplyAddressDefinitionBuilder"/></returns>
     IV3OperationReplyAddressDefinitionBuilder WithDescription(string? description);
 
     /// <summary>
-    /// Configures the <see cref="V3OperationReplyAddressDefinition"/> to use the specified location
+    /// Configures the <see cref="V3ReplyAddressDefinition"/> to use the specified location
     /// </summary>
     /// <param name="location">The location to use</param>
     /// <returns>The configured <see cref="IV3OperationReplyAddressDefinitionBuilder"/></returns>
     IV3OperationReplyAddressDefinitionBuilder WithLocation(string location);
 
     /// <summary>
-    /// Builds the configured <see cref="V3OperationReplyAddressDefinition"/>
+    /// Builds the configured <see cref="V3ReplyAddressDefinition"/>
     /// </summary>
-    /// <returns>A new <see cref="V3OperationReplyAddressDefinition"/></returns>
-    V3OperationReplyAddressDefinition Build();
+    /// <returns>A new <see cref="V3ReplyAddressDefinition"/></returns>
+    V3ReplyAddressDefinition Build();
 
 }

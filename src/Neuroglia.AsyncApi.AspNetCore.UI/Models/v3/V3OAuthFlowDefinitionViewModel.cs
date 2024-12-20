@@ -14,12 +14,13 @@
 namespace Neuroglia.AsyncApi.AspNetCore.UI.Models.v3;
 
 /// <summary>
-/// Holds the data used to render a <see cref="V3OperationDefinition"/> view
+/// Holds the data used to render a <see cref="OAuthFlowDefinition"/> view
 /// </summary>
-/// <param name="Document">The <see cref="V3AsyncApiDocument"/> that defines the <see cref="V3OperationDefinition"/> to render</param>
-/// <param name="Name">The name of the <see cref="V3OperationDefinition"/> to render</param>
-/// <param name="Definition">The <see cref="V3OperationDefinition"/> to render</param>
-public record V3OperationDefinitionViewModel(V3AsyncApiDocument Document, string Name, V3OperationDefinition Definition)
+/// <param name="Document">The <see cref="V3AsyncApiDocument"/> that defines the <see cref="OAuthFlowDefinition"/> to render</param>
+/// <param name="Reference">A reference to the <see cref="OAuthFlowDefinition"/> to render</param>
+/// <param name="FlowType">The type of the <see cref="OAuthFlowDefinition"/> to render</param>
+/// <param name="Flow">The <see cref="OAuthFlowDefinition"/> to render</param>
+public record V3OAuthFlowDefinitionViewModel(V3AsyncApiDocument Document, string Reference, string FlowType, OAuthFlowDefinition Flow)
     : V3AsyncApiDocumentViewModel(Document)
 {
 

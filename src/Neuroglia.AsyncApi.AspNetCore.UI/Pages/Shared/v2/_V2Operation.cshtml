@@ -16,12 +16,12 @@
 <div class="m-3">
     <div class="card">
 
-        <a data-bs-toggle="collapse" href="#@operationRef" role="button" aria-expanded="false" title="@(string.IsNullOrWhiteSpace(operation.Summary) ? operation.OperationId : operation.Summary)" class="collapsed">
+        <a data-bs-toggle="collapse" href="#@operationRef" role="button" aria-expanded="false" data-bs-toggle="tooltip" data-bs-placement="bottom" title="@(string.IsNullOrWhiteSpace(operation.Summary) ? operation.OperationId : operation.Summary)" class="collapsed">
             <div class="card-header bg-transparent">
                 <div class="row">
                     <div class="col-md-6">
                         <i class="caret text-dark"></i>
-                        <span class="badge border me-2 border-@badgeColor text-@badgeColor" title="@badgeTooltip">@badgeText</span>
+                        <span class="badge border me-2 border-@badgeColor text-@badgeColor" data-bs-toggle="tooltip" data-bs-placement="bottom" title="@badgeTooltip">@badgeText</span>
                         <span class="h5 text-secondary">@operation.OperationId</span>
                         <small class="font-italic text-muted ms-1"> [@this.Model.ChannelKey]</small>
                     </div>
@@ -30,7 +30,7 @@
                         {
                             foreach (var tag in operation.Tags)
                             {
-                                <span class="badge rounded-pill border border-secondary text-secondary" title="@tag.Description">@tag.Name</span>
+                                <span class="badge rounded-pill border border-secondary text-secondary" data-bs-toggle="tooltip" data-bs-placement="bottom" title="@tag.Description">@tag.Name</span>
                             }
                         }
                     </div>

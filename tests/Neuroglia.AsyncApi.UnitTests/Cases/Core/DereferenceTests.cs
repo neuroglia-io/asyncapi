@@ -306,7 +306,7 @@ public class DereferenceTests
             .WithTitle("fake")
             .WithVersion("1.0.0")
             .WithReplyComponent(componentName, component => component 
-                .WithAddress("FakeAddress"))
+                .WithChannel("FakeAddress"))
             .Build();
 
         //act
@@ -314,8 +314,8 @@ public class DereferenceTests
         var dereference = () => document.DereferenceReply(componentRef);
 
         //assert
-        dereferenceGeneric.Should().NotThrow().Which.Should().NotBeNull().And.BeOfType<V3OperationReplyDefinition>();
-        dereference.Should().NotThrow().Which.Should().NotBeNull().And.BeOfType<V3OperationReplyDefinition>();
+        dereferenceGeneric.Should().NotThrow().Which.Should().NotBeNull().And.BeOfType<V3ReplyDefinition>();
+        dereference.Should().NotThrow().Which.Should().NotBeNull().And.BeOfType<V3ReplyDefinition>();
     }
 
     [Fact]
@@ -336,8 +336,8 @@ public class DereferenceTests
         var dereference = () => document.DereferenceReplyAddress(componentRef);
 
         //assert
-        dereferenceGeneric.Should().NotThrow().Which.Should().NotBeNull().And.BeOfType<V3OperationReplyAddressDefinition>();
-        dereference.Should().NotThrow().Which.Should().NotBeNull().And.BeOfType<V3OperationReplyAddressDefinition>();
+        dereferenceGeneric.Should().NotThrow().Which.Should().NotBeNull().And.BeOfType<V3ReplyAddressDefinition>();
+        dereference.Should().NotThrow().Which.Should().NotBeNull().And.BeOfType<V3ReplyAddressDefinition>();
     }
 
     [Fact]

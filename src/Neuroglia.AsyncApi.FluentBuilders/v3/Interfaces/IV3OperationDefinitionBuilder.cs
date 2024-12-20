@@ -49,9 +49,9 @@ public interface IV3OperationDefinitionBuilder
     IV3OperationDefinitionBuilder WithMessage(string message);
 
     /// <summary>
-    /// Configures the <see cref="V3OperationDefinition"/> to use the specified <see cref="V3OperationReplyDefinition"/>
+    /// Configures the <see cref="V3OperationDefinition"/> to use the specified <see cref="V3ReplyDefinition"/>
     /// </summary>
-    /// <param name="setup">An <see cref="Action{T}"/> used to setup the <see cref="V3OperationReplyDefinition"/> to use</param>
+    /// <param name="setup">An <see cref="Action{T}"/> used to setup the <see cref="V3ReplyDefinition"/> to use</param>
     /// <returns>The configured <see cref="IV3OperationDefinitionBuilder"/></returns>
     IV3OperationDefinitionBuilder WithReply(Action<IV3OperationReplyDefinitionBuilder> setup);
 

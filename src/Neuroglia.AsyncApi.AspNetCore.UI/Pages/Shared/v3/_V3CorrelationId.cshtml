@@ -7,15 +7,21 @@
 
     @if (!string.IsNullOrWhiteSpace(correlationId.Description))
     {
-        <p><small class="fst-italic">@correlationId.Description</small></p>
+        <small class="text-secondary">@Html.Raw(Markdown.ToHtml(correlationId.Description))</small>
     }
-
-    <div class="row p-3">
-        <div class="col-2">
-            <small class="text-secondary">Location</small>
-            <small class="bi bi-info-circle text-secondary ms-1" role="button" title="A runtime expression that specifies the location of the correlation ID"></small>
-        </div>
-        <div class="col-2"><small class="badge border border-muted text-secondary"><pre><code>@correlationId.Location</code></pre></small></div>
-    </div>
+    
+    <table class="table">
+        <tbody>
+            <tr>
+                <td class="fit">
+                    <small class="text-secondary">Location</small>
+                    <small class="bi bi-info-circle text-secondary ms-1" role="button" data-bs-toggle="tooltip" data-bs-placement="bottom" title="A runtime expression that specifies the location of the correlation ID"></small>
+                </td>
+                <td>
+                    <small class="badge border border-muted text-secondary"><code>@correlationId.Location</code></small>
+                </td>
+            </tr>
+        </tbody>
+    </table>
 
 </div>

@@ -11,19 +11,17 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using Neuroglia.AsyncApi.AspNetCore.UI.Models.v2;
-
-namespace Neuroglia.AsyncApi.AspNetCore.UI.Models;
+namespace Neuroglia.AsyncApi.AspNetCore.UI.Models.v2;
 
 /// <summary>
 /// Holds the data used to render a <see cref="OAuthFlowDefinition"/> view
 /// </summary>
-public record OAuthFlowDefinitionViewModel
+public record V2OAuthFlowDefinitionViewModel
     : V2AsyncApiDocumentViewModel
 {
 
     /// <inheritdoc/>
-    public OAuthFlowDefinitionViewModel(V2AsyncApiDocument document, string parentRef, string flowType, OAuthFlowDefinition flow) : base(document) { this.ParentRef = parentRef; this.FlowType = flowType; this.Flow = flow; }
+    public V2OAuthFlowDefinitionViewModel(V2AsyncApiDocument document, string parentRef, string flowType, OAuthFlowDefinition flow) : base(document) { ParentRef = parentRef; FlowType = flowType; Flow = flow; }
 
     /// <summary>
     /// Gets a reference to the <see cref="OAuthFlowDefinition"/>'s parent component

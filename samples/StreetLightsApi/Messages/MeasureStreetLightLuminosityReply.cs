@@ -14,24 +14,14 @@
 namespace StreetLightsApi.Messages;
 
 /// <summary>
-/// Represents a request to add a new street light
+/// Represents the response to a measure street light luminosity request
 /// </summary>
-public class AddStreetLightRequest
+public class MeasureStreetLightLuminosityReply
 {
 
     /// <summary>
-    /// Gets/sets the id of the street to add a new light to
+    /// Gets/sets the street light's lumens
     /// </summary>
-    public required string StreetId { get; init; }
-
-    /// <summary>
-    /// Gets/sets the latitude of the light to add
-    /// </summary>
-    public required decimal Latitude { get; init; }
-
-    /// <summary>
-    /// Gets/sets the longitude of the light to add
-    /// </summary>
-    public required decimal Longitude { get; init; }
+    public required long Lumens { get; init; }
 
 }

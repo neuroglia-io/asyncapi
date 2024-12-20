@@ -14,11 +14,15 @@
 namespace Neuroglia.AsyncApi.AspNetCore.UI.Models.v3;
 
 /// <summary>
-/// Holds the data used to render an <see cref="V3AsyncApiDocument"/> view
+/// Holds the data used to render an <see cref="V3ExternalDocumentationDefinition"/> view
 /// </summary>
-/// <param name="Document">The <see cref="V3AsyncApiDocument"/> to render the view for</param>
-public record V3AsyncApiDocumentViewModel(V3AsyncApiDocument Document)
+/// <param name="Document">The <see cref="V3AsyncApiDocument"/> that defines the <see cref="V3ExternalDocumentationDefinition"/> to render</param>
+/// <param name="Name">The name of the <see cref="V3ExternalDocumentationDefinition"/> to render</param>
+/// <param name="Definition">The <see cref="V3ExternalDocumentationDefinition"/> to render</param>
+public record V3ExternalDocumentationDefinitionViewModel(V3AsyncApiDocument Document, string Name, V3ExternalDocumentationDefinition Definition)
+    : V3AsyncApiDocumentViewModel(Document)
 {
+
 
 
 }

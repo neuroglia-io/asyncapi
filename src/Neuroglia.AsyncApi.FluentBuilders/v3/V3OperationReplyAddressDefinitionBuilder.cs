@@ -17,8 +17,8 @@ namespace Neuroglia.AsyncApi.FluentBuilders.v3;
 /// Represents the default implementation of the <see cref="IV3OperationReplyAddressDefinitionBuilder"/> interface
 /// </summary>
 /// <param name="serviceProvider">The current <see cref="IServiceProvider"/></param>
-/// <param name="validators">The services used to validate <see cref="V3OperationReplyAddressDefinition"/>s</param>
-public class V3OperationReplyAddressDefinitionBuilder(IServiceProvider serviceProvider, IEnumerable<IValidator<V3OperationReplyAddressDefinition>> validators)
+/// <param name="validators">The services used to validate <see cref="V3ReplyAddressDefinition"/>s</param>
+public class V3OperationReplyAddressDefinitionBuilder(IServiceProvider serviceProvider, IEnumerable<IValidator<V3ReplyAddressDefinition>> validators)
     : IV3OperationReplyAddressDefinitionBuilder
 {
 
@@ -28,14 +28,14 @@ public class V3OperationReplyAddressDefinitionBuilder(IServiceProvider servicePr
     protected virtual IServiceProvider ServiceProvider { get; } = serviceProvider;
 
     /// <summary>
-    /// Gets the services used to validate <see cref="V3OperationReplyAddressDefinition"/>s
+    /// Gets the services used to validate <see cref="V3ReplyAddressDefinition"/>s
     /// </summary>
-    protected virtual IEnumerable<IValidator<V3OperationReplyAddressDefinition>> Validators { get; } = validators;
+    protected virtual IEnumerable<IValidator<V3ReplyAddressDefinition>> Validators { get; } = validators;
 
     /// <summary>
-    /// Gets the <see cref="V3OperationReplyAddressDefinition"/> to configure
+    /// Gets the <see cref="V3ReplyAddressDefinition"/> to configure
     /// </summary>
-    protected virtual V3OperationReplyAddressDefinition ReplyAddress { get; } = new();
+    protected virtual V3ReplyAddressDefinition ReplyAddress { get; } = new();
 
     /// <inheritdoc/>
     public virtual void Use(string reference)
@@ -60,7 +60,7 @@ public class V3OperationReplyAddressDefinitionBuilder(IServiceProvider servicePr
     }
 
     /// <inheritdoc/>
-    public virtual V3OperationReplyAddressDefinition Build()
+    public virtual V3ReplyAddressDefinition Build()
     {
         var validationResults = Validators.Select(v => v.Validate(ReplyAddress));
         if (!validationResults.All(r => r.IsValid)) throw new ValidationException(validationResults.Where(r => !r.IsValid).SelectMany(r => r.Errors!));

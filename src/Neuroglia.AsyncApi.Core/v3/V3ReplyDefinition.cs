@@ -17,7 +17,7 @@ namespace Neuroglia.AsyncApi.v3;
 /// Represents an object that describes the reply part that MAY be applied to an Operation Object. If an operation implements the request/reply pattern, the reply object represents the response message.
 /// </summary>
 [DataContract]
-public record V3OperationReplyDefinition
+public record V3ReplyDefinition
     : ReferenceableComponentDefinition
 {
 
@@ -25,7 +25,7 @@ public record V3OperationReplyDefinition
     /// Gets/sets the definition of the address that implementations MUST use for the reply.
     /// </summary>
     [DataMember(Order = 1, Name = "address"), JsonPropertyOrder(1), JsonPropertyName("address"), YamlMember(Order = 1, Alias = "address", ScalarStyle = ScalarStyle.SingleQuoted)]
-    public virtual V3OperationReplyAddressDefinition? Address { get; set; }
+    public virtual V3ReplyAddressDefinition? Address { get; set; }
 
     /// <summary>
     /// Gets/sets a $ref pointer to the definition of the channel in which this operation is performed. When address is specified, the address property of the channel referenced by this property MUST be either null or not defined.

@@ -8,7 +8,7 @@
         <div class="pb-3">
             <span class="h1 p-0 m-0 align-middle">@document.Info.Title </span>
             <span class="badge fs-5 rounded-pill bg-secondary text-light align-middle">@document.Info.Version</span>
-            <div class="btn-group ms-1" role="group" title="Download Async API document">
+            <div class="btn-group ms-1" role="group" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Download Async API document">
                 <button id="downloadBtnGroup" type="button" class="btn btn-sm dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
                     <i class="bi bi-download"></i>
                 </button>
@@ -32,11 +32,11 @@
             <div class="mb-3">
                 @if (document.Info.License != null && document.Info.License.Url != null)
                 {
-                    <a class="badge rounded-pill border border-secondary text-secondary" href="@document.Info.License.Url" target="_blank" title="View the license of the @document.Info.Title @document.Info.Version">@document.Info.License.Name</a>
+                    <a class="badge rounded-pill border border-secondary text-secondary" href="@document.Info.License.Url" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom" title="View the license of the @document.Info.Title @document.Info.Version">@document.Info.License.Name</a>
                 }
                 @if (document.Info.TermsOfService != null)
                 {
-                    <a class="badge rounded-pill border border-secondary text-secondary" href="@document.Info.TermsOfService" target="_blank" title="View the Terms of Service of the @document.Info.Title @document.Info.Version">Terms of Service</a>
+                    <a class="badge rounded-pill border border-secondary text-secondary" href="@document.Info.TermsOfService" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom" title="View the Terms of Service of the @document.Info.Title @document.Info.Version">Terms of Service</a>
                 }
             </div>
         }
@@ -180,7 +180,7 @@
                                             </div>
                                         </a>
                                         <div id="@reference" class="card-body collapse">
-                                            <partial name="v2/_V2SecurityScheme" model="new SecuritySchemeDefinitionViewModel(document, reference, scheme.Value)" />
+                                            <partial name="v2/_V2SecurityScheme" model="new V2SecuritySchemeDefinitionViewModel(document, reference, scheme.Value)" />
                                         </div>
                                     </div>
                                     index++;

@@ -10,7 +10,7 @@
     if (payloadSchema != null) payloadSchema = await this.JsonSchemaResolver.ResolveSchemaAsync(payloadSchema);
 }
 <div class="card my-3">
-    <a data-bs-toggle="collapse" href="#@messageRef" role="button" aria-expanded="false" title="@message?.Summary" class="collapsed">
+    <a data-bs-toggle="collapse" href="#@messageRef" role="button" aria-expanded="false" data-bs-toggle="tooltip" data-bs-placement="bottom" title="@message?.Summary" class="collapsed">
         <div class="card-header">
             <div class="row">
                 <div class="col-md-9">
@@ -20,7 +20,7 @@
                     <span class="badge border border-secondary text-secondary">@message?.ContentType</span>
                     @if(message?.CorrelationId != null)
                     {
-                        <i class="bi bi-link ms-2 text-dark" role="button" title="The message is correlatable"></i>
+                        <i class="bi bi-link ms-2 text-dark" role="button" data-bs-toggle="tooltip" data-bs-placement="bottom" title="The message is correlatable"></i>
                     }
                 </div>
                 <div class="col-md-3 text-end">
@@ -28,7 +28,7 @@
                     {
                         foreach (var tag in message.Tags)
                         {
-                            <span class="badge rounded-pill border border-secondary text-secondary" title="@tag.Description">@tag.Name</span>
+                            <span class="badge rounded-pill border border-secondary text-secondary" data-bs-toggle="tooltip" data-bs-placement="bottom" title="@tag.Description">@tag.Name</span>
                         }
                     }
                 </div>
@@ -88,7 +88,7 @@
             var type = payloadSchema.GetJsonType()!;
             var properties = payloadSchema.GetProperties();
             <div class="card border-0">
-                <a data-bs-toggle="collapse" href="#@(messageRef)_payload" role="button" aria-expanded="false" title="@payloadSchema.GetDescription()">
+                <a data-bs-toggle="collapse" href="#@(messageRef)_payload" role="button" aria-expanded="false" data-bs-toggle="tooltip" data-bs-placement="bottom" title="@payloadSchema.GetDescription()">
                     <div class="card-header bg-transparent">
                         <i class="caret text-dark"></i>
                         <span class="font-weight-bold text-secondary">Payload</span><span class="badge bg-secondary text-light ms-2">@(type == null ? "object" : EnumHelper.Stringify(type.Value).ToLowerInvariant())</span>

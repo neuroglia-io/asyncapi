@@ -1,4 +1,4 @@
-﻿@model SecurityRequirementViewModel
+﻿@model V2SecurityRequirementViewModel
 @{
     var requirementName = this.Model.Key;
     var scheme = this.Model.Document.Components?.SecuritySchemes?.FirstOrDefault(s => s.Key.Equals(requirementName, StringComparison.OrdinalIgnoreCase)).Value;
@@ -9,7 +9,7 @@
 <div class="card my-3">
     <a data-bs-toggle="collapse" href="#@reference" role="button" aria-expanded="false">
         <div class="card-header">
-            <span class="badge bg-warning me-2" title="The security scheme type">@schemeType</span>
+            <span class="badge bg-warning me-2" data-bs-toggle="tooltip" data-bs-placement="bottom" title="The security scheme type">@schemeType</span>
             <span class="text-secondary fw-bold">@requirementName</span>
         </div>
     </a>
@@ -22,7 +22,7 @@
                 }
                 else
                 {
-                    <partial name="_V2SecurityScheme" model="new SecuritySchemeDefinitionViewModel(this.Model.Document, reference, scheme)" />
+                    <partial name="v2/_V2SecurityScheme" model="new V2SecuritySchemeDefinitionViewModel(this.Model.Document, reference, scheme)" />
                 }
             </div>
         </div>

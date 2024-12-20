@@ -7,29 +7,46 @@
     
     @if (components.Schemas != null)
     {
-        <div class="card border-0 mb-3">
+        <div class="card border-0 ms-3 mb-3">
             <a data-bs-toggle="collapse" href="#schema_components" role="button" aria-expanded="false" class="collapsed">
                 <div class="card-header bg-transparent d-flex align-items-center">
                     <i class="caret text-dark me-2"></i>
-                    <span class="card-title h5 text-secondary">Schemas</span>
+                    <span class="card-title my-1 h5 text-secondary">Schemas</span>
                 </div>
             </a>
             <div id="schema_components" class="card-body p-0 collapse">
+
+                
                 @foreach(var schemaKvp in components.Schemas)
                 {
-                    <partial name="v3/_V3Schema" model="new V3SchemaViewModel(Model.Document, schemaKvp.Value, schemaKvp.Key)" />
+                    <div class="mt-3">
+                        <div class="card">
+
+                            <a data-bs-toggle="collapse" href="#schema_component_@(schemaKvp.Key)" role="button" aria-expanded="false" class="collapsed">
+                                <div class="card-header d-flex align-items-center">
+                                    <i class="caret text-dark"></i>
+                                    <span class="text-muted align-middle mx-2">@schemaKvp.Key</span>
+                                </div>
+                            </a>
+
+                            <div id="schema_component_@(schemaKvp.Key)" class="card-body py-3 collapse">
+                                <partial name="v3/_V3Schema" model="new V3SchemaViewModel(Model.Document, SchemaContext.Unknown, schemaKvp.Value, schemaKvp.Key)" />
+                            </div>
+
+                        </div>
+                    </div>
                 }
             </div>
         </div>
     }
 
-    @if(components.Servers != null)
+    @if (components.Servers != null)
     {
-        <div class="card border-0 mb-3">
+        <div class="card border-0 ms-3 mb-3">
             <a data-bs-toggle="collapse" href="#server_components" role="button" aria-expanded="false" class="collapsed">
                 <div class="card-header bg-transparent d-flex align-items-center">
                     <i class="caret text-dark me-2"></i>
-                    <span class="card-title h5 text-secondary">Servers</span>
+                    <span class="card-title my-1 h5 text-secondary">Servers</span>
                 </div>
             </a>
             <div id="server_components" class="card-body p-0 collapse">
@@ -43,11 +60,11 @@
 
     @if (components.Channels != null)
     {
-        <div class="card border-0 mb-3">
+        <div class="card border-0 ms-3 mb-3">
             <a data-bs-toggle="collapse" href="#channel_components" role="button" aria-expanded="false" class="collapsed">
                 <div class="card-header bg-transparent d-flex align-items-center">
                     <i class="caret text-dark me-2"></i>
-                    <span class="card-title h5 text-secondary">Channels</span>
+                    <span class="card-title my-1 h5 text-secondary">Channels</span>
                 </div>
             </a>
             <div id="channel_components" class="card-body p-0 collapse">
@@ -61,17 +78,17 @@
 
     @if (components.Operations != null)
     {
-        <div class="card border-0 mb-3">
+        <div class="card border-0 ms-3 mb-3">
             <a data-bs-toggle="collapse" href="#operation_components" role="button" aria-expanded="false" class="collapsed">
                 <div class="card-header bg-transparent d-flex align-items-center">
                     <i class="caret text-dark me-2"></i>
-                    <span class="card-title h5 text-secondary">Operations</span>
+                    <span class="card-title my-1 h5 text-secondary">Operations</span>
                 </div>
             </a>
             <div id="operation_components" class="card-body p-0 collapse">
                 @foreach (var operation in components.Operations)
                 {
-                    <partial name="v3/_V3Operation" model="@(new V3OperationDefinitionViewModel(Model.Document, operation.Key, operation.Value))" />
+                    <partial name="v3/_V3OperationTrait" model="@(new V3OperationTraitDefinitionViewModel(Model.Document, operation.Key, operation.Value))" />
                 }
             </div>
         </div>
@@ -79,35 +96,35 @@
 
     @if (components.Messages != null)
     {
-        <div class="card border-0 mb-3">
+        <div class="card border-0 ms-3 mb-3">
             <a data-bs-toggle="collapse" href="#message_components" role="button" aria-expanded="false" class="collapsed">
                 <div class="card-header bg-transparent d-flex align-items-center">
                     <i class="caret text-dark me-2"></i>
-                    <span class="card-title h5 text-secondary">Messages</span>
+                    <span class="card-title my-1 h5 text-secondary">Messages</span>
                 </div>
             </a>
             <div id="message_components" class="card-body p-0 collapse">
                 @foreach (var message in components.Messages)
                 {
-                    <partial name="v3/_V3Message" model="new V3MessageDefinitionViewModel(Model.Document, message.Key, message.Value)" />
+                    <partial name="v3/_V3MessageTrait" model="new V3MessageTraitDefinitionViewModel(Model.Document, message.Key, message.Value)" />
                 }
             </div>
         </div>
     }
 
-    @* @if (components.SecuritySchemes != null)
+    @if (components.SecuritySchemes != null)
     {
-        <div class="card border-0 mb-3">
+        <div class="card border-0 ms-3 mb-3">
             <a data-bs-toggle="collapse" href="#securityScheme_components" role="button" aria-expanded="false" class="collapsed">
                 <div class="card-header bg-transparent d-flex align-items-center">
                     <i class="caret text-dark me-2"></i>
-                    <span class="card-title h5 text-secondary">Security Schemes</span>
+                    <span class="card-title my-1 h5 text-secondary">Security Schemes</span>
                 </div>
             </a>
             <div id="securityScheme_components" class="card-body p-0 collapse">
                 @foreach (var scheme in components.SecuritySchemes)
                 {
-                    <partial name="v3/_V3SecurityScheme" model="new V3SecuritySchemeDefinitionViewModel(Model.Document, scheme.Key, scheme.Value)" />
+                    <partial name="v3/_V3SecurityScheme" model="@(new V3SecuritySchemeDefinitionViewModel(Model.Document, $"#/components/securitySchemes/{scheme.Key}", scheme.Key, scheme.Value))" />
                 }
             </div>
         </div>
@@ -115,17 +132,17 @@
 
     @if (components.ServerVariables != null)
     {
-        <div class="card border-0 mb-3">
+        <div class="card border-0 ms-3 mb-3">
             <a data-bs-toggle="collapse" href="#serverVariable_components" role="button" aria-expanded="false" class="collapsed">
                 <div class="card-header bg-transparent d-flex align-items-center">
                     <i class="caret text-dark me-2"></i>
-                    <span class="card-title h5 text-secondary">Server Variables</span>
+                    <span class="card-title my-1 h5 text-secondary">Server Variables</span>
                 </div>
             </a>
             <div id="serverVariable_components" class="card-body p-0 collapse">
                 @foreach (var variable in components.ServerVariables)
                 {
-                    <partial name="v3/_V3Variable" model="new V3ServerVariableDefinitionViewModel(Model.Document, variable.Key, variable.Value)" />
+                    <partial name="v3/_V3ServerVariable" model="new V3ServerVariableDefinitionViewModel(Model.Document, variable.Key, variable.Value)" />
                 }
             </div>
         </div>
@@ -133,11 +150,11 @@
 
     @if (components.Parameters != null)
     {
-        <div class="card border-0 mb-3">
+        <div class="card border-0 ms-3 mb-3">
             <a data-bs-toggle="collapse" href="#parameter_components" role="button" aria-expanded="false" class="collapsed">
                 <div class="card-header bg-transparent d-flex align-items-center">
                     <i class="caret text-dark me-2"></i>
-                    <span class="card-title h5 text-secondary">Parameters</span>
+                    <span class="card-title my-1 h5 text-secondary">Parameters</span>
                 </div>
             </a>
             <div id="parameter_components" class="card-body p-0 collapse">
@@ -151,17 +168,32 @@
 
     @if (components.CorrelationIds != null)
     {
-        <div class="card border-0 mb-3">
+        <div class="card border-0 ms-3 mb-3">
             <a data-bs-toggle="collapse" href="#correlationId_components" role="button" aria-expanded="false" class="collapsed">
                 <div class="card-header bg-transparent d-flex align-items-center">
                     <i class="caret text-dark me-2"></i>
-                    <span class="card-title h5 text-secondary">Correlation Ids</span>
+                    <span class="card-title my-1 h5 text-secondary">Correlation Ids</span>
                 </div>
             </a>
             <div id="correlationId_components" class="card-body p-0 collapse">
-                @foreach (var correlationId in components.CorrelationIds)
+                @foreach (var correlationIdKvp in components.CorrelationIds)
                 {
-                    <partial name="v3/_V3CorrelationId" model="new V3CorrelationIdDefinitionViewModel(Model.Document, correlationId.Key, correlationId.Value)" />
+                    <div class="mt-3">
+                        <div class="card">
+
+                            <a data-bs-toggle="collapse" href="#correlationId_component_@(correlationIdKvp.Key)" role="button" aria-expanded="false" class="collapsed">
+                                <div class="card-header d-flex align-items-center">
+                                    <i class="caret text-dark"></i>
+                                    <span class="text-muted align-middle mx-2">@correlationIdKvp.Key</span>
+                                </div>
+                            </a>
+
+                            <div id="correlationId_component_@(correlationIdKvp.Key)" class="card-body py-3 collapse">
+                                <partial name="v3/_V3CorrelationId" model="new V3CorrelationIdDefinitionViewModel(Model.Document, correlationIdKvp.Value)" />
+                            </div>
+
+                        </div>
+                    </div>
                 }
             </div>
         </div>
@@ -169,17 +201,32 @@
 
     @if (components.Replies != null)
     {
-        <div class="card border-0 mb-3">
+        <div class="card border-0 ms-3 mb-3">
             <a data-bs-toggle="collapse" href="#reply_components" role="button" aria-expanded="false" class="collapsed">
                 <div class="card-header bg-transparent d-flex align-items-center">
                     <i class="caret text-dark me-2"></i>
-                    <span class="card-title h5 text-secondary">Replies</span>
+                    <span class="card-title my-1 h5 text-secondary">Replies</span>
                 </div>
             </a>
             <div id="reply_components" class="card-body p-0 collapse">
                 @foreach (var reply in components.Replies)
                 {
-                    <partial name="v3/_V3Reply" model="new V3ReplyDefinitionViewModel(Model.Document, reply.Key, reply.Value)" />
+                    <div class="mt-3">
+                        <div class="card">
+
+                            <a data-bs-toggle="collapse" href="#reply_component_@reply.Key" role="button" aria-expanded="false" class="collapsed">
+                                <div class="card-header">
+                                    <i class="caret text-dark me-2"></i>
+                                    <span class="my-1 text-secondary">@reply.Key</span>
+                                </div>
+                            </a>
+
+                            <div id="reply_component_@reply.Key" class="card-body collapse">
+                                <partial name="v3/_V3Reply" model="@(new V3ReplyDefinitionViewModel(Model.Document, $"reply_component_{reply.Key}", reply.Value))" />
+                            </div>
+
+                        </div>
+                    </div>
                 }
             </div>
         </div>
@@ -187,17 +234,32 @@
 
     @if (components.ReplyAddresses != null)
     {
-        <div class="card border-0 mb-3">
+        <div class="card border-0 ms-3 mb-3">
             <a data-bs-toggle="collapse" href="#replyAddress_components" role="button" aria-expanded="false" class="collapsed">
                 <div class="card-header bg-transparent d-flex align-items-center">
                     <i class="caret text-dark me-2"></i>
-                    <span class="card-title h5 text-secondary">Reply Addresses</span>
+                    <span class="card-title my-1 h5 text-secondary">Reply Addresses</span>
                 </div>
             </a>
             <div id="replyAddress_components" class="card-body p-0 collapse">
                 @foreach (var replyAddress in components.ReplyAddresses)
                 {
-                    <partial name="v3/_V3ReplyAddress" model="new V3ReplyAddressDefinitionViewModel(Model.Document, replyAddress.Key, replyAddress.Value)" />
+                    <div class="mt-3">
+                        <div class="card">
+
+                            <a data-bs-toggle="collapse" href="#reply_address_component_@replyAddress.Key" role="button" aria-expanded="false" class="collapsed">
+                                <div class="card-header">
+                                    <i class="caret text-dark me-2"></i>
+                                    <span class="my-1 text-secondary">@replyAddress.Key</span>
+                                </div>
+                            </a>
+
+                            <div id="reply_address_component_@replyAddress.Key" class="card-body collapse">
+                                <partial name="v3/_V3ReplyAddress" model="@(new V3ReplyAddressDefinitionViewModel(Model.Document, $"reply_address_{replyAddress.Key}", replyAddress.Value))" />
+                            </div>
+
+                        </div>
+                    </div>
                 }
             </div>
         </div>
@@ -205,17 +267,33 @@
 
     @if (components.ExternalDocs != null)
     {
-        <div class="card border-0 mb-3">
+        <div class="card border-0 ms-3 mb-3">
             <a data-bs-toggle="collapse" href="#externalDocs_components" role="button" aria-expanded="false" class="collapsed">
                 <div class="card-header bg-transparent d-flex align-items-center">
                     <i class="caret text-dark me-2"></i>
-                    <span class="card-title h5 text-secondary">External Documentations</span>
+                    <span class="card-title my-1 h5 text-secondary">External Documentations</span>
                 </div>
             </a>
             <div id="externalDocs_components" class="card-body p-0 collapse">
                 @foreach (var externalDoc in components.ExternalDocs)
                 {
-                    <partial name="v3/_V3ExternalDocumentation" model="new V3ExternalDocumentationDefinitionViewModel(Model.Document, externalDoc.Key, externalDoc.Value)" />
+                    <div class="mt-3">
+                        <div class="card">
+
+                            <a data-bs-toggle="collapse" href="#external_documentation_component_@externalDoc.Key" role="button" aria-expanded="false" class="collapsed">
+                                <div class="card-header">
+                                    <i class="caret text-dark me-2"></i>
+                                    <span class="my-1 text-secondary">@externalDoc.Key</span>
+                                </div>
+                            </a>
+
+                            <div id="external_documentation_component_@externalDoc.Key" class="card-body collapse">
+                                <partial name="v3/_V3ExternalDocumentation" model="new V3ExternalDocumentationDefinitionViewModel(Model.Document, externalDoc.Key, externalDoc.Value)" />
+                            </div>
+
+                        </div>
+                    </div>
+                    
                 }
             </div>
         </div>
@@ -223,11 +301,11 @@
 
     @if (components.Tags != null)
     {
-        <div class="card border-0 mb-3">
+        <div class="card border-0 ms-3 mb-3">
             <a data-bs-toggle="collapse" href="#tag_components" role="button" aria-expanded="false" class="collapsed">
                 <div class="card-header bg-transparent d-flex align-items-center">
                     <i class="caret text-dark me-2"></i>
-                    <span class="card-title h5 text-secondary">Tags</span>
+                    <span class="card-title my-1 h5 text-secondary">Tags</span>
                 </div>
             </a>
             <div id="tag_components" class="card-body p-0 collapse">
@@ -241,11 +319,11 @@
 
     @if (components.OperationTraits != null)
     {
-        <div class="card border-0 mb-3">
+        <div class="card border-0 ms-3 mb-3">
             <a data-bs-toggle="collapse" href="#operationTrait_components" role="button" aria-expanded="false" class="collapsed">
                 <div class="card-header bg-transparent d-flex align-items-center">
                     <i class="caret text-dark me-2"></i>
-                    <span class="card-title h5 text-secondary">Operation Traits</span>
+                    <span class="card-title my-1 h5 text-secondary">Operation Traits</span>
                 </div>
             </a>
             <div id="operationTrait_components" class="card-body p-0 collapse">
@@ -259,11 +337,11 @@
 
     @if (components.MessageTraits != null)
     {
-        <div class="card border-0 mb-3">
+        <div class="card border-0 ms-3 mb-3">
             <a data-bs-toggle="collapse" href="#messageTrait_components" role="button" aria-expanded="false" class="collapsed">
                 <div class="card-header bg-transparent d-flex align-items-center">
                     <i class="caret text-dark me-2"></i>
-                    <span class="card-title h5 text-secondary">Message Traits</span>
+                    <span class="card-title my-1 h5 text-secondary">Message Traits</span>
                 </div>
             </a>
             <div id="messageTrait_components" class="card-body p-0 collapse">
@@ -273,15 +351,15 @@
                 }
             </div>
         </div>
-    } *@
+    }
 
     @if (components.ServerBindings != null)
     {
-        <div class="card border-0 mb-3">
+        <div class="card border-0 ms-3 mb-3">
             <a data-bs-toggle="collapse" href="#serverBindings_components" role="button" aria-expanded="false" class="collapsed">
                 <div class="card-header bg-transparent d-flex align-items-center">
                     <i class="caret text-dark me-2"></i>
-                    <span class="card-title h5 text-secondary">Server Bindings</span>
+                    <span class="card-title my-1 h5 text-secondary">Server Bindings</span>
                 </div>
             </a>
             <div id="serverBindings_components" class="card-body p-0 collapse">
@@ -295,11 +373,11 @@
 
     @if (components.ChannelBindings != null)
     {
-        <div class="card border-0 mb-3">
+        <div class="card border-0 ms-3 mb-3">
             <a data-bs-toggle="collapse" href="#channelBindings_components" role="button" aria-expanded="false" class="collapsed">
                 <div class="card-header bg-transparent d-flex align-items-center">
                     <i class="caret text-dark me-2"></i>
-                    <span class="card-title h5 text-secondary">Channel Bindings</span>
+                    <span class="card-title my-1 h5 text-secondary">Channel Bindings</span>
                 </div>
             </a>
             <div id="channelBindings_components" class="card-body p-0 collapse">
@@ -313,11 +391,11 @@
 
     @if (components.OperationBindings != null)
     {
-        <div class="card border-0 mb-3">
+        <div class="card border-0 ms-3 mb-3">
             <a data-bs-toggle="collapse" href="#operationBindings_components" role="button" aria-expanded="false" class="collapsed">
                 <div class="card-header bg-transparent d-flex align-items-center">
                     <i class="caret text-dark me-2"></i>
-                    <span class="card-title h5 text-secondary">Operation Bindings</span>
+                    <span class="card-title my-1 h5 text-secondary">Operation Bindings</span>
                 </div>
             </a>
             <div id="operationBindings_components" class="card-body p-0 collapse">
@@ -331,11 +409,11 @@
 
     @if (components.MessageBindings != null)
     {
-        <div class="card border-0 mb-3">
+        <div class="card border-0 ms-3 mb-3">
             <a data-bs-toggle="collapse" href="#messageBindings_components" role="button" aria-expanded="false" class="collapsed">
                 <div class="card-header bg-transparent d-flex align-items-center">
                     <i class="caret text-dark me-2"></i>
-                    <span class="card-title h5 text-secondary">Message Bindings</span>
+                    <span class="card-title my-1 h5 text-secondary">Message Bindings</span>
                 </div>
             </a>
             <div id="messageBindings_components" class="card-body p-0 collapse">

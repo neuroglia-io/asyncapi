@@ -79,13 +79,13 @@ public record V3ComponentDefinitionCollection
     /// Gets/sets a key/value mapping that contains reusable Reply Objects. 
     /// </summary>
     [DataMember(Order = 10, Name = "replies"), JsonPropertyOrder(10), JsonPropertyName("replies"), YamlMember(Order = 10, Alias = "replies")]
-    public virtual EquatableDictionary<string, V3OperationReplyDefinition>? Replies { get; set; }
+    public virtual EquatableDictionary<string, V3ReplyDefinition>? Replies { get; set; }
 
     /// <summary>
     /// Gets/sets a key/value mapping that contains reusable Reply Address Objects. 
     /// </summary>
     [DataMember(Order = 11, Name = "replyAddresses"), JsonPropertyOrder(11), JsonPropertyName("replyAddresses"), YamlMember(Order = 11, Alias = "replyAddresses")]
-    public virtual EquatableDictionary<string, V3OperationReplyAddressDefinition>? ReplyAddresses { get; set; }
+    public virtual EquatableDictionary<string, V3ReplyAddressDefinition>? ReplyAddresses { get; set; }
     
     /// <summary>
     /// Gets/sets a key/value mapping that contains reusable External Documentation Objects. 

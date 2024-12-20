@@ -242,12 +242,12 @@ public static class V3AsyncApiDocumentExtensions
     }
 
     /// <summary>
-    /// Dereferences the specified <see cref="V3OperationReplyDefinition"/>
+    /// Dereferences the specified <see cref="V3ReplyDefinition"/>
     /// </summary>
     /// <param name="document">The extended <see cref="V3AsyncApiDocument"/></param>
-    /// <param name="reference">The reference to the <see cref="V3OperationReplyDefinition"/> to get</param>
-    /// <returns>The specified <see cref="V3OperationReplyDefinition"/></returns>
-    public static V3OperationReplyDefinition DereferenceReply(this V3AsyncApiDocument document, string reference)
+    /// <param name="reference">The reference to the <see cref="V3ReplyDefinition"/> to get</param>
+    /// <returns>The specified <see cref="V3ReplyDefinition"/></returns>
+    public static V3ReplyDefinition DereferenceReply(this V3AsyncApiDocument document, string reference)
     {
         ArgumentException.ThrowIfNullOrWhiteSpace(reference);
         if (!reference.StartsWith("#/components/replies/")) throw new InvalidDataException($"The specified value '{reference}' is not a valid reply reference");
@@ -256,12 +256,12 @@ public static class V3AsyncApiDocumentExtensions
     }
 
     /// <summary>
-    /// Dereferences the specified <see cref="V3OperationReplyAddressDefinition"/>
+    /// Dereferences the specified <see cref="V3ReplyAddressDefinition"/>
     /// </summary>
     /// <param name="document">The extended <see cref="V3AsyncApiDocument"/></param>
-    /// <param name="reference">The reference to the <see cref="V3OperationReplyAddressDefinition"/> to get</param>
-    /// <returns>The specified <see cref="V3OperationReplyAddressDefinition"/></returns>
-    public static V3OperationReplyAddressDefinition DereferenceReplyAddress(this V3AsyncApiDocument document, string reference)
+    /// <param name="reference">The reference to the <see cref="V3ReplyAddressDefinition"/> to get</param>
+    /// <returns>The specified <see cref="V3ReplyAddressDefinition"/></returns>
+    public static V3ReplyAddressDefinition DereferenceReplyAddress(this V3AsyncApiDocument document, string reference)
     {
         ArgumentException.ThrowIfNullOrWhiteSpace(reference);
         if (!reference.StartsWith("#/components/replyAddresses/")) throw new InvalidDataException($"The specified value '{reference}' is not a valid reply address reference");

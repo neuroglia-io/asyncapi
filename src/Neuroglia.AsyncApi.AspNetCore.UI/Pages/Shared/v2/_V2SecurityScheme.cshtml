@@ -1,4 +1,4 @@
-﻿@model SecuritySchemeDefinitionViewModel
+﻿@model V2SecuritySchemeDefinitionViewModel
 @{
     var scheme = this.Model.Scheme;
     var schemeType = EnumHelper.Stringify(scheme.Type);
@@ -13,7 +13,7 @@
     <div class="row">
         <div class="col-2">
             <small class="text-secondary">Type</small>
-            <small class="bi bi-info-circle text-secondary ms-1" role="button" title="The security scheme's type. Possible values are: @(string.Join(", ", Enum.GetValues<SecuritySchemeType>().Select(e => EnumHelper.Stringify(e))))"></small>
+            <small class="bi bi-info-circle text-secondary ms-1" role="button" data-bs-toggle="tooltip" data-bs-placement="bottom" title="The security scheme's type. Possible values are: @(string.Join(", ", Enum.GetValues<SecuritySchemeType>().Select(e => EnumHelper.Stringify(e))))"></small>
         </div>
         <div class="col-2"><small class="badge border border-muted text-secondary">@(EnumHelper.Stringify(scheme.Type))</small></div>
     </div>
@@ -22,7 +22,7 @@
         <div class="row">
             <div class="col-2">
                 <small class="text-secondary">OpenID Connect Url</small>
-                <small class="bi bi-info-circle text-secondary ms-1" role="button" title="The OpenId Connect uri to discover OAuth2 configuration values."></small>
+                <small class="bi bi-info-circle text-secondary ms-1" role="button" data-bs-toggle="tooltip" data-bs-placement="bottom" title="The OpenId Connect uri to discover OAuth2 configuration values."></small>
             </div>
             <div class="col-2">
                 <small class="badge border border-muted text-secondary">@scheme.OpenIdConnectUrl</small>
@@ -34,7 +34,7 @@
         <div class="row">
             <div class="col-2">
                 <small class="text-secondary">Authorization Scheme</small>
-                <small class="bi bi-info-circle text-secondary ms-1" role="button" title="The name of the HTTP Authorization scheme to be used in the Authorization header as defined in RFC7235."></small>
+                <small class="bi bi-info-circle text-secondary ms-1" role="button" data-bs-toggle="tooltip" data-bs-placement="bottom" title="The name of the HTTP Authorization scheme to be used in the Authorization header as defined in RFC7235."></small>
             </div>
             <div class="col-2"><small class="badge border border-muted text-secondary">@scheme.Scheme</small></div>
         </div>
@@ -44,7 +44,7 @@
         <div class="row">
             <div class="col-2">
                 <small class="text-secondary">Parameter Name</small>
-                <small class="bi bi-info-circle text-secondary ms-1" role="button" title="The name of the header, query or cookie parameter to be used"></small>
+                <small class="bi bi-info-circle text-secondary ms-1" role="button" data-bs-toggle="tooltip" data-bs-placement="bottom" title="The name of the header, query or cookie parameter to be used"></small>
             </div>
             <div class="col-2"><small class="badge border border-muted text-secondary">@scheme.Name</small></div>
         </div>
@@ -54,7 +54,7 @@
         <div class="row">
             <div class="col-2">
                 <small class="text-secondary">API Key Location</small>
-                <small class="bi bi-info-circle text-secondary ms-1" role="button" title="The location of the API key."></small>
+                <small class="bi bi-info-circle text-secondary ms-1" role="button" data-bs-toggle="tooltip" data-bs-placement="bottom" title="The location of the API key."></small>
             </div>
             <div class="col-2"><small class="badge border border-muted text-secondary">@scheme.In</small></div>
         </div>
@@ -64,7 +64,7 @@
         <div class="row">
             <div class="col-2">
                 <small class="text-secondary">Bearer Format</small>
-                <small class="bi bi-info-circle text-secondary ms-1" role="button" title="An object hint to the client to identify how the bearer token is formatted."></small>
+                <small class="bi bi-info-circle text-secondary ms-1" role="button" data-bs-toggle="tooltip" data-bs-placement="bottom" title="An object hint to the client to identify how the bearer token is formatted."></small>
             </div>
             <div class="col-2">
                 <small class="badge border border-muted text-secondary">@scheme.BearerFormat</small>
@@ -77,25 +77,25 @@
             <a data-bs-toggle="collapse" href="#@($"{reference}_flows")" role="button" aria-expanded="false">
                 <div class="card-header bg-transparent">
                     <span class="text-secondary fw-bold">Flows</span>
-                    <small class="bi bi-info-circle text-secondary ms-1" role="button" title="The supported OAUTH flows"></small>
+                    <small class="bi bi-info-circle text-secondary ms-1" role="button" data-bs-toggle="tooltip" data-bs-placement="bottom" title="The supported OAUTH flows"></small>
                 </div>
             </a>
             <div id="@($"{reference}_flows")" class="card-body m-0 p-0 collapse show">
                 @if (scheme.Flows.Implicit != null)
                 {
-                    <partial name="_OAuthFlow" model="@(new OAuthFlowDefinitionViewModel(this.Model.Document, reference, "Implicit", scheme.Flows.Implicit))" />
+                    <partial name="v2/_V2OAuthFlow" model="@(new V2OAuthFlowDefinitionViewModel(this.Model.Document, reference, "Implicit", scheme.Flows.Implicit))" />
                 }
                 @if (scheme.Flows.ClientCredentials != null)
                 {
-                    <partial name="_OAuthFlow" model="@(new OAuthFlowDefinitionViewModel(this.Model.Document, reference, "Client Credentials", scheme.Flows.ClientCredentials))" />
+                    <partial name="v2/_V2OAuthFlow" model="@(new V2OAuthFlowDefinitionViewModel(this.Model.Document, reference, "Client Credentials", scheme.Flows.ClientCredentials))" />
                 }
                 @if (scheme.Flows.AuthorizationCode != null)
                 {
-                    <partial name="_OAuthFlow" model="@(new OAuthFlowDefinitionViewModel(this.Model.Document, reference, "Authorization Code", scheme.Flows.AuthorizationCode))" />
+                    <partial name="v2/_V2OAuthFlow" model="@(new V2OAuthFlowDefinitionViewModel(this.Model.Document, reference, "Authorization Code", scheme.Flows.AuthorizationCode))" />
                 }
                 @if (scheme.Flows.Password != null)
                 {
-                    <partial name="_OAuthFlow" model="@(new OAuthFlowDefinitionViewModel(this.Model.Document, reference, "Password", scheme.Flows.Password))" />
+                    <partial name="v2/_V2OAuthFlow" model="@(new V2OAuthFlowDefinitionViewModel(this.Model.Document, reference, "Password", scheme.Flows.Password))" />
                 }
             </div>
         </div>

@@ -11,27 +11,18 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-namespace StreetLightsApi.Messages;
+namespace Neuroglia.AsyncApi.AspNetCore.UI.Models.v3;
 
 /// <summary>
-/// Represents a request to add a new street light
+/// Holds the data used to render an <see cref="V3ServerVariableDefinitionViewModel"/> view
 /// </summary>
-public class AddStreetLightRequest
+/// <param name="Document">The <see cref="V3AsyncApiDocument"/> that defines the <see cref="V3ServerVariableDefinition"/> to render</param>
+/// <param name="Name">The name of the <see cref="V3ServerVariableDefinition"/> to render</param>
+/// <param name="Definition">The <see cref="V3ServerVariableDefinition"/> to render</param>
+public record V3ServerVariableDefinitionViewModel(V3AsyncApiDocument Document, string Name, V3ServerVariableDefinition Definition)
+    : V3AsyncApiDocumentViewModel(Document)
 {
 
-    /// <summary>
-    /// Gets/sets the id of the street to add a new light to
-    /// </summary>
-    public required string StreetId { get; init; }
 
-    /// <summary>
-    /// Gets/sets the latitude of the light to add
-    /// </summary>
-    public required decimal Latitude { get; init; }
-
-    /// <summary>
-    /// Gets/sets the longitude of the light to add
-    /// </summary>
-    public required decimal Longitude { get; init; }
 
 }

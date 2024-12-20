@@ -14,11 +14,14 @@
 namespace Neuroglia.AsyncApi.AspNetCore.UI.Models.v3;
 
 /// <summary>
-/// Holds the data used to render an <see cref="V3AsyncApiDocument"/> view
+/// Holds the data used to render a <see cref="V3SecuritySchemeDefinition"/> view
 /// </summary>
-/// <param name="Document">The <see cref="V3AsyncApiDocument"/> to render the view for</param>
-public record V3AsyncApiDocumentViewModel(V3AsyncApiDocument Document)
+/// <param name="Document">The <see cref="V3AsyncApiDocument"/> that defines the <see cref="V3SecuritySchemeDefinition"/> to render</param>
+/// <param name="Reference">A reference to the <see cref="V3SecuritySchemeDefinition"/> to render</param>
+/// <param name="Name">The name of the <see cref="V3SecuritySchemeDefinition"/> to render</param>
+/// <param name="Scheme">The <see cref="V3SecuritySchemeDefinition"/> to render</param>
+public record V3SecuritySchemeDefinitionViewModel(V3AsyncApiDocument Document, string Reference, string Name, V3SecuritySchemeDefinition Scheme)
+    : V3AsyncApiDocument(Document)
 {
-
 
 }

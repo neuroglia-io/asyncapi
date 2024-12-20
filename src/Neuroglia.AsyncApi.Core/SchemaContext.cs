@@ -11,6 +11,23 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-namespace StreetLightsApi.Server.Messages;
+namespace Neuroglia.AsyncApi;
 
-public record Todo(string Name);
+/// <summary>
+/// Enumerates all schema contexts
+/// </summary>
+public enum SchemaContext
+{
+    /// <summary>
+    /// Indicates that the schema applies to a payload
+    /// </summary>
+    Payload,
+    /// <summary>
+    /// Indicates that the schema applies to headers
+    /// </summary>
+    Headers,
+    /// <summary>
+    /// Indicates that the schema context is unknown
+    /// </summary>
+    Unknown
+}

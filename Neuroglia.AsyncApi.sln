@@ -43,12 +43,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ISSUE_TEMPLATE", "ISSUE_TEM
 		.github\ISSUE_TEMPLATE\feature.yml = .github\ISSUE_TEMPLATE\feature.yml
 	EndProjectSection
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "workflows", "workflows", "{29E90B78-A8EE-42A1-8AE3-93D2438A9679}"
-	ProjectSection(SolutionItems) = preProject
-		.github\workflows\build-and-test.yml = .github\workflows\build-and-test.yml
-		.github\workflows\publish.yml = .github\workflows\publish.yml
-	EndProjectSection
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "docs", "docs", "{90558701-3CBE-40D6-8E4D-A6A059C51213}"
 	ProjectSection(SolutionItems) = preProject
 		LICENSE = LICENSE
@@ -122,7 +116,6 @@ Global
 		{3A707FE1-4AA3-4232-9E7D-88376580EAD5} = {D5DC0A71-F39C-4AA1-A284-66E622868D47}
 		{9FF8A714-BFBF-4A09-87E4-57CEF088BFA7} = {4B933DF9-CD24-44B1-AF64-0D5E75B9AB45}
 		{1FB272DF-4FE6-4417-B927-98DD5A821EC0} = {4A936028-09D1-4ACD-8383-5B496DAB2E16}
-		{29E90B78-A8EE-42A1-8AE3-93D2438A9679} = {4A936028-09D1-4ACD-8383-5B496DAB2E16}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {DC433DEB-01E5-4328-B0BB-6FFFE8C7363F}

@@ -196,18 +196,18 @@ public interface IV3AsyncApiDocumentBuilder
     IV3AsyncApiDocumentBuilder WithCorrelationIdComponent(string name, Action<IV3CorrelationIdDefinitionBuilder> setup);
 
     /// <summary>
-    /// Adds the specified reusable <see cref="V3OperationReplyDefinition"/> to the <see cref="V3AsyncApiDocument"/> to build
+    /// Adds the specified reusable <see cref="V3ReplyDefinition"/> to the <see cref="V3AsyncApiDocument"/> to build
     /// </summary>
-    /// <param name="name">The name of the reusable <see cref="V3OperationReplyDefinition"/> to add</param>
-    /// <param name="setup">An <see cref="Action{T}"/> used to setup the reusable <see cref="V3OperationReplyDefinition"/> to add</param>
+    /// <param name="name">The name of the reusable <see cref="V3ReplyDefinition"/> to add</param>
+    /// <param name="setup">An <see cref="Action{T}"/> used to setup the reusable <see cref="V3ReplyDefinition"/> to add</param>
     /// <returns>The configured <see cref="IV3AsyncApiDocumentBuilder"/></returns>
     IV3AsyncApiDocumentBuilder WithReplyComponent(string name, Action<IV3OperationReplyDefinitionBuilder> setup);
 
     /// <summary>
-    /// Adds the specified reusable <see cref="V3OperationReplyAddressDefinition"/> to the <see cref="V3AsyncApiDocument"/> to build
+    /// Adds the specified reusable <see cref="V3ReplyAddressDefinition"/> to the <see cref="V3AsyncApiDocument"/> to build
     /// </summary>
-    /// <param name="name">The name of the reusable <see cref="V3OperationReplyAddressDefinition"/> to add</param>
-    /// <param name="setup">An <see cref="Action{T}"/> used to setup the reusable <see cref="V3OperationReplyAddressDefinition"/> to add</param>
+    /// <param name="name">The name of the reusable <see cref="V3ReplyAddressDefinition"/> to add</param>
+    /// <param name="setup">An <see cref="Action{T}"/> used to setup the reusable <see cref="V3ReplyAddressDefinition"/> to add</param>
     /// <returns>The configured <see cref="IV3AsyncApiDocumentBuilder"/></returns>
     IV3AsyncApiDocumentBuilder WithReplyAddressComponent(string name, Action<IV3OperationReplyAddressDefinitionBuilder> setup);
 

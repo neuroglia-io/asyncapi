@@ -17,10 +17,11 @@ namespace Neuroglia.AsyncApi.AspNetCore.UI.Models.v3;
 /// Holds the data required to render a <see cref="JsonSchema"/> view
 /// </summary>
 /// <param name="Document">The <see cref="V3AsyncApiDocument"/> that defines the <see cref="V3SchemaDefinition"/> to render</param>
-/// <param name="SchemaDefinition">The <see cref="V3SchemaDefinition"/> to render</param>
+/// <param name="Definition">The <see cref="V3SchemaDefinition"/> to render</param>
+/// <param name="Context">The <see cref="V3SchemaDefinition"/>'s context</param>
 /// <param name="ParentReference">A reference to the component that defines the <see cref="V3SchemaDefinition"/></param>
 /// <param name="Examples">An <see cref="IEnumerable{T}"/> containing examples of the <see cref="V3SchemaDefinition"/> to render</param>
-public record V3SchemaViewModel(V3AsyncApiDocument Document, V3SchemaDefinition SchemaDefinition, string ParentReference, IEnumerable<V3MessageExampleDefinition>? Examples = null)
+public record V3SchemaViewModel(V3AsyncApiDocument Document, SchemaContext Context, V3SchemaDefinition Definition, string ParentReference, IEnumerable<V3MessageExampleDefinition>? Examples = null)
     : V3AsyncApiDocument(Document)
 {
 

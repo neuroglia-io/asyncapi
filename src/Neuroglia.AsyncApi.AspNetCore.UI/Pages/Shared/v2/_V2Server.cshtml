@@ -5,15 +5,15 @@
 
 <div class="m-3">
     <div class="card">
-        <a class="collapsed" data-bs-toggle="collapse" href="#@this.Model.Key" role="button" aria-expanded="false" title="@server.Description">
+        <a class="collapsed" data-bs-toggle="collapse" href="#@this.Model.Key" role="button" aria-expanded="false" data-bs-toggle="tooltip" data-bs-placement="bottom" title="@server.Description">
             <div class="card-header bg-transparent">
                 <i class="caret text-dark"></i>
-                <span class="badge bg-info me-2" title="The server's protocol and protocol version">@($"{server.Protocol}{(string.IsNullOrWhiteSpace(server.ProtocolVersion) || server.ProtocolVersion == "latest" ? string.Empty : " " + server.ProtocolVersion)}".ToUpperInvariant())</span>
+                <span class="badge bg-info me-2" data-bs-toggle="tooltip" data-bs-placement="bottom" title="The server's protocol and protocol version">@($"{server.Protocol}{(string.IsNullOrWhiteSpace(server.ProtocolVersion) || server.ProtocolVersion == "latest" ? string.Empty : " " + server.ProtocolVersion)}".ToUpperInvariant())</span>
                 <span class="h5 text-secondary">@this.Model.Key</span>
                 <small class="font-italic text-muted ms-1"> [@server.Url]</small>
                 @if(server.Security != null && server.Security.Any())
                 {
-                    <i class="bi bi-lock-full text-secondary ms-2" role="button" title="The server has security requirements"></i>
+                    <i class="bi bi-lock-full text-secondary ms-2" role="button" data-bs-toggle="tooltip" data-bs-placement="bottom" title="The server has security requirements"></i>
                 }
             </div>
         </a>
@@ -58,7 +58,7 @@
                     <div id="@(this.Model.Key)_security" class="card-body m-0 p-0 collapse show">
                         @foreach (var securityRequirement in server.Security)
                         {
-                            <partial name="_SecurityRequirement" model="new SecurityRequirementViewModel(this.Model.Document, this.Model.Key, securityRequirement.Key, securityRequirement.Value)" />
+                            <partial name="v2/_V2SecurityRequirement" model="new V2SecurityRequirementViewModel(this.Model.Document, this.Model.Key, securityRequirement.Key, securityRequirement.Value)" />
                         }
                     </div>
                 </div>

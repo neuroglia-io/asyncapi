@@ -14,12 +14,12 @@
 namespace Neuroglia.AsyncApi.AspNetCore.UI.Models.v3;
 
 /// <summary>
-/// Holds the data used to render a <see cref="V3MessageDefinition"/> view
+/// Holds the data used to render an <see cref="V3TagDefinition"/> view
 /// </summary>
-/// <param name="Document">The <see cref="V3AsyncApiDocument"/> that defines the <see cref="V3MessageDefinition"/> to render</param>
-/// <param name="MessageName">The name of the <see cref="V3MessageDefinition"/> to render</param>
-/// <param name="Message">The <see cref="V3MessageDefinition"/> to render</param>
-public record V3MessageDefinitionViewModel(V3AsyncApiDocument Document, string MessageName, V3MessageDefinition Message)
+/// <param name="Document">The <see cref="V3AsyncApiDocument"/> that defines the <see cref="V3TagDefinition"/> to render</param>
+/// <param name="Name">The name of the <see cref="V3TagDefinition"/> to render</param>
+/// <param name="Definition">The <see cref="V3TagDefinition"/> to render</param>
+public record V3TagDefinitionViewModel(V3AsyncApiDocument Document, string Name, V3TagDefinition Definition)
     : V3AsyncApiDocumentViewModel(Document)
 {
 

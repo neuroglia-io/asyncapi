@@ -17,8 +17,8 @@ namespace Neuroglia.AsyncApi.FluentBuilders.v3;
 /// Represents the default implementation of the <see cref="IV3OperationReplyDefinitionBuilder"/> interface
 /// </summary>
 /// <param name="serviceProvider">The current <see cref="IServiceProvider"/></param>
-/// <param name="validators">The services used to validate <see cref="V3OperationReplyDefinition"/>s</param>
-public class V3OperationReplyDefinitionBuilder(IServiceProvider serviceProvider, IEnumerable<IValidator<V3OperationReplyDefinition>> validators)
+/// <param name="validators">The services used to validate <see cref="V3ReplyDefinition"/>s</param>
+public class V3OperationReplyDefinitionBuilder(IServiceProvider serviceProvider, IEnumerable<IValidator<V3ReplyDefinition>> validators)
     : IV3OperationReplyDefinitionBuilder
 {
 
@@ -28,14 +28,14 @@ public class V3OperationReplyDefinitionBuilder(IServiceProvider serviceProvider,
     protected virtual IServiceProvider ServiceProvider { get; } = serviceProvider;
 
     /// <summary>
-    /// Gets the services used to validate <see cref="V3OperationReplyDefinition"/>s
+    /// Gets the services used to validate <see cref="V3ReplyDefinition"/>s
     /// </summary>
-    protected virtual IEnumerable<IValidator<V3OperationReplyDefinition>> Validators { get; } = validators;
+    protected virtual IEnumerable<IValidator<V3ReplyDefinition>> Validators { get; } = validators;
 
     /// <summary>
-    /// Gets the <see cref="V3OperationReplyDefinition"/> to configure
+    /// Gets the <see cref="V3ReplyDefinition"/> to configure
     /// </summary>
-    protected virtual V3OperationReplyDefinition Reply { get; } = new();
+    protected virtual V3ReplyDefinition Reply { get; } = new();
 
     /// <inheritdoc/>
     public virtual void Use(string reference)
@@ -55,7 +55,7 @@ public class V3OperationReplyDefinitionBuilder(IServiceProvider serviceProvider,
     }
 
     /// <inheritdoc/>
-    public virtual IV3OperationReplyDefinitionBuilder WithAddress(string channel)
+    public virtual IV3OperationReplyDefinitionBuilder WithChannel(string channel)
     {
         ArgumentException.ThrowIfNullOrWhiteSpace(channel);
         Reply.Channel = new()
@@ -78,7 +78,7 @@ public class V3OperationReplyDefinitionBuilder(IServiceProvider serviceProvider,
     }
 
     /// <inheritdoc/>
-    public virtual V3OperationReplyDefinition Build()
+    public virtual V3ReplyDefinition Build()
     {
         var validationResults = Validators.Select(v => v.Validate(Reply));
         if (!validationResults.All(r => r.IsValid)) throw new ValidationException(validationResults.Where(r => !r.IsValid).SelectMany(r => r.Errors!));

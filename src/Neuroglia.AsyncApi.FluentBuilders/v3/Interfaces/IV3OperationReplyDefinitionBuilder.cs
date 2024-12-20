@@ -14,37 +14,37 @@
 namespace Neuroglia.AsyncApi.FluentBuilders.v3;
 
 /// <summary>
-/// Defines the fundamentals of a service used to build <see cref="V3OperationReplyDefinition"/>s
+/// Defines the fundamentals of a service used to build <see cref="V3ReplyDefinition"/>s
 /// </summary>
 public interface IV3OperationReplyDefinitionBuilder
-    : IReferenceableComponentDefinitionBuilder<V3OperationReplyDefinition>
+    : IReferenceableComponentDefinitionBuilder<V3ReplyDefinition>
 {
 
     /// <summary>
-    /// Configures the <see cref="V3OperationReplyDefinition"/> to use the specified <see cref="V3OperationReplyAddressDefinition"/>
+    /// Configures the <see cref="V3ReplyDefinition"/> to use the specified <see cref="V3ReplyAddressDefinition"/>
     /// </summary>
-    /// <param name="setup">An <see cref="Action{T}"/> used to setup the <see cref="V3OperationReplyAddressDefinition"/> to use</param>
+    /// <param name="setup">An <see cref="Action{T}"/> used to setup the <see cref="V3ReplyAddressDefinition"/> to use</param>
     /// <returns>The configured <see cref="IV3OperationReplyDefinitionBuilder"/></returns>
     IV3OperationReplyDefinitionBuilder WithAddress(Action<IV3OperationReplyAddressDefinitionBuilder> setup);
 
     /// <summary>
-    /// Configures the <see cref="V3OperationReplyDefinition"/> to use the specified <see cref="V3ChannelDefinition"/>
+    /// Configures the <see cref="V3ReplyDefinition"/> to use the specified <see cref="V3ChannelDefinition"/>
     /// </summary>
     /// <param name="channel">A reference to the <see cref="V3ChannelDefinition"/> to use</param>
     /// <returns>The configured <see cref="IV3OperationReplyDefinitionBuilder"/></returns>
-    IV3OperationReplyDefinitionBuilder WithAddress(string channel);
+    IV3OperationReplyDefinitionBuilder WithChannel(string channel);
 
     /// <summary>
-    /// Configures the <see cref="V3OperationReplyDefinition"/> to use the specified <see cref="V3MessageDefinition"/>
+    /// Configures the <see cref="V3ReplyDefinition"/> to use the specified <see cref="V3MessageDefinition"/>
     /// </summary>
     /// <param name="message">A reference to the <see cref="V3MessageDefinition"/> to use</param>
     /// <returns>The configured <see cref="IV3OperationReplyDefinitionBuilder"/></returns>
     IV3OperationReplyDefinitionBuilder WithMessage(string message);
 
     /// <summary>
-    /// Builds the configured <see cref="V3OperationReplyDefinition"/>
+    /// Builds the configured <see cref="V3ReplyDefinition"/>
     /// </summary>
-    /// <returns>A new <see cref="V3OperationReplyDefinition"/></returns>
-    V3OperationReplyDefinition Build();
+    /// <returns>A new <see cref="V3ReplyDefinition"/></returns>
+    V3ReplyDefinition Build();
 
 }

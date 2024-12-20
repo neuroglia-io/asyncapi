@@ -2,15 +2,15 @@
 @{
     var channel = Model.Definition;
 }
-<div class="my-3">
+<div class="mt-3">
     <div class="card">
 
-        <a data-bs-toggle="collapse" href="#@Model.Name" role="button" aria-expanded="false" title="@(string.IsNullOrWhiteSpace(channel.Summary) ? Model.Name : channel.Summary)" class="collapsed">
-            <div class="card-header bg-transparent">
+        <a data-bs-toggle="collapse" href="#@Model.Name" role="button" aria-expanded="false" class="collapsed">
+            <div class="card-header">
                 <div class="row d-flex align-items-center">
                     <div class="col-md-6">
                         <i class="caret text-dark me-2"></i>
-                        <span class="my-1 text-secondary text-decoration-underline">@Model.Name</span>
+                        <span class="my-1 text-secondary" role="button" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-html="true" title="@Html.Raw(Markdown.ToHtml(channel.Description ?? string.Empty))">@Model.Name</span>
                         <small class="border border-secondary rounded px-2 font-italic text-muted ms-2">@Html.Raw(Model.Definition.Address.WrapPlaceholdersWithCodeTags())</small>
                     </div>
                     <div class="col-md-6 text-end">
@@ -18,7 +18,7 @@
                         {
                             foreach (var tag in channel.Tags)
                             {
-                                <span class="badge rounded-pill border border-secondary text-secondary" title="@tag.Description">@tag.Name</span>
+                                <span class="badge rounded-pill border border-secondary text-secondary" data-bs-toggle="tooltip" data-bs-placement="bottom" title="@tag.Description">@tag.Name</span>
                             }
                         }
                     </div>
@@ -126,15 +126,16 @@
                     </div>
                 </a>
                 <div id="@(Model.Name)_bindings" class="card-body m-0 p-0 collapse show">
-                    @if (channel.Bindings == null || !channel.Bindings.AsEnumerable().Any())
+                    @if (channel.Bindings == null)
                     {
                         <p class="alert alert-warning fst-italic my-3"><small>No bindings defined.</small></p>
                     }
                     else
                     {
-                        @foreach (var binding in channel.Bindings.AsEnumerable())
+                        var bindings = string.IsNullOrWhiteSpace(channel.Bindings.Reference) ? channel.Bindings : Model.Document.DereferenceChannelBinding(channel.Bindings.Reference);
+                        @foreach (var binding in bindings.AsEnumerable())
                         {
-                            <partial name="v2/_V2Binding" model="new V3BindingDefinitionViewModel(this.Model.Document, binding, Model.Name)" />
+                            <partial name="v3/_V3Binding" model="new V3BindingDefinitionViewModel(this.Model.Document, binding, Model.Name)" />
                         }
                     }
                 </div>

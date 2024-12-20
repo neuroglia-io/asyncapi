@@ -4,11 +4,11 @@
     var bindingName = binding.GetType().Name.Replace("ServerBindingDefinition", "").Replace("ChannelBindingDefinition", "").Replace("OperationBindingDefinition", "").Replace("MessageBindingDefinition", "").ToUpperInvariant();
 }
 
-<div class="card my-3">
+<div class="card mt-3">
     <a data-bs-toggle="collapse" href="#@($"{this.Model.ParentRef}_{bindingName}")" role="button" aria-expanded="false" class="collapsed">
         <div class="card-header">
             <i class="caret text-dark"></i>
-            <span class="text-secondary fw-bold">@bindingName</span>
+            <span class="text-secondary">@bindingName</span>
         </div>
     </a>
     <div id="@($"{this.Model.ParentRef}_{bindingName}")" class="card-body collapse">

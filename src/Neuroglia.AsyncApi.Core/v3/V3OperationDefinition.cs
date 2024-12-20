@@ -51,6 +51,6 @@ public record V3OperationDefinition
     /// Gets/sets the definition of the reply in a request-reply operation.
     /// </summary>
     [DataMember(Order = 5, Name = "reply"), JsonPropertyOrder(5), JsonPropertyName("reply"), YamlMember(Order = 5, Alias = "reply", ScalarStyle = ScalarStyle.SingleQuoted)]
-    public virtual V3OperationReplyDefinition? Reply { get; set; }
+    public virtual V3ReplyDefinition? Reply { get; set; }
 
 }

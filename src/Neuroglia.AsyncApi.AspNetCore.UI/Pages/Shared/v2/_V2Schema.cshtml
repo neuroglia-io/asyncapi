@@ -38,30 +38,30 @@
                     </div>
 
                     <div class="col text-left">
-                        <span class="badge bg-secondary text-light" title="@typeDescription" role="button">@propertyTypeName</span>
+                        <span class="badge bg-secondary text-light" data-bs-toggle="tooltip" data-bs-placement="bottom" title="@typeDescription" role="button">@propertyTypeName</span>
                         @if (required?.Contains(property.Key) == true)
                         {
-                            <span class="badge border bg-warning" title="The value is required." role="button">required</span>
+                            <span class="badge border bg-warning" data-bs-toggle="tooltip" data-bs-placement="bottom" title="The value is required." role="button">required</span>
                         }
                         @if (nullable)
                         {
-                            <span class="badge border border-secondary text-secondary" title="The value is nullable" role="button">nullable</span>
+                            <span class="badge border border-secondary text-secondary" data-bs-toggle="tooltip" data-bs-placement="bottom" title="The value is nullable" role="button">nullable</span>
                         }
                         @if (constValue != null)
                         {
-                            <span class="badge border border-secondary text-secondary" title="The value must be equal to '@(constValue.GetValue<string>())'" role="button">const</span>
+                            <span class="badge border border-secondary text-secondary" data-bs-toggle="tooltip" data-bs-placement="bottom" title="The value must be equal to '@(constValue.GetValue<string>())'" role="button">const</span>
                         }
                         @if (format != null)
                         {
-                            <span class="badge border border-secondary text-secondary" title="The value must be formated using the '@(format.Key)' JSON Schema format." role="button">format</span>
+                            <span class="badge border border-secondary text-secondary" data-bs-toggle="tooltip" data-bs-placement="bottom" title="The value must be formated using the '@(format.Key)' JSON Schema format." role="button">format</span>
                         }
                         @if (pattern != null)
                         {
-                            <span class="badge border border-secondary text-secondary" title="The value must be validated by the regular expression." role="button">pattern</span>
+                            <span class="badge border border-secondary text-secondary" data-bs-toggle="tooltip" data-bs-placement="bottom" title="The value must be validated by the regular expression." role="button">pattern</span>
                         }
                         @if (enumValue != null)
                         {
-                            <span class="badge border border-secondary text-secondary" title="The value must be one of the following: @(string.Join(", ", enumValue.Select(v => v == null ? "null" : v.GetValue<string>())))" role="button">enum</span>
+                            <span class="badge border border-secondary text-secondary" data-bs-toggle="tooltip" data-bs-placement="bottom" title="The value must be one of the following: @(string.Join(", ", enumValue.Select(v => v == null ? "null" : v.GetValue<string>())))" role="button">enum</span>
                         }
                     </div>
 

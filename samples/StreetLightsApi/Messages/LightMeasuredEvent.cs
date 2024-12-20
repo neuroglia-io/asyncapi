@@ -35,6 +35,6 @@ public class LightMeasuredEvent
     [Description("The event's metadata")]
     public IDictionary<string, string>? Metadata { get; set; }
 
-    public List<Todo> Todo { get; set; } = [];
+    public List<TodoItem> Todo { get; set; } = [];
 
 }

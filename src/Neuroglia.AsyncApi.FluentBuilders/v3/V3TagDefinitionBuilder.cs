@@ -16,13 +16,16 @@ namespace Neuroglia.AsyncApi.FluentBuilders.v3;
 /// <summary>
 /// Represents the default implementation of the <see cref="IV3TagDefinitionBuilder"/>
 /// </summary>
-/// <remarks>
-/// Initializes a new <see cref="V3TagDefinitionBuilder"/>
-/// </remarks>
+/// <param name="serviceProvider">The current <see cref="IServiceProvider"/></param>
 /// <param name="validators">An <see cref="IEnumerable{T}"/> containing the services used to validate <see cref="V3TagDefinition"/>s</param>
-public class V3TagDefinitionBuilder(IEnumerable<IValidator<V3TagDefinition>> validators)
+public class V3TagDefinitionBuilder(IServiceProvider serviceProvider, IEnumerable<IValidator<V3TagDefinition>> validators)
     : IV3TagDefinitionBuilder
 {
+
+    /// <summary>
+    /// Gets the current <see cref="IServiceProvider"/>
+    /// </summary>
+    protected IServiceProvider ServiceProvider { get; } = serviceProvider;
 
     /// <summary>
     /// Gets the services used to validate <see cref="V3TagDefinition"/>s
@@ -57,10 +60,12 @@ public class V3TagDefinitionBuilder(IEnumerable<IValidator<V3TagDefinition>> val
     }
 
     /// <inheritdoc/>
-    public virtual IV3TagDefinitionBuilder WithExternalDocumentation(Uri uri, string? description = null)
+    public virtual IV3TagDefinitionBuilder WithExternalDocumentation(Action<IV3ExternalDocumentationDefinitionBuilder> setup)
     {
-        ArgumentNullException.ThrowIfNull(uri);
-        Tag.ExternalDocs = new() { Url = uri, Description = description };
+        ArgumentNullException.ThrowIfNull(setup);
+        var builder = ActivatorUtilities.CreateInstance<V3ExternalDocumentationDefinitionBuilder>(ServiceProvider);
+        setup(builder);
+        Tag.ExternalDocs = builder.Build();
         return this;
     }
 

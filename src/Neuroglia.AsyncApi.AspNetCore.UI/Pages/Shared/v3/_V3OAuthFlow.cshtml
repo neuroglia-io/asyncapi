@@ -1,14 +1,14 @@
-﻿@model OAuthFlowDefinitionViewModel
+﻿@model V3OAuthFlowDefinitionViewModel
 @{
     var flowType = this.Model.FlowType;
     var flow = this.Model.Flow;
-    var reference = $"{this.Model.ParentRef}_flows_{flowType.Replace(" ", string.Empty).ToLowerInvariant()}";
+    var reference = $"{this.Model.Reference.Split('/')[^1]}_flows_{flowType.Replace(" ", string.Empty).ToLowerInvariant()}";
 }
 
-<div class="card my-3">
+<div class="card mt-3">
     <a data-bs-toggle="collapse" href="#@reference" role="button" aria-expanded="false">
         <div class="card-header">
-            <span class="text-secondary fw-bold">@flowType</span>
+            <span class="text-secondary">@flowType</span>
         </div>
     </a>
     <div id="@reference" class="card-body collapse show">
@@ -19,7 +19,7 @@
                     <div class="row">
                         <div class="col-2">
                             <small class="text-secondary">Authorization Url</small>
-                            <small class="bi bi-info-circle text-secondary ms-1" role="button" title="The authorization URL to be used for this flow"></small>
+                            <small class="bi bi-info-circle text-secondary ms-1" role="button" data-bs-toggle="tooltip" data-bs-placement="bottom" title="The authorization URL to be used for this flow"></small>
                         </div>
                         <div class="col-2"><small class="badge border border-muted text-secondary">@flow.AuthorizationUrl</small></div>
                     </div>
@@ -29,7 +29,7 @@
                     <div class="row">
                         <div class="col-2">
                             <small class="text-secondary">Token Url</small>
-                            <small class="bi bi-info-circle text-secondary ms-1" role="button" title="The token URL to be used for this flow"></small>
+                            <small class="bi bi-info-circle text-secondary ms-1" role="button" data-bs-toggle="tooltip" data-bs-placement="bottom" title="The token URL to be used for this flow"></small>
                         </div>
                         <div class="col-2"><small class="badge border border-muted text-secondary">@flow.TokenUrl</small></div>
                     </div>
@@ -39,7 +39,7 @@
                     <div class="row">
                         <div class="col-2">
                             <small class="text-secondary">Refresh Url</small>
-                            <small class="bi bi-info-circle text-secondary ms-1" role="button" title="The refresh URL to be used for this flow"></small>
+                            <small class="bi bi-info-circle text-secondary ms-1" role="button" data-bs-toggle="tooltip" data-bs-placement="bottom" title="The refresh URL to be used for this flow"></small>
                         </div>
                         <div class="col-2"><small class="badge border border-muted text-secondary">@flow.RefreshUrl</small></div>
                     </div>
@@ -49,12 +49,12 @@
                     <div class="row">
                         <div class="col-2">
                             <small class="text-secondary">Scopes</small>
-                            <small class="bi bi-info-circle text-secondary ms-1" role="button" title="The refresh URL to be used for this flow"></small>
+                            <small class="bi bi-info-circle text-secondary ms-1" role="button" data-bs-toggle="tooltip" data-bs-placement="bottom" title="The refresh URL to be used for this flow"></small>
                         </div>
                         <div class="col-2">
                             @foreach(var scope in flow.Scopes)
                             {
-                                <small class="badge border border-muted text-secondary" role="button" title="@scope.Value">@scope.Key</small>
+                                <small class="badge border border-muted text-secondary" role="button" data-bs-toggle="tooltip" data-bs-placement="bottom" title="@scope.Value">@scope.Key</small>
                             }
                         </div>
                     </div>

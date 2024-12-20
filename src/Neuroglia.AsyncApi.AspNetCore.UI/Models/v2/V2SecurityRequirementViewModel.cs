@@ -11,28 +11,31 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using Neuroglia.AsyncApi.AspNetCore.UI.Models.v2;
-
-namespace Neuroglia.AsyncApi.AspNetCore.UI.Models;
+namespace Neuroglia.AsyncApi.AspNetCore.UI.Models.v2;
 
 /// <summary>
-/// Holds the data used to render a <see cref="V2SecuritySchemeDefinition"/> view
+/// Holds the data used to render a security requirement view
 /// </summary>
-public record SecuritySchemeDefinitionViewModel
+public record V2SecurityRequirementViewModel
     : V2AsyncApiDocumentViewModel
 {
 
     /// <inheritdoc/>
-    public SecuritySchemeDefinitionViewModel(V2AsyncApiDocument document, string parentRef, V2SecuritySchemeDefinition scheme) : base(document) { this.ParentRef = parentRef; this.Scheme = scheme; }
+    public V2SecurityRequirementViewModel(V2AsyncApiDocument document, string parentRef, string key, object? requirement) : base(document) { ParentRef = parentRef; Key = key; Requirement = requirement; }
 
     /// <summary>
-    /// Gets a reference to the parent component of the <see cref="V2SecuritySchemeDefinition"/> to render
+    /// Gets a reference to the requirement's parent component
     /// </summary>
     public string ParentRef { get; }
 
     /// <summary>
-    /// Gets the <see cref="V2SecuritySchemeDefinition"/> to render
+    /// Gets the name of the required security scheme
     /// </summary>
-    public V2SecuritySchemeDefinition Scheme { get; }
+    public string Key { get; }
+
+    /// <summary>
+    /// Gets an object, if any, used to configure the security requirement
+    /// </summary>
+    public object? Requirement { get; }
 
 }

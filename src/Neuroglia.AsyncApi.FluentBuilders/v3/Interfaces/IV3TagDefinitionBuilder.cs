@@ -37,10 +37,9 @@ public interface IV3TagDefinitionBuilder
     /// <summary>
     /// Adds the specified external documentation to the <see cref="V3TagDefinition"/> to build
     /// </summary>
-    /// <param name="uri">The <see cref="Uri"/> to the documentation to add</param>
-    /// <param name="description">The description of the documentation to add</param>
+    /// <param name="setup">An <see cref="Action{T}"/> used to setup the <see cref="V3ExternalDocumentationDefinition"/> to add</param>
     /// <returns>The configured <see cref="IV3TagDefinitionBuilder"/></returns>
-    IV3TagDefinitionBuilder WithExternalDocumentation(Uri uri, string? description = null);
+    IV3TagDefinitionBuilder WithExternalDocumentation(Action<IV3ExternalDocumentationDefinitionBuilder> setup);
 
     /// <summary>
     /// Builds a new <see cref="V3TagDefinition"/>

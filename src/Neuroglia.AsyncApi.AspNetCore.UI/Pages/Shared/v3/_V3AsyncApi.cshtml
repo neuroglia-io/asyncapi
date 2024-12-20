@@ -6,10 +6,10 @@
 <div>
 
     <div>
-        <div class="pb-3">
+        <div class="pb-3 mb-3">
             <span class="h1 p-0 m-0 align-middle">@document.Info.Title </span>
-            <span class="badge fs-5 rounded-pill bg-secondary text-light align-middle">@document.Info.Version</span>
-            <div class="btn-group ms-1" role="group" title="Download Async API document">
+            <span class="badge fs-5 rounded-pill bg-dark text-light align-middle">@document.Info.Version</span>
+            <div class="btn-group ms-1" role="group" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Download Async API document">
                 <button id="downloadBtnGroup" type="button" class="btn btn-sm dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
                     <i class="bi bi-download"></i>
                 </button>
@@ -30,24 +30,42 @@
         </div>
         @if (document.Info.License != null || document.Info.TermsOfService != null)
         {
-            <div class="mb-3">
+            <div class="mb-3 mb-3 d-flex align-items-center gap-1">
+                <a class="badge rounded-pill bg-secondary" href="https://www.asyncapi.com/docs/reference/specification/v3.0.0" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom" title="AsyncAPI Specification 3.0.0">AsyncAPI 3.0.0</a>
                 @if (document.Info.License != null && document.Info.License.Url != null)
                 {
-                    <a class="badge rounded-pill border border-secondary text-secondary" href="@document.Info.License.Url" target="_blank" title="View the license of the @document.Info.Title @document.Info.Version">@document.Info.License.Name</a>
+                    <a class="badge rounded-pill border border-secondary text-secondary" href="@document.Info.License.Url" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom" title="View the license of the @document.Info.Title @document.Info.Version">@document.Info.License.Name</a>
                 }
                 @if (document.Info.TermsOfService != null)
                 {
-                    <a class="badge rounded-pill border border-secondary text-secondary" href="@document.Info.TermsOfService" target="_blank" title="View the Terms of Service of the @document.Info.Title @document.Info.Version">Terms of Service</a>
+                    <a class="badge rounded-pill border border-secondary text-secondary" href="@document.Info.TermsOfService" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom" title="View the Terms of Service of the @document.Info.Title @document.Info.Version">Terms of Service</a>
+                }
+                @if(document.Info.Tags != null)
+                {
+                    foreach(var tagDefinition in document.Info.Tags)
+                    {
+                        var tag = string.IsNullOrWhiteSpace(tagDefinition.Reference) ? tagDefinition : document.DereferenceTag(tagDefinition.Reference);
+                        <span class="badge rounded-pill bg-info" role="button" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-html="true" title="@Html.Raw(Markdown.ToHtml(tag.Description ?? string.Empty))">@tag.Name</span>
+                    }
+                }
+                @if (document.Info.ExternalDocs != null)
+                {
+                    var externalDocs = string.IsNullOrWhiteSpace(document.Info.ExternalDocs.Reference) ? document.Info.ExternalDocs : document.DereferenceExternalDocumentation(document.Info.ExternalDocs.Reference);
+                    <a class="badge rounded-pill border border-secondary text-secondary p-0" href="@externalDocs.Url" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-html="true" title="@Html.Raw(Markdown.ToHtml(externalDocs.Description ?? string.Empty))">
+                        <i class="bi bi-info fs-5"></i>
+                    </a>
                 }
             </div>
         }
         @if (!string.IsNullOrWhiteSpace(document.Info.Description))
         {
-            <small class="text-secondary">@Html.Raw(Markdown.ToHtml(document.Info.Description ?? string.Empty))</small>
+            <div class="my-5">
+                <small class="text-secondary">@Html.Raw(Markdown.ToHtml(document.Info.Description ?? string.Empty))</small>
+            </div>
         }
     </div>
 
-    <div class="card border-0">
+    <div class="card border-0 mb-3">
         <a data-bs-toggle="collapse" href="#servers" role="button" aria-expanded="false">
             <div class="card-header bg-transparent d-flex align-items-center">
                 <i class="caret text-dark me-2"></i>
@@ -69,7 +87,7 @@
         </div>
     </div>
 
-    <div class="card border-0">
+    <div class="card border-0 mb-3">
         <a data-bs-toggle="collapse" href="#channels" role="button" aria-expanded="false">
             <div class="card-header bg-transparent d-flex align-items-center">
                 <i class="caret text-dark me-2"></i>
@@ -91,7 +109,7 @@
         </div>
     </div>
 
-    <div class="card border-0">
+    <div class="card border-0 mb-3">
         <a data-bs-toggle="collapse" href="#operations" role="button" aria-expanded="false">
             <div class="card-header bg-transparent d-flex align-items-center">
                 <i class="caret text-dark me-2"></i>
@@ -107,13 +125,13 @@
             {
                 foreach (var operation in document.Operations)
                 {
-                    <partial name="v3/_V3Operation" model="new V3OperationDefinitionViewModel(document, operation.Key, operation.Value)" />
+                    <partial name="v3/_V3OperationTrait" model="new V3OperationTraitDefinitionViewModel(document, operation.Key, operation.Value)" />
                 }
             }
         </div>
     </div>
 
-    <div class="card border-0">
+    <div class="card border-0 mb-3">
         <a data-bs-toggle="collapse" href="#components" role="button" aria-expanded="false">
             <div class="card-header bg-transparent d-flex align-items-center">
                 <i class="caret text-dark me-2"></i>

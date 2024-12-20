@@ -11,27 +11,24 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-namespace StreetLightsApi.Messages;
+namespace StreetLightsApi.Server.Messages;
 
 /// <summary>
-/// Represents a request to add a new street light
+/// Represents a task to do
 /// </summary>
-public class AddStreetLightRequest
+/// <param name="Name">The name of the task to do</param>
+public record TodoItem(string Name);
+
+/// <summary>
+/// Represents the common headers of messages exchanged by the StreetLights API
+/// </summary>
+public record CommonHeaders
 {
 
     /// <summary>
-    /// Gets/sets the id of the street to add a new light to
+    /// Gets/sets the value of the header that the application's ETag
     /// </summary>
-    public required string StreetId { get; init; }
-
-    /// <summary>
-    /// Gets/sets the latitude of the light to add
-    /// </summary>
-    public required decimal Latitude { get; init; }
-
-    /// <summary>
-    /// Gets/sets the longitude of the light to add
-    /// </summary>
-    public required decimal Longitude { get; init; }
+    [Json.Schema.Generation.Required, Json.Schema.Generation.MinLength(1)]
+    public required string ETag { get; init; }
 
 }

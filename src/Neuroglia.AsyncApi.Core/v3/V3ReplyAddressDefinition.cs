@@ -17,7 +17,7 @@ namespace Neuroglia.AsyncApi.v3;
 /// Represents an object that specifies where an operation has to send the reply.
 /// </summary>
 [DataContract]
-public record V3OperationReplyAddressDefinition
+public record V3ReplyAddressDefinition
     : ReferenceableComponentDefinition
 {
 
