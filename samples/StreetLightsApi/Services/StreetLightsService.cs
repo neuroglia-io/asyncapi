@@ -16,6 +16,11 @@ using Neuroglia.AsyncApi.v3;
 
 namespace StreetLightsApi.Server.Services;
 
+/// <summary>
+/// Represents the Smartylighting Streetlights API, which allows to remotely manage the city lights
+/// </summary>
+/// <param name="logger">The service used to perform logging</param>
+/// <param name="serializer">The service used to serialize/deserialize data to/from JSON</param>
 [AsyncApiV2("Streetlights API", "1.0.0", Description = "The Smartylighting Streetlights API allows you to remotely manage the city lights.", LicenseName = "Apache 2.0", LicenseUrl = "https://www.apache.org/licenses/LICENSE-2.0")]
 [AsyncApiV3("Streetlights API", "1.0.0", Description = "The **Smartylighting Streetlights API** allows you to remotely manage the city lights.", LicenseName = "Apache 2.0", LicenseUrl = "https://www.apache.org/licenses/LICENSE-2.0")]
 [ChannelV3("lightingMeasuredMQTT", Address = "streets.{streetName}", Description = "This channel is used to exchange messages about lightning measurements.", Servers = ["#/servers/mosquitto"])]
@@ -24,12 +29,22 @@ public class StreetLightsService(ILogger<StreetLightsService> logger, IJsonSeria
     : BackgroundService
 {
 
+    /// <summary>
+    /// Gets the service used to perform logging
+    /// </summary>
     protected ILogger Logger { get; } = logger;
 
+    /// <summary>
+    /// Gets the service used to serialize/deserialize data to/from JSON
+    /// </summary>
     protected IJsonSerializer Serializer { get; } = serializer;
 
+    /// <summary>
+    /// Gets the service used to interact with an MQTT server
+    /// </summary>
     protected IMqttClient MqttClient { get; private set; } = null!;
 
+    /// <inheritdoc/>
     protected override async Task ExecuteAsync(CancellationToken stoppingToken)
     {
         this.MqttClient = new MqttFactory().CreateMqttClient();
@@ -46,6 +61,12 @@ public class StreetLightsService(ILogger<StreetLightsService> logger, IJsonSeria
         await this.PublishLightMeasured(new() { Id = Guid.NewGuid(), Lumens = 5, SentAt = DateTime.UtcNow }, stoppingToken).ConfigureAwait(false);
     }
 
+    /// <summary>
+    /// Publishes the specified <see cref="LightMeasuredEvent"/>
+    /// </summary>
+    /// <param name="e">The <see cref="LightMeasuredEvent"/> to publish</param>
+    /// <param name="cancellationToken">A <see cref="CancellationToken"/></param>
+    /// <returns>A new awaitable <see cref="Task"/></returns>
     [ChannelV2("light/measured"), PublishOperationV2(OperationId = "NotifyLightMeasured", Summary = "Notifies remote consumers about environmental lighting conditions for a particular streetlight."), TagV2("light", "A tag for light-related operations"), TagV2("measurement", "A tag for measurement-related operations")]
     [OperationV3("sendLightMeasurement", V3OperationAction.Send, "#/channels/lightingMeasuredMQTT", Description = "Notifies remote **consumers** about environmental lighting conditions for a particular **streetlight**."), TagV3(Reference = "#/components/tags/measurement")]
     public async Task PublishLightMeasured(LightMeasuredEvent e, CancellationToken cancellationToken = default)
@@ -59,6 +80,11 @@ public class StreetLightsService(ILogger<StreetLightsService> logger, IJsonSeria
         await this.MqttClient.PublishAsync(message, cancellationToken);
     }
 
+    /// <summary>
+    /// Handles the specified <see cref="LightMeasuredEvent"/>
+    /// </summary>
+    /// <param name="e">The <see cref="LightMeasuredEvent"/> to handle</param>
+    /// <returns>A new awaitable <see cref="Task"/></returns>
     [ChannelV2("light/measured"), SubscribeOperationV2(OperationId = "OnLightMeasured", Summary = "Inform about environmental lighting conditions for a particular streetlight"), TagV2("light", "A tag for light-related operations"), TagV2("measurement", "A tag for measurement-related operations")]
     [OperationV3("receiveLightMeasurement", V3OperationAction.Receive, "#/channels/lightingMeasuredMQTT"), TagV3(Reference = "#/components/tags/measurement")]
     protected Task OnLightMeasured(LightMeasuredEvent e)

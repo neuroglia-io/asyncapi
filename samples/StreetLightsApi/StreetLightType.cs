@@ -13,8 +13,17 @@
 
 namespace StreetLightsApi;
 
+/// <summary>
+/// Enumerates all types of street lights
+/// </summary>
 public enum StreetLightType
 {
+    /// <summary>
+    /// Indicates an LED light
+    /// </summary>
     LED,
+    /// <summary>
+    /// Indicates an HPS light
+    /// </summary>
     HPS
 }

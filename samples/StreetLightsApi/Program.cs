@@ -75,7 +75,7 @@ builder.Services.AddAsyncApiGeneration(builder =>
                         ClientId = "StreetLightsAPI:1.0.0",
                         CleanSession = true
                     }))
-                .WithSchemaComponent("addStreetLighRequest", schema => schema
+                .WithSchemaComponent("addStreetLightRequest", schema => schema
                     .WithJsonSchema(jsonSchema => jsonSchema
                         .FromType<AddStreetLightRequest>(Neuroglia.AsyncApi.JsonSchemaGeneratorConfiguration.Default)))
                 .WithServerComponent("http", server => server

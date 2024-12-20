@@ -272,7 +272,9 @@ public class FluentBuilderTests
                 .WithTag(tag => tag
                     .WithName(tagName)
                     .WithDescription(tagDescription)
-                    .WithExternalDocumentation(tagDocumentationUri, tagDocumentationDescription)))
+                    .WithExternalDocumentation(doc => doc
+                        .WithUrl(tagDocumentationUri)
+                        .WithDescription(tagDocumentationDescription))))
             .WithOperation(sendOperationName, publish => publish
                 .WithAction(v3.V3OperationAction.Send)
                 .WithChannel(sendOperationChannelRef)
@@ -293,7 +295,9 @@ public class FluentBuilderTests
             .WithTag(tag => tag
                 .WithName(tagName)
                 .WithDescription(tagDescription)
-                .WithExternalDocumentation(tagDocumentationUri, tagDocumentationDescription))
+                .WithExternalDocumentation(doc => doc
+                    .WithUrl(tagDocumentationUri)
+                    .WithDescription(tagDocumentationDescription)))
             .Build();
 
         //assert
