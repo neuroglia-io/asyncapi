@@ -1,0 +1,58 @@
+﻿@model V3ServerVariableDefinitionViewModel
+
+<div class="mt-3">
+    <div class="card">
+
+        <a data-bs-toggle="collapse" href="#server_variable_component_@Model.Name" role="button" aria-expanded="false" class="collapsed">
+            <div class="card-header">
+                <i class="caret text-dark me-2"></i>
+                <span class="my-1 text-secondary" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-html="true" title="@Html.Raw(Markdown.ToHtml(Model.Definition.Description ?? string.Empty))">@Model.Name</span>
+            </div>
+        </a>
+
+        <div id="server_variable_component_@Model.Name" class="card-body collapse">
+            @if (!string.IsNullOrWhiteSpace(Model.Definition.Description))
+            {
+                <small class="text-secondary">@Html.Raw(Markdown.ToHtml(Model.Definition.Description))</small>
+            }
+            <table class="table">
+                <tbody>
+                    @if (!string.IsNullOrWhiteSpace(Model.Definition.Default))
+                    {
+                        <tr>
+                            <td class="fit">
+                                <small class="text-secondary">Default Value</small>
+                            </td>
+                            <td>
+                                <small class="badge border border-muted text-secondary"><code>@Model.Definition.Default</code></small>
+                            </td>
+                        </tr>
+                    }
+                    @if (Model.Definition.Enum != null)
+                    {
+                        <tr>
+                            <td class="fit">
+                                <small class="text-secondary">Supported Values</small>
+                            </td>
+                            <td>
+                                <small class="badge border border-muted text-secondary">@Html.Raw(string.Join(", ", Model.Definition.Enum.Select(v => $"<code>{v}</code>")))</small>
+                            </td>
+                        </tr>
+                    }
+                    @if (Model.Definition.Examples != null)
+                    {
+                        <tr>
+                            <td class="fit">
+                                <small class="text-secondary">Examples</small>
+                            </td>
+                            <td>
+                                <small class="text-secondary">@Html.Raw(string.Join(string.Empty, Model.Definition.Examples.Select(e => $"<pre>{e}</pre>")))</small>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+
+    </div>
+</div>

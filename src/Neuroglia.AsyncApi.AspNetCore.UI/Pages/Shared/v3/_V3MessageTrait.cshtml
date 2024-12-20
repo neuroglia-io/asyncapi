@@ -1,0 +1,130 @@
+﻿@model V3MessageTraitDefinitionViewModel
+@inject Neuroglia.Serialization.IJsonSerializer JsonSerializer
+@inject Neuroglia.AsyncApi.Generation.IJsonSchemaExampleGenerator ExampleGenerator
+@{
+    var messageTraitName = Model.Index.HasValue ? $"message_trait_{Model.Name}_{Model.Index}" : Model.Name;
+    var messageTrait = Model.Definition;
+}
+
+<div class="card mt-3">
+    <a data-bs-toggle="collapse" href="#@messageTraitName" role="button" aria-expanded="false" class="collapsed">
+        <div class="card-header">
+            <div class="row">
+                <div class="col-md-9 d-flex align-items-center">
+                    <i class="caret text-dark me-2"></i>
+                    @if (Model.Index.HasValue)
+                    {
+                        <span class="fw-bold fs-5 text-secondary align-middle">#@Model.Index</span>
+                        <span class="text-muted align-middle mx-2" role="button" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-html="true" title="@Html.Raw(Markdown.ToHtml(messageTrait.Description ?? string.Empty))">@messageTrait.Title</span>
+                    }
+                    else
+                    {
+                        <span class="my-1 text-secondary" role="button" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-html="true" title="@Html.Raw(Markdown.ToHtml(messageTrait.Description ?? string.Empty))">@Model.Name</span>
+                    }
+                    <span class="badge border border-secondary text-secondary">@messageTrait.ContentType</span>
+                    @if (messageTrait.CorrelationId != null)
+                    {
+                        <i class="bi bi-link ms-2 text-dark" role="button" data-bs-toggle="tooltip" data-bs-placement="bottom" title="The message is correlatable"></i>
+                    }
+                </div>
+                <div class="col-md-3 d-flex align-items-center text-end">
+                    @if (messageTrait.Tags != null)
+                    {
+                        foreach (var tag in messageTrait.Tags)
+                        {
+                            <span class="badge rounded-pill border border-secondary text-secondary" data-bs-toggle="tooltip" data-bs-placement="bottom" title="@tag.Description">@tag.Name</span>
+                        }
+                    }
+                </div>
+            </div>
+        </div>
+    </a>
+    <div id="@messageTraitName" class="card-body collapse">
+
+        @if (!string.IsNullOrWhiteSpace(messageTrait.Description))
+        {
+            <small class="text-secondary">@Html.Raw(Markdown.ToHtml(messageTrait.Description))</small>
+        }
+
+        @if (messageTrait.CorrelationId != null)
+        {
+            <div class="card border-0 mb-3">
+                <a data-bs-toggle="collapse" href="#@(messageTraitName)_correlationId" role="button" aria-expanded="false">
+                    <div class="card-header bg-transparent">
+                        <i class="caret text-dark me-2"></i>
+                        <span class="font-weight-bold text-secondary">Correlation Id</span>
+                    </div>
+                </a>
+                <div id="@(messageTraitName)_correlationId" class="card-body m-0 p-0 collapse show">
+                    <partial name="v3/_V3CorrelationId" model="new V3CorrelationIdDefinitionViewModel(this.Model.Document, messageTrait.CorrelationId)" />
+                </div>
+            </div>
+        }
+
+        @if (messageTrait is V3MessageDefinition message)
+        {
+            if (message.Payload == null)
+            {
+                <p class="alert alert-warning fst-italic m-3"><small>The message does not specify a payload schema.</small></p>
+            }
+            else
+            {
+                var schemaDefinition = string.IsNullOrWhiteSpace(message.Payload.Reference) ? message.Payload : Model.Document.DereferenceSchema(message.Payload.Reference);
+                <div class="mb-3">
+                    <partial name="v3/_V3Schema" model="new V3SchemaViewModel(Model.Document, SchemaContext.Payload, schemaDefinition, Model.Name, messageTrait.Examples)" />
+                </div>
+            }
+
+            if (message.Traits != null && message.Traits.Count > 0)
+            {
+                var index = 1;
+                <div class="card border-0 mb-3">
+                    <a data-bs-toggle="collapse" href="#@(messageTraitName)_traits" role="button" aria-expanded="false" class="collapsed">
+                        <div class="card-header bg-transparent">
+                            <i class="caret text-dark"></i>
+                            <span class="font-weight-bold text-secondary">Traits</span>
+                        </div>
+                    </a>
+                    <div id="@(messageTraitName)_traits" class="card-body m-0 p-0 collapse">
+                        @foreach(var traitDefinition in message.Traits)
+                        {
+                            var trait = string.IsNullOrWhiteSpace(traitDefinition.Reference) ? traitDefinition : Model.Document.DereferenceMessageTrait(traitDefinition.Reference);
+                            <partial name="v3/_V3MessageTrait" model="@(new V3MessageTraitDefinitionViewModel(Model.Document, Model.Name, trait, index))" />
+                            index++;
+                        }
+                    </div>
+                </div>
+            }
+        }
+
+        @if (messageTrait.Headers != null)
+        {
+            var schemaDefinition = string.IsNullOrWhiteSpace(messageTrait.Headers.Reference) ? messageTrait.Headers : Model.Document.DereferenceSchema(messageTrait.Headers.Reference);
+            <partial name="v3/_V3Schema" model="new V3SchemaViewModel(Model.Document, SchemaContext.Headers, schemaDefinition, Model.Name, messageTrait.Examples)" />
+        }
+
+        <div class="card border-0">
+            <a data-bs-toggle="collapse" href="#@(messageTraitName)_bindings" role="button" aria-expanded="false" class="collapsed">
+                <div class="card-header bg-transparent">
+                    <i class="caret text-dark"></i>
+                    <span class="font-weight-bold text-secondary">Bindings</span>
+                </div>
+            </a>
+            <div id="@(messageTraitName)_bindings" class="card-body m-0 p-0 collapse">
+                @if (messageTrait.Bindings == null)
+                {
+                    <p class="alert alert-warning fst-italic my-3"><small>No bindings defined.</small></p>
+                }
+                else
+                {
+                    var bindings = string.IsNullOrWhiteSpace(messageTrait.Bindings.Reference) ? messageTrait.Bindings : Model.Document.DereferenceMessageBinding(messageTrait.Bindings.Reference);
+                    foreach (var binding in bindings.AsEnumerable())
+                    {
+                        <partial name="v3/_V3Binding" model="new V3BindingDefinitionViewModel(Model.Document, binding, messageTraitName)" />
+                    }
+                }
+            </div>
+        </div>
+
+    </div>
+</div>

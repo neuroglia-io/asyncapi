@@ -11,15 +11,8 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using Json.More;
-using Json.Schema;
-using Microsoft.Extensions.DependencyInjection;
-using Neuroglia.AsyncApi.CloudEvents;
-using Neuroglia.AsyncApi.FluentBuilders;
-using Neuroglia.AsyncApi.v2.Bindings.Http;
-using Neuroglia.Eventing.CloudEvents;
-using Neuroglia.Serialization.Json;
-using System.Net.Mime;
+using Neuroglia.AsyncApi.Bindings.Http;
+using Neuroglia.AsyncApi.FluentBuilders.v2;
 
 namespace Neuroglia.AsyncApi.UnitTests.Cases.CloudEvents;
 
@@ -30,13 +23,13 @@ public class CloudEventExtensionsTests
     public CloudEventExtensionsTests()
     {
         var services = new ServiceCollection();
-        services.AddSingleton<IAsyncApiDocumentBuilder, AsyncApiDocumentBuilder>();
+        services.AddSingleton<IV2AsyncApiDocumentBuilder, V2AsyncApiDocumentBuilder>();
         this.Services = services.BuildServiceProvider();
     }
 
     ServiceProvider Services { get; }
 
-    IAsyncApiDocumentBuilder Builder => this.Services.GetRequiredService<IAsyncApiDocumentBuilder>();
+    IV2AsyncApiDocumentBuilder Builder => this.Services.GetRequiredService<IV2AsyncApiDocumentBuilder>();
 
     [Fact]
     public void Build_Operation_With_CloudEventMessage_Should_Work()

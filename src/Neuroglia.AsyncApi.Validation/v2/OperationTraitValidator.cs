@@ -16,10 +16,10 @@ using Neuroglia.AsyncApi.v2;
 namespace Neuroglia.AsyncApi.Validation;
 
 /// <summary>
-/// Represents the service used to validate <see cref="OperationTraitDefinition"/>s
+/// Represents the service used to validate <see cref="V2OperationTraitDefinition"/>s
 /// </summary>
 public class OperationTraitValidator
-    : AbstractValidator<OperationTraitDefinition>
+    : AbstractValidator<V2OperationTraitDefinition>
 {
 
     /// <summary>

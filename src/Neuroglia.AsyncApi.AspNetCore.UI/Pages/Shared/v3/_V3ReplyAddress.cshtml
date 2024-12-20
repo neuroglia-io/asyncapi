@@ -1,0 +1,22 @@
+﻿@model V3ReplyAddressDefinitionViewModel
+
+@if (!string.IsNullOrWhiteSpace(Model.Definition.Description))
+{
+    <small class="text-secondary">@Html.Raw(Markdown.ToHtml(Model.Definition.Description))</small>
+}
+
+@if (Model.Definition.Location != null)
+{
+    <table class="table">
+        <tbody>
+            <tr>
+                <td class="fit">
+                    <small class="text-secondary">Location</small>
+                </td>
+                <td>
+                    <a href="@(Model.Definition.Location)"><small><code>@Model.Definition.Location</code></small></a>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+}

@@ -16,10 +16,10 @@ using Neuroglia.AsyncApi.v2;
 namespace Neuroglia.AsyncApi.Validation;
 
 /// <summary>
-/// Represents the service used to validate <see cref="ServerDefinition"/>s
+/// Represents the service used to validate <see cref="V2ServerDefinition"/>s
 /// </summary>
 public class ServerValidator
-    : AbstractValidator<ServerDefinition>
+    : AbstractValidator<V2ServerDefinition>
 {
 
     /// <summary>

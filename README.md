@@ -3,46 +3,49 @@
 ## Contents
 
 - [Neuroglia AsyncAPI](#neuroglia-asyncapi)
-  - [Contents](#contents)
-  - [Summary](#summary)
-  - [Status](#status)
-  - [Installation](#installation)
-      - [Core library](#core-library)
-      - [Fluent validation library](#fluent-validation-library)
-      - [Fluent builders library](#fluent-builders-library)
-      - [Input/Output library](#inputoutput-library)
-      - [Code-first generation library](#code-first-generation-library)
-      - [Dependency inject extensions library](#dependency-inject-extensions-library)
-      - [Cloud event extensions library](#cloud-event-extensions-library)
-      - [AsyncAPI document serving library](#asyncapi-document-serving-library)
-      - [AsyncAPI UI](#asyncapi-ui)
-  - [Usage](#usage)
+  + [Contents](#contents)
+  + [Summary](#summary)
+  + [Status](#status)
+  + [Installation](#installation)
+    - [Core library](#core-library)
+    - [Fluent validation library](#fluent-validation-library)
+    - [Fluent builders library](#fluent-builders-library)
+    - [Input/Output library](#inputoutput-library)
+    - [Code-first generation library](#code-first-generation-library)
+    - [Dependency inject extensions library](#dependency-inject-extensions-library)
+    - [Cloud event extensions library](#cloud-event-extensions-library)
+    - [AsyncAPI document serving library](#asyncapi-document-serving-library)
+    - [AsyncAPI UI](#asyncapi-ui)
+  + [Usage](#usage)
     - [Building an AsyncAPI Document](#building-an-asyncapi-document)
+      + [AsyncAPI v2](#asyncapi-v2)
+      + [AsyncAPI v3](#asyncapi-v3)
     - [Writing an AsyncAPI Document](#writing-an-asyncapi-document)
     - [Reading an AsyncAPI document](#reading-an-asyncapi-document)
     - [Generating code-first AsyncAPI documents](#generating-code-first-asyncapi-documents)
-      - [1. Mark your services with adequate attributes](#1-mark-your-services-with-adequate-attributes)
-      - [2.1. Generating documents manually](#21-generating-documents-manually)
-      - [2.2. Generating documents automatically and serve them using ASP](#22-generating-documents-automatically-and-serve-them-using-asp)
+      + [AsyncAPI v2](#asyncapi-v2-1)
+      + [AsyncAPI v3](#asyncapi-v3-1)
+    - [Generating documents manually](#21-generating-documents-manually)
+    - [Generating documents automatically and serve them using ASP](#22-generating-documents-automatically-and-serve-them-using-asp)
     - [Using the AsyncAPI UI](#using-the-asyncapi-ui)
-  - [Samples](#samples)
+  + [Samples](#samples)
     - [Streetlights API - Server](#streetlights-api---server)
 
 ## Summary
-A .NET used to visualize and interact with [AsyncAPI](https://www.asyncapi.com/docs/reference/specification/v2.6.0) documents. The UI is built using Razor Pages and Boostrap
+A .NET used to visualize and interact with [AsyncAPI](https://www.asyncapi.com/docs/reference/specification/v3.0.0) documents. The UI is built using Razor Pages and Boostrap
 
 ## Status
-`Microsoft.NET.Sdk.Web`
+
 | Name | Description | Latest Release | Spec version |
-| :---: | :---: | :---: | :---: |
-| [Neuroglia.AsyncApi.Core](https://www.nuget.org/packages/Neuroglia.AsyncApi.Core) | Contains `AsyncAPI` models and core services such as fluent builders, validators, reader, writer and code-first generator | [2.6.3](https://github.com/neuroglia-io/asyncapi/releases/tag/v2.6.3) | [v2.6.0](https://www.asyncapi.com/docs/reference/specification/v2.6.0) |
-| [Neuroglia.AsyncApi.Validation](https://www.nuget.org/packages/Neuroglia.AsyncApi.Validation) | Contains services to validate `AsyncAPI` documents | [2.6.3](https://github.com/neuroglia-io/asyncapi/releases/tag/v2.6.3) | [v2.6.0](https://www.asyncapi.com/docs/reference/specification/v2.6.0) |
-| [Neuroglia.AsyncApi.IO](https://www.nuget.org/packages/Neuroglia.AsyncApi.IO) | Contains services to read and write `AsyncAPI` documents | [2.6.3](https://github.com/neuroglia-io/asyncapi/releases/tag/v2.6.3) | [v2.6.0](https://www.asyncapi.com/docs/reference/specification/v2.6.0) |
-| [Neuroglia.AsyncApi.Generation](https://www.nuget.org/packages/Neuroglia.AsyncApi.Generation) | Contains extensions and services for code-first generation of `AsyncAPI` documents | [2.6.3](https://github.com/neuroglia-io/asyncapi/releases/tag/v2.6.3) | [v2.6.0](https://www.asyncapi.com/docs/reference/specification/v2.6.0) |
-| [Neuroglia.AsyncApi.CloudEvents](https://www.nuget.org/packages/Neuroglia.AsyncApi.CloudEvents) | Contains fluent extensions to build Cloud Event messages | [2.6.3](https://github.com/neuroglia-io/asyncapi/releases/tag/v2.6.3) | [v2.6.0](https://www.asyncapi.com/docs/reference/specification/v2.6.0) |
-| [Neuroglia.AsyncApi.ServiceDependencyExtensions](https://www.nuget.org/packages/Neuroglia.AsyncApi.ServiceDependencyExtensions) | Contains extensions to configure and register `AsyncAPI` services using dependency injection | [2.6.3](https://github.com/neuroglia-io/asyncapi/releases/tag/v2.6.3) | [v2.6.0](https://www.asyncapi.com/docs/reference/specification/v2.6.0) |
-| [Neuroglia.AsyncApi.AspNetCore](https://www.nuget.org/packages/Neuroglia.AsyncApi.AspNetCore) | Contains an `ASP.NET` middleware used to serve `AsyncAPI` documents | [2.6.3](https://github.com/neuroglia-io/asyncapi/releases/tag/v2.6.3) | [v2.6.0](https://www.asyncapi.com/docs/reference/specification/v2.6.0) |
-| [Neuroglia.AsyncApi.AspNetCore.UI](https://www.nuget.org/packages/Neuroglia.AsyncApi.AspNetCore.UI) | Contains the Razor Pages based UI for exploring `AsyncAPI` documents | [2.6.3](https://github.com/neuroglia-io/asyncapi/releases/tag/v2.6.3) | [v2.6.0](https://www.asyncapi.com/docs/reference/specification/v2.6.0) |
+|:------|:------------|:--------------:|:------------:|
+| [Neuroglia.AsyncApi.Core](https://www.nuget.org/packages/Neuroglia.AsyncApi.Core) | Contains `AsyncAPI` models and core services such as fluent builders, validators, reader, writer and code-first generator | [3.0.0](https://github.com/neuroglia-io/asyncapi/releases/tag/v3.0.0) | [v3.0.0](https://www.asyncapi.com/docs/reference/specification/v3.0.0) |
+| [Neuroglia.AsyncApi.Validation](https://www.nuget.org/packages/Neuroglia.AsyncApi.Validation) | Contains services to validate `AsyncAPI` documents | [3.0.0](https://github.com/neuroglia-io/asyncapi/releases/tag/v3.0.0) | [v3.0.0](https://www.asyncapi.com/docs/reference/specification/v3.0.0) |
+| [Neuroglia.AsyncApi.IO](https://www.nuget.org/packages/Neuroglia.AsyncApi.IO) | Contains services to read and write `AsyncAPI` documents | [3.0.0](https://github.com/neuroglia-io/asyncapi/releases/tag/v3.0.0) | [v3.0.0](https://www.asyncapi.com/docs/reference/specification/v3.0.0) |
+| [Neuroglia.AsyncApi.Generation](https://www.nuget.org/packages/Neuroglia.AsyncApi.Generation) | Contains extensions and services for code-first generation of `AsyncAPI` documents | [3.0.0](https://github.com/neuroglia-io/asyncapi/releases/tag/v3.0.0) | [v3.0.0](https://www.asyncapi.com/docs/reference/specification/v3.0.0) |
+| [Neuroglia.AsyncApi.CloudEvents](https://www.nuget.org/packages/Neuroglia.AsyncApi.CloudEvents) | Contains fluent extensions to build Cloud Event messages | [3.0.0](https://github.com/neuroglia-io/asyncapi/releases/tag/v3.0.0) | [v3.0.0](https://www.asyncapi.com/docs/reference/specification/v3.0.0) |
+| [Neuroglia.AsyncApi.ServiceDependencyExtensions](https://www.nuget.org/packages/Neuroglia.AsyncApi.ServiceDependencyExtensions) | Contains extensions to configure and register `AsyncAPI` services using dependency injection | [3.0.0](https://github.com/neuroglia-io/asyncapi/releases/tag/v3.0.0) | [v3.0.0](https://www.asyncapi.com/docs/reference/specification/v3.0.0) |
+| [Neuroglia.AsyncApi.AspNetCore](https://www.nuget.org/packages/Neuroglia.AsyncApi.AspNetCore) | Contains an `ASP.NET` middleware used to serve `AsyncAPI` documents | [3.0.0](https://github.com/neuroglia-io/asyncapi/releases/tag/v3.0.0) | [v3.0.0](https://www.asyncapi.com/docs/reference/specification/v3.0.0) |
+| [Neuroglia.AsyncApi.AspNetCore.UI](https://www.nuget.org/packages/Neuroglia.AsyncApi.AspNetCore.UI) | Contains the Razor Pages based UI for exploring `AsyncAPI` documents | [3.0.0](https://github.com/neuroglia-io/asyncapi/releases/tag/v3.0.0) | [v3.0.0](https://www.asyncapi.com/docs/reference/specification/v3.0.0) |
 
 ## Installation
 
@@ -95,7 +98,9 @@ dotnet add package Neuroglia.AsyncApi.AspNetCore.UI
 
 ## Usage
 
-### Building an AsyncAPI Document
+### Building an AsyncAPI document
+
+#### AsyncAPI v2
 
 ```csharp
 var services = new ServiceCollection();
@@ -152,7 +157,13 @@ var document = builder
     .Build();
 ```
 
-### Writing an AsyncAPI Document 
+#### AsyncAPI V3
+
+```csharp
+
+```
+
+### Writing an AsyncAPI document 
 
 ```csharp
 var writer = serviceProvider.GetRequiredService<IAsyncApiDocumentWriter>();
@@ -169,17 +180,17 @@ var asyncApi = await reader.ReadAsync(stream, cancellationToken);
 
 ### Generating code-first AsyncAPI documents
 
-#### 1. Mark your services with adequate attributes
+#### AsyncAPI V2
 
 ```csharp
-[AsyncApi("Streetlights API", "1.0.0", Description = "The Smartylighting Streetlights API allows you to remotely manage the city lights.", LicenseName = "Apache 2.0", LicenseUrl = "https://www.apache.org/licenses/LICENSE-2.0")]
+[AsyncApiV2("Streetlights API", "1.0.0", Description = "The Smartylighting Streetlights API allows you to remotely manage the city lights.", LicenseName = "Apache 2.0", LicenseUrl = "https://www.apache.org/licenses/LICENSE-2.0")]
 public class StreetLightsService
   : BackgroundService
 {
 
   ... //Omitted for brevity
   
-  [Channel("light/measured"), PublishOperation(OperationId = "onLightMeasured", Summary = "Inform about environmental lighting conditions for a particular streetlight")]
+  [ChannelV2("light/measured"), PublishOperation(OperationId = "onLightMeasured", Summary = "Inform about environmental lighting conditions for a particular streetlight")]
   public async Task PublishLightMeasured(LightMeasuredEvent e)
   {
       MqttApplicationMessage message = new()
@@ -191,7 +202,7 @@ public class StreetLightsService
       await this.MqttClient.PublishAsync(message);
   }
   
-  [Channel("light/measured"), SubscribeOperation(OperationId = "lightMeasuredEvent", Summary = "Inform about environmental lighting conditions for a particular streetlight")]
+  [ChannelV2("light/measured"), SubscribeOperation(OperationId = "lightMeasuredEvent", Summary = "Inform about environmental lighting conditions for a particular streetlight")]
   protected async Task OnLightMeasured(LightMeasuredEvent e)
   {
       this.Logger.LogInformation($"Event received:{Environment.NewLine}{await this.Serializer.SerializeAsync(e)}");
@@ -204,9 +215,15 @@ public class StreetLightsService
 
 Note the usage of the following attributes:
 
-- `AsyncApi`: Marks a class for code-first `AsyncAPI` document generation. Used to provide information about the API (licensing, contact, ...)
-- `Channel`: Marks a method or class for code-first `AsyncAPI` channel generation. Used to provide information about the channel marked methods belong to.
-- `Operation`: Marks a method for code-first `AsyncAPI` operation generation. Use to provide information about the `AsyncAPI` operation.
+- `AsyncApiV2`: Marks a class for code-first `AsyncAPI` document generation. Used to provide information about the API (licensing, contact, ...)
+- `ChannelV2`: Marks a method or class for code-first `AsyncAPI` channel generation. Used to provide information about the channel marked methods belong to.
+- `OperationV2`: Marks a method for code-first `AsyncAPI` operation generation. Use to provide information about the `AsyncAPI` operation.
+
+#### AsyncAPI V3
+
+```csharp
+
+```
 
 #### 2.1. Generating documents manually
 
@@ -214,9 +231,13 @@ Note the usage of the following attributes:
 var generator = serviceProvider.GetRequiredService<IAsyncApiDocumentGenerator>();
 var options = new AsyncApiDocumentGenerationOptions()
 {
-    DefaultConfiguration = builder =>
+    DefaultV2Configuration = builder =>
     {
-        //Setup the document by configuring servers, for example
+        //Setup V2 documents, by configuring servers, for example
+    };
+    DefaultV3Configuration = builder =>
+    {
+        //Setup V3 documents, by configuring servers, for example
     }
 };
 IEnumerable<AsyncApiDocument> documents = generator.GenerateAsync(typeof(StreetLightsService), options);
@@ -239,9 +260,10 @@ public class Startup
         //Registers and configures the AsyncAPI code-first generation
         services.AddAsyncApiGeneration(builder => 
             builder.WithMarkupType<StreetLightsService>()
-                .UseDefaultConfiguration(asyncApi =>
+                .UseDefaultV2Configuration(asyncApi =>
                 {
-                    asyncApi.UseServer("mosquitto", server => server
+                    asyncApi
+                        .UseServer("mosquitto", server => server
                         .WithUrl(new Uri("mqtt://test.mosquitto.org"))
                         .WithProtocol(AsyncApiProtocols.Mqtt));
                 }));
@@ -284,12 +306,12 @@ Launch your ASP project, then navigate to `http://localhost:44236/asyncapi`. You
 
 ### [Streetlights API - Server](https://github.com/neuroglia-io/AsyncApi/tree/main/samples/StreetLightsApi/Server)
 
-A simple `ASP.NET 5.0` REST API using a MQTT-powered message bus to send and receive information about environmental lighting conditions for a particular streetlight.
+A simple `ASP.NET 9.0` REST API using a MQTT-powered message bus to send and receive information about environmental lighting conditions for a particular streetlight.
 
 Clone the project in your favorite IDE, launch the app, and navigate to `https://localhost:44326/asyncapi/StreetLightsApi/1.0.0`. You should see something like the following:
 
 ```yaml
-asyncapi: 2.1.0
+asyncapi: 2.6.0
 info:
   title: Streetlights API
   version: 1.0.0

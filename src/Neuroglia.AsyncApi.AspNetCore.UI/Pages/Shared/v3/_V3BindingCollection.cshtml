@@ -1,0 +1,23 @@
+﻿@model V3BindingDefinitionCollectionViewModel
+@{
+    var bindings = this.Model.BindingCollection;
+}
+
+<div class="card mt-3">
+    <a data-bs-toggle="collapse" href="#@Model.ComponentReference" role="button" aria-expanded="false" class="collapsed">
+        <div class="card-header">
+            <i class="caret text-dark"></i>
+            <span class="text-secondary">@Model.BindingCollectionName</span>
+        </div>
+    </a>
+    <div id="@Model.ComponentReference" class="card-body collapse">
+        <div class="card border-0">
+            <div class="card-body m-0 p-0">
+                @foreach (var binding in bindings.AsEnumerable()) 
+                {
+                    <partial name="v3/_V3Binding" model="new V3BindingDefinitionViewModel(Model.Document, binding, Model.ComponentReference)" />
+                }
+            </div>
+        </div>
+    </div>
+</div>

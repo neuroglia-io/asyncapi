@@ -11,25 +11,40 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using StreetLightsApi.Server.Messages;
-using Neuroglia.Serialization;
-using System.Text;
-using Neuroglia.AsyncApi;
-using MQTTnet;
-using MQTTnet.Client;
+using Neuroglia.AsyncApi.v2;
+using Neuroglia.AsyncApi.v3;
 
 namespace StreetLightsApi.Server.Services;
 
-[AsyncApi("Streetlights API", "1.0.0", Description = "The Smartylighting Streetlights API allows you to remotely manage the city lights.", LicenseName = "Apache 2.0", LicenseUrl = "https://www.apache.org/licenses/LICENSE-2.0")]
+/// <summary>
+/// Represents the Smartylighting Streetlights API, which allows to remotely manage the city lights
+/// </summary>
+/// <param name="logger">The service used to perform logging</param>
+/// <param name="serializer">The service used to serialize/deserialize data to/from JSON</param>
+[AsyncApiV2("Streetlights API", "1.0.0", Description = "The Smartylighting Streetlights API allows you to remotely manage the city lights.", LicenseName = "Apache 2.0", LicenseUrl = "https://www.apache.org/licenses/LICENSE-2.0")]
+[AsyncApiV3("Streetlights API", "1.0.0", Description = "The **Smartylighting Streetlights API** allows you to remotely manage the city lights.", LicenseName = "Apache 2.0", LicenseUrl = "https://www.apache.org/licenses/LICENSE-2.0")]
+[ChannelV3("lightingMeasuredMQTT", Address = "streets.{streetName}", Description = "This channel is used to exchange messages about lightning measurements.", Servers = ["#/servers/mosquitto"])]
+[ChannelParameterV3("lightingMeasured", "streetName", Description = "The name of the **street** the lights to get measurements for are located in")]
 public class StreetLightsService(ILogger<StreetLightsService> logger, IJsonSerializer serializer)
     : BackgroundService
 {
+
+    /// <summary>
+    /// Gets the service used to perform logging
+    /// </summary>
     protected ILogger Logger { get; } = logger;
 
+    /// <summary>
+    /// Gets the service used to serialize/deserialize data to/from JSON
+    /// </summary>
     protected IJsonSerializer Serializer { get; } = serializer;
 
+    /// <summary>
+    /// Gets the service used to interact with an MQTT server
+    /// </summary>
     protected IMqttClient MqttClient { get; private set; } = null!;
 
+    /// <inheritdoc/>
     protected override async Task ExecuteAsync(CancellationToken stoppingToken)
     {
         this.MqttClient = new MqttFactory().CreateMqttClient();
@@ -46,8 +61,14 @@ public class StreetLightsService(ILogger<StreetLightsService> logger, IJsonSeria
         await this.PublishLightMeasured(new() { Id = Guid.NewGuid(), Lumens = 5, SentAt = DateTime.UtcNow }, stoppingToken).ConfigureAwait(false);
     }
 
-    [Tag("light", "A tag for light-related operations"), Tag("measurement", "A tag for measurement-related operations")]
-    [Channel("light/measured"), PublishOperation(OperationId = "NotifyLightMeasured", Summary = "Notifies remote consumers about environmental lighting conditions for a particular streetlight")]
+    /// <summary>
+    /// Publishes the specified <see cref="LightMeasuredEvent"/>
+    /// </summary>
+    /// <param name="e">The <see cref="LightMeasuredEvent"/> to publish</param>
+    /// <param name="cancellationToken">A <see cref="CancellationToken"/></param>
+    /// <returns>A new awaitable <see cref="Task"/></returns>
+    [ChannelV2("light/measured"), PublishOperationV2(OperationId = "NotifyLightMeasured", Summary = "Notifies remote consumers about environmental lighting conditions for a particular streetlight."), TagV2("light", "A tag for light-related operations"), TagV2("measurement", "A tag for measurement-related operations")]
+    [OperationV3("sendLightMeasurement", V3OperationAction.Send, "#/channels/lightingMeasuredMQTT", Description = "Notifies remote **consumers** about environmental lighting conditions for a particular **streetlight**."), TagV3(Reference = "#/components/tags/measurement")]
     public async Task PublishLightMeasured(LightMeasuredEvent e, CancellationToken cancellationToken = default)
     {
         var message = new MqttApplicationMessage()
@@ -59,8 +80,13 @@ public class StreetLightsService(ILogger<StreetLightsService> logger, IJsonSeria
         await this.MqttClient.PublishAsync(message, cancellationToken);
     }
 
-    [Tag("light", "A tag for light-related operations"), Tag("measurement", "A tag for measurement-related operations")]
-    [Channel("light/measured"), SubscribeOperation(OperationId = "OnLightMeasured", Summary = "Inform about environmental lighting conditions for a particular streetlight")]
+    /// <summary>
+    /// Handles the specified <see cref="LightMeasuredEvent"/>
+    /// </summary>
+    /// <param name="e">The <see cref="LightMeasuredEvent"/> to handle</param>
+    /// <returns>A new awaitable <see cref="Task"/></returns>
+    [ChannelV2("light/measured"), SubscribeOperationV2(OperationId = "OnLightMeasured", Summary = "Inform about environmental lighting conditions for a particular streetlight"), TagV2("light", "A tag for light-related operations"), TagV2("measurement", "A tag for measurement-related operations")]
+    [OperationV3("receiveLightMeasurement", V3OperationAction.Receive, "#/channels/lightingMeasuredMQTT"), TagV3(Reference = "#/components/tags/measurement")]
     protected Task OnLightMeasured(LightMeasuredEvent e)
     {
         this.Logger.LogInformation("Event received:\r\n{json}", this.Serializer.SerializeToText(e));

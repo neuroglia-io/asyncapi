@@ -15,7 +15,8 @@ using FluentValidation;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.Hosting;
-using Neuroglia.AsyncApi.FluentBuilders;
+using Neuroglia.AsyncApi.FluentBuilders.v2;
+using Neuroglia.AsyncApi.FluentBuilders.v3;
 using Neuroglia.AsyncApi.Generation;
 using Neuroglia.AsyncApi.IO;
 using Neuroglia.AsyncApi.v2;
@@ -42,7 +43,8 @@ public static class IServiceCollectionExtensions
         services.AddYamlDotNetSerializer();
         services.TryAddSingleton<IAsyncApiDocumentReader, AsyncApiDocumentReader>();
         services.TryAddSingleton<IAsyncApiDocumentWriter, AsyncApiDocumentWriter>();
-        services.TryAddTransient<IAsyncApiDocumentBuilder, AsyncApiDocumentBuilder>();
+        services.TryAddTransient<IV2AsyncApiDocumentBuilder, V2AsyncApiDocumentBuilder>();
+        services.TryAddTransient<IV3AsyncApiDocumentBuilder, V3AsyncApiDocumentBuilder>();
         services.AddValidatorsFromAssemblyContaining<AsyncApiDocumentValidator>(ServiceLifetime.Transient);
         return services;
     }
@@ -73,12 +75,12 @@ public static class IServiceCollectionExtensions
     }
     
     /// <summary>
-    /// Adds and configures a new <see cref="AsyncApiDocument"/>
+    /// Adds and configures a new <see cref="V2AsyncApiDocument"/>
     /// </summary>
     /// <param name="services">The <see cref="IServiceCollection"/> to configure</param>
-    /// <param name="document">The <see cref="AsyncApiDocument"/> to add</param>
+    /// <param name="document">The <see cref="V2AsyncApiDocument"/> to add</param>
     /// <returns>The configured <see cref="IServiceCollection"/></returns>
-    public static IServiceCollection AddAsyncApiDocument(this IServiceCollection services, AsyncApiDocument document)
+    public static IServiceCollection AddAsyncApiDocument(this IServiceCollection services, V2AsyncApiDocument document)
     {
         services.AddSingleton(document);
 
@@ -86,16 +88,16 @@ public static class IServiceCollectionExtensions
     }
 
     /// <summary>
-    /// Adds and configures a new <see cref="AsyncApiDocument"/>
+    /// Adds and configures a new <see cref="V2AsyncApiDocument"/>
     /// </summary>
     /// <param name="services">The <see cref="IServiceCollection"/> to configure</param>
-    /// <param name="setup">An <see cref="Action{T}"/> used to setup the <see cref="IAsyncApiDocumentBuilder"/> used to build the <see cref="AsyncApiDocument"/> to add</param>
+    /// <param name="setup">An <see cref="Action{T}"/> used to setup the <see cref="IV2AsyncApiDocumentBuilder"/> used to build the <see cref="V2AsyncApiDocument"/> to add</param>
     /// <returns>The configured <see cref="IServiceCollection"/></returns>
-    public static IServiceCollection AddAsyncApiDocument(this IServiceCollection services, Action<IServiceProvider, IAsyncApiDocumentBuilder> setup)
+    public static IServiceCollection AddAsyncApiDocument(this IServiceCollection services, Action<IServiceProvider, IV2AsyncApiDocumentBuilder> setup)
     {
         services.AddSingleton(provider =>
         {
-            var builder = provider.GetRequiredService<IAsyncApiDocumentBuilder>();
+            var builder = provider.GetRequiredService<IV2AsyncApiDocumentBuilder>();
             setup(provider, builder);
             return builder.Build();
         });
@@ -104,16 +106,16 @@ public static class IServiceCollectionExtensions
     }
 
     /// <summary>
-    /// Adds and configures a new <see cref="AsyncApiDocument"/>
+    /// Adds and configures a new <see cref="V2AsyncApiDocument"/>
     /// </summary>
     /// <param name="services">The <see cref="IServiceCollection"/> to configure</param>
-    /// <param name="setup">An <see cref="Action{T}"/> used to setup the <see cref="IAsyncApiDocumentBuilder"/> used to build the <see cref="AsyncApiDocument"/> to add</param>
+    /// <param name="setup">An <see cref="Action{T}"/> used to setup the <see cref="IV2AsyncApiDocumentBuilder"/> used to build the <see cref="V2AsyncApiDocument"/> to add</param>
     /// <returns>The configured <see cref="IServiceCollection"/></returns>
-    public static IServiceCollection AddAsyncApiDocument(this IServiceCollection services, Action<IAsyncApiDocumentBuilder> setup)
+    public static IServiceCollection AddAsyncApiDocument(this IServiceCollection services, Action<IV2AsyncApiDocumentBuilder> setup)
     {
         services.AddSingleton(provider =>
         {
-            var builder = provider.GetRequiredService<IAsyncApiDocumentBuilder>();
+            var builder = provider.GetRequiredService<IV2AsyncApiDocumentBuilder>();
             setup(builder);
             return builder.Build();
         });

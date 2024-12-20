@@ -11,8 +11,6 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using Neuroglia.AsyncApi.v2;
-
 namespace Neuroglia.AsyncApi.FluentBuilders;
 
 /// <summary>
@@ -42,69 +40,69 @@ public class OAuthFlowDefinitionCollectionBuilder(IServiceProvider serviceProvid
     /// <inheritdoc/>
     public virtual IOAuthFlowDefinitionCollectionBuilder WithAuthorizationCodeFlow(OAuthFlowDefinition? flow)
     {
-        this.Flows.AuthorizationCode = flow;
+        Flows.AuthorizationCode = flow;
         return this;
     }
 
     /// <inheritdoc/>
     public virtual IOAuthFlowDefinitionCollectionBuilder WithAuthorizationCodeFlow(Action<IOAuthFlowDefinitionBuilder> setup)
     {
-        var builder = ActivatorUtilities.CreateInstance<OAuthFlowDefinitionBuilder>(this.ServiceProvider);
+        var builder = ActivatorUtilities.CreateInstance<OAuthFlowDefinitionBuilder>(ServiceProvider);
         setup(builder);
-        return this.WithAuthorizationCodeFlow(builder.Build());
+        return WithAuthorizationCodeFlow(builder.Build());
     }
 
     /// <inheritdoc/>
     public virtual IOAuthFlowDefinitionCollectionBuilder WithClientCredentialsFlow(OAuthFlowDefinition? flow)
     {
-        this.Flows.ClientCredentials = flow;
+        Flows.ClientCredentials = flow;
         return this;
     }
 
     /// <inheritdoc/>
     public virtual IOAuthFlowDefinitionCollectionBuilder WithClientCredentialsFlow(Action<IOAuthFlowDefinitionBuilder> setup)
     {
-        var builder = ActivatorUtilities.CreateInstance<OAuthFlowDefinitionBuilder>(this.ServiceProvider);
+        var builder = ActivatorUtilities.CreateInstance<OAuthFlowDefinitionBuilder>(ServiceProvider);
         setup(builder);
-        return this.WithClientCredentialsFlow(builder.Build());
+        return WithClientCredentialsFlow(builder.Build());
     }
 
     /// <inheritdoc/>
     public virtual IOAuthFlowDefinitionCollectionBuilder WithImplicitFlow(OAuthFlowDefinition? flow)
     {
-        this.Flows.Implicit = flow;
+        Flows.Implicit = flow;
         return this;
     }
 
     /// <inheritdoc/>
     public virtual IOAuthFlowDefinitionCollectionBuilder WithImplicitFlow(Action<IOAuthFlowDefinitionBuilder> setup)
     {
-        var builder = ActivatorUtilities.CreateInstance<OAuthFlowDefinitionBuilder>(this.ServiceProvider);
+        var builder = ActivatorUtilities.CreateInstance<OAuthFlowDefinitionBuilder>(ServiceProvider);
         setup(builder);
-        return this.WithImplicitFlow(builder.Build());
+        return WithImplicitFlow(builder.Build());
     }
 
     /// <inheritdoc/>
     public virtual IOAuthFlowDefinitionCollectionBuilder WithPasswordFlow(OAuthFlowDefinition? flow)
     {
-        this.Flows.Password = flow;
+        Flows.Password = flow;
         return this;
     }
 
     /// <inheritdoc/>
     public virtual IOAuthFlowDefinitionCollectionBuilder WithPasswordFlow(Action<IOAuthFlowDefinitionBuilder> setup)
     {
-        var builder = ActivatorUtilities.CreateInstance<OAuthFlowDefinitionBuilder>(this.ServiceProvider);
+        var builder = ActivatorUtilities.CreateInstance<OAuthFlowDefinitionBuilder>(ServiceProvider);
         setup(builder);
-        return this.WithPasswordFlow(builder.Build());
+        return WithPasswordFlow(builder.Build());
     }
 
     /// <inheritdoc/>
     public virtual OAuthFlowDefinitionCollection Build()
     {
-        var validationResults = this.Validators.Select(v => v.Validate(this.Flows));
+        var validationResults = Validators.Select(v => v.Validate(Flows));
         if (!validationResults.All(r => r.IsValid)) throw new ValidationException(validationResults.Where(r => !r.IsValid).SelectMany(r => r.Errors));
-        return this.Flows;
+        return Flows;
     }
 
 }

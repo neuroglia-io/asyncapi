@@ -13,18 +13,18 @@
 
 using Json.Schema;
 using Json.Schema.Generation;
-using Neuroglia.AsyncApi.FluentBuilders;
 using Neuroglia.AsyncApi.v2;
 using Neuroglia.Eventing.CloudEvents;
 using Neuroglia.Data.Schemas.Json;
+using Neuroglia.AsyncApi.FluentBuilders.v2;
 
 namespace Neuroglia.AsyncApi.CloudEvents;
 
 /// <summary>
 /// Represents the default implementation of the <see cref="ICloudEventMessageDefinitionBuilder"/> interface
 /// </summary>
-/// <param name="underlyingBuilder">The underlying <see cref="IMessageDefinitionBuilder"/> wrapped by the <see cref="CloudEventMessageDefinitionBuilder"/></param>
-public class CloudEventMessageDefinitionBuilder(IMessageDefinitionBuilder underlyingBuilder)
+/// <param name="underlyingBuilder">The underlying <see cref="IV2MessageDefinitionBuilder"/> wrapped by the <see cref="CloudEventMessageDefinitionBuilder"/></param>
+public class CloudEventMessageDefinitionBuilder(IV2MessageDefinitionBuilder underlyingBuilder)
     : ICloudEventMessageDefinitionBuilder
 {
 
@@ -36,9 +36,9 @@ public class CloudEventMessageDefinitionBuilder(IMessageDefinitionBuilder underl
     static readonly JsonSchema DefaultSchema = new JsonSchemaBuilder().FromType<object>();
 
     /// <summary>
-    /// Gets the underlying <see cref="IMessageDefinitionBuilder"/> wrapped by the <see cref="CloudEventMessageDefinitionBuilder"/>
+    /// Gets the underlying <see cref="IV2MessageDefinitionBuilder"/> wrapped by the <see cref="CloudEventMessageDefinitionBuilder"/>
     /// </summary>
-    protected IMessageDefinitionBuilder UnderlyingBuilder { get; } = underlyingBuilder;
+    protected IV2MessageDefinitionBuilder UnderlyingBuilder { get; } = underlyingBuilder;
 
     /// <summary>
     /// Gets a name/<see cref="JsonSchema"/> mapping of all <see cref="CloudEvent"/> context attributes that have been explicitly set
@@ -141,7 +141,7 @@ public class CloudEventMessageDefinitionBuilder(IMessageDefinitionBuilder underl
     }
 
     /// <inheritdoc/>
-    public virtual MessageDefinition Build()
+    public virtual V2MessageDefinition Build()
     {
         var cloudEventSchema = new JsonSchemaBuilder().Ref(CloudEventSchemaUri).Build();
 

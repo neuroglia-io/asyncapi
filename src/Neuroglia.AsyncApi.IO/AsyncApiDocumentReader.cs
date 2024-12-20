@@ -11,8 +11,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using Neuroglia.AsyncApi.v2;
-using Neuroglia.Serialization;
+using YamlDotNet.RepresentationModel;
 
 namespace Neuroglia.AsyncApi.IO;
 
@@ -25,7 +24,7 @@ namespace Neuroglia.AsyncApi.IO;
 /// <param name="jsonSerializer">The service used to serialize and deserialize JSON</param>
 /// <param name="yamlSerializer">The service used to serialize and deserialize YAML</param>
 public class AsyncApiDocumentReader(IJsonSerializer jsonSerializer, IYamlSerializer yamlSerializer)
-        : IAsyncApiDocumentReader
+    : IAsyncApiDocumentReader
 {
 
     /// <summary>
@@ -39,22 +38,50 @@ public class AsyncApiDocumentReader(IJsonSerializer jsonSerializer, IYamlSeriali
     protected IYamlSerializer YamlSerializer { get; } = yamlSerializer;
 
     /// <inheritdoc/>
-    public virtual async Task<AsyncApiDocument?> ReadAsync(Stream stream, CancellationToken cancellationToken = default)
+    public virtual async Task<IAsyncApiDocument?> ReadAsync(Stream stream, CancellationToken cancellationToken = default)
     {
         ArgumentNullException.ThrowIfNull(stream);
-        var offset = stream.Position;
-        using var reader = new StreamReader (stream);
-        string input = reader.ReadToEnd();
-        stream.Position = offset;
-        var serializer = this.ResolveDocumentFormat(input) == AsyncApiDocumentFormat.Json ? (ITextSerializer)this.JsonSerializer : this.YamlSerializer;
-        return serializer is IAsyncSerializer asyncSerializer ? await asyncSerializer.DeserializeAsync<AsyncApiDocument>(stream, cancellationToken) : serializer.Deserialize<AsyncApiDocument>(stream);
+        using var reader = new StreamReader(stream, leaveOpen: true);
+        var input = await reader.ReadToEndAsync(cancellationToken).ConfigureAwait(false);
+        var format = this.ResolveDocumentFormat(input);
+        var version = this.ExtractDocumentSpecVersion(input, format);
+        var serializer = format == AsyncApiDocumentFormat.Json ? (ITextSerializer)this.JsonSerializer : this.YamlSerializer;
+        return version.Split('.', StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries)[0] switch
+        {
+            "2" => serializer.Deserialize<V2AsyncApiDocument>(input),
+            "3" => serializer.Deserialize<V3AsyncApiDocument>(input),
+            _ => throw new NotSupportedException($"The specified Async API version '{version}' is not supported")
+        };
     }
 
     /// <summary>
-    /// Resolves the <see cref="AsyncApiDocumentFormat"/> of the specified raw <see cref="AsyncApiDocument"/>
+    /// Resolves the <see cref="AsyncApiDocumentFormat"/> of the specified raw <see cref="V2AsyncApiDocument"/>
     /// </summary>
-    /// <param name="input">The raw <see cref="AsyncApiDocument"/> to get the format of</param>
-    /// <returns>The <see cref="AsyncApiDocumentFormat"/> of the specified raw <see cref="AsyncApiDocument"/></returns>
+    /// <param name="input">The raw <see cref="V2AsyncApiDocument"/> to get the format of</param>
+    /// <returns>The <see cref="AsyncApiDocumentFormat"/> of the specified raw <see cref="V2AsyncApiDocument"/></returns>
     protected virtual AsyncApiDocumentFormat ResolveDocumentFormat(string input) => input.TrimStart().StartsWith('{') && input.TrimEnd().EndsWith('}') ? AsyncApiDocumentFormat.Json : AsyncApiDocumentFormat.Yaml;
+
+    /// <summary>
+    /// Extracts the specified document's Async API specification version
+    /// </summary>
+    /// <param name="input">The serialized document to extract the version from</param>
+    /// <param name="format">The format of the document to extract the version from</param>
+    /// <returns>The specified document's Async API specification version</returns>
+    protected virtual string ExtractDocumentSpecVersion(string input, AsyncApiDocumentFormat format)
+    {
+        if (format == AsyncApiDocumentFormat.Json)
+        {
+            using var jsonDoc = JsonDocument.Parse(input);
+            if (jsonDoc.RootElement.TryGetProperty("asyncapi", out var versionElement)) return versionElement.GetString() ?? string.Empty;
+        }
+        else
+        {
+            var yaml = new YamlStream();
+            yaml.Load(new StringReader(input));
+            var mapping = (YamlMappingNode)yaml.Documents[0].RootNode;
+            if (mapping.Children.TryGetValue(new YamlScalarNode("asyncapi"), out var versionNode)) return ((YamlScalarNode)versionNode).Value!;
+        }
+        throw new InvalidDataException("The AsyncAPI version property is missing or invalid.");
+    }
 
 }

@@ -11,15 +11,13 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using Neuroglia.AsyncApi.v2;
-
 namespace Neuroglia.AsyncApi.Validation;
 
 /// <summary>
-/// Represents the service used to validate the <see cref="TagDefinition"/>
+/// Represents the service used to validate the <see cref="V2TagDefinition"/>
 /// </summary>
 public class TagValidator
-    : AbstractValidator<TagDefinition>
+    : AbstractValidator<V2TagDefinition>
 {
 
     /// <summary>

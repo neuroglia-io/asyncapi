@@ -1,0 +1,139 @@
+﻿@model V3SecuritySchemeDefinitionViewModel
+@{
+    var scheme = this.Model.Scheme;
+    var schemeType = EnumHelper.Stringify(scheme.Type);
+}
+<div class="mt-3">
+    <div class="card">
+
+        <a data-bs-toggle="collapse" href="#scheme_@this.Model.Name" role="button" aria-expanded="false" class="collapsed">
+            <div class="card-header d-flex align-items-center">
+                <i class="caret text-dark"></i>
+                <span class="text-muted align-middle mx-2" role="button" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-html="true" title="@Html.Raw(Markdown.ToHtml(scheme.Description ?? string.Empty))">@Model.Name</span>
+            </div>
+        </a>
+
+        <div id="scheme_@this.Model.Name" class="card-body collapse">
+            @if (!string.IsNullOrWhiteSpace(scheme.Description))
+            {
+                <small class="text-muted">@Html.Raw(Markdown.ToHtml(scheme.Description ?? string.Empty))</small>
+            }
+            <table class="table">
+                <tbody>
+                    <tr>
+                        <td class="fit">
+                            <small class="text-secondary">Type</small>
+                            <small class="bi bi-info-circle text-secondary ms-1" role="button" data-bs-toggle="tooltip" data-bs-placement="bottom" title="The security scheme's type. Possible values are: @(string.Join(", ", Enum.GetValues<SecuritySchemeType>().Select(e => EnumHelper.Stringify(e))))"></small>
+                        </td>
+                        <td>
+                            <small class="badge border border-muted text-secondary">@(EnumHelper.Stringify(scheme.Type))</small>
+                        </td>
+                    </tr>
+                    @if (scheme.OpenIdConnectUrl != null)
+                    {
+                        <tr>
+                            <td class="fit">
+                                <small class="text-secondary">OpenID Connect Url</small>
+                                <small class="bi bi-info-circle text-secondary ms-1" role="button" data-bs-toggle="tooltip" data-bs-placement="bottom" title="The OpenId Connect uri to discover OAuth2 configuration values."></small>
+                            </td>
+                            <td>
+                                <small class="badge border border-muted text-secondary">@scheme.OpenIdConnectUrl</small>
+                            </td>
+                        </tr>
+                    }
+                    @if (scheme.OpenIdConnectUrl != null)
+                    {
+                        <tr>
+                            <td class="fit">
+                                <small class="text-secondary">OpenID Connect Url</small>
+                                <small class="bi bi-info-circle text-secondary ms-1" role="button" data-bs-toggle="tooltip" data-bs-placement="bottom" title="The OpenId Connect uri to discover OAuth2 configuration values."></small>
+                            </td>
+                            <td>
+                                <small class="badge border border-muted text-secondary">@scheme.OpenIdConnectUrl</small>
+                            </td>
+                        </tr>
+                    }
+                    @if (scheme.Scheme != null)
+                    {
+                        <tr>
+                            <td class="fit">
+                                <small class="text-secondary">Authorization Scheme</small>
+                                <small class="bi bi-info-circle text-secondary ms-1" role="button" data-bs-toggle="tooltip" data-bs-placement="bottom" title="The name of the HTTP Authorization scheme to be used in the Authorization header as defined in RFC7235."></small>
+                            </td>
+                            <td>
+                                <small class="badge border border-muted text-secondary">@scheme.Scheme</small>
+                            </td>
+                        </tr>
+                    }
+                    @if (!string.IsNullOrWhiteSpace(scheme.Name))
+                    {
+                        <tr>
+                            <td class="fit">
+                                <small class="text-secondary">Parameter Name</small>
+                                <small class="bi bi-info-circle text-secondary ms-1" role="button" data-bs-toggle="tooltip" data-bs-placement="bottom" title="The name of the header, query or cookie parameter to be used"></small>
+                            </td>
+                            <td>
+                                <small class="badge border border-muted text-secondary">@scheme.Name</small>
+                            </td>
+                        </tr>
+                    }
+                    @if (!string.IsNullOrWhiteSpace(scheme.In))
+                    {
+                        <tr>
+                            <td class="fit">
+                                <small class="text-secondary">API Key Location</small>
+                                <small class="bi bi-info-circle text-secondary ms-1" role="button" data-bs-toggle="tooltip" data-bs-placement="bottom" title="The location of the API key."></small>
+                            </td>
+                            <td>
+                                <small class="badge border border-muted text-secondary">@scheme.In</small>
+                            </td>
+                        </tr>
+                    }
+                    @if (!string.IsNullOrWhiteSpace(scheme.BearerFormat))
+                    {
+                        <tr>
+                            <td class="fit">
+                                <small class="text-secondary">Bearer Format</small>
+                                <small class="bi bi-info-circle text-secondary ms-1" role="button" data-bs-toggle="tooltip" data-bs-placement="bottom" title="An object hint to the client to identify how the bearer token is formatted."></small>
+                            </td>
+                            <td>
+                                <small class="badge border border-muted text-secondary">@scheme.BearerFormat</small>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+
+            @if (scheme.Flows != null && scheme.Flows.AsEnumerable().Any())
+            {
+                <div class="card mt-3 border-0">
+                    <a data-bs-toggle="collapse" href="#@($"{Model.Name}_flows")" role="button" aria-expanded="false">
+                        <div class="card-header bg-transparent">
+                            <span class="text-secondary fw-bold">Flows</span>
+                            <small class="bi bi-info-circle text-secondary ms-1" role="button" data-bs-toggle="tooltip" data-bs-placement="bottom" title="The supported OAUTH flows"></small>
+                        </div>
+                    </a>
+                    <div id="@($"{Model.Name}_flows")" class="card-body m-0 p-0 collapse show">
+                        @if (scheme.Flows.Implicit != null)
+                        {
+                            <partial name="v3/_V3OAuthFlow" model="@(new V3OAuthFlowDefinitionViewModel(this.Model.Document, Model.Reference, "Implicit", scheme.Flows.Implicit))" />
+                        }
+                        @if (scheme.Flows.ClientCredentials != null)
+                        {
+                            <partial name="v3/_V3OAuthFlow" model="@(new V3OAuthFlowDefinitionViewModel(this.Model.Document, Model.Reference, "Client Credentials", scheme.Flows.ClientCredentials))" />
+                        }
+                        @if (scheme.Flows.AuthorizationCode != null)
+                        {
+                            <partial name="v3/_V3OAuthFlow" model="@(new V3OAuthFlowDefinitionViewModel(this.Model.Document, Model.Reference, "Authorization Code", scheme.Flows.AuthorizationCode))" />
+                        }
+                        @if (scheme.Flows.Password != null)
+                        {
+                            <partial name="v3/_V3OAuthFlow" model="@(new V3OAuthFlowDefinitionViewModel(this.Model.Document, Model.Reference, "Password", scheme.Flows.Password))" />
+                        }
+                    </div>
+                </div>
+            }
+        </div>
+
+    </div>
+</div>

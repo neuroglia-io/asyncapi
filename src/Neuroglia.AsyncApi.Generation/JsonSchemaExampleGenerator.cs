@@ -11,6 +11,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+using Neuroglia;
 using Neuroglia.Serialization;
 using System.Collections;
 using System.Text.Json.Nodes;
@@ -42,7 +43,7 @@ public class JsonSchemaExampleGenerator(IJsonSerializer serializer)
     {
         get
         {
-            if (this._defaultSchema == null)
+            if (_defaultSchema == null)
             {
                 var schemaBuilder = new JsonSchemaBuilder();
                 var schemaProperties = new Dictionary<string, JsonSchema>
@@ -52,9 +53,9 @@ public class JsonSchemaExampleGenerator(IJsonSerializer serializer)
                     { "property3", schemaBuilder.FromType<bool>() },
                 };
                 schemaBuilder.Properties(schemaProperties);
-                this._defaultSchema = schemaBuilder.Build();
+                _defaultSchema = schemaBuilder.Build();
             }
-            return this._defaultSchema;
+            return _defaultSchema;
         }
     }
 
@@ -102,7 +103,7 @@ public class JsonSchemaExampleGenerator(IJsonSerializer serializer)
         if (maxItems.HasValue && maxItems < 5) itemsCount = (int)maxItems.Value;
 
         var array = new List<object>(itemsCount);
-        var itemSchema = schema.GetItems() ?? this.DefaultSchema;
+        var itemSchema = schema.GetItems() ?? DefaultSchema;
         for (var i = 0; i < itemsCount; i++) array.Add(GenerateExample(itemSchema, string.Empty, requiredPropertiesOnly)!);
 
         return array;
@@ -153,7 +154,7 @@ public class JsonSchemaExampleGenerator(IJsonSerializer serializer)
 
         var example = new JsonObject();
         var objectSchema = schema;
-        if (objectSchema.GetProperties()?.Any() != true) schema = this.DefaultSchema;
+        if (objectSchema.GetProperties()?.Any() != true) schema = DefaultSchema;
 
         var requiredProperties = objectSchema.GetRequired();
         var properties = objectSchema.GetProperties()?.Where(p => !requiredPropertiesOnly || requiredProperties?.Contains(p.Key) == true);
@@ -162,22 +163,22 @@ public class JsonSchemaExampleGenerator(IJsonSerializer serializer)
 
             if (requiredPropertiesOnly) return example;
 
-            var propertyValue = this.GenerateExample(new JsonSchemaBuilder().FromType<string>());
-            example.Add("property1", JsonNode.Parse(this.Serializer.SerializeToText(propertyValue)));
+            var propertyValue = GenerateExample(new JsonSchemaBuilder().FromType<string>());
+            example.Add("property1", JsonNode.Parse(Serializer.SerializeToText(propertyValue)));
 
-            propertyValue = this.GenerateExample(new JsonSchemaBuilder().FromType<string>());
-            example.Add("property2", JsonNode.Parse(this.Serializer.SerializeToText(propertyValue)));
+            propertyValue = GenerateExample(new JsonSchemaBuilder().FromType<string>());
+            example.Add("property2", JsonNode.Parse(Serializer.SerializeToText(propertyValue)));
 
-            propertyValue = this.GenerateExample(new JsonSchemaBuilder().FromType<string>());
-            example.Add("property3", JsonNode.Parse(this.Serializer.SerializeToText(propertyValue)));
+            propertyValue = GenerateExample(new JsonSchemaBuilder().FromType<string>());
+            example.Add("property3", JsonNode.Parse(Serializer.SerializeToText(propertyValue)));
 
         }
         else
         {
             foreach (var property in properties)
             {
-                var propertyValue = this.GenerateExample(property.Value, property.Key, requiredPropertiesOnly);
-                example.Add(property.Key, JsonNode.Parse(this.Serializer.SerializeToText(propertyValue)));
+                var propertyValue = GenerateExample(property.Value, property.Key, requiredPropertiesOnly);
+                example.Add(property.Key, JsonNode.Parse(Serializer.SerializeToText(propertyValue)));
             }
         }
 

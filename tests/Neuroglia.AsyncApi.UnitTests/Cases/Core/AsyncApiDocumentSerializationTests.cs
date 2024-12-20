@@ -11,10 +11,6 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using Neuroglia.AsyncApi.v2;
-using Neuroglia.Serialization.Json;
-using Neuroglia.Serialization.Yaml;
-
 namespace Neuroglia.AsyncApi.UnitTests.Cases.Core;
 
 public class AsyncApiDocumentSerializationTests
@@ -24,14 +20,14 @@ public class AsyncApiDocumentSerializationTests
     public void SerializeAndDeserialize_AsyncApiDocument_Should_Work()
     {
         //arrange
-        var document = AsyncApiDocumentFactory.Create();
+        var document = AsyncApiDocumentFactory.CreateV2();
 
         //act
         var json = JsonSerializer.Default.SerializeToText(document);
-        var jsonDeserialized = JsonSerializer.Default.Deserialize<AsyncApiDocument>(json);
+        var jsonDeserialized = JsonSerializer.Default.Deserialize<V2AsyncApiDocument>(json);
 
         var yaml = YamlSerializer.Default.SerializeToText(document);
-        var yamlDeserialized = YamlSerializer.Default.Deserialize<AsyncApiDocument>(yaml);
+        var yamlDeserialized = YamlSerializer.Default.Deserialize<V2AsyncApiDocument>(yaml);
 
         //assert
         jsonDeserialized.Should().Be(document);

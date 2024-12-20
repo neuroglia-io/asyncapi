@@ -18,55 +18,55 @@ using Neuroglia.Eventing.CloudEvents;
 namespace Neuroglia.AsyncApi.CloudEvents;
 
 /// <summary>
-/// Defines the fundamentals of a service used to build <see cref="CloudEvent"/> <see cref="MessageDefinition"/>s
+/// Defines the fundamentals of a service used to build <see cref="CloudEvent"/> <see cref="V2MessageDefinition"/>s
 /// </summary>
 public interface ICloudEventMessageDefinitionBuilder
 {
 
     /// <summary>
-    /// Configures the <see cref="MessageDefinition"/> to build to use the specified <see cref="CloudEvent"/> spec version
+    /// Configures the <see cref="V2MessageDefinition"/> to build to use the specified <see cref="CloudEvent"/> spec version
     /// </summary>
     /// <param name="specVersion">The <see cref="CloudEvent"/> spec version to use</param>
     /// <returns>The configured <see cref="ICloudEventMessageDefinitionBuilder"/></returns>
     ICloudEventMessageDefinitionBuilder WithSpecVersion(string specVersion);
 
     /// <summary>
-    /// Configures the <see cref="MessageDefinition"/> to build to use the specified <see cref="CloudEvent"/> source
+    /// Configures the <see cref="V2MessageDefinition"/> to build to use the specified <see cref="CloudEvent"/> source
     /// </summary>
     /// <param name="source">The <see cref="CloudEvent"/>'s source <see cref="Uri"/></param>
     /// <returns>The configured <see cref="ICloudEventMessageDefinitionBuilder"/></returns>
     ICloudEventMessageDefinitionBuilder WithSource(Uri source);
 
     /// <summary>
-    /// Configures the <see cref="MessageDefinition"/> to build to use the specified <see cref="CloudEvent"/> type
+    /// Configures the <see cref="V2MessageDefinition"/> to build to use the specified <see cref="CloudEvent"/> type
     /// </summary>
     /// <param name="type">The <see cref="CloudEvent"/>'s type</param>
     /// <returns>The configured <see cref="ICloudEventMessageDefinitionBuilder"/></returns>
     ICloudEventMessageDefinitionBuilder WithType(string type);
 
     /// <summary>
-    /// Configures the <see cref="MessageDefinition"/> to build to use the specified <see cref="CloudEvent"/> subject
+    /// Configures the <see cref="V2MessageDefinition"/> to build to use the specified <see cref="CloudEvent"/> subject
     /// </summary>
     /// <param name="subject">The <see cref="CloudEvent"/>'s subject</param>
     /// <returns>The configured <see cref="ICloudEventMessageDefinitionBuilder"/></returns>
     ICloudEventMessageDefinitionBuilder WithSubject(string? subject);
 
     /// <summary>
-    /// Configures the <see cref="MessageDefinition"/> to build to use the specified <see cref="CloudEvent"/> data content type
+    /// Configures the <see cref="V2MessageDefinition"/> to build to use the specified <see cref="CloudEvent"/> data content type
     /// </summary>
     /// <param name="contentType">The <see cref="CloudEvent"/>'s data content type</param>
     /// <returns>The configured <see cref="ICloudEventMessageDefinitionBuilder"/></returns>
     ICloudEventMessageDefinitionBuilder WithDataContentType(string? contentType);
 
     /// <summary>
-    /// Configures the <see cref="MessageDefinition"/> to build to use the specified <see cref="CloudEvent"/> data <see cref="JsonSchema"/>
+    /// Configures the <see cref="V2MessageDefinition"/> to build to use the specified <see cref="CloudEvent"/> data <see cref="JsonSchema"/>
     /// </summary>
     /// <param name="schemaUri">An <see cref="Uri"/> that references the <see cref="CloudEvent"/>'s data <see cref="JsonSchema"/></param>
     /// <returns>The configured <see cref="ICloudEventMessageDefinitionBuilder"/></returns>
     ICloudEventMessageDefinitionBuilder WithDataSchemaUri(Uri? schemaUri);
 
     /// <summary>
-    /// Configures the <see cref="MessageDefinition"/> to build to use the specified <see cref="CloudEvent"/> data <see cref="JsonSchema"/>
+    /// Configures the <see cref="V2MessageDefinition"/> to build to use the specified <see cref="CloudEvent"/> data <see cref="JsonSchema"/>
     /// </summary>
     /// <param name="schema">The <see cref="CloudEvent"/>'s data <see cref="JsonSchema"/> to use</param>
     /// <param name="schemaUri">An <see cref="Uri"/> that references the <see cref="CloudEvent"/>'s data <see cref="JsonSchema"/></param>
@@ -74,21 +74,21 @@ public interface ICloudEventMessageDefinitionBuilder
     ICloudEventMessageDefinitionBuilder WithDataSchema(JsonSchema schema, Uri? schemaUri = null);
 
     /// <summary>
-    /// Configures the <see cref="MessageDefinition"/> to build to use the specified <see cref="CloudEvent"/> data type
+    /// Configures the <see cref="V2MessageDefinition"/> to build to use the specified <see cref="CloudEvent"/> data type
     /// </summary>
-    /// <param name="type">The type of data transported by the <see cref="CloudEvent"/> to build a new <see cref="MessageDefinition"/> for</param>
+    /// <param name="type">The type of data transported by the <see cref="CloudEvent"/> to build a new <see cref="V2MessageDefinition"/> for</param>
     /// <returns>The configured <see cref="ICloudEventMessageDefinitionBuilder"/></returns>
     ICloudEventMessageDefinitionBuilder WithDataOfType(Type type);
 
     /// <summary>
-    /// Configures the <see cref="MessageDefinition"/> to build to use the specified <see cref="CloudEvent"/> data type
+    /// Configures the <see cref="V2MessageDefinition"/> to build to use the specified <see cref="CloudEvent"/> data type
     /// </summary>
-    /// <typeparam name="TData">The type of data transported by the <see cref="CloudEvent"/> to build a new <see cref="MessageDefinition"/> for</typeparam>
+    /// <typeparam name="TData">The type of data transported by the <see cref="CloudEvent"/> to build a new <see cref="V2MessageDefinition"/> for</typeparam>
     /// <returns>The configured <see cref="ICloudEventMessageDefinitionBuilder"/></returns>
     ICloudEventMessageDefinitionBuilder WithDataOfType<TData>();
 
     /// <summary>
-    /// Configures the <see cref="MessageDefinition"/> to build to use the specified <see cref="CloudEvent"/> extension attribute
+    /// Configures the <see cref="V2MessageDefinition"/> to build to use the specified <see cref="CloudEvent"/> extension attribute
     /// </summary>
     /// <param name="name">The name of the <see cref="CloudEvent"/> extension attribute to add</param>
     /// <param name="value">The value of the <see cref="CloudEvent"/> extensions attribute to add</param>
@@ -96,9 +96,9 @@ public interface ICloudEventMessageDefinitionBuilder
     ICloudEventMessageDefinitionBuilder WithExtensionAttribute(string name, string value);
 
     /// <summary>
-    /// Builds the <see cref="MessageDefinition"/>
+    /// Builds the <see cref="V2MessageDefinition"/>
     /// </summary>
-    /// <returns>A new <see cref="MessageDefinition"/></returns>
-    MessageDefinition Build();
+    /// <returns>A new <see cref="V2MessageDefinition"/></returns>
+    V2MessageDefinition Build();
 
 }

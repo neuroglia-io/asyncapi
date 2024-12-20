@@ -11,24 +11,22 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using Neuroglia.AsyncApi.v2;
-
 namespace Neuroglia.AsyncApi.IO;
 
 /// <summary>
-/// Defines the fundamentals of a service used to write <see cref="AsyncApiDocument"/>s
+/// Defines the fundamentals of a service used to write <see cref="IAsyncApiDocument"/>s
 /// </summary>
 public interface IAsyncApiDocumentWriter
 {
 
     /// <summary>
-    /// Writes the specified <see cref="AsyncApiDocument"/> to a <see cref="Stream"/>
+    /// Writes the specified <see cref="IAsyncApiDocument"/> to a <see cref="Stream"/>
     /// </summary>
-    /// <param name="document">The <see cref="AsyncApiDocument"/> to write</param>
-    /// <param name="stream">The <see cref="Stream"/> to read the <see cref="AsyncApiDocument"/> from</param>
-    /// <param name="format">The format of the <see cref="AsyncApiDocument"/> to read. Defaults to '<see cref="AsyncApiDocumentFormat.Yaml"/>'</param>
+    /// <param name="document">The <see cref="IAsyncApiDocument"/> to write</param>
+    /// <param name="stream">The <see cref="Stream"/> to read the <see cref="IAsyncApiDocument"/> from</param>
+    /// <param name="format">The format of the <see cref="IAsyncApiDocument"/> to read. Defaults to '<see cref="AsyncApiDocumentFormat.Yaml"/>'</param>
     /// <param name="cancellationToken">A <see cref="CancellationToken"/></param>
-    /// <returns>A new <see cref="AsyncApiDocument"/></returns>
-    Task WriteAsync(AsyncApiDocument document, Stream stream, AsyncApiDocumentFormat format = AsyncApiDocumentFormat.Yaml, CancellationToken cancellationToken = default);
+    /// <returns>A new <see cref="IAsyncApiDocument"/></returns>
+    Task WriteAsync(IAsyncApiDocument document, Stream stream, AsyncApiDocumentFormat format = AsyncApiDocumentFormat.Yaml, CancellationToken cancellationToken = default);
 
 }

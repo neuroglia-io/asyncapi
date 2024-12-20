@@ -11,8 +11,6 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using Neuroglia.AsyncApi.v2;
-
 namespace Neuroglia.AsyncApi.FluentBuilders;
 
 /// <summary>
@@ -42,21 +40,21 @@ public class OAuthFlowDefinitionBuilder(IServiceProvider serviceProvider, IEnume
     /// <inheritdoc/>
     public virtual IOAuthFlowDefinitionBuilder WithAuthorizationUrl(Uri? uri)
     {
-        this.Flow.AuthorizationUrl = uri;
+        Flow.AuthorizationUrl = uri;
         return this;
     }
 
     /// <inheritdoc/>
     public virtual IOAuthFlowDefinitionBuilder WithTokenUrl(Uri? uri)
     {
-        this.Flow.TokenUrl = uri;
+        Flow.TokenUrl = uri;
         return this;
     }
 
     /// <inheritdoc/>
     public virtual IOAuthFlowDefinitionBuilder WithRefreshUrl(Uri? uri)
     {
-        this.Flow.RefreshUrl = uri;
+        Flow.RefreshUrl = uri;
         return this;
     }
 
@@ -64,8 +62,8 @@ public class OAuthFlowDefinitionBuilder(IServiceProvider serviceProvider, IEnume
     public virtual IOAuthFlowDefinitionBuilder WithScope(string name, string? description = null)
     {
         ArgumentException.ThrowIfNullOrWhiteSpace(name);
-        this.Flow.Scopes ??= [];
-        this.Flow.Scopes[name] = description!;
+        Flow.Scopes ??= [];
+        Flow.Scopes[name] = description!;
         return this;
     }
 
@@ -73,7 +71,7 @@ public class OAuthFlowDefinitionBuilder(IServiceProvider serviceProvider, IEnume
     public virtual IOAuthFlowDefinitionBuilder WithScopes(IDictionary<string, string> scopes)
     {
         ArgumentNullException.ThrowIfNull(scopes);
-        this.Flow.Scopes = new(scopes);
+        Flow.Scopes = new(scopes);
         return this;
     }
 
@@ -81,16 +79,16 @@ public class OAuthFlowDefinitionBuilder(IServiceProvider serviceProvider, IEnume
     public virtual IOAuthFlowDefinitionBuilder WithScopes(params KeyValuePair<string, string>[] scopes)
     {
         ArgumentNullException.ThrowIfNull(scopes);
-        this.Flow.Scopes = new(scopes);
+        Flow.Scopes = new(scopes);
         return this;
     }
 
     /// <inheritdoc/>
     public virtual OAuthFlowDefinition Build()
     {
-        var validationResults = this.Validators.Select(v => v.Validate(this.Flow));
+        var validationResults = Validators.Select(v => v.Validate(Flow));
         if (!validationResults.All(r => r.IsValid)) throw new ValidationException(validationResults.Where(r => !r.IsValid).SelectMany(r => r.Errors));
-        return this.Flow;
+        return Flow;
     }
 
 }
