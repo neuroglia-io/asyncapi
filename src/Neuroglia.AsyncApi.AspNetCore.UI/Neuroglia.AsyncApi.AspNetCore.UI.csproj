@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
-    <TargetFramework>net8.0</TargetFramework>
+    <TargetFramework>net9.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
 	<OutputType>Library</OutputType>
@@ -12,7 +12,7 @@
     <RepositoryUrl>https://github.com/neuroglia-io/asyncapi</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
     <PackageTags>neuroglia asyncapi async api asp ui</PackageTags>
-    <Version>2.6.6</Version>
+    <Version>3.0.0</Version>
     <NeutralLanguage>en</NeutralLanguage>
 	<PackageLicenseExpression>Apache-2.0</PackageLicenseExpression>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
@@ -35,6 +35,7 @@
 
   <ItemGroup>
 	<PackageReference Include="JsonCons.Utilities" Version="1.0.0" />
+	<PackageReference Include="Markdig" Version="0.39.0" />
   </ItemGroup>
 
 </Project>

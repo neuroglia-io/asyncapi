@@ -11,78 +11,64 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using Neuroglia.AsyncApi.v2;
-
 namespace Neuroglia.AsyncApi;
 
 /// <summary>
-/// Represents an <see cref="Attribute"/> used to mark a class as an Async Api to generate a new <see cref="AsyncApiDocument"/> for
+/// Represents an <see cref="Attribute"/> used to mark a class as an Async Api to generate a new <see cref="IAsyncApiDocument"/> for
 /// </summary>
-[AttributeUsage(AttributeTargets.Class, AllowMultiple = false)]
-public class AsyncApiAttribute
+/// <param name="title">The <see cref="AsyncApiAttribute"/>'s title</param>
+/// <param name="version">The <see cref="AsyncApiAttribute"/>'s version</param>
+public abstract class AsyncApiAttribute(string title, string version)
     : Attribute
 {
 
     /// <summary>
-    /// Initializes a new <see cref="AsyncApiAttribute"/>
-    /// </summary>
-    /// <param name="title">The <see cref="AsyncApiAttribute"/>'s title</param>
-    /// <param name="version">The <see cref="AsyncApiAttribute"/>'s version</param>
-    public AsyncApiAttribute(string title, string version)
-    {
-        if (string.IsNullOrWhiteSpace(title)) throw new ArgumentNullException(nameof(title));
-        if (string.IsNullOrWhiteSpace(version)) throw new ArgumentNullException(nameof(version));
-        this.Title = title;
-        this.Version = version;
-    }
-
-    /// <summary>
-    /// Gets/sets the generated <see cref="AsyncApiDocument"/>'s id
+    /// Gets/sets the generated <see cref="IAsyncApiDocument"/>'s id
     /// </summary>
     public virtual string? Id { get; set; }
 
     /// <summary>
-    /// Gets the generated <see cref="AsyncApiDocument"/>'s title
+    /// Gets the generated <see cref="IAsyncApiDocument"/>'s title
     /// </summary>
-    public virtual string Title { get; }
+    public virtual string Title { get; } = title;
 
     /// <summary>
-    /// Gets the generated <see cref="AsyncApiDocument"/>'s version
+    /// Gets the generated <see cref="IAsyncApiDocument"/>'s version
     /// </summary>
-    public virtual string Version { get; }
+    public virtual string Version { get; } = version;
 
     /// <summary>
-    /// Gets/sets the generated <see cref="AsyncApiDocument"/>'s description
+    /// Gets/sets the generated <see cref="IAsyncApiDocument"/>'s description
     /// </summary>
     public virtual string? Description { get; set; }
 
     /// <summary>
-    /// Gets/sets the generated <see cref="AsyncApiDocument"/>'s terms of service <see cref="Uri"/>
+    /// Gets/sets the generated <see cref="IAsyncApiDocument"/>'s terms of service <see cref="Uri"/>
     /// </summary>
     public virtual string? TermsOfServiceUrl { get; set; }
 
     /// <summary>
-    /// Gets/sets the generated <see cref="AsyncApiDocument"/>'s contact name
+    /// Gets/sets the generated <see cref="IAsyncApiDocument"/>'s contact name
     /// </summary>
     public virtual string? ContactName { get; set; }
 
     /// <summary>
-    /// Gets/sets the generated <see cref="AsyncApiDocument"/>'s contact url
+    /// Gets/sets the generated <see cref="IAsyncApiDocument"/>'s contact url
     /// </summary>
     public virtual string? ContactUrl { get; set; }
 
     /// <summary>
-    /// Gets/sets the generated <see cref="AsyncApiDocument"/>'s contact email
+    /// Gets/sets the generated <see cref="IAsyncApiDocument"/>'s contact email
     /// </summary>
     public virtual string? ContactEmail { get; set; }
 
     /// <summary>
-    /// Gets/sets the generated <see cref="AsyncApiDocument"/>'s license name
+    /// Gets/sets the generated <see cref="IAsyncApiDocument"/>'s license name
     /// </summary>
     public virtual string? LicenseName { get; set; }
 
     /// <summary>
-    /// Gets/sets the generated <see cref="AsyncApiDocument"/>'s license <see cref="Uri"/>
+    /// Gets/sets the generated <see cref="IAsyncApiDocument"/>'s license <see cref="Uri"/>
     /// </summary>
     public virtual string? LicenseUrl { get; set; }
 

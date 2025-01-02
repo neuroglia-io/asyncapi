@@ -12,5 +12,6 @@
 // limitations under the License.
 
 global using Json.Schema;
+global using Neuroglia.AsyncApi.Bindings;
 global using Neuroglia.AsyncApi.v2;
-global using Neuroglia.Data.Schemas.Json;
+global using Neuroglia.AsyncApi.v3;

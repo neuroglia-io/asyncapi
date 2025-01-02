@@ -1,0 +1,93 @@
+﻿@model V2ServerDefinitionViewModel
+@{ 
+    var server = this.Model.Server;
+}
+
+<div class="m-3">
+    <div class="card">
+        <a class="collapsed" data-bs-toggle="collapse" href="#@this.Model.Key" role="button" aria-expanded="false" data-bs-toggle="tooltip" data-bs-placement="bottom" title="@server.Description">
+            <div class="card-header bg-transparent">
+                <i class="caret text-dark"></i>
+                <span class="badge bg-info me-2" data-bs-toggle="tooltip" data-bs-placement="bottom" title="The server's protocol and protocol version">@($"{server.Protocol}{(string.IsNullOrWhiteSpace(server.ProtocolVersion) || server.ProtocolVersion == "latest" ? string.Empty : " " + server.ProtocolVersion)}".ToUpperInvariant())</span>
+                <span class="h5 text-secondary">@this.Model.Key</span>
+                <small class="font-italic text-muted ms-1"> [@server.Url]</small>
+                @if(server.Security != null && server.Security.Any())
+                {
+                    <i class="bi bi-lock-full text-secondary ms-2" role="button" data-bs-toggle="tooltip" data-bs-placement="bottom" title="The server has security requirements"></i>
+                }
+            </div>
+        </a>
+        <div id="@this.Model.Key" class="card-body collapse">
+            @if (!string.IsNullOrWhiteSpace(server.Description))
+            {
+                <p><small class="text-secondary">@server.Description</small></p>
+            }
+            @if (server.Variables != null)
+            {
+                <div class="card border-0">
+                    <a data-bs-toggle="collapse" href="#@(this.Model.Key)_variables" role="button" aria-expanded="false">
+                        <i class="caret text-dark"></i>
+                        <div class="card-header bg-transparent">
+                            <span class="font-weight-bold text-secondary">Variables</span>
+                        </div>
+                    </a>
+                    <div id="@(this.Model.Key)_variables" class="card-body m-0 p-0 collapse">
+                        <div class="row m-1">
+                            @foreach (var variableKvp in server.Variables)
+                            {
+                                <div class="col-md-3">
+                                    <span class="font-italic">@variableKvp.Key</span>
+                                </div>
+                                <div class="col-md-9">
+                                    <span class="font-weight-bold text-primary">@variableKvp.Value.Description</span>
+                                </div>
+                            }
+                        </div>
+                    </div>
+                </div>
+            }
+            @if (server.Security != null)
+            {
+                <div class="card border-0">
+                    <a data-bs-toggle="collapse" href="#@(this.Model.Key)_security" role="button" aria-expanded="false">
+                        <i class="caret text-dark"></i>
+                        <div class="card-header bg-transparent">
+                            <span class="font-weight-bold text-secondary">Security Schemes</span>
+                        </div>
+                    </a>
+                    <div id="@(this.Model.Key)_security" class="card-body m-0 p-0 collapse show">
+                        @foreach (var securityRequirement in server.Security)
+                        {
+                            <partial name="v2/_V2SecurityRequirement" model="new V2SecurityRequirementViewModel(this.Model.Document, this.Model.Key, securityRequirement.Key, securityRequirement.Value)" />
+                        }
+                    </div>
+                </div>
+            }
+            @if(server.Bindings != null)
+            {
+                <div class="card border-0">
+                    <div class="card-header bg-transparent">
+                        <a data-bs-toggle="collapse" href="#@(this.Model.Key)_bindings" role="button" aria-expanded="false">
+                            <i class="caret text-dark"></i>
+                            <span class="font-weight-bold text-secondary">Bindings</span>
+                        </a>
+                    </div>
+                    <div id="@(this.Model.Key)_bindings" class="card-body m-0 p-0 collapse show">
+                        @if (server.Bindings == null || !server.Bindings.AsEnumerable().Any())
+                        {
+                            <p class="alert alert-warning fst-italic my-3"><small>No bindings defined.</small></p>
+                        }
+                        else
+                        {
+                            @foreach (var binding in server.Bindings.AsEnumerable())
+                            {
+                                <partial name="v2/_V2Binding" model="new V2BindingDefinitionViewModel(this.Model.Document, binding, this.Model.Key)" />
+                            }
+                        }
+                        
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+</div>

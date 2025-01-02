@@ -1,0 +1,57 @@
+﻿@model V3ReplyDefinitionViewModel
+
+@if (Model.Definition.Channel != null)
+{
+    <table class="table">
+        <tbody>
+            <tr>
+                <td class="fit">
+                    <small class="text-secondary">Channel</small>
+                </td>
+                <td>
+                    <a href="@(Model.Definition.Channel.Reference)"><small>@(Model.Definition.Channel.Reference.Split('/')[^1])</small></a>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+}
+
+@if (Model.Definition.Address != null)
+{
+    var address = string.IsNullOrWhiteSpace(Model.Definition.Address.Reference) ? Model.Definition.Address : Model.Document.DereferenceReplyAddress(Model.Definition.Address.Reference);
+    <div class="card border-0 mb-3">
+        <a data-bs-toggle="collapse" href="#reply_component_@(Model.Reference)_address" role="button" aria-expanded="true">
+            <div class="card-header bg-transparent">
+                <i class="caret text-dark"></i>
+                <span class="font-weight-bold text-secondary">Address</span>
+            </div>
+        </a>
+        <div id="reply_component_@(Model.Reference)_address" class="card-body pb-0 collapse show">
+            <partial name="v3/_V3ReplyAddress" model="@(new V3ReplyAddressDefinitionViewModel(Model.Document, $"{Model.Reference}_address", address))" />
+        </div>
+    </div>
+}
+
+<div class="card border-0">
+    <a data-bs-toggle="collapse" href="#reply_component_@(Model.Reference)_messages" role="button" aria-expanded="true">
+        <div class="card-header bg-transparent">
+            <i class="caret text-dark"></i>
+            <span class="font-weight-bold text-secondary">Message(s)</span>
+        </div>
+    </a>
+    <div id="reply_component_@(Model.Reference)_messages" class="card-body p-0 m-0 collapse show">
+        @if (Model.Definition.Messages == null)
+        {
+            <p class="alert alert-warning fst-italic m-3"><small>No messages have been defined for the operation.</small></p>
+        }
+        else
+        {
+            int index = 1;
+            foreach (var messageKvp in Model.Definition.Messages.ToDictionary(m => m.Reference, m => Model.Document.DereferenceMessage(m.Reference)))
+            {
+                <partial name="v3/_V3MessageTrait" model="new V3MessageTraitDefinitionViewModel(this.Model.Document, messageKvp.Key.Split('/', StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries)[^1], messageKvp.Value, index)" />
+                index++;
+            }
+        }
+    </div>
+</div>

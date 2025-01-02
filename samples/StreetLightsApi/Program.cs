@@ -11,14 +11,9 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using Json.Schema;
-using Neuroglia.AsyncApi;
-using Neuroglia.AsyncApi.v2;
-using Neuroglia.AsyncApi.v2.Bindings.Http;
-using Neuroglia.AsyncApi.v2.Bindings.Mqtt;
-using Neuroglia.Data.Schemas.Json;
-using StreetLightsApi.Server.Services;
-using System.Net.Mime;
+using Json.Schema.Generation;
+using Neuroglia.AsyncApi.Bindings.Mqtt;
+using StreetLightsApi.Messages;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -41,7 +36,7 @@ builder.Services.AddRazorPages()
 builder.Services.AddAsyncApiUI();
 builder.Services.AddAsyncApiGeneration(builder =>
     builder.WithMarkupType<StreetLightsService>()
-        .UseDefaultConfiguration(asyncApi =>
+        .UseDefaultV2DocumentConfiguration(asyncApi =>
         {
             asyncApi
                 .WithTermsOfService(new Uri("https://www.websitepolicies.com/blog/sample-terms-service-template"))
@@ -54,8 +49,136 @@ builder.Services.AddAsyncApiGeneration(builder =>
                         ClientId = "StreetLightsAPI:1.0.0",
                         CleanSession = true
                     }));
+        })
+        .UseDefaultV3DocumentConfiguration(asyncApi =>
+        {
+            asyncApi
+                .WithTermsOfService(new Uri("https://www.websitepolicies.com/blog/sample-terms-service-template"))
+                .WithExternalDocumentation(doc => doc
+                    .WithDescription("The exhaustive documentation of the described **API**, its purpose, usage scenarios, and detailed specifications. This documentation includes all relevant architectural diagrams, authentication flows, and code samples, offering a comprehensive reference for developers and integrators.")
+                    .WithUrl(new("https://fakeurl.com")))
+                .WithTag(tag => tag
+                    .Use("#/components/tags/kubernetes"))
+                .WithTag(tag => tag
+                    .WithName("showcase")
+                    .WithDescription("The present document is used to showcase features of the `Neuroglia.AsyncAPI` document generation."))
+                .WithServer("mosquitto", server => server
+                    .WithHost("mqtt://test.mosquitto.org")
+                    .WithPathName("/{environment}")
+                    .WithProtocol(AsyncApiProtocol.Mqtt)
+                    .WithDescription("The **Mosquitto test MQTT server**. Use the `env` variable to point to either `production` or `staging`.")
+                    .WithVariable("environment", variable => variable
+                        .WithDescription("Environment to connect to.")
+                        .WithEnumValues("production", "staging"))
+                    .WithBinding(new MqttServerBindingDefinition()
+                    {
+                        ClientId = "StreetLightsAPI:1.0.0",
+                        CleanSession = true
+                    }))
+                .WithSchemaComponent("addStreetLightRequest", schema => schema
+                    .WithJsonSchema(jsonSchema => jsonSchema
+                        .FromType<AddStreetLightRequest>(Neuroglia.AsyncApi.JsonSchemaGeneratorConfiguration.Default)))
+                .WithServerComponent("http", server => server
+                    .WithHost("https://test.com")
+                    .WithPathName("/{environment}")
+                    .WithProtocol(AsyncApiProtocol.Http)
+                    .WithDescription("The **HTTP test server**. Use the `env` variable to point to either `production` or `staging`.")
+                    .WithVariable("environment", variable => variable
+                        .WithDescription("Environment to connect to.")
+                        .WithEnumValues("production", "staging"))
+                    .WithBindings(bindings => bindings
+                        .Use("#/components/serverBindings/http")))
+                .WithChannelComponent("lightingMeasuredHTTP", channel => channel
+                    .WithDescription("This channel is used to exchange messages about lightning measurements.")
+                    .WithServer("#/components/servers/http")
+                    .WithBindings(bindings => bindings
+                        .Use("#/components/channelBindings/http")))
+                .WithOperationComponent("addStreetLight", operation => operation
+                    .WithAction(Neuroglia.AsyncApi.v3.V3OperationAction.Receive)
+                    .WithChannel("#/components/channels/lightingMeasuredHTTP")
+                    .WithDescription("Adds a new **streetlight** to the API.")
+                    .WithTrait(trait => trait
+                        .Use("#/components/operationTraits/commonBindings"))
+                    .WithMessage("#/components/messages/addStreetLightRequest")
+                    .WithBindings(bindings => bindings
+                        .Use("#/components/operationBindings/http")))
+                .WithMessageComponent("addStreetLightRequest", message => message
+                    .WithPayloadSchema(schema => schema
+                        .WithJsonSchema(jsonSchema => jsonSchema
+                            .FromType<AddStreetLightRequest>(Neuroglia.AsyncApi.JsonSchemaGeneratorConfiguration.Default)))
+                    .WithTrait(trait => trait
+                        .Use("#/components/messageTraits/commonHeaders"))
+                    .WithBindings(bindings => bindings
+                        .Use("#/components/messageBindings/http")))
+                .WithMessageComponent("measureStreetLightLuminosityReply", message => message
+                    .WithPayloadSchema(schema => schema
+                        .WithJsonSchema(jsonSchema => jsonSchema
+                            .FromType<MeasureStreetLightLuminosityReply>(Neuroglia.AsyncApi.JsonSchemaGeneratorConfiguration.Default)))
+                    .WithBindings(bindings => bindings
+                        .Use("#/components/messageBindings/http")))
+                .WithSecuritySchemeComponent("oauth2", security => security
+                    .WithType(SecuritySchemeType.OAuth2)
+                    .WithDescription("The security scheme used to authenticate using **OAUTH2**.")
+                    .WithScope("api")
+                    .WithAuthorizationScheme("Bearer")
+                    .WithOAuthFlows(flows => flows
+                        .WithImplicitFlow(flow => flow
+                            .WithTokenUrl(new Uri("https://fake.com/auth/streetlights/token")))))
+                .WithServerVariableComponent("environment", variable => variable
+                    .WithDescription("The variable used to define the **hosting environment**.")
+                    .WithDefaultValue("dev")
+                    .WithEnumValues("dev", "staging", "production")
+                    .WithExample("dev")
+                    .WithExample("staging")
+                    .WithExample("production"))
+                .WithParameterComponent("environment", parameter => parameter
+                    .WithDescription("The variable used to define the **hosting environment**.")
+                    .WithDefaultValue("dev")
+                    .WithEnumValues("dev", "staging", "production")
+                    .WithExample("dev")
+                    .WithExample("staging")
+                    .WithExample("production"))
+                .WithCorrelationIdComponent("streetId", correlationId => correlationId
+                    .WithDescription("The parameter used to correlate the **street** a **light** is located in.")
+                    .WithLocation("$message.header#/MQMD/CorrelId"))
+                .WithReplyComponent("measureStreetLightLuminosityReply", reply => reply
+                    .WithChannel("#/components/channels/lightingMeasuredHTTP")
+                    .WithAddress(address => address.Use("#/components/replyAddresses/measureStreetLightLuminosityReplyAddress"))
+                    .WithMessage("#/components/messages/measureStreetLightLuminosityReply"))
+                .WithReplyAddressComponent("measureStreetLightLuminosityReplyAddress", address => address
+                    .WithDescription("Represents the **address** to reply to after a **measureStreetLightLuminosityRequest**.")
+                    .WithLocation("$message.header#/replyTo"))
+                .WithExternalDocumentationComponent("kubernetesTag", doc => doc
+                    .WithDescription("The **external documentation** used to document the `kubernetes` **tag**.")
+                    .WithUrl(new("https://fake.com/tags/kubernetes")))
+                .WithTagComponent("kubernetes", tag => tag
+                    .WithName("kubernetes")
+                    .WithDescription("The **tag** used to mark a **server** deployed in `Kubernetes`.")
+                    .WithExternalDocumentation(doc => doc.Use("#/components/externalDocs/kubernetesTag")))
+                .WithServerBindingsComponent("http", bindings => bindings
+                    .WithBinding(new HttpServerBindingDefinition()))
+                .WithChannelBindingsComponent("http", bindings => bindings
+                    .WithBinding(new HttpChannelBindingDefinition()))
+                .WithOperationBindingsComponent("http", bindings => bindings
+                    .WithBinding(new HttpOperationBindingDefinition()
+                    {
+                        Method = Neuroglia.AsyncApi.Bindings.Http.HttpMethod.POST,
+                        Type = HttpBindingOperationType.Request
+                    }))
+                .WithMessageBindingsComponent("http", bindings => bindings
+                    .WithBinding(new HttpMessageBindingDefinition()))
+                .WithOperationTraitComponent("commonBindings", trait => trait
+                    .WithDescription("The **operation trait** used to define the bindings common to all operations defined by the application.")
+                    .WithBinding(new HttpOperationBindingDefinition()))
+                .WithMessageTraitComponent("commonHeaders", trait => trait
+                    .WithName("Common Headers")    
+                    .WithDescription("The **message trait** used to define the common headers used by all the messages exchanged by the application.")
+                        .WithHeadersSchema(schema => schema
+                            .WithJsonSchema(jsonSchema => jsonSchema
+                                .FromType<CommonHeaders>(Neuroglia.AsyncApi.JsonSchemaGeneratorConfiguration.Default))));
         }));
 builder.Services.AddAsyncApiDocument(document => document
+    .UsingAsyncApiV2()
     .WithTitle("Cloud Event API")
     .WithVersion("1.0.0")
     .WithServer("StreetLightsApi", server => server
@@ -69,7 +192,7 @@ builder.Services.AddAsyncApiDocument(document => document
         .WithSubscribeOperation(operation => operation
             .WithOperationId("ObserveCloudEvents")
             .WithDescription("Observes cloud events published by the StreetLightsApi")
-            .WithBinding(new HttpOperationBindingDefinition() { Method = Neuroglia.AsyncApi.v2.Bindings.Http.HttpMethod.POST, Type = HttpBindingOperationType.Response })
+            .WithBinding(new HttpOperationBindingDefinition() { Method = Neuroglia.AsyncApi.Bindings.Http.HttpMethod.POST, Type = HttpBindingOperationType.Response })
             .WithMessages
             (
                 message => message

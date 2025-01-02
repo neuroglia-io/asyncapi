@@ -11,8 +11,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using Json.Schema.Generation;
-using Neuroglia.AsyncApi;
+using Neuroglia.AsyncApi.v2;
 
 namespace StreetLightsApi.Server.Messages;
 
@@ -36,8 +35,6 @@ public class LightMeasuredEvent
     [Description("The event's metadata")]
     public IDictionary<string, string>? Metadata { get; set; }
 
-    public List<Todo> Todos { get; set; }
+    public List<TodoItem> Todo { get; set; } = [];
 
 }
-
-public record Todo(string Name);

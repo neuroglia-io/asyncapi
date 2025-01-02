@@ -11,8 +11,6 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using Neuroglia.AsyncApi.v2;
-
 namespace Neuroglia.AsyncApi;
 
 /// <summary>
@@ -22,43 +20,42 @@ public static class AsyncApiDocumentServingOptionsExtensions
 {
 
     /// <summary>
-    /// Generates routes for the specified <see cref="AsyncApiDocument"/>
+    /// Generates routes for the specified <see cref="IAsyncApiDocument"/>
     /// </summary>
     /// <param name="options">The current <see cref="AsyncApiDocumentServingOptions"/></param>
-    /// <param name="document">The <see cref="AsyncApiDocument"/> to generate the routes for</param>
-    /// <returns>A new <see cref="IEnumerable{T}"/> containing the egenerated routes</returns>
-    public static IEnumerable<string> GenerateRoutesFor(this AsyncApiDocumentServingOptions options, AsyncApiDocument document)
+    /// <param name="document">The <see cref="IAsyncApiDocument"/> to generate the routes for</param>
+    /// <returns>A new <see cref="IEnumerable{T}"/> containing the generated routes</returns>
+    public static IEnumerable<string> GenerateRoutesFor(this AsyncApiDocumentServingOptions options, IAsyncApiDocument document)
     {
         ArgumentNullException.ThrowIfNull(options);
         ArgumentNullException.ThrowIfNull(document);
 #pragma warning disable CA2208 // Instantiate argument exceptions correctly
         if (string.IsNullOrWhiteSpace(options.PathTemplate)) throw new ArgumentNullException($"{nameof(AsyncApiDocumentServingOptions)}.{nameof(AsyncApiDocumentServingOptions.PathTemplate)}");
 #pragma warning restore CA2208 // Instantiate argument exceptions correctly
-
         yield return options.GenerateRouteFor(document, AsyncApiDocumentFormat.Json);
         yield return options.GenerateRouteFor(document, AsyncApiDocumentFormat.Yaml);
     }
 
     /// <summary>
-    /// Generates route for the specified <see cref="AsyncApiDocument"/>
+    /// Generates route for the specified <see cref="V2AsyncApiDocument"/>
     /// </summary>
     /// <param name="options">The current <see cref="AsyncApiDocumentServingOptions"/></param>
-    /// <param name="document">The <see cref="AsyncApiDocument"/> to generate the route for</param>
+    /// <param name="document">The <see cref="V2AsyncApiDocument"/> to generate the route for</param>
     /// <param name="format">The <see cref="AsyncApiDocumentFormat"/> to generate the route for</param>
     /// <returns>The generated route</returns>
-    public static string GenerateRouteFor(this AsyncApiDocumentServingOptions options, AsyncApiDocument document, AsyncApiDocumentFormat format)
+    public static string GenerateRouteFor(this AsyncApiDocumentServingOptions options, IAsyncApiDocument document, AsyncApiDocumentFormat format)
     {
         ArgumentNullException.ThrowIfNull(options);
         ArgumentNullException.ThrowIfNull(document);
 #pragma warning disable CA2208 // Instantiate argument exceptions correctly
         if (string.IsNullOrWhiteSpace(options.PathTemplate)) throw new ArgumentNullException($"{nameof(AsyncApiDocumentServingOptions)}.{nameof(AsyncApiDocumentServingOptions.PathTemplate)}");
 #pragma warning restore CA2208 // Instantiate argument exceptions correctly
-
         var result = StringFormatter.NamedFormat(options.PathTemplate, new
         {
+            specVersion = document.AsyncApi,
             id = document.Id?.ToKebabCase(),
-            title = document.Info.Title.ToKebabCase(),
-            version = document.Info.Version
+            title = document.Title.ToKebabCase(),
+            version = document.Version
         });
 
         return result.Replace("[json|yaml]", format == AsyncApiDocumentFormat.Json ? "json" : "yaml");

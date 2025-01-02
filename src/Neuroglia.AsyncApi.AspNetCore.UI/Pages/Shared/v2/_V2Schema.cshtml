@@ -1,0 +1,97 @@
+﻿@using Json.Pointer
+@using System.Text.Json
+@model V2SchemaViewModel
+@{
+    var schema = this.Model.Schema;
+    var schemaJson = Neuroglia.Serialization.Json.JsonSerializer.Default.SerializeToElement(schema)!;
+    var jsonType = schema.GetJsonType();
+    var properties = schema.GetProperties();
+    if ((properties == null || !properties.Any()) && (properties == null || !properties.Any())) return;
+    var required = schema.GetRequired();
+}
+@switch (jsonType)
+{
+    case SchemaValueType.Object:
+        foreach(var property in properties)
+        {
+            var propertyType = property.Value.GetJsonType();
+            var nullable = (propertyType & SchemaValueType.Null) == SchemaValueType.Null;
+            propertyType = propertyType & ~SchemaValueType.Null;
+            var propertyTypeName = propertyType.HasValue ? EnumHelper.Stringify(propertyType.Value).ToLowerInvariant() : "object";
+            var typeDescription = string.Empty;
+            var typeFlags = propertyType.HasValue ? EnumHelper.GetFlags<SchemaValueType>(propertyType.Value) : Array.Empty<SchemaValueType>();
+            if (propertyType.HasValue && typeFlags.Count() > 1)
+            {
+                propertyTypeName = "oneOf";
+                typeDescription = string.Join("\n", typeFlags.Select(t => EnumHelper.Stringify(t).ToLowerInvariant()));
+            }
+            var constValue = property.Value.GetConst();
+            var format = property.Value.GetFormat();
+            var pattern = property.Value.GetPattern();
+            var enumValue = property.Value.GetEnum();
+            var description = property.Value.GetDescription();
+            <div class="mb-3">
+                <div class="row mb-1">
+
+                    <div class="col-3 text-secondary fw-bold">
+                        <small>@property.Key</small>
+                    </div>
+
+                    <div class="col text-left">
+                        <span class="badge bg-secondary text-light" data-bs-toggle="tooltip" data-bs-placement="bottom" title="@typeDescription" role="button">@propertyTypeName</span>
+                        @if (required?.Contains(property.Key) == true)
+                        {
+                            <span class="badge border bg-warning" data-bs-toggle="tooltip" data-bs-placement="bottom" title="The value is required." role="button">required</span>
+                        }
+                        @if (nullable)
+                        {
+                            <span class="badge border border-secondary text-secondary" data-bs-toggle="tooltip" data-bs-placement="bottom" title="The value is nullable" role="button">nullable</span>
+                        }
+                        @if (constValue != null)
+                        {
+                            <span class="badge border border-secondary text-secondary" data-bs-toggle="tooltip" data-bs-placement="bottom" title="The value must be equal to '@(constValue.GetValue<string>())'" role="button">const</span>
+                        }
+                        @if (format != null)
+                        {
+                            <span class="badge border border-secondary text-secondary" data-bs-toggle="tooltip" data-bs-placement="bottom" title="The value must be formated using the '@(format.Key)' JSON Schema format." role="button">format</span>
+                        }
+                        @if (pattern != null)
+                        {
+                            <span class="badge border border-secondary text-secondary" data-bs-toggle="tooltip" data-bs-placement="bottom" title="The value must be validated by the regular expression." role="button">pattern</span>
+                        }
+                        @if (enumValue != null)
+                        {
+                            <span class="badge border border-secondary text-secondary" data-bs-toggle="tooltip" data-bs-placement="bottom" title="The value must be one of the following: @(string.Join(", ", enumValue.Select(v => v == null ? "null" : v.GetValue<string>())))" role="button">enum</span>
+                        }
+                    </div>
+
+                </div>
+                @if (!string.IsNullOrWhiteSpace(description))
+                {
+                    <div class="row">
+                        <div class="col"><small class="text-secondary fst-italic">@description</small></div>
+                    </div>
+                }
+                @if (constValue != null)
+                {
+                    <div class="row mt-1">
+                        <div class="col">
+                            <small class="text-secondary text-decoration-underline me-2">const:</small>
+                            <small class="badge border border-muted text-secondary">@(constValue.GetValue<string>())</small>
+                        </div>
+                    </div>
+                }
+                else if (enumValue != null)
+                {
+                    <div class="row mt-1">
+                        <div class="col">
+                            <small class="text-secondary text-decoration-underline me-2">enum:</small> 
+                            <small class="badge border border-muted text-secondary">@(string.Join(", ", enumValue.Select(v => v == null ? "null" : v.GetValue<string>())))</small>
+                        </div>
+                    </div>
+                }
+            </div>
+        }
+        break;
+    default: break;
+}

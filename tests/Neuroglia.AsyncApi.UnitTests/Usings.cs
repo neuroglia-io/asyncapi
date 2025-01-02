@@ -12,5 +12,17 @@
 // limitations under the License.
 
 global using FluentAssertions;
+global using Json.Schema;
+global using Json.Schema.Generation;
+global using Microsoft.Extensions.DependencyInjection;
+global using Neuroglia.AsyncApi.CloudEvents;
+global using Neuroglia.AsyncApi.Generation;
 global using Neuroglia.AsyncApi.UnitTests.Services;
+global using Neuroglia.AsyncApi.v2;
+global using Neuroglia.Eventing.CloudEvents;
+global using Neuroglia.Serialization;
+global using Neuroglia.Serialization.Json;
+global using Neuroglia.Serialization.Yaml;
+global using System.Collections;
+global using System.Net.Mime;
 global using Xunit;

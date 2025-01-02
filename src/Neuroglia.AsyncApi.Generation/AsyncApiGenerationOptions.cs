@@ -11,9 +11,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using Neuroglia.AsyncApi.v2;
-
-namespace Neuroglia.AsyncApi;
+namespace Neuroglia.AsyncApi.Generation;
 
 /// <summary>
 /// Represents the options used to configure code-first AsyncAPI document generation
@@ -27,8 +25,13 @@ public class AsyncApiGenerationOptions
     public virtual List<Type> MarkupTypes { get; set; } = [];
 
     /// <summary>
-    /// Gets/sets the <see cref="Action{T}"/> used to apply a default configuration to generated <see cref="AsyncApiDocument"/>s
+    /// Gets/sets the <see cref="Action{T}"/> used to apply a default configuration to generated <see cref="V2AsyncApiDocument"/>s
     /// </summary>
-    public virtual Action<IAsyncApiDocumentBuilder>? DefaultDocumentConfiguration { get; set; }
+    public virtual Action<IV2AsyncApiDocumentBuilder>? DefaultV2DocumentConfiguration { get; set; }
+
+    /// <summary>
+    /// Gets/sets the <see cref="Action{T}"/> used to apply a default configuration to generated <see cref="V3AsyncApiDocument"/>s
+    /// </summary>
+    public virtual Action<IV3AsyncApiDocumentBuilder>? DefaultV3DocumentConfiguration { get; set; }
 
 }

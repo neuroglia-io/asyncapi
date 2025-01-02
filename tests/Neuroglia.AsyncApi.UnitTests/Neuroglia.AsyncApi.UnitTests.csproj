@@ -1,7 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>net8.0</TargetFramework>
+    <TargetFramework>net9.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
 
@@ -26,7 +26,9 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\src\Neuroglia.AsyncApi.CloudEvents\Neuroglia.AsyncApi.CloudEvents.csproj" />
+    <ProjectReference Include="..\..\src\Neuroglia.AsyncApi.DependencyInjectionExtensions\Neuroglia.AsyncApi.DependencyInjectionExtensions.csproj" />
     <ProjectReference Include="..\..\src\Neuroglia.AsyncApi.Generation\Neuroglia.AsyncApi.Generation.csproj" />
+    <ProjectReference Include="..\..\src\Neuroglia.AsyncApi.IO\Neuroglia.AsyncApi.IO.csproj" />
   </ItemGroup>
 
 </Project>

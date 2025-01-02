@@ -1,0 +1,10 @@
+﻿@model V3ExternalDocumentationDefinitionViewModel
+
+@if (!string.IsNullOrWhiteSpace(Model.Definition.Description))
+{
+    <div class="mb-3">
+        <small class="text-secondary">@Html.Raw(Markdown.ToHtml(Model.Definition.Description))</small>
+    </div>
+}
+
+<a href="@Model.Definition.Url">@Model.Definition.Url</a>

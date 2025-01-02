@@ -11,19 +11,15 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using MQTTnet;
-using MQTTnet.Client;
-using Neuroglia.AsyncApi;
-using Neuroglia.Serialization;
-using StreetLightsApi.Server.Messages;
-using System.Text;
+using Neuroglia.AsyncApi.v2;
 
 namespace StreetLightsApi.Server.Services;
 
-[AsyncApi("Movement Sensor API", "1.0.0", Description = "The Movement Sensor API allows you to get remotely notified about movements captured by sensors.", LicenseName = "Apache 2.0", LicenseUrl = "https://www.apache.org/licenses/LICENSE-2.0")]
+[Neuroglia.AsyncApi.v2.AsyncApi("Movement Sensor API", "1.0.0", Description = "The Movement Sensor API allows you to get remotely notified about movements captured by sensors.", LicenseName = "Apache 2.0", LicenseUrl = "https://www.apache.org/licenses/LICENSE-2.0")]
 public class MovementSensorService(ILogger<MovementSensorService> logger, IJsonSerializer serializer)
-        : BackgroundService
+    : BackgroundService
 {
+
     protected ILogger Logger { get; } = logger;
 
     protected IJsonSerializer Serializer { get; } = serializer;

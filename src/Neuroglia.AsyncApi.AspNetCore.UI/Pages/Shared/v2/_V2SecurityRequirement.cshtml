@@ -1,0 +1,30 @@
+﻿@model V2SecurityRequirementViewModel
+@{
+    var requirementName = this.Model.Key;
+    var scheme = this.Model.Document.Components?.SecuritySchemes?.FirstOrDefault(s => s.Key.Equals(requirementName, StringComparison.OrdinalIgnoreCase)).Value;
+    var schemeType = scheme == null ? "undefined" : EnumHelper.Stringify(scheme.Type);
+    var reference = $"{this.Model.ParentRef}_security_requirements_{requirementName}";
+}
+
+<div class="card my-3">
+    <a data-bs-toggle="collapse" href="#@reference" role="button" aria-expanded="false">
+        <div class="card-header">
+            <span class="badge bg-warning me-2" data-bs-toggle="tooltip" data-bs-placement="bottom" title="The security scheme type">@schemeType</span>
+            <span class="text-secondary fw-bold">@requirementName</span>
+        </div>
+    </a>
+    <div id="@reference" class="card-body collapse">
+        <div class="card border-0">
+            <div class="card-body m-0 p-0">
+                @if(scheme == null)
+                {
+                    <p class="alert alert-danger fst-italic my-3">The security scheme '{@requirementName}' is undefined.</p>
+                }
+                else
+                {
+                    <partial name="v2/_V2SecurityScheme" model="new V2SecuritySchemeDefinitionViewModel(this.Model.Document, reference, scheme)" />
+                }
+            </div>
+        </div>
+    </div>
+</div>

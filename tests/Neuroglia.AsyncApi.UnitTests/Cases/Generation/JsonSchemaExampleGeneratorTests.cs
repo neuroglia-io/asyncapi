@@ -11,13 +11,6 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using Json.Schema;
-using Json.Schema.Generation;
-using Microsoft.Extensions.DependencyInjection;
-using Neuroglia.AsyncApi.Generation;
-using Neuroglia.Serialization;
-using System.Collections;
-
 namespace Neuroglia.AsyncApi.UnitTests.Cases.Generation;
 
 public class JsonSchemaExampleGeneratorTests
