@@ -29,7 +29,7 @@ public partial class AsyncApiDocumentGenerator
     {
         ArgumentNullException.ThrowIfNull(type);
         ArgumentNullException.ThrowIfNull(options);
-        var asyncApi = type.GetCustomAttribute<AsyncApiV2Attribute>() ?? throw new ArgumentException($"The specified type '{type.Name}' is not marked with the {nameof(AsyncApiV2Attribute)}", nameof(type));
+        var asyncApi = type.GetCustomAttribute<v2.AsyncApiAttribute>() ?? throw new ArgumentException($"The specified type '{type.Name}' is not marked with the {nameof(v2.AsyncApiAttribute)}", nameof(type));
         var builder = ServiceProvider.GetRequiredService<IV2AsyncApiDocumentBuilder>();
         options.V2BuilderSetup?.Invoke(builder);
         builder
@@ -41,10 +41,10 @@ public partial class AsyncApiDocumentGenerator
         if (!string.IsNullOrWhiteSpace(asyncApi.TermsOfServiceUrl)) builder.WithTermsOfService(new Uri(asyncApi.TermsOfServiceUrl, UriKind.RelativeOrAbsolute));
         if (!string.IsNullOrWhiteSpace(asyncApi.ContactName)) builder.WithContact(asyncApi.ContactName, string.IsNullOrWhiteSpace(asyncApi.ContactUrl) ? null : new Uri(asyncApi.ContactUrl, UriKind.RelativeOrAbsolute), asyncApi.ContactEmail);
         foreach (var operationsPerChannel in type.GetMethods(BindingFlags.Default | BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.FlattenHierarchy)
-            .Where(m => m.GetCustomAttribute<OperationV2Attribute>() != null && m.GetCustomAttribute<ChannelV2Attribute>() != null)
-            .GroupBy(m => m.GetCustomAttribute<ChannelV2Attribute>()!.Name))
+            .Where(m => m.GetCustomAttribute<v2.OperationAttribute>() != null && m.GetCustomAttribute<v2.ChannelAttribute>() != null)
+            .GroupBy(m => m.GetCustomAttribute<v2.ChannelAttribute>()!.Name))
         {
-            var channel = operationsPerChannel.First().GetCustomAttribute<ChannelV2Attribute>()!;
+            var channel = operationsPerChannel.First().GetCustomAttribute<v2.ChannelAttribute>()!;
             await this.ConfigureV2ChannelForAsync(builder, channel, [.. operationsPerChannel], options, cancellationToken).ConfigureAwait(false);
         }
         return builder.Build();
@@ -59,7 +59,7 @@ public partial class AsyncApiDocumentGenerator
     /// <param name="options">The <see cref="AsyncApiDocumentGenerationOptions"/> to use</param>
     /// <param name="cancellationToken">A <see cref="CancellationToken"/></param>
     /// <returns>A new awaitable <see cref="Task"/></returns>
-    protected virtual async Task ConfigureV2ChannelForAsync(IV2AsyncApiDocumentBuilder builder, ChannelV2Attribute channel, List<MethodInfo> methods, AsyncApiDocumentGenerationOptions options, CancellationToken cancellationToken = default)
+    protected virtual async Task ConfigureV2ChannelForAsync(IV2AsyncApiDocumentBuilder builder, v2.ChannelAttribute channel, List<MethodInfo> methods, AsyncApiDocumentGenerationOptions options, CancellationToken cancellationToken = default)
     {
         ArgumentNullException.ThrowIfNull(builder);
         ArgumentNullException.ThrowIfNull(channel);
@@ -70,7 +70,7 @@ public partial class AsyncApiDocumentGenerator
             channelBuilder.WithDescription(channel.Description!);
             foreach (var method in methods)
             {
-                var operation = method.GetCustomAttribute<OperationV2Attribute>()!;
+                var operation = method.GetCustomAttribute<v2.OperationAttribute>()!;
                 channelBuilder.WithOperation(operation.OperationType, operationBuilder =>
                 {
                     var operationId = operation.OperationId;
@@ -83,7 +83,7 @@ public partial class AsyncApiDocumentGenerator
                         .WithOperationId(operationId)
                         .WithDescription(description!)
                         .WithSummary(summary!);
-                    foreach (var tag in method.GetCustomAttributes<TagV2Attribute>()) operationBuilder.WithTag(tagBuilder => tagBuilder.WithName(tag.Name).WithDescription(tag.Description!));
+                    foreach (var tag in method.GetCustomAttributes<v2.TagAttribute>()) operationBuilder.WithTag(tagBuilder => tagBuilder.WithName(tag.Name).WithDescription(tag.Description!));
                     operationBuilder.WithMessage(messageBuilder => this.ConfigureV2OperationMessageFor(messageBuilder, operation, method, options));
                 });
             }
@@ -98,7 +98,7 @@ public partial class AsyncApiDocumentGenerator
     /// <param name="operation">The attribute used to describe the <see cref="V2OperationDefinition"/> to configure</param>
     /// <param name="operationMethod">The <see cref="MethodInfo"/> marked with the specified <see cref="V2OperationDefinition"/> attribute</param>
     /// <param name="options">The <see cref="AsyncApiDocumentGenerationOptions"/> to use</param>
-    protected virtual void ConfigureV2OperationMessageFor(IV2MessageDefinitionBuilder messageBuilder, OperationV2Attribute operation, MethodInfo operationMethod, AsyncApiDocumentGenerationOptions options)
+    protected virtual void ConfigureV2OperationMessageFor(IV2MessageDefinitionBuilder messageBuilder, v2.OperationAttribute operation, MethodInfo operationMethod, AsyncApiDocumentGenerationOptions options)
     {
         ArgumentNullException.ThrowIfNull(messageBuilder);
         ArgumentNullException.ThrowIfNull(operation);
@@ -134,8 +134,8 @@ public partial class AsyncApiDocumentGenerator
         }
         else messageSchema = new JsonSchemaBuilder().FromType(messageType, Data.Schemas.Json.JsonSchemaGeneratorConfiguration.Default);
         messageBuilder.WithPayloadSchema(messageSchema);
-        var message = operationMethod.GetCustomAttribute<MessageV2Attribute>();
-        message ??= messageType?.GetCustomAttribute<MessageV2Attribute>();
+        var message = operationMethod.GetCustomAttribute<v2.MessageAttribute>();
+        message ??= messageType?.GetCustomAttribute<v2.MessageAttribute>();
         var name = message?.Name;
         if (string.IsNullOrWhiteSpace(name)) name = messageType?.Name.ToCamelCase();
         var title = message?.Title;
@@ -151,7 +151,7 @@ public partial class AsyncApiDocumentGenerator
             .WithSummary(summary!)
             .WithDescription(description!)
             .WithContentType(contentType!);
-        if (messageType != null) foreach (var tag in messageType.GetCustomAttributes<TagV2Attribute>()) messageBuilder.WithTag(tagBuilder => tagBuilder.WithName(tag.Name).WithDescription(tag.Description!));
+        if (messageType != null) foreach (var tag in messageType.GetCustomAttributes<v2.TagAttribute>()) messageBuilder.WithTag(tagBuilder => tagBuilder.WithName(tag.Name).WithDescription(tag.Description!));
         if (options == null || options.AutomaticallyGenerateExamples)
         {
             messageBuilder.WithExample("Minimal", ExampleGenerator.GenerateExample(messageSchema, requiredPropertiesOnly: true)!);

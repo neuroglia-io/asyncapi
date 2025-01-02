@@ -11,8 +11,6 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using Neuroglia.AsyncApi.Bindings;
-
 namespace Neuroglia.AsyncApi.Bindings.Mqtt;
 
 /// <summary>
@@ -30,7 +28,7 @@ public record MqttServerBindingDefinition
     public virtual string? ClientId { get; set; }
 
     /// <summary>
-    /// Gets/sets a boolean indicating whether to create a persisten connection or not. When false, the connection will is persistent.
+    /// Gets/sets a boolean indicating whether to create a persistent connection or not. When false, the connection will is persistent.
     /// </summary>
     [DataMember(Order = 2, Name = "cleanSession"), JsonPropertyOrder(2), JsonPropertyName("cleanSession"), YamlMember(Order = 2, Alias = "cleanSession")]
     public virtual bool CleanSession { get; set; }

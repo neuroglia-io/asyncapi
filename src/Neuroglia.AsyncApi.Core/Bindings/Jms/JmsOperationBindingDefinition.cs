@@ -11,9 +11,6 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using Json.Schema;
-using Neuroglia.AsyncApi.Bindings;
-
 namespace Neuroglia.AsyncApi.Bindings.Jms;
 
 /// <summary>
@@ -24,5 +21,10 @@ public record JmsOperationBindingDefinition
     : JmsBindingDefinition, IOperationBindingDefinition
 {
 
+    /// <summary>
+    /// Gets/sets the version of this binding.
+    /// </summary>
+    [DataMember(Order = 1, Name = "bindingVersion"), JsonPropertyOrder(1), JsonPropertyName("bindingVersion"), YamlMember(Order = 1, Alias = "bindingVersion")]
+    public virtual string BindingVersion { get; set; } = "latest";
 
 }

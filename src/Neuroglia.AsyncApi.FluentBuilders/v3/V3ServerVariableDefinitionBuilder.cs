@@ -39,14 +39,14 @@ public class V3ServerVariableDefinitionBuilder(IEnumerable<IValidator<V3ServerVa
     }
 
     /// <inheritdoc/>
-    public virtual IV3ServerVariableDefinitionBuilder WithEnumValues(params string[] values)
+    public virtual IV3ServerVariableDefinitionBuilder WithEnumValues(params string[]? values)
     {
-        Variable.Enum = new(values);
+        Variable.Enum = values == null ? null : new(values);
         return this;
     }
 
     /// <inheritdoc/>
-    public virtual IV3ServerVariableDefinitionBuilder WithDefaultValue(string value)
+    public virtual IV3ServerVariableDefinitionBuilder WithDefaultValue(string? value)
     {
         Variable.Default = value;
         return this;

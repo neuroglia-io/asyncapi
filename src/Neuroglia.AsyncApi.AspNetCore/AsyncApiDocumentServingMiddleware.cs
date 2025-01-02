@@ -15,7 +15,6 @@ using Microsoft.Extensions.Options;
 using Neuroglia.AsyncApi.Generation;
 using Neuroglia.AsyncApi.IO;
 using System.Net;
-using System.Text;
 
 namespace Neuroglia.AsyncApi;
 
@@ -79,51 +78,10 @@ public class AsyncApiDocumentServingMiddleware(IOptions<AsyncApiDocumentServingO
         if (document == null) { context.Response.StatusCode = (int)HttpStatusCode.NotFound; return; }
         var stream = new MemoryStream();
         await this.DocumentWriter.WriteAsync(document, stream, format, context.RequestAborted).ConfigureAwait(false);
-
         var contents = stream.ToArray();
         stream.Dispose();
         context.Response.ContentType = context.Request.ContentType;
         await context.Response.BodyWriter.WriteAsync(contents, context.RequestAborted);
-    }
-
-    /// <summary>
-    /// Renders the Async API document list
-    /// </summary>
-    /// <returns>The encoded html of the Async API document list</returns>
-    protected virtual byte[] RenderAsyncApiDocumentList()
-    {
-        string html = $@"<ul>
-{string.Join(Environment.NewLine, this.DocumentProvider.ToList().GroupBy(d => d.Title).Select(dg => @$"    <li>
-        {dg.Key}
-        <ul>
-            {string.Join(Environment.NewLine, dg.Select(d => @$"
-            <li>
-                <a href=""{this.Options.PathTemplate}/{d.Title.ToLower().Replace(" ", "")}/{d.Version}"">{d.Version}</a>
-            </li>"))}
-        </ul>
-    </li>"))}
-</ul>
-";
-        return Encoding.UTF8.GetBytes(html);
-    }
-
-    /// <summary>
-    /// Renders the Async API document version list for the specified <see cref="V2AsyncApiDocument"/>s 
-    /// </summary>
-    /// <param name="versions">The <see cref="IGrouping{TKey, TElement}"/> of <see cref="V2AsyncApiDocument"/> versions to render the list for</param>
-    /// <returns>The encoded html of the Async API document version list</returns>
-    protected virtual byte[] RenderAsyncApiDocumentVersionList(IGrouping<string, V2AsyncApiDocument> versions)
-    {
-        string html = $@"
-{versions.Key}
-<ul>
-    {string.Join(Environment.NewLine, versions.Select(v => @$"
-    <li>
-        <a href=""{this.Options.PathTemplate}/{v.Info.Title.ToLower().Replace(" ", "")}/{v.Info.Version}"">{v.Info.Version}</a>
-    </li>"))}
-</ul>
-";
-        return Encoding.UTF8.GetBytes(html);
     }
 
 }

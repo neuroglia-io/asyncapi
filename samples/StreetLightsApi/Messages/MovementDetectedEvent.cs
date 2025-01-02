@@ -15,23 +15,14 @@ using Neuroglia.AsyncApi.v2;
 
 namespace StreetLightsApi.Server.Messages;
 
-/// <summary>
-/// Represents the event fired whenever movement has been detected
-/// </summary>
-[TagV2("movement", "A tag for movement-related messages"), TagV2("sensor", "A tag for sensor-related messages")]
-[MessageV2(Name = "MovementDetected")]
+[Tag("movement", "A tag for movement-related messages"), Tag("sensor", "A tag for sensor-related messages")]
+[Message(Name = "MovementDetected")]
 public class MovementDetectedEvent
 {
 
-    /// <summary>
-    /// Gets/sets the id of the sensor that has detected movement
-    /// </summary>
     [Description("The id of the sensor that has detected movement")]
     public int SensorId { get; set; }
 
-    /// <summary>
-    /// Gets/sets the date and time at which the event has been created
-    /// </summary>
     [Description("The date and time at which the event has been created")]
     public DateTime SentAt { get; set; }
 

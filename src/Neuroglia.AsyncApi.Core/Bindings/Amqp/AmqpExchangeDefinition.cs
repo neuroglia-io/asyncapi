@@ -21,6 +21,11 @@ public record AmqpExchangeDefinition
 {
 
     /// <summary>
+    /// Gets the default virtual host for AMQP exchanges
+    /// </summary>
+    public const string DefaultVirtualHost = "/";
+
+    /// <summary>
     /// Gets/sets the name of the exchange. It MUST NOT exceed 255 characters long.
     /// </summary>
     [DataMember(Order = 1, Name = "name"), JsonPropertyOrder(1), JsonPropertyName("name"), YamlMember(Order = 1, Alias = "name")]
@@ -48,7 +53,7 @@ public record AmqpExchangeDefinition
     /// Gets/sets the virtual host of the exchange. Defaults to '/'.
     /// </summary>
     [DataMember(Order = 5, Name = "vhost"), JsonPropertyOrder(5), JsonPropertyName("vhost"), YamlMember(Order = 5, Alias = "vhost")]
-    public virtual string VirtualHost { get; set; } = "/";
+    public virtual string VirtualHost { get; set; } = DefaultVirtualHost;
 
     /// <inheritdoc/>
     public override string? ToString() => Name;

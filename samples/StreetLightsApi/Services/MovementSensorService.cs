@@ -15,32 +15,17 @@ using Neuroglia.AsyncApi.v2;
 
 namespace StreetLightsApi.Server.Services;
 
-/// <summary>
-/// Represents the Movement Sensor API, which allows to get remotely notified about movements captured by sensors
-/// </summary>
-/// <param name="logger">The service used to perform logging</param>
-/// <param name="serializer">The service used to serialize/deserialize data to/from JSON</param>
-[AsyncApiV2("Movement Sensor API", "1.0.0", Description = "The Movement Sensor API allows you to get remotely notified about movements captured by sensors.", LicenseName = "Apache 2.0", LicenseUrl = "https://www.apache.org/licenses/LICENSE-2.0")]
+[Neuroglia.AsyncApi.v2.AsyncApi("Movement Sensor API", "1.0.0", Description = "The Movement Sensor API allows you to get remotely notified about movements captured by sensors.", LicenseName = "Apache 2.0", LicenseUrl = "https://www.apache.org/licenses/LICENSE-2.0")]
 public class MovementSensorService(ILogger<MovementSensorService> logger, IJsonSerializer serializer)
     : BackgroundService
 {
 
-    /// <summary>
-    /// Gets the service used to perform logging
-    /// </summary>
     protected ILogger Logger { get; } = logger;
 
-    /// <summary>
-    /// Gets the service used to serialize/deserialize data to/from JSON
-    /// </summary>
     protected IJsonSerializer Serializer { get; } = serializer;
 
-    /// <summary>
-    /// Gets the service used to interact with an MQTT server
-    /// </summary>
     protected IMqttClient MqttClient { get; private set; } = null!;
 
-    /// <inheritdoc/>
     protected override async Task ExecuteAsync(CancellationToken stoppingToken)
     {
         this.MqttClient = new MqttFactory().CreateMqttClient();
@@ -56,13 +41,8 @@ public class MovementSensorService(ILogger<MovementSensorService> logger, IJsonS
         await this.MqttClient.SubscribeAsync("OnMovementDetected", cancellationToken: stoppingToken).ConfigureAwait(false);
     }
 
-    /// <summary>
-    /// Handles the event fired whenever a movement has been detected
-    /// </summary>
-    /// <param name="e">The <see cref="MovementDetectedEvent"/> to handle</param>
-    /// <returns>A new awaitable <see cref="Task"/></returns>
-    [TagV2("movement", "A tag for movement-related operations"), TagV2("sensor", "A tag for sensor-related operations")]
-    [ChannelV2("movement/detected"), SubscribeOperationV2(OperationId = "OnMovementDetected", Summary = "Inform about movement captured by sensors")]
+    [Tag("movement", "A tag for movement-related operations"), Tag("sensor", "A tag for sensor-related operations")]
+    [Channel("movement/detected"), SubscribeOperation(OperationId = "OnMovementDetected", Summary = "Inform about movement captured by sensors")]
     protected Task OnMovementDetected(MovementDetectedEvent e)
     {
         this.Logger.LogInformation("Movement detected by sensor with id '{sensorId}' at {sentAt}", e.SensorId, e.SentAt);

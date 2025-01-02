@@ -11,6 +11,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+
 namespace Neuroglia.AsyncApi.FluentBuilders.v2;
 
 /// <summary>
@@ -339,5 +340,7 @@ public class V2AsyncApiDocumentBuilder(IServiceProvider serviceProvider, IEnumer
         if (!validationResults.All(r => r.IsValid)) throw new ValidationException(validationResults.Where(r => !r.IsValid).SelectMany(r => r.Errors));
         return Document;
     }
+
+    IAsyncApiDocument IVersionedApiDocumentBuilder.Build() => this.Build();
 
 }

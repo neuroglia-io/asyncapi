@@ -11,8 +11,6 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using Neuroglia.AsyncApi.Bindings;
-
 namespace Neuroglia.AsyncApi.Bindings.AnypointMQ;
 
 /// <summary>
@@ -23,6 +21,10 @@ public record AnypointMQServerBindingDefinition
     : AnypointMQBindingDefinition, IServerBindingDefinition
 {
 
-
+    /// <summary>
+    /// Gets/sets the version of this binding. Defaults to 'latest'.
+    /// </summary>
+    [DataMember(Order = 1, Name = "bindingVersion"), JsonPropertyOrder(1), JsonPropertyName("bindingVersion"), YamlMember(Order = 1, Alias = "bindingVersion")]
+    public virtual string BindingVersion { get; set; } = "latest";
 
 }

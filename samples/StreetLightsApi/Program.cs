@@ -178,6 +178,7 @@ builder.Services.AddAsyncApiGeneration(builder =>
                                 .FromType<CommonHeaders>(Neuroglia.AsyncApi.JsonSchemaGeneratorConfiguration.Default))));
         }));
 builder.Services.AddAsyncApiDocument(document => document
+    .UsingAsyncApiV2()
     .WithTitle("Cloud Event API")
     .WithVersion("1.0.0")
     .WithServer("StreetLightsApi", server => server

@@ -25,14 +25,14 @@ public interface IV3ServerVariableDefinitionBuilder
     /// </summary>
     /// <param name="values">An array of values to be used if the substitution options are from a limited set.</param>
     /// <returns>The configured <see cref="IV3ServerVariableDefinitionBuilder"/></returns>
-    IV3ServerVariableDefinitionBuilder WithEnumValues(params string[] values);
+    IV3ServerVariableDefinitionBuilder WithEnumValues(params string[]? values);
 
     /// <summary>
     /// Configures the <see cref="V3ServerVariableDefinition"/> to build to use the specified default value
     /// </summary>
     /// <param name="value">The value to use by default for substitution, and to send, if an alternate value is not supplied.</param>
     /// <returns>The configured <see cref="IV3ServerVariableDefinitionBuilder"/></returns>
-    IV3ServerVariableDefinitionBuilder WithDefaultValue(string value);
+    IV3ServerVariableDefinitionBuilder WithDefaultValue(string? value);
 
     /// <summary>
     /// Configures the <see cref="V3ServerVariableDefinition"/> to use the specified description

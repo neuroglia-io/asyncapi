@@ -11,8 +11,6 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using Neuroglia.AsyncApi.Bindings;
-
 namespace Neuroglia.AsyncApi.Bindings.GooglePubSub;
 
 /// <summary>

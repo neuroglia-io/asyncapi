@@ -80,6 +80,6 @@ public record SnsConsumerDeliveryPolicy
     /// Gets/sets the maximum number of deliveries per second, per subscription
     /// </summary>
     [DataMember(Order = 8, Name = "maxReceivesPerSecond"), JsonPropertyOrder(8), JsonPropertyName("maxReceivesPerSecond"), YamlMember(Order = 8, Alias = "maxReceivesPerSecond")]
-    public virtual int? maxReceivesPerSecond { get; set; }
+    public virtual int? MaxReceivesPerSecond { get; set; }
 
 }

@@ -28,7 +28,7 @@ public record SnsTopicOrderingDefinition
     public virtual SnsTopicOrderingType Type { get; set; }
 
     /// <summary>
-    /// Gets/sets ta boolean indicating whether the de-duplication of messages should be turned on. Defaults to false.
+    /// Gets/sets a boolean indicating whether the de-duplication of messages should be turned on. Defaults to false.
     /// </summary>
     [DataMember(Order = 2, Name = "contentBasedDeduplication"), JsonPropertyOrder(2), JsonPropertyName("contentBasedDeduplication"), YamlMember(Order = 2, Alias = "contentBasedDeduplication")]
     public virtual bool ContentBasedDeduplication { get; set; }

@@ -11,8 +11,6 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using Neuroglia.AsyncApi.Bindings;
-
 namespace Neuroglia.AsyncApi.Bindings.Nats;
 
 /// <summary>
@@ -28,5 +26,11 @@ public record NatsOperationBindingDefinition
     /// </summary>
     [DataMember(Order = 1, Name = "queue"), JsonPropertyOrder(1), JsonPropertyName("queue"), YamlMember(Order = 1, Alias = "queue")]
     public virtual string? Queue { get; set; }
+
+    /// <summary>
+    /// Gets/sets the version of this binding. Defaults to 'latest'.
+    /// </summary>
+    [DataMember(Order = 2, Name = "bindingVersion"), JsonPropertyOrder(2), JsonPropertyName("bindingVersion"), YamlMember(Order = 2, Alias = "bindingVersion")]
+    public virtual string BindingVersion { get; set; } = "latest";
 
 }

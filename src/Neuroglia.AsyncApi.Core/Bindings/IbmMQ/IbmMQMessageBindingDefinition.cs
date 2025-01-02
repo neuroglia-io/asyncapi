@@ -42,7 +42,7 @@ public record IbmMQMessageBindingDefinition
     public virtual string? Description { get; set; }
 
     /// <summary>
-    /// Gets/sets the recommended setting the client should use for the TTL (Time-To-Live) of the message. This is a period of time expressed in milliseconds and set by the application that puts the message. expiry values are API dependant e.g., MQI and JMS use different units of time and default values for unlimited. General information on IBM MQ message expiry can be found on this page in the IBM MQ Knowledge Center.
+    /// Gets/sets the recommended setting the client should use for the TTL (Time-To-Live) of the message. This is a period of time expressed in milliseconds and set by the application that puts the message. expiry values are API dependent e.g., MQI and JMS use different units of time and default values for unlimited. General information on IBM MQ message expiry can be found on this page in the IBM MQ Knowledge Center.
     /// </summary>
     [DataMember(Order = 4, Name = "expiry"), JsonPropertyOrder(4), JsonPropertyName("expiry"), YamlMember(Order = 4, Alias = "expiry")]
     public virtual int? Expiry { get; set; }

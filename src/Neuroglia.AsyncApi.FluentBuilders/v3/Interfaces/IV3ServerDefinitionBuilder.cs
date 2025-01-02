@@ -40,7 +40,7 @@ public interface IV3ServerDefinitionBuilder
     /// </summary>
     /// <param name="pathName">The path name to use</param>
     /// <returns>The configured <see cref="IV3ServerDefinitionBuilder"/></returns>
-    IV3ServerDefinitionBuilder WithPathName(string pathName);
+    IV3ServerDefinitionBuilder WithPathName(string? pathName);
 
     /// <summary>
     /// Configures the <see cref="V3ServerDefinition"/> to use the specified description

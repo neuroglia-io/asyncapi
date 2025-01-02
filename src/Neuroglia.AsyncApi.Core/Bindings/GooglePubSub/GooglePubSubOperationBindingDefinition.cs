@@ -11,9 +11,6 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using Json.Schema;
-using Neuroglia.AsyncApi.Bindings;
-
 namespace Neuroglia.AsyncApi.Bindings.GooglePubSub;
 
 /// <summary>
@@ -39,7 +36,7 @@ public record GooglePubSubOperationBindingDefinition
     /// <summary>
     /// Gets/sets the version of this binding. Defaults to 'latest'.
     /// </summary>
-    [DataMember(Order = 3, Name = "bindingVersion"), JsonPropertyOrder(3), JsonPropertyName("groubindingVersionpId"), YamlMember(Order = 3, Alias = "bindingVersion")]
+    [DataMember(Order = 3, Name = "bindingVersion"), JsonPropertyOrder(3), JsonPropertyName("bindingVersion"), YamlMember(Order = 3, Alias = "bindingVersion")]
     public virtual string BindingVersion { get; set; } = "latest";
 
 }

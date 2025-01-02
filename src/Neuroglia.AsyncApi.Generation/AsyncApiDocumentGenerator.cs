@@ -39,9 +39,9 @@ public partial class AsyncApiDocumentGenerator(IServiceProvider serviceProvider,
         var types = markupTypes
             .Select(t => t.Assembly)
             .Distinct()
-            .SelectMany(t => t.GetTypes()).Where(t => t.GetCustomAttribute<AsyncApiV2Attribute>() != null || t.GetCustomAttribute<AsyncApiV3Attribute>() != null);
-        var v2ApiTypes = types.Where(t => t.GetCustomAttribute<AsyncApiV2Attribute>() != null);
-        var v3ApiTypes = types.Where(t => t.GetCustomAttribute<AsyncApiV3Attribute>() != null);
+            .SelectMany(t => t.GetTypes()).Where(t => t.GetCustomAttribute<v2.AsyncApiAttribute>() != null || t.GetCustomAttribute<v3.AsyncApiAttribute>() != null);
+        var v2ApiTypes = types.Where(t => t.GetCustomAttribute<v2.AsyncApiAttribute>() != null);
+        var v3ApiTypes = types.Where(t => t.GetCustomAttribute<v3.AsyncApiAttribute>() != null);
         var documents = new List<IAsyncApiDocument>(types.Count());
         foreach (var type in v2ApiTypes) documents.Add(await this.GenerateV2DocumentForAsync(type, options, cancellationToken).ConfigureAwait(false));
         foreach (var type in v3ApiTypes) documents.Add(await this.GenerateV3DocumentForAsync(type, options, cancellationToken).ConfigureAwait(false));

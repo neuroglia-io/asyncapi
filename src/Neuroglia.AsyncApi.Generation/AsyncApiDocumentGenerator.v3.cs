@@ -11,7 +11,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using Neuroglia.Data.Schemas.Json;
+using Neuroglia.AsyncApi.Bindings;
 
 namespace Neuroglia.AsyncApi.Generation;
 
@@ -29,7 +29,7 @@ public partial class AsyncApiDocumentGenerator
     {
         ArgumentNullException.ThrowIfNull(type);
         ArgumentNullException.ThrowIfNull(options);
-        var asyncApiAttribute = type.GetCustomAttribute<AsyncApiV3Attribute>() ?? throw new ArgumentException($"The specified type '{type.Name}' is not marked with the {nameof(AsyncApiV3Attribute)}", nameof(type));
+        var asyncApiAttribute = type.GetCustomAttribute<v3.AsyncApiAttribute>() ?? throw new ArgumentException($"The specified type '{type.Name}' is not marked with the {nameof(v3.AsyncApiAttribute)}", nameof(type));
         var document = this.ServiceProvider.GetRequiredService<IV3AsyncApiDocumentBuilder>();
         options.V3BuilderSetup?.Invoke(document);
         document
@@ -40,24 +40,115 @@ public partial class AsyncApiDocumentGenerator
         if (!string.IsNullOrWhiteSpace(asyncApiAttribute.LicenseName) && !string.IsNullOrWhiteSpace(asyncApiAttribute.LicenseUrl)) document.WithLicense(asyncApiAttribute.LicenseName, new Uri(asyncApiAttribute.LicenseUrl, UriKind.RelativeOrAbsolute));
         if (!string.IsNullOrWhiteSpace(asyncApiAttribute.TermsOfServiceUrl)) document.WithTermsOfService(new Uri(asyncApiAttribute.TermsOfServiceUrl, UriKind.RelativeOrAbsolute));
         if (!string.IsNullOrWhiteSpace(asyncApiAttribute.ContactName)) document.WithContact(asyncApiAttribute.ContactName, string.IsNullOrWhiteSpace(asyncApiAttribute.ContactUrl) ? null : new Uri(asyncApiAttribute.ContactUrl, UriKind.RelativeOrAbsolute), asyncApiAttribute.ContactEmail);
-        if (asyncApiAttribute.Tags != null)
+        if (asyncApiAttribute.Tags != null) foreach (var tagReference in asyncApiAttribute.Tags) document.WithTag(tag => tag.Use(tagReference));
+        var serverVariables = type.GetCustomAttributes<ServerVariableAttribute>();
+        foreach (var server in type.GetCustomAttributes<ServerAttribute>()) await this.GenerateV3ServerForAsync(document, server, serverVariables.Where(c => c.Server == server.Name), options, cancellationToken);
+        var channelParameters = type.GetCustomAttributes<ChannelParameterAttribute>();
+        foreach (var channel in type.GetCustomAttributes<v3.ChannelAttribute>()) await this.GenerateV3ChannelForAsync(document, channel, channelParameters.Where(c => c.Channel == channel.Name), options, cancellationToken);
+        foreach (var method in type.GetMethods(BindingFlags.Default | BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.FlattenHierarchy).Where(m => m.GetCustomAttribute<v3.OperationAttribute>() != null))
         {
-            foreach (var tagReference in asyncApiAttribute.Tags)
-            {
-                document.WithTag(tag => tag.Use(tagReference));
-            }
-        }
-        var channelParameters = type.GetCustomAttributes<ChannelParameterV3Attribute>();
-        foreach (var channel in type.GetCustomAttributes<ChannelV3Attribute>())
-        {
-            await this.GenerateV3ChannelForAsync(document, channel, channelParameters.Where(c => c.Channel == channel.Name), options, cancellationToken);
-        }
-        foreach (var method in type.GetMethods(BindingFlags.Default | BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.FlattenHierarchy).Where(m => m.GetCustomAttribute<OperationV3Attribute>() != null))
-        {
-            var operation = method.GetCustomAttribute<OperationV3Attribute>()!;
+            var operation = method.GetCustomAttribute<v3.OperationAttribute>()!;
             await this.GenerateV3OperationForAsync(document, operation, method, options, cancellationToken);
         }
+        foreach (var bindingAttribute in type.GetCustomAttributes().OfType<IBindingAttribute>())
+        {
+            var binding = bindingAttribute.Build();
+            switch (binding)
+            {
+                case IServerBindingDefinition serverBinding:
+                    var serverBindings = new ServerBindingDefinitionCollection();
+                    serverBindings.Add(serverBinding);
+                    document.WithServerBindingsComponent(bindingAttribute.Name, serverBindings);
+                    break;
+                case IChannelBindingDefinition channelBinding:
+                    var channelBindings = new ChannelBindingDefinitionCollection();
+                    channelBindings.Add(channelBinding);
+                    document.WithChannelBindingsComponent(bindingAttribute.Name, channelBindings);
+                    break;
+                case IOperationBindingDefinition operationBinding:
+                    var operationBindings = new OperationBindingDefinitionCollection();
+                    operationBindings.Add(operationBinding);
+                    document.WithOperationBindingsComponent(bindingAttribute.Name, operationBindings);
+                    break;
+                case IMessageBindingDefinition messageBinding:
+                    var messageBindings = new MessageBindingDefinitionCollection();
+                    messageBindings.Add(messageBinding);
+                    document.WithMessageBindingsComponent(bindingAttribute.Name, messageBindings);
+                    break;
+                default:
+                    throw new NotSupportedException($"The specified binding definition type '{binding.GetType().Name}' is not supported");
+            }
+        }
         return document.Build();
+    }
+
+    /// <summary>
+    /// Builds a new <see cref="V3ServerDefinition"/>
+    /// </summary>
+    /// <param name="document">The <see cref="IV3AsyncApiDocumentBuilder"/> to configure</param>
+    /// <param name="serverAttribute">The attribute used to describe the <see cref="V3ChannelDefinition"/> to build</param>
+    /// <param name="serverVariableAttributes">An <see cref="IEnumerable{T}"/> containing the <see cref="ChannelParameterAttribute"/>s that apply to the <see cref="V3ChannelDefinition"/> to build</param>
+    /// <param name="options">The <see cref="AsyncApiDocumentGenerationOptions"/> to use</param>
+    /// <param name="cancellationToken">A <see cref="CancellationToken"/></param>
+    /// <returns>A new awaitable <see cref="Task"/></returns>
+    protected virtual Task GenerateV3ServerForAsync(IV3AsyncApiDocumentBuilder document, ServerAttribute serverAttribute, IEnumerable<ServerVariableAttribute>? serverVariableAttributes, AsyncApiDocumentGenerationOptions options, CancellationToken cancellationToken = default)
+    {
+        ArgumentNullException.ThrowIfNull(document);
+        ArgumentNullException.ThrowIfNull(serverAttribute);
+        ArgumentNullException.ThrowIfNull(options);
+        document.WithServer(serverAttribute.Name, server =>
+        {
+            server
+                .WithHost(serverAttribute.Host)
+                .WithProtocol(serverAttribute.Protocol, serverAttribute.ProtocolVersion)
+                .WithPathName(serverAttribute.PathName)
+                .WithDescription(serverAttribute.Description)
+                .WithTitle(serverAttribute.Title)
+                .WithSummary(serverAttribute.Summary);
+            if (serverAttribute.Security != null)
+            {
+                foreach (var securityReference in serverAttribute.Security)
+                {
+                    server.WithSecurity(security => security.Use(securityReference));
+                }
+            }
+            if (serverVariableAttributes != null)
+            {
+                foreach (var variableAttribute in serverVariableAttributes)
+                {
+                    server.WithVariable(variableAttribute.Name, variable =>
+                    {
+                        variable
+                            .WithDefaultValue(variableAttribute.Default)
+                            .WithEnumValues(variableAttribute.Enum)
+                            .WithDescription(variableAttribute.Description);
+                        if (variableAttribute.Examples != null)
+                        {
+                            foreach (var example in variableAttribute.Examples)
+                            {
+                                variable.WithExample(example);
+                            }
+                        }
+                    });
+                }
+            }
+            if (!string.IsNullOrEmpty(serverAttribute.Bindings))
+            {
+                server.WithBindings(bindings => bindings.Use(serverAttribute.Bindings));
+            }
+            if (serverAttribute.ExternalDocumentationUrl != null)
+            {
+                server.WithExternalDocumentation(doc => doc.WithUrl(serverAttribute.ExternalDocumentationUrl));
+            }
+            if (serverAttribute.Tags != null)
+            {
+                foreach (var tagReference in serverAttribute.Tags)
+                {
+                    server.WithTag(tag => tag.Use(tagReference));
+                }
+            }
+        });
+        return Task.CompletedTask;
     }
 
     /// <summary>
@@ -65,11 +156,11 @@ public partial class AsyncApiDocumentGenerator
     /// </summary>
     /// <param name="document">The <see cref="IV3AsyncApiDocumentBuilder"/> to configure</param>
     /// <param name="channelAttribute">The attribute used to describe the <see cref="V3ChannelDefinition"/> to build</param>
-    /// <param name="channelParameterAttributes">An <see cref="IEnumerable{T}"/> containing the <see cref="ChannelParameterV3Attribute"/>s that apply to the <see cref="V3ChannelDefinition"/> to build</param>
+    /// <param name="channelParameterAttributes">An <see cref="IEnumerable{T}"/> containing the <see cref="ChannelParameterAttribute"/>s that apply to the <see cref="V3ChannelDefinition"/> to build</param>
     /// <param name="options">The <see cref="AsyncApiDocumentGenerationOptions"/> to use</param>
     /// <param name="cancellationToken">A <see cref="CancellationToken"/></param>
     /// <returns>A new awaitable <see cref="Task"/></returns>
-    protected virtual Task GenerateV3ChannelForAsync(IV3AsyncApiDocumentBuilder document, ChannelV3Attribute channelAttribute, IEnumerable<ChannelParameterV3Attribute>? channelParameterAttributes, AsyncApiDocumentGenerationOptions options, CancellationToken cancellationToken = default)
+    protected virtual Task GenerateV3ChannelForAsync(IV3AsyncApiDocumentBuilder document, v3.ChannelAttribute channelAttribute, IEnumerable<ChannelParameterAttribute>? channelParameterAttributes, AsyncApiDocumentGenerationOptions options, CancellationToken cancellationToken = default)
     {
         ArgumentNullException.ThrowIfNull(document);
         ArgumentNullException.ThrowIfNull(channelAttribute);
@@ -137,7 +228,7 @@ public partial class AsyncApiDocumentGenerator
     /// <param name="options">The <see cref="AsyncApiDocumentGenerationOptions"/> to use</param>
     /// <param name="cancellationToken">A <see cref="CancellationToken"/></param>
     /// <returns>A new awaitable <see cref="Task"/></returns>
-    protected virtual Task GenerateV3OperationForAsync(IV3AsyncApiDocumentBuilder document, OperationV3Attribute operationAttribute, MethodInfo operationMethod, AsyncApiDocumentGenerationOptions options, CancellationToken cancellationToken = default)
+    protected virtual Task GenerateV3OperationForAsync(IV3AsyncApiDocumentBuilder document, v3.OperationAttribute operationAttribute, MethodInfo operationMethod, AsyncApiDocumentGenerationOptions options, CancellationToken cancellationToken = default)
     {
         ArgumentNullException.ThrowIfNull(document);
         ArgumentNullException.ThrowIfNull(operationAttribute);
@@ -145,7 +236,7 @@ public partial class AsyncApiDocumentGenerator
         ArgumentNullException.ThrowIfNull(options);
         var operationParameters = operationMethod.GetParameters().Where(p => p.ParameterType != typeof(CancellationToken)).ToList();
         var requestMessagePayloadType = operationAttribute.MessagePayloadType;
-        var requestMessageAttribute = operationMethod.GetCustomAttribute<MessageV3Attribute>() ?? requestMessagePayloadType?.GetCustomAttribute<MessageV3Attribute>();
+        var requestMessageAttribute = operationMethod.GetCustomAttribute<v3.MessageAttribute>() ?? requestMessagePayloadType?.GetCustomAttribute<v3.MessageAttribute>();
         var requestMessagePayloadSchema = (JsonSchema?)null;
         var requestMessageHeadersSchema = operationAttribute.HeadersPayloadType == null ? null : new JsonSchemaBuilder().FromType(operationAttribute.HeadersPayloadType, Data.Schemas.Json.JsonSchemaGeneratorConfiguration.Default);
         if (requestMessageAttribute == null)
@@ -207,7 +298,7 @@ public partial class AsyncApiDocumentGenerator
                     operation.WithTag(tag => tag.Use(tagReference));
                 }
             }
-            foreach (var tagAttribute in operationMethod.GetCustomAttributes<TagV2Attribute>())
+            foreach (var tagAttribute in operationMethod.GetCustomAttributes<v2.TagAttribute>())
             {
                 operation
                     .WithTag(tag => tag

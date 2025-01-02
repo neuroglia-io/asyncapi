@@ -15,32 +15,17 @@ using Neuroglia.AsyncApi.v2;
 
 namespace StreetLightsApi.Server.Services;
 
-/// <summary>
-/// Represents the Temperature Sensor API, which allows to get remotely notified about temperature changes captured by sensors
-/// </summary>
-/// <param name="logger">The service used to perform logging</param>
-/// <param name="serializer">The service used to serialize/deserialize data to/from JSON</param>
-[AsyncApiV2("Temperature Sensor API", "2.0.0", Description = "The Temperature Sensor API allows you to get remotely notified about temperature changes captured by sensors.", LicenseName = "Apache 2.0", LicenseUrl = "https://www.apache.org/licenses/LICENSE-2.0")]
+[Neuroglia.AsyncApi.v2.AsyncApi("Temperature Sensor API", "2.0.0", Description = "The Temperature Sensor API allows you to get remotely notified about temperature changes captured by sensors.", LicenseName = "Apache 2.0", LicenseUrl = "https://www.apache.org/licenses/LICENSE-2.0")]
 public class TemperatureSensorServiceV2(ILogger<TemperatureSensorServiceV1> logger, IJsonSerializer serializer)
     : BackgroundService
 {
 
-    /// <summary>
-    /// Gets the service used to perform logging
-    /// </summary>
     protected ILogger Logger { get; } = logger;
 
-    /// <summary>
-    /// Gets the service used to serialize/deserialize data to/from JSON
-    /// </summary>
     protected IJsonSerializer Serializer { get; } = serializer;
 
-    /// <summary>
-    /// Gets the service used to interact with an MQTT server
-    /// </summary>
     protected IMqttClient MqttClient { get; private set; } = null!;
 
-    /// <inheritdoc/>
     protected override async Task ExecuteAsync(CancellationToken stoppingToken)
     {
         this.MqttClient = new MqttFactory().CreateMqttClient();
@@ -56,14 +41,8 @@ public class TemperatureSensorServiceV2(ILogger<TemperatureSensorServiceV1> logg
         await this.MqttClient.SubscribeAsync("OnTemperatureChanged", cancellationToken: stoppingToken).ConfigureAwait(false);
     }
 
-    /// <summary>
-    /// handles temperature changes
-    /// </summary>
-    /// <param name="degrees">The temperature to handle</param>
-    /// <param name="timestamp">The date and time at which the temperature change occurred</param>
-    /// <returns>A new awaitable <see cref="Task"/></returns>
-    [TagV2("temperature", "A tag for temperature-related operations"), TagV2("sensor", "A tag for sensor-related operations")]
-    [ChannelV2("temperature/changed"), SubscribeOperationV2(OperationId = "OnTemperatureChanged", Summary = "Inform about temperature changes captured by sensors")]
+    [Tag("temperature", "A tag for temperature-related operations"), Tag("sensor", "A tag for sensor-related operations")]
+    [Channel("temperature/changed"), SubscribeOperation(OperationId = "OnTemperatureChanged", Summary = "Inform about temperature changes captured by sensors")]
     protected async Task OnTemperatureChanged([Range(-100,100)]decimal degrees, DateTime timestamp)
     {
         this.Logger.LogInformation("{timestamp}: {degrees}°", timestamp, degrees);

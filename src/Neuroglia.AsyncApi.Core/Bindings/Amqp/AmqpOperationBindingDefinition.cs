@@ -11,8 +11,6 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using Neuroglia.AsyncApi.Bindings;
-
 namespace Neuroglia.AsyncApi.Bindings.Amqp;
 
 /// <summary>
@@ -82,5 +80,11 @@ public record AmqpOperationBindingDefinition
     /// </summary>
     [DataMember(Order = 10, Name = "ack"), JsonPropertyOrder(10), JsonPropertyName("ack"), YamlMember(Order = 10, Alias = "ack")]
     public virtual bool Ack { get; set; }
+
+    /// <summary>
+    /// Gets/sets the version of this binding. Defaults to 'latest'.
+    /// </summary>
+    [DataMember(Order = 11, Name = "bindingVersion"), JsonPropertyOrder(11), JsonPropertyName("bindingVersion"), YamlMember(Order = 11, Alias = "bindingVersion")]
+    public virtual string BindingVersion { get; set; } = "latest";
 
 }

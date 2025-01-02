@@ -17,6 +17,7 @@ namespace Neuroglia.AsyncApi.FluentBuilders.v2;
 /// Defines the fundamentals of a service used to build <see cref="V2AsyncApiDocument"/>s
 /// </summary>
 public interface IV2AsyncApiDocumentBuilder
+    : IVersionedApiDocumentBuilder
 {
 
     /// <summary>

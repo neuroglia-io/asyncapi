@@ -11,9 +11,6 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using Json.Schema;
-using Neuroglia.AsyncApi.Bindings;
-
 namespace Neuroglia.AsyncApi.Bindings.Jms;
 
 /// <summary>
@@ -25,11 +22,11 @@ public record JmsServerBindingDefinition
 {
 
     /// <summary>
-    /// Gets/sets the classname of the ConnectionFactory implementation for the JMS Provider
+    /// Gets/sets the class name of the ConnectionFactory implementation for the JMS Provider
     /// </summary>
     [Required]
     [DataMember(Order = 1, Name = "jmsConnectionFactory"), JsonPropertyOrder(1), JsonPropertyName("jmsConnectionFactory"), YamlMember(Order = 1, Alias = "jmsConnectionFactory")]
-    public virtual string JmsConnectionFactory { get; set; } = null!;
+    public virtual string ConnectionFactory { get; set; } = null!;
 
     /// <summary>
     /// Gets/sets additional properties to set on the JMS ConnectionFactory implementation for the JMS Provider.
