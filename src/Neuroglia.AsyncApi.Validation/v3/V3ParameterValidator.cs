@@ -11,26 +11,20 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using Neuroglia.AsyncApi.v2;
-
-namespace Neuroglia.AsyncApi.Validation;
+namespace Neuroglia.AsyncApi.Validation.v3;
 
 /// <summary>
-/// Represents the service used to validate <see cref="V2ServerDefinition"/>s
+/// Represents the service used to validate <see cref="V3ParameterDefinition"/>s
 /// </summary>
-public class ServerValidator
-    : AbstractValidator<V2ServerDefinition>
+public class V3ParameterValidator
+    : V3ReferenceableComponentValidator<V3ParameterDefinition>
 {
 
-    /// <summary>
-    /// Initializes a new <see cref="ServerValidator"/>
-    /// </summary>
-    public ServerValidator()
+    /// <inheritdoc/>
+    public V3ParameterValidator(V3AsyncApiDocument? document = null)
+        : base(document)
     {
-        this.RuleFor(s => s.Url)
-            .NotNull();
-        this.RuleFor(s => s.Protocol)
-            .NotEmpty();
+        
     }
 
 }

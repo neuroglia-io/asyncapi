@@ -31,7 +31,7 @@ public record V3ApiInfo
     /// Gets/sets the version of the application API (not to be confused with the specification version)
     /// </summary>
     [Required]
-    [DataMember(Order = 2, Name = "version"), JsonPropertyOrder(2), JsonPropertyName("version"), YamlMember(Order = 2, Alias = "version")]
+    [DataMember(Order = 2, Name = "version"), JsonPropertyOrder(2), JsonPropertyName("version"), YamlMember(Order = 2, Alias = "version", ScalarStyle = ScalarStyle.SingleQuoted)]
     public virtual string Version { get; set; } = null!;
 
     /// <summary>

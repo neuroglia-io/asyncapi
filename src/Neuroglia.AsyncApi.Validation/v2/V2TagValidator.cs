@@ -11,6 +11,22 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-global using FluentValidation;
-global using Neuroglia.AsyncApi.v2;
-global using Neuroglia.AsyncApi.v3;
+namespace Neuroglia.AsyncApi.Validation.v2;
+
+/// <summary>
+/// Represents the service used to validate the <see cref="V2TagDefinition"/>
+/// </summary>
+public class V2TagValidator
+    : AbstractValidator<V2TagDefinition>
+{
+
+    /// <summary>
+    /// Initializes a new <see cref="V2TagValidator"/>
+    /// </summary>
+    public V2TagValidator()
+    {
+        this.RuleFor(t => t.Name)
+            .NotEmpty();
+    }
+
+}

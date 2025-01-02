@@ -11,22 +11,24 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-namespace Neuroglia.AsyncApi.Validation;
+using Neuroglia.AsyncApi.Bindings;
+
+namespace Neuroglia.AsyncApi.Validation.v3;
 
 /// <summary>
-/// Represents the service used to validate the <see cref="V2LicenseDefinition"/>
+/// Represents the service used to validate <see cref="ChannelBindingDefinitionCollection"/>s
 /// </summary>
-public class LicenseValidator
-    : AbstractValidator<V2LicenseDefinition>
+public class V3ChannelBindingCollectionValidator
+    : V3ReferenceableComponentValidator<ChannelBindingDefinitionCollection>
 {
 
-    /// <summary>
-    /// Initializes a new <see cref="LicenseValidator"/>
-    /// </summary>
-    public LicenseValidator()
+    /// <inheritdoc/>
+    public V3ChannelBindingCollectionValidator(V3AsyncApiDocument? document = null)
+        : base(document)
     {
-        this.RuleFor(l => l.Name)
-            .NotEmpty();
+        this.RuleFor(c => c)
+            .NotEmpty()
+            .When(c => !c.IsReference);
     }
 
 }

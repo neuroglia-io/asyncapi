@@ -20,7 +20,7 @@ using Neuroglia.AsyncApi.FluentBuilders.v2;
 using Neuroglia.AsyncApi.FluentBuilders.v3;
 using Neuroglia.AsyncApi.Generation;
 using Neuroglia.AsyncApi.IO;
-using Neuroglia.AsyncApi.Validation;
+using Neuroglia.AsyncApi.Validation.v2;
 using Neuroglia.Serialization;
 
 namespace Neuroglia.AsyncApi;
@@ -46,7 +46,7 @@ public static class IServiceCollectionExtensions
         services.TryAddTransient<IAsyncApiDocumentBuilder, AsyncApiDocumentBuilder>();
         services.TryAddTransient<IV2AsyncApiDocumentBuilder, V2AsyncApiDocumentBuilder>();
         services.TryAddTransient<IV3AsyncApiDocumentBuilder, V3AsyncApiDocumentBuilder>();
-        services.AddValidatorsFromAssemblyContaining<AsyncApiDocumentValidator>(ServiceLifetime.Transient);
+        services.AddValidatorsFromAssemblyContaining<V2AsyncApiDocumentValidator>(ServiceLifetime.Transient);
         return services;
     }
 

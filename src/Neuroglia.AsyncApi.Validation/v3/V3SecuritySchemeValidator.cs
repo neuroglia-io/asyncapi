@@ -11,28 +11,20 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using Neuroglia.AsyncApi.v2;
-
-namespace Neuroglia.AsyncApi.Validation;
+namespace Neuroglia.AsyncApi.Validation.v3;
 
 /// <summary>
-/// Represents the service used to validate the <see cref="V2ApiInfo"/>
+/// Represents the service used to validate <see cref="V3SecuritySchemeDefinition"/>s
 /// </summary>
-public class InfoValidator
-    : AbstractValidator<V2ApiInfo>
+public class V3SecuritySchemeValidator
+    : V3ReferenceableComponentValidator<V3SecuritySchemeDefinition>
 {
 
-    /// <summary>
-    /// Initializes a new <see cref="InfoValidator"/>
-    /// </summary>
-    public InfoValidator()
+    /// <inheritdoc/>
+    public V3SecuritySchemeValidator(V3AsyncApiDocument? document = null) 
+        : base(document)
     {
-        this.RuleFor(i => i.Title)
-            .NotEmpty();
-        this.RuleFor(i => i.Version)
-            .NotEmpty();
-        this.RuleFor(i => i.License!)
-            .SetValidator(new LicenseValidator());
+
     }
 
 }

@@ -11,22 +11,28 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-namespace Neuroglia.AsyncApi.Validation;
+namespace Neuroglia.AsyncApi.Validation.v3;
 
 /// <summary>
-/// Represents the service used to validate the <see cref="V2TagDefinition"/>
+/// Represents the service used to validate the <see cref="V3ApiInfo"/>
 /// </summary>
-public class TagValidator
-    : AbstractValidator<V2TagDefinition>
+public class V3ApiInfoValidator
+    : AbstractValidator<V3ApiInfo>
 {
 
-    /// <summary>
-    /// Initializes a new <see cref="TagValidator"/>
-    /// </summary>
-    public TagValidator()
+    /// <inheritdoc/>
+    public V3ApiInfoValidator(V3AsyncApiDocument document)
     {
-        this.RuleFor(t => t.Name)
+        this.RuleFor(i => i.Title)
             .NotEmpty();
+        this.RuleFor(i => i.Version)
+            .NotEmpty();
+        this.RuleFor(i => i.License!)
+            .SetValidator(new V3LicenseValidator());
+        this.RuleFor(i => i.ExternalDocs!)
+            .SetValidator(new V3ExternalDocumentationValidator(document));
+        this.RuleForEach(i => i.Tags)
+            .SetValidator(new V3TagValidator(document));
     }
 
 }

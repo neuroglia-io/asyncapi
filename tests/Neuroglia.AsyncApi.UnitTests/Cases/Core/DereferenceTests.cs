@@ -42,6 +42,8 @@ public class DereferenceTests
             .WithTitle("fake")
             .WithVersion("1.0.0")
             .WithServer(componentName, component => component
+                .WithHost("fake-host")
+                .WithProtocol(AsyncApiProtocol.AmqpV1)
                 .WithTitle("Fake Server"))
             .Build();
 
@@ -64,7 +66,11 @@ public class DereferenceTests
             .WithTitle("fake")
             .WithVersion("1.0.0")
             .WithChannel(componentName, component => component
-                .WithTitle("Fake Channel"))
+                .WithTitle("Fake Channel")
+                .WithServer("#/components/servers/fake-server"))
+            .WithServerComponent("fake-server", server => server
+                .WithHost("fake-host")
+                .WithProtocol(AsyncApiProtocol.AmqpV1))
             .Build();
 
         //act
@@ -86,7 +92,14 @@ public class DereferenceTests
             .WithTitle("fake")
             .WithVersion("1.0.0")
             .WithOperation(componentName, component => component
-                .WithTitle("Fake Operation"))
+                .WithTitle("Fake Operation")
+                .WithChannel("#/components/channels/fake-channel"))
+            .WithServerComponent("fake-server", server => server
+                .WithHost("fake-host")
+                .WithProtocol(AsyncApiProtocol.AmqpV1))
+            .WithChannelComponent("fake-channel", component => component
+                .WithTitle("Fake Channel")
+                .WithServer("#/components/servers/fake-server"))
             .Build();
 
         //act
@@ -108,6 +121,8 @@ public class DereferenceTests
             .WithTitle("fake")
             .WithVersion("1.0.0")
             .WithServerComponent(componentName, component => component
+                .WithHost("fake-host")
+                .WithProtocol(AsyncApiProtocol.AmqpV1)
                 .WithTitle("Fake Server"))
             .Build();
 
@@ -130,7 +145,11 @@ public class DereferenceTests
             .WithTitle("fake")
             .WithVersion("1.0.0")
             .WithChannelComponent(componentName, component => component
-                .WithTitle("Fake Channel"))
+                .WithTitle("Fake Channel")
+                .WithServer("#/components/servers/fake-server"))
+            .WithServerComponent("fake-server", server => server
+                .WithHost("fake-host")
+                .WithProtocol(AsyncApiProtocol.AmqpV1))
             .Build();
 
         //act
@@ -151,8 +170,15 @@ public class DereferenceTests
         var document = this.DocumentBuilder
             .WithTitle("fake")
             .WithVersion("1.0.0")
+            .WithServerComponent("fake-server", server => server
+                .WithHost("fake-host")
+                .WithProtocol(AsyncApiProtocol.AmqpV1))
+            .WithChannelComponent("fake-channel", component => component
+                .WithTitle("Fake Channel")
+                .WithServer("#/components/servers/fake-server"))
             .WithOperationComponent(componentName, component => component
-                .WithTitle("Fake Operation"))
+                .WithTitle("Fake Operation")
+                .WithChannel("#/components/channels/fake-channel"))
             .Build();
 
         //act
@@ -174,7 +200,8 @@ public class DereferenceTests
             .WithTitle("fake")
             .WithVersion("1.0.0")
             .WithSchemaComponent(componentName, component => component 
-                .WithFormat("Fake Format"))
+                .WithFormat("Fake Format")
+                .WithSchema(new { }))
             .Build();
 
         //act
@@ -284,7 +311,8 @@ public class DereferenceTests
             .WithTitle("fake")
             .WithVersion("1.0.0")
             .WithCorrelationIdComponent(componentName, component => component 
-                .WithDescription("Fake Correlation Id"))
+                .WithDescription("Fake Correlation Id")
+                .WithLocation("fake-location"))
             .Build();
 
         //act
@@ -305,8 +333,14 @@ public class DereferenceTests
         var document = this.DocumentBuilder
             .WithTitle("fake")
             .WithVersion("1.0.0")
+            .WithServerComponent("fake-server", server => server
+                .WithHost("fake-host")
+                .WithProtocol(AsyncApiProtocol.AmqpV1))
+            .WithChannelComponent("fake-channel", component => component
+                .WithTitle("Fake Channel")
+                .WithServer("#/components/servers/fake-server"))
             .WithReplyComponent(componentName, component => component 
-                .WithChannel("FakeAddress"))
+                .WithChannel("#/components/channels/fake-channel"))
             .Build();
 
         //act
@@ -328,7 +362,8 @@ public class DereferenceTests
             .WithTitle("fake")
             .WithVersion("1.0.0")
             .WithReplyAddressComponent(componentName, component => component 
-                .WithDescription("Fake Reply Address"))
+                .WithDescription("Fake Reply Address")
+                .WithLocation("fake-location"))
             .Build();
 
         //act
@@ -350,7 +385,8 @@ public class DereferenceTests
             .WithTitle("fake")
             .WithVersion("1.0.0")
             .WithExternalDocumentationComponent(componentName, component => component
-                .WithDescription("Fake External Docs"))
+                .WithDescription("Fake External Docs")
+                .WithUrl(new("https://fake-url.coml")))
             .Build();
 
         //act
@@ -372,6 +408,7 @@ public class DereferenceTests
             .WithTitle("fake")
             .WithVersion("1.0.0")
             .WithTagComponent(componentName, component => component
+                .WithName("fake-tag")
                 .WithDescription("Fake Tag"))
             .Build();
 

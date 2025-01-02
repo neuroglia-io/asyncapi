@@ -11,39 +11,37 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using Neuroglia.AsyncApi.v2;
-
-namespace Neuroglia.AsyncApi.Validation;
+namespace Neuroglia.AsyncApi.Validation.v2;
 
 /// <summary>
 /// Represents the service used to validate <see cref="V2AsyncApiDocument"/>s
 /// </summary>
-public class AsyncApiDocumentValidator
+public class V2AsyncApiDocumentValidator
     : AbstractValidator<V2AsyncApiDocument>
 {
 
     /// <summary>
-    /// Initializes a new <see cref="AsyncApiDocumentValidator"/>
+    /// Initializes a new <see cref="V2AsyncApiDocumentValidator"/>
     /// </summary>
-    public AsyncApiDocumentValidator()
+    public V2AsyncApiDocumentValidator()
     {
         this.RuleFor(d => d.AsyncApi)
             .NotEmpty();
         this.RuleFor(d => d.Info)
             .NotNull()
-            .SetValidator(new InfoValidator());
+            .SetValidator(new V2ApiInfoValidator());
         this.RuleFor(d => d.Channels)
             .NotEmpty();
         this.RuleForEach(d => d.Channels.Values)
-            .SetValidator(new ChannelValidator())
+            .SetValidator(new V2ChannelValidator())
             .When(d => d.Channels != null);
         this.RuleFor(d => d.Components!)
-            .SetValidator(new ComponentsValidator());
+            .SetValidator(new V2ComponentCollectionValidator());
         this.RuleForEach(d => d.Servers!.Values)
-            .SetValidator(new ServerValidator())
+            .SetValidator(new V2ServerValidator())
             .When(d => d.Servers != null);
         this.RuleForEach(d => d.Tags)
-            .SetValidator(new TagValidator());
+            .SetValidator(new V2TagValidator());
     }
 
 }

@@ -11,6 +11,24 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-global using FluentValidation;
-global using Neuroglia.AsyncApi.v2;
-global using Neuroglia.AsyncApi.v3;
+using Neuroglia.AsyncApi.Bindings;
+
+namespace Neuroglia.AsyncApi.Validation.v3;
+
+/// <summary>
+/// Represents the service used to validate <see cref="ServerBindingDefinitionCollection"/>s
+/// </summary>
+public class V3ServerBindingCollectionValidator
+    : V3ReferenceableComponentValidator<ServerBindingDefinitionCollection>
+{
+
+    /// <inheritdoc/>
+    public V3ServerBindingCollectionValidator(V3AsyncApiDocument? document = null) 
+        : base(document)
+    {
+        this.RuleFor(c => c)
+            .NotEmpty()
+            .When(c => !c.IsReference);
+    }
+
+}

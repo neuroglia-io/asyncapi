@@ -15,7 +15,7 @@ using Neuroglia.AsyncApi.Bindings.Http;
 using Neuroglia.AsyncApi.FluentBuilders.v2;
 using Neuroglia.AsyncApi.FluentBuilders.v3;
 
-namespace Neuroglia.AsyncApi.UnitTests.Cases.Fluent;
+namespace Neuroglia.AsyncApi.UnitTests.Cases.FluentBuilders;
 
 public class FluentBuilderTests
     : IDisposable

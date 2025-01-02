@@ -11,30 +11,28 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using Neuroglia.AsyncApi.v2;
-
-namespace Neuroglia.AsyncApi.Validation;
+namespace Neuroglia.AsyncApi.Validation.v2;
 
 /// <summary>
 /// Represents the service used to validate <see cref="V2OperationDefinition"/>s
 /// </summary>
-public class OperationValidator
+public class V2OperationValidator
     : AbstractValidator<V2OperationDefinition>
 {
 
     /// <summary>
-    /// Initializes a new <see cref="OperationValidator"/>
+    /// Initializes a new <see cref="V2OperationValidator"/>
     /// </summary>
-    public OperationValidator()
+    public V2OperationValidator()
     {
         this.RuleForEach(o => o.Tags)
-            .SetValidator(new TagValidator());
+            .SetValidator(new V2TagValidator());
         this.RuleForEach(o => o.Traits)
-            .SetValidator(new OperationTraitValidator());
+            .SetValidator(new V2OperationTraitValidator());
         this.RuleFor(o => o.Message!)
-            .SetValidator(new MessageValidator());
+            .SetValidator(new V2MessageValidator());
         this.RuleForEach(o => o.Message!.OneOf)
-            .SetValidator(new MessageValidator())
+            .SetValidator(new V2MessageValidator())
             .When(o => o.Message != null);
     }
 

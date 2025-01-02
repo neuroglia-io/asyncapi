@@ -11,26 +11,26 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using Neuroglia.AsyncApi.v2;
-
-namespace Neuroglia.AsyncApi.Validation;
+namespace Neuroglia.AsyncApi.Validation.v2;
 
 /// <summary>
-/// Represents the service used to validate <see cref="V2ChannelDefinition"/>s
+/// Represents the service used to validate the <see cref="V2ApiInfo"/>
 /// </summary>
-public class ChannelValidator
-    : AbstractValidator<V2ChannelDefinition>
+public class V2ApiInfoValidator
+    : AbstractValidator<V2ApiInfo>
 {
 
     /// <summary>
-    /// Initializes a new <see cref="ChannelValidator"/>
+    /// Initializes a new <see cref="V2ApiInfoValidator"/>
     /// </summary>
-    public ChannelValidator()
+    public V2ApiInfoValidator()
     {
-        this.RuleFor(c => c.Subscribe!)
-            .SetValidator(new OperationValidator());
-        this.RuleFor(c => c.Publish!)
-            .SetValidator(new OperationValidator());
+        this.RuleFor(i => i.Title)
+            .NotEmpty();
+        this.RuleFor(i => i.Version)
+            .NotEmpty();
+        this.RuleFor(i => i.License!)
+            .SetValidator(new V2LicenseValidator());
     }
 
 }

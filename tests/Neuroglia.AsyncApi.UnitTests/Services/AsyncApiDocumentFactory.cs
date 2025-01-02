@@ -163,6 +163,7 @@ internal static class AsyncApiDocumentFactory
             Info = new()
             {
                 Title = "Fake Async API",
+                Version = AsyncApiSpecVersion.V3,
                 Description = "Fake Async API description",
                 Contact = new()
                 {
@@ -245,7 +246,7 @@ internal static class AsyncApiDocumentFactory
             Channels = new()
             {
                 {
-                    "fake-channel",
+                    "lightingMeasured",
                     new()
                     {
                         Address = "smartylighting/streetlights/1/0/event/{streetlightId}/lighting/measured",
@@ -269,7 +270,14 @@ internal static class AsyncApiDocumentFactory
                                     Reference = "#/components/parameters/streetlightId"
                                 }
                             }
-                        }
+                        },
+                        Servers = 
+                        [
+                            new() 
+                            { 
+                                Reference = "#/servers/fake-server"
+                            }
+                        ]
                     }
                 }
             },
@@ -296,7 +304,7 @@ internal static class AsyncApiDocumentFactory
                         [
                             new()
                             {
-                                Reference = "#/channels/lightingMeasured/messages/lightMeasured"
+                                Reference = "#/components/messages/lightMeasured"
                             }
                         ]
                     }

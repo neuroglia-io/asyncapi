@@ -27,4 +27,9 @@ public abstract record ReferenceableComponentDefinition
     [DataMember(Order = 1, Name = "$ref"), JsonPropertyOrder(1), JsonPropertyName("$ref"), YamlMember(Order = 1, Alias = "$ref")]
     public virtual string? Reference { get; set; }
 
+    /// <summary>
+    /// Determines whether the component is a reference or a definition
+    /// </summary>
+    public virtual bool IsReference => !string.IsNullOrWhiteSpace(Reference);
+
 }

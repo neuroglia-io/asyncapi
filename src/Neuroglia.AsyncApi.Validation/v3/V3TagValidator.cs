@@ -11,6 +11,22 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-global using FluentValidation;
-global using Neuroglia.AsyncApi.v2;
-global using Neuroglia.AsyncApi.v3;
+namespace Neuroglia.AsyncApi.Validation.v3;
+
+/// <summary>
+/// Represents the service used to validate the <see cref="V3TagDefinition"/>
+/// </summary>
+public class V3TagValidator
+    : V3ReferenceableComponentValidator<V3TagDefinition>
+{
+
+    /// <inheritdoc/>
+    public V3TagValidator(V3AsyncApiDocument? document = null)
+        : base(document)
+    {
+        this.RuleFor(d => d.Name)
+            .NotEmpty()
+            .When(d => string.IsNullOrWhiteSpace(d.Reference));
+    }
+
+}

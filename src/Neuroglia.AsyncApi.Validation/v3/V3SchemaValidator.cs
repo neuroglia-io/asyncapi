@@ -11,6 +11,22 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-global using FluentValidation;
-global using Neuroglia.AsyncApi.v2;
-global using Neuroglia.AsyncApi.v3;
+namespace Neuroglia.AsyncApi.Validation.v3;
+
+/// <summary>
+/// Represents the service used to validate <see cref="V3SchemaDefinition"/>s
+/// </summary>
+public class V3SchemaValidator
+    : V3ReferenceableComponentValidator<V3SchemaDefinition>
+{
+
+    /// <inheritdoc/>
+    public V3SchemaValidator(V3AsyncApiDocument? document = null) 
+        : base(document)
+    {
+        this.RuleFor(s => s.Schema)
+            .NotNull()
+            .When(o => !o.IsReference);
+    }
+
+}
