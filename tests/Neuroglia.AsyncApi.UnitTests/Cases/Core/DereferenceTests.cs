@@ -15,7 +15,7 @@ using Neuroglia.AsyncApi.Bindings;
 using Neuroglia.AsyncApi.FluentBuilders.v3;
 using Neuroglia.AsyncApi.v3;
 
-namespace Neuroglia.AsyncApi.UnitTests.Cases;
+namespace Neuroglia.AsyncApi.UnitTests.Cases.Core;
 
 public class DereferenceTests
     : IDisposable

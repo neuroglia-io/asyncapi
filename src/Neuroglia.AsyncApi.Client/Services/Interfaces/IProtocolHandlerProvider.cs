@@ -11,25 +11,20 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-namespace Neuroglia.AsyncApi.Validation.v3;
+namespace Neuroglia.AsyncApi.Client.Services;
 
 /// <summary>
-/// Represents the service used to validate <see cref="V3CorrelationIdDefinition"/>s
+/// Defines the fundamentals of a service used to provide <see cref="IProtocolHandler"/>s
 /// </summary>
-public class V3CorrelationIdValidator
-    : V3ReferenceableComponentValidator<V3CorrelationIdDefinition>
+public interface IProtocolHandlerProvider
 {
 
-    /// <inheritdoc/>
-    public V3CorrelationIdValidator(V3AsyncApiDocument? document = null) 
-        : base(document)
-    {
-        this.RuleFor(c => c.Location)
-            .NotEmpty()
-            .When(c => !c.IsReference);
-        this.RuleFor(c => c.Location)
-            .Must(x => RuntimeExpression.TryParse(x!, out var expression) && expression != null)
-            .When(c => !c.IsReference);
-    }
+    /// <summary>
+    /// Gets the <see cref="IProtocolHandler"/> for the specified protocol
+    /// </summary>
+    /// <param name="protocol">The protocol to get the handler for</param>
+    /// <param name="protocolVersion">The version of the protocol to get the handler for</param>
+    /// <returns>The <see cref="IProtocolHandler"/> for the specified protocol</returns>
+    IProtocolHandler GetHandlerFor(string protocol, string? protocolVersion = null);
 
 }

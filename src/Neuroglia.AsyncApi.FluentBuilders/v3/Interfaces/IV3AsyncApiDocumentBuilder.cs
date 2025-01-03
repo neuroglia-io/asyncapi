@@ -312,6 +312,6 @@ public interface IV3AsyncApiDocumentBuilder
     /// Builds the configured <see cref="V3AsyncApiDocument"/>
     /// </summary>
     /// <returns>A new <see cref="V3AsyncApiDocument"/></returns>
-    V3AsyncApiDocument Build();
+    new V3AsyncApiDocument Build();
 
 }

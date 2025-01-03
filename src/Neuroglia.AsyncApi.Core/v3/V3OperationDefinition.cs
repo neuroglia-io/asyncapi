@@ -45,7 +45,7 @@ public record V3OperationDefinition
     /// Gets/sets a list of $ref pointers pointing to the supported Message Objects that can be processed by this operation.
     /// </summary>
     [DataMember(Order = 4, Name = "messages"), JsonPropertyOrder(4), JsonPropertyName("messages"), YamlMember(Order = 4, Alias = "messages", ScalarStyle = ScalarStyle.SingleQuoted)]
-    public virtual EquatableList<V3ReferenceDefinition>? Messages { get; set; }
+    public virtual EquatableList<V3ReferenceDefinition> Messages { get; set; } = [];
 
     /// <summary>
     /// Gets/sets the definition of the reply in a request-reply operation.

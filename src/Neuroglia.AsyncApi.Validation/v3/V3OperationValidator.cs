@@ -33,8 +33,12 @@ public class V3OperationValidator
         this.RuleForEach(o => o.Traits!)
             .SetValidator(new V3OperationTraitValidator<V3OperationTraitDefinition>(document))
             .When(o => !o.IsReference);
-        this.RuleForEach(o => o.Messages!)
-            .SetValidator(new V3ReferenceValidator<V3MessageDefinition>(document))
+        this.RuleForEach(o => o.Messages)
+            .NotEmpty()
+            .When(o => !o.IsReference);
+        this.RuleForEach(o => o.Messages.Select(m => new KeyValuePair<V3ReferenceDefinition, V3ReferenceDefinition>(o.Channel, m)))
+            .SetValidator(o => new V3OperationMessageValidator(document))
+            .OverridePropertyName(nameof(V3OperationDefinition.Messages))
             .When(o => !o.IsReference);
         this.RuleFor(o => o.Reply!)
             .SetValidator(new V3ReplyValidator(document))

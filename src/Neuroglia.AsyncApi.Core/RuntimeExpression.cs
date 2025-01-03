@@ -82,7 +82,7 @@ public class RuntimeExpression
     }
 
     /// <summary>
-    /// Attempts to parse the specifed input
+    /// Attempts to parse the specified input
     /// </summary>
     /// <param name="input">The input to parse</param>
     /// <param name="expression">The parsed <see cref="RuntimeExpression"/></param>

@@ -11,25 +11,20 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-namespace Neuroglia.AsyncApi.Validation.v3;
+namespace Neuroglia.AsyncApi.Client.Services;
 
 /// <summary>
-/// Represents the service used to validate <see cref="V3CorrelationIdDefinition"/>s
+/// Defines the fundamentals of a service used to handle protocol specific operations
 /// </summary>
-public class V3CorrelationIdValidator
-    : V3ReferenceableComponentValidator<V3CorrelationIdDefinition>
+public interface IProtocolHandler
 {
 
-    /// <inheritdoc/>
-    public V3CorrelationIdValidator(V3AsyncApiDocument? document = null) 
-        : base(document)
-    {
-        this.RuleFor(c => c.Location)
-            .NotEmpty()
-            .When(c => !c.IsReference);
-        this.RuleFor(c => c.Location)
-            .Must(x => RuntimeExpression.TryParse(x!, out var expression) && expression != null)
-            .When(c => !c.IsReference);
-    }
+    /// <summary>
+    /// Handles the specified <see cref="AsyncApiOperation"/>
+    /// </summary>
+    /// <param name="operation">The <see cref="AsyncApiOperation"/> to handle</param>
+    /// <param name="cancellationToken">A <see cref="CancellationToken"/></param>
+    /// <returns>An object that describes the result of the operation</returns>
+    Task<AsyncApiOperationResult> HandleAsync(AsyncApiOperation operation, CancellationToken cancellationToken = default);
 
 }

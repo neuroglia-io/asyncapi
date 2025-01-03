@@ -90,7 +90,9 @@
                         else
                         {
                             int index = 1;
-                            foreach (var messageKvp in operation.Messages.ToDictionary(m => m.Reference, m => Model.Document.DereferenceMessage(m.Reference)))
+                            var channelName = operation.Channel.Reference.Split('/', StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries).Last();
+                            var channel = Model.Document.DereferenceChannel(operation.Channel.Reference);
+                            foreach (var messageKvp in operation.Messages.ToDictionary(m => m.Reference, m => Model.Document.DereferenceChannelMessage(channelName, channel, m.Reference)))
                             {
                                 <partial name="v3/_V3MessageTrait" model="new V3MessageTraitDefinitionViewModel(this.Model.Document, messageKvp.Key.Split('/', StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries)[^1], messageKvp.Value, index)" />
                                 index++;

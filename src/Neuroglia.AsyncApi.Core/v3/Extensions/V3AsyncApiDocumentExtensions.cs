@@ -186,6 +186,25 @@ public static class V3AsyncApiDocumentExtensions
     }
 
     /// <summary>
+    /// Dereferences the specified <see cref="V3MessageDefinition"/>
+    /// </summary>
+    /// <param name="document">The extended <see cref="V3AsyncApiDocument"/></param>
+    /// <param name="channelName">The name of the <see cref="V3ChannelDefinition"/> that defines the <see cref="V3MessageDefinition"/> to dereference</param>
+    /// <param name="channelDefinition">The <see cref="V3ChannelDefinition"/> that defines the <see cref="V3MessageDefinition"/> to dereference</param>
+    /// <param name="reference">The reference to the <see cref="V3MessageDefinition"/> to get</param>
+    /// <returns>The specified <see cref="V3MessageDefinition"/></returns>
+    public static V3MessageDefinition DereferenceChannelMessage(this V3AsyncApiDocument document, string channelName, V3ChannelDefinition channelDefinition, string reference)
+    {
+        ArgumentException.ThrowIfNullOrWhiteSpace(channelName);
+        ArgumentNullException.ThrowIfNull(channelDefinition);
+        ArgumentException.ThrowIfNullOrWhiteSpace(reference);
+        if (!reference.StartsWith($"#/channels/{channelName}/messages/")) throw new InvalidDataException($"The specified value '{reference}' is not a valid channel message reference");
+        var messageName = reference.Split('/', StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries).Last();
+        if (!channelDefinition.Messages.TryGetValue(messageName, out var message) || message == null) throw new NullReferenceException($"Failed to dereference the specified channel message '{reference}': it does not exist or cannot be found");
+        return message.IsReference ? document.DereferenceMessage(message.Reference!) : message;
+    }
+
+    /// <summary>
     /// Dereferences the specified <see cref="V3SecuritySchemeDefinition"/>
     /// </summary>
     /// <param name="document">The extended <see cref="V3AsyncApiDocument"/></param>

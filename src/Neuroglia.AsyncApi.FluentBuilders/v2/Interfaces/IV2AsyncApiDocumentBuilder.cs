@@ -249,6 +249,6 @@ public interface IV2AsyncApiDocumentBuilder
     /// Builds a new <see cref="V2AsyncApiDocument"/>
     /// </summary>
     /// <returns>A new <see cref="V2AsyncApiDocument"/></returns>
-    V2AsyncApiDocument Build();
+    new V2AsyncApiDocument Build();
 
 }

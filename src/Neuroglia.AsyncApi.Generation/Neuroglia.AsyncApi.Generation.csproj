@@ -29,8 +29,7 @@
   </ItemGroup>
 	
   <ItemGroup>
-    <PackageReference Include="JsonSchema.Net.Generation" Version="3.5.0" />
-    <PackageReference Include="Microsoft.Extensions.Hosting.Abstractions" Version="8.0.0" />
+    <PackageReference Include="Microsoft.Extensions.Hosting.Abstractions" Version="9.0.0" />
   </ItemGroup>
 	
   <ItemGroup>

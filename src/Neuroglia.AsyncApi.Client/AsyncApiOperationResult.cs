@@ -11,25 +11,14 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-namespace Neuroglia.AsyncApi.Validation.v3;
+namespace Neuroglia.AsyncApi.Client;
 
 /// <summary>
-/// Represents the service used to validate <see cref="V3CorrelationIdDefinition"/>s
+/// Represents the result of an AsyncAPI operation
 /// </summary>
-public class V3CorrelationIdValidator
-    : V3ReferenceableComponentValidator<V3CorrelationIdDefinition>
+public class AsyncApiOperationResult
 {
 
-    /// <inheritdoc/>
-    public V3CorrelationIdValidator(V3AsyncApiDocument? document = null) 
-        : base(document)
-    {
-        this.RuleFor(c => c.Location)
-            .NotEmpty()
-            .When(c => !c.IsReference);
-        this.RuleFor(c => c.Location)
-            .Must(x => RuntimeExpression.TryParse(x!, out var expression) && expression != null)
-            .When(c => !c.IsReference);
-    }
+
 
 }

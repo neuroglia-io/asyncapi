@@ -29,10 +29,10 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="FluentValidation" Version="11.8.1" />
-    <PackageReference Include="JsonSchema.Net.Generation" Version="3.5.0" />
-    <PackageReference Include="Neuroglia.Data.Schemas.Json" Version="4.7.6" />
-    <PackageReference Include="Neuroglia.Serialization.YamlDotNet" Version="4.7.6" />
+    <PackageReference Include="FluentValidation" Version="11.11.0" />
+    <PackageReference Include="JsonSchema.Net.Generation" Version="5.0.0" />
+    <PackageReference Include="Neuroglia.Data.Schemas.Json" Version="4.18.1" />
+    <PackageReference Include="Neuroglia.Serialization.YamlDotNet" Version="4.18.1" />
     <PackageReference Include="SemanticVersion" Version="2.1.0" />
   </ItemGroup>
 
