@@ -39,7 +39,10 @@ public class V2AsyncApiDocumentBuilder(IServiceProvider serviceProvider, IEnumer
     /// <summary>
     /// Gets the <see cref="V2AsyncApiDocument"/> to configure
     /// </summary>
-    protected virtual V2AsyncApiDocument Document { get; } = new();
+    protected virtual V2AsyncApiDocument Document { get; } = new()
+    { 
+        AsyncApi =  AsyncApiSpecVersion.V2
+    };
 
     /// <inheritdoc/>
     public virtual IV2AsyncApiDocumentBuilder WithSpecVersion(string version)

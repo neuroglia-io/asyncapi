@@ -76,7 +76,7 @@ public interface IV3ServerDefinitionBuilder
     /// </summary>
     /// <param name="setup">An <see cref="Action{T}"/> used to configure the <see cref="V3SecuritySchemeDefinition"/> to use</param>
     /// <returns>The configured <see cref="IV3ServerDefinitionBuilder"/></returns>
-    IV3ServerDefinitionBuilder WithSecurity(Action<IV3SecuritySchemeDefinitionBuilder> setup);
+    IV3ServerDefinitionBuilder WithSecurityRequirement(Action<IV3SecuritySchemeDefinitionBuilder> setup);
 
     /// <summary>
     /// Marks the <see cref="V3ServerDefinition"/> to build with the specified tag

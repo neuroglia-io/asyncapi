@@ -24,13 +24,11 @@
                     <div id="@(Model.ParentReference)_@(Model.Context)" class="card-body collapse show">
                         <div class="row">
                             <div class="col-7">
-                                <h6>Schema</h6>
                                 <div>
                                     <partial name="v3/_V3JsonSchema" model="new V3JsonSchemaViewModel(this.Model.Document, schema)" />
                                 </div>
                             </div>
                             <div class="col-5">
-                                <h6>Examples</h6>
                                 <div class="bg-secondary text-light p-3 rounded-1">
                                     @{
                                         var example = examples != null && examples.Any() 

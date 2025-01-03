@@ -21,7 +21,7 @@ public class V3ApiInfoValidator
 {
 
     /// <inheritdoc/>
-    public V3ApiInfoValidator(V3AsyncApiDocument document)
+    public V3ApiInfoValidator(V3AsyncApiDocument? document = null)
     {
         this.RuleFor(i => i.Title)
             .NotEmpty();

@@ -121,7 +121,7 @@ public class V3ServerDefinitionBuilder(IServiceProvider serviceProvider, IEnumer
     }
 
     /// <inheritdoc/>
-    public virtual IV3ServerDefinitionBuilder WithSecurity(Action<IV3SecuritySchemeDefinitionBuilder> setup)
+    public virtual IV3ServerDefinitionBuilder WithSecurityRequirement(Action<IV3SecuritySchemeDefinitionBuilder> setup)
     {
         ArgumentNullException.ThrowIfNull(setup);
         var builder = ActivatorUtilities.CreateInstance<V3SecuritySchemeDefinitionBuilder>(this.ServiceProvider);
