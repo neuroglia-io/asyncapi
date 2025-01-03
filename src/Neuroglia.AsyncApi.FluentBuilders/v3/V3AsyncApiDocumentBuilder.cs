@@ -36,7 +36,10 @@ public class V3AsyncApiDocumentBuilder(IServiceProvider serviceProvider, IEnumer
     /// <summary>
     /// Gets the <see cref="V3AsyncApiDocument"/> to configure
     /// </summary>
-    protected virtual V3AsyncApiDocument Document { get; } = new();
+    protected virtual V3AsyncApiDocument Document { get; } = new()
+    {
+        AsyncApi = AsyncApiSpecVersion.V3
+    };
 
     /// <inheritdoc/>
     public virtual IV3AsyncApiDocumentBuilder WithSpecVersion(string version)

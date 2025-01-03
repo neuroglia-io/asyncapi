@@ -109,7 +109,7 @@ public partial class AsyncApiDocumentGenerator
             {
                 foreach (var securityReference in serverAttribute.Security)
                 {
-                    server.WithSecurity(security => security.Use(securityReference));
+                    server.WithSecurityRequirement(security => security.Use(securityReference));
                 }
             }
             if (serverVariableAttributes != null)

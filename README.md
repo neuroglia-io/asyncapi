@@ -17,17 +17,17 @@
     - [AsyncAPI document serving library](#asyncapi-document-serving-library)
     - [AsyncAPI UI](#asyncapi-ui)
   + [Usage](#usage)
-    - [Building an AsyncAPI Document](#building-an-asyncapi-document)
-      + [AsyncAPI v2](#asyncapi-v2)
-      + [AsyncAPI v3](#asyncapi-v3)
-    - [Writing an AsyncAPI Document](#writing-an-asyncapi-document)
-    - [Reading an AsyncAPI document](#reading-an-asyncapi-document)
-    - [Generating code-first AsyncAPI documents](#generating-code-first-asyncapi-documents)
-      + [AsyncAPI v2](#asyncapi-v2-1)
-      + [AsyncAPI v3](#asyncapi-v3-1)
-    - [Generating documents manually](#21-generating-documents-manually)
-    - [Generating documents automatically and serve them using ASP](#22-generating-documents-automatically-and-serve-them-using-asp)
-    - [Using the AsyncAPI UI](#using-the-asyncapi-ui)
+    - [Build AsyncAPI documents](#build-asyncapi-documents)
+      + [Using AsyncAPI v2](#using-asyncapi-v2)
+      + [Using AsyncAPI v3](#using-asyncapi-v3)
+    - [Write AsyncAPI documents](#write-asyncapi-documents)
+    - [Read AsyncAPI documents](#read-asyncapi-documents)
+    - [Generate code-first AsyncAPI documents](#generate-code-first-asyncapi-documents)
+      + [Using AsyncAPI v2](#using-asyncapi-v2-1)
+      + [Using AsyncAPI v3](#using-asyncapi-v3-1)
+    - [Generate documents explicitly](#generate-documents-explicitly)
+    - [Generate documents implicitly](#generate-documents-implicitly)
+    - [Use the AsyncAPI UI](#use-the-asyncapi-ui)
   + [Samples](#samples)
     - [Streetlights API - Server](#streetlights-api---server)
 
@@ -108,6 +108,7 @@ services.AddAsyncApi();
 var serviceProvider = services.BuildServiceProvider();
 var builder = serviceProvider.GetRequiredService<IAsyncApiDocumentBuilder>();
 var document = builder
+    .UsingAsyncApiV2()
     .WithTitle("Cloud Event API")
     .WithVersion("1.0.0")
     .WithServer("StreetLightsApi", server => server
@@ -160,10 +161,75 @@ var document = builder
 #### AsyncAPI V3
 
 ```csharp
-
+var services = new ServiceCollection();
+services.AddAsyncApi();
+var serviceProvider = services.BuildServiceProvider();
+var builder = serviceProvider.GetRequiredService<IAsyncApiDocumentBuilder>();
+var document = builder
+    .UsingAsyncApiV3()
+    .WithTitle("Cloud Event API")
+    .WithVersion("1.0.0")
+    .WithServer("StreetLightsApi", server => server
+        .WithHost("https://streetlights.fake.com")
+        .WithProtocol(AsyncApiProtocol.Http, "2.0")
+        .WithBinding(new HttpServerBindingDefinition())
+        .WithSecurityRequirement(security => security
+            .Use("#/components/securitySchemes/oauth2")))
+    .WithChannel("events", channel => channel
+        .WithServer("#/servers/StreetLightsApi")
+        .WithDescription("The endpoint used to publish and subscribe to cloud events")
+        .WithBinding(new HttpChannelBindingDefinition()))
+    .WithOperation("observeCloudEvents", operation => operation
+        .WithAction(Neuroglia.AsyncApi.v3.V3OperationAction.Send)
+        .WithChannel("#/channels/events")
+        .WithTitle("ObserveCloudEvents")
+        .WithDescription("Observes cloud events published by the StreetLightsApi")
+        .WithBinding(new HttpOperationBindingDefinition() 
+        { 
+            Method = Neuroglia.AsyncApi.Bindings.Http.HttpMethod.POST, 
+            Type = HttpBindingOperationType.Response 
+        })
+        .WithMessage("#/components/messages/lightMeasuredEvent"))
+    .WithMessageComponent("lightMeasuredEvent", message => message
+        .WithName("LightMeasuredEvent")
+        .WithDescription("The event fired whenever the luminosity of a light has been measured")
+        .WithContentType("application/cloudevents+json")
+        .WithTrait(trait => trait
+            .Use("#/components/messageTraits/cloud-event"))
+        .WithPayloadSchema(schema => schema
+            .WithFormat("application/schema+json")
+            .WithSchema(lightMeasuredEventSchema))
+        .WithCorrelationId(setup => setup
+            .WithLocation("$message.payload#/subject"))
+        .WithTag(tag => tag
+            .WithName("light")))
+    .WithMessageComponent("movementDetectedEvent", message => message
+        .WithName("MovementDetectedEvent")
+        .WithDescription("The event fired whenever a movement has been detected by a sensor")
+        .WithContentType("application/cloudevents+json")
+        .WithTrait(trait => trait
+            .Use("#/components/messageTraits/cloud-event"))
+        .WithPayloadSchema(schema => schema
+            .WithFormat("application/schema+json")
+            .WithSchema(movementDetectedEventSchema))
+        .WithCorrelationId(setup => setup
+            .WithLocation("$message.payload#/subject"))
+        .WithTag(tag => tag
+            .WithName("movement")))
+    .WithMessageTraitComponent("cloud-event", message => message
+        .WithBinding(new HttpMessageBindingDefinition())
+        .WithContentType("application/cloudevents+json"))
+    .WithSecuritySchemeComponent("oauth2", scheme => scheme
+        .WithType(SecuritySchemeType.OAuth2)
+        .WithDescription("The security scheme used to authorize application requests")
+        .WithAuthorizationScheme("Bearer")
+        .WithOAuthFlows(oauth => oauth
+            .WithClientCredentialsFlow(flow => flow
+                .WithAuthorizationUrl(new("https://fake.idp.com/token"))
+                .WithScope("api:read", "The scope used to read data")))));
 ```
 
-### Writing an AsyncAPI document 
+### Write AsyncAPI documents
 
 ```csharp
 var writer = serviceProvider.GetRequiredService<IAsyncApiDocumentWriter>();
@@ -171,41 +237,35 @@ using MemoryStream stream = new();
 await writer.WriteAsync(document, stream, AsyncApiDocumentFormat.Yaml, cancellationToken);
 ```
 
-### Reading an AsyncAPI document
+### Read AsyncAPI documents
 
 ```csharp
 var reader = serviceProvider.GetRequiredService<IAsyncApiDocumentReader>();
 var asyncApi = await reader.ReadAsync(stream, cancellationToken);
 ```
 
-### Generating code-first AsyncAPI documents
+### Generate code-first AsyncAPI documents
 
-#### AsyncAPI V2
+#### Using AsyncAPI V2
 
 ```csharp
-[AsyncApiV2("Streetlights API", "1.0.0", Description = "The Smartylighting Streetlights API allows you to remotely manage the city lights.", LicenseName = "Apache 2.0", LicenseUrl = "https://www.apache.org/licenses/LICENSE-2.0")]
+[AsyncApi("Streetlights API", "1.0.0", Description = "The Smartylighting Streetlights API allows you to remotely manage the city lights.", LicenseName = "Apache 2.0", LicenseUrl = "https://www.apache.org/licenses/LICENSE-2.0")]
 public class StreetLightsService
-  : BackgroundService
+    : BackgroundService
 {
 
   ... //Omitted for brevity
   
-  [ChannelV2("light/measured"), PublishOperation(OperationId = "onLightMeasured", Summary = "Inform about environmental lighting conditions for a particular streetlight")]
+  [Channel("light/measured"), PublishOperation(OperationId = "onLightMeasured", Summary = "Inform about environmental lighting conditions for a particular streetlight")]
   public async Task PublishLightMeasured(LightMeasuredEvent e)
   {
-      MqttApplicationMessage message = new()
-      {
-          Topic = "onLightMeasured",
-          ContentType = "application/json",
-          Payload = Encoding.UTF8.GetBytes(await this.Serializer.SerializeAsync(e))
-      };
-      await this.MqttClient.PublishAsync(message);
+        ...
   }
   
-  [ChannelV2("light/measured"), SubscribeOperation(OperationId = "lightMeasuredEvent", Summary = "Inform about environmental lighting conditions for a particular streetlight")]
+  [Channel("light/measured"), SubscribeOperation(OperationId = "lightMeasuredEvent", Summary = "Inform about environmental lighting conditions for a particular streetlight")]
   protected async Task OnLightMeasured(LightMeasuredEvent e)
   {
-      this.Logger.LogInformation($"Event received:{Environment.NewLine}{await this.Serializer.SerializeAsync(e)}");
+        ...
   }
   
   ...
@@ -219,13 +279,36 @@ Note the usage of the following attributes:
 - `ChannelV2`: Marks a method or class for code-first `AsyncAPI` channel generation. Used to provide information about the channel marked methods belong to.
 - `OperationV2`: Marks a method for code-first `AsyncAPI` operation generation. Use to provide information about the `AsyncAPI` operation.
 
-#### AsyncAPI V3
+#### Using AsyncAPI V3
 
 ```csharp
+[AsyncApi("Streetlights API", "1.0.0", Description = "The **Smartylighting Streetlights API** allows you to remotely manage the city lights.", LicenseName = "Apache 2.0", LicenseUrl = "https://www.apache.org/licenses/LICENSE-2.0")]
+[Server("http", "http://fake-http-server.com", AsyncApiProtocol.Http, PathName = "/{environment}", Description = "A sample **HTTP** server declared using attributes", Bindings = "#/components/serverBindings/http")]
+[ServerVariable("http", "environment", Description = "The **environment** to use.", Enum = ["dev", "stg", "prod"])]
+[HttpServerBinding("http")]
+[Channel("lightingMeasuredMQTT", Address = "streets.{streetName}", Description = "This channel is used to exchange messages about lightning measurements.", Servers = ["#/servers/mosquitto"], Bindings = "#/components/channelBindings/mqtt")]
+[MqttChannelBinding("mqtt")]
+[ChannelParameter("lightingMeasured", "streetName", Description = "The name of the **street** the lights to get measurements for are located in")]
+public class StreetLightsService
+    : BackgroundService
+{
 
+    [Operation("sendLightMeasurement", V3OperationAction.Send, "#/channels/lightingMeasuredMQTT", Description = "Notifies remote **consumers** about environmental lighting conditions for a particular **streetlight**."), Neuroglia.AsyncApi.v3.Tag(Reference = "#/components/tags/measurement")]
+    public async Task PublishLightMeasured(LightMeasuredEvent e, CancellationToken cancellationToken = default)
+    {
+        ...
+    }
+
+    [Operation("receiveLightMeasurement", V3OperationAction.Receive, "#/channels/lightingMeasuredMQTT"), Neuroglia.AsyncApi.v3.Tag(Reference = "#/components/tags/measurement")]
+    protected Task OnLightMeasured(LightMeasuredEvent e)
+    {
+        ...
+    }
+
+}
 ```
 
-#### 2.1. Generating documents manually
+#### Generate documents explicitly
 
 ```csharp
 var generator = serviceProvider.GetRequiredService<IAsyncApiDocumentGenerator>();
@@ -243,62 +326,67 @@ var options = new AsyncApiDocumentGenerationOptions()
 IEnumerable<AsyncApiDocument> documents = generator.GenerateAsync(typeof(StreetLightsService), options);
 ```
 
-#### 2.2. Generating documents automatically and serve them using ASP
+#### Generate documents implicitly
 
-Go to your ASP project's `Startup.cs` file and add the following lines:
 ```csharp
-//Startup.cs
-
-public class Startup
-{
-
-    ...
-
-    public void ConfigureServices(IServiceCollection services)
-    {
-        ...
-        //Registers and configures the AsyncAPI code-first generation
-        services.AddAsyncApiGeneration(builder => 
-            builder.WithMarkupType<StreetLightsService>()
-                .UseDefaultV2Configuration(asyncApi =>
-                {
-                    asyncApi
-                        .UseServer("mosquitto", server => server
-                        .WithUrl(new Uri("mqtt://test.mosquitto.org"))
-                        .WithProtocol(AsyncApiProtocols.Mqtt));
-                }));
-        ...
-    }
-
-    public void Configure(IApplicationBuilder app)
-    {
-        ...
-        //Adds the middleware used to serve AsyncAPI documents
-        app..MapAsyncApiDocuments();
-        ...
-    }
-
-}
-
+services.AddAsyncApiGeneration(builder => 
+    builder
+        .WithMarkupType<StreetLightsService>()
+        .UseDefaultV2Configuration(asyncApi =>
+        {
+            //Setup V2 documents, by configuring servers, for example
+        })
+        .UseDefaultV3Configuration(asyncApi =>
+        {
+            //Setup V3 documents, by configuring servers, for example
+        }));
 ```
 
 ### Using the AsyncAPI UI
 
-Go to your ASP project's `Startup.cs` file and add the following line to your `ConfigureServices` method:
+#### 1. Configure services
 
 ```csharp
-services.AddAsyncApiUI();
+...
+builder.Services.AddAsyncApiUI();
+...
 ```
 
-**Note**: Since RazorPages are used, make sure you add it to the service collection: `services.AddRazorPages();` and use the middleware to serve the pages: `app.MapRazorPages();`.
-You will also need to register an `IJsonSchemaResolver` and a `HttpClient`:
+#### 2. Map documents
+
 ```csharp
-  services.AddSingleton<IJsonSchemaResolver, JsonSchemaResolver>();
-  services.AddHttpClient();
+...
+var app = builder.Build();
+app.UseStaticFiles();
+app.UseRouting();
+app.UseAuthorization();
+app.MapAsyncApiDocuments();
+app.MapRazorPages();
+...
 ```
-For reference take a look at the [sample](#streetlights-api---server)
 
-Launch your ASP project, then navigate to `http://localhost:44236/asyncapi`. You should see something like this:
+**Note**: Since Razor Pages are used to render the UI, make sure to configure its services and map the pages:
+
+```csharp
+...
+builder.Services.AddRazorPages();
+...
+var app = builder.Build();
+...
+app.MapRazorPages();
+...
+```
+
+You will also need to register an `IJsonSchemaResolver` and an `HttpClient`:
+```csharp
+services.AddSingleton<IJsonSchemaResolver, JsonSchemaResolver>();
+services.AddHttpClient();
+```
+*For reference, please refer to the [sample](#streetlights-api---server).*
+
+#### 3. Enjoy!
+
+Launch your application, then navigate to `/asyncapi`. You should see something like this:
 
 ![AsyncAPI UI - Screenshot](/assets/img/ui.png)
 

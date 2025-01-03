@@ -142,7 +142,6 @@ builder.Services.AddAsyncApiGeneration(builder =>
                     .WithDescription("The parameter used to correlate the **street** a **light** is located in.")
                     .WithLocation("$message.header#/MQMD/CorrelId"))
                 .WithReplyComponent("measureStreetLightLuminosityReply", reply => reply
-                    .WithChannel("#/components/channels/lightingMeasuredHTTP")
                     .WithAddress(address => address.Use("#/components/replyAddresses/measureStreetLightLuminosityReplyAddress"))
                     .WithMessage("#/components/messages/measureStreetLightLuminosityReply"))
                 .WithReplyAddressComponent("measureStreetLightLuminosityReplyAddress", address => address
@@ -218,6 +217,68 @@ builder.Services.AddAsyncApiDocument(document => document
         .WithBinding(new HttpMessageBindingDefinition())
         .WithContentType("application/cloudevents+json"))
     .WithSecurityScheme("oauth2", scheme => scheme
+        .WithType(SecuritySchemeType.OAuth2)
+        .WithDescription("The security scheme used to authorize application requests")
+        .WithAuthorizationScheme("Bearer")
+        .WithOAuthFlows(oauth => oauth
+            .WithClientCredentialsFlow(flow => flow
+                .WithAuthorizationUrl(new("https://fake.idp.com/token"))
+                .WithScope("api:read", "The scope used to read data")))));
+builder.Services.AddAsyncApiDocument(document => document
+    .UsingAsyncApiV3()
+    .WithTitle("Cloud Event API")
+    .WithVersion("1.0.0")
+    .WithServer("StreetLightsApi", server => server
+        .WithHost("https://streetlights.fake.com")
+        .WithProtocol(AsyncApiProtocol.Http, "2.0")
+        .WithBinding(new HttpServerBindingDefinition())
+        .WithSecurityRequirement(security => security
+            .Use("#/components/securitySchemes/oauth2")))
+    .WithChannel("events", channel => channel
+        .WithServer("#/servers/StreetLightsApi")
+        .WithDescription("The endpoint used to publish and subscribe to cloud events")
+        .WithBinding(new HttpChannelBindingDefinition()))
+    .WithOperation("observeCloudEvents", operation => operation
+        .WithAction(Neuroglia.AsyncApi.v3.V3OperationAction.Send)
+        .WithChannel("#/channels/events")
+        .WithTitle("ObserveCloudEvents")
+        .WithDescription("Observes cloud events published by the StreetLightsApi")
+        .WithBinding(new HttpOperationBindingDefinition() 
+        { 
+            Method = Neuroglia.AsyncApi.Bindings.Http.HttpMethod.POST, 
+            Type = HttpBindingOperationType.Response 
+        })
+        .WithMessage("#/components/messages/lightMeasuredEvent"))
+    .WithMessageComponent("lightMeasuredEvent", message => message
+        .WithName("LightMeasuredEvent")
+        .WithDescription("The event fired whenever the luminosity of a light has been measured")
+        .WithContentType("application/cloudevents+json")
+        .WithTrait(trait => trait
+            .Use("#/components/messageTraits/cloud-event"))
+        .WithPayloadSchema(schema => schema
+            .WithFormat("application/schema+json")
+            .WithSchema(lightMeasuredEventSchema))
+        .WithCorrelationId(setup => setup
+            .WithLocation("$message.payload#/subject"))
+        .WithTag(tag => tag
+            .WithName("light")))
+    .WithMessageComponent("movementDetectedEvent", message => message
+        .WithName("MovementDetectedEvent")
+        .WithDescription("The event fired whenever a movement has been detected by a sensor")
+        .WithContentType("application/cloudevents+json")
+        .WithTrait(trait => trait
+            .Use("#/components/messageTraits/cloud-event"))
+        .WithPayloadSchema(schema => schema
+            .WithFormat("application/schema+json")
+            .WithSchema(movementDetectedEventSchema))
+        .WithCorrelationId(setup => setup
+            .WithLocation("$message.payload#/subject"))
+        .WithTag(tag => tag
+            .WithName("movement")))
+    .WithMessageTraitComponent("cloud-event", message => message
+        .WithBinding(new HttpMessageBindingDefinition())
+        .WithContentType("application/cloudevents+json"))
+    .WithSecuritySchemeComponent("oauth2", scheme => scheme
         .WithType(SecuritySchemeType.OAuth2)
         .WithDescription("The security scheme used to authorize application requests")
         .WithAuthorizationScheme("Bearer")
