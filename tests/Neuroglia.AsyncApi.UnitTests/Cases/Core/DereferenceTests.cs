@@ -312,7 +312,7 @@ public class DereferenceTests
             .WithVersion("1.0.0")
             .WithCorrelationIdComponent(componentName, component => component 
                 .WithDescription("Fake Correlation Id")
-                .WithLocation("fake-location"))
+                .WithLocation("$message.payload#/fake-location"))
             .Build();
 
         //act
@@ -363,7 +363,7 @@ public class DereferenceTests
             .WithVersion("1.0.0")
             .WithReplyAddressComponent(componentName, component => component 
                 .WithDescription("Fake Reply Address")
-                .WithLocation("fake-location"))
+                .WithLocation("$message.headers#/fake-location"))
             .Build();
 
         //act

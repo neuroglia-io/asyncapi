@@ -88,7 +88,7 @@ public class JsonSchemaExampleGeneratorTests
     public void Generate_Example_Object_Should_Work()
     {
         //arrange
-        var schema = new JsonSchemaBuilder().FromType(typeof(object));
+        var schema = new JsonSchemaBuilder().FromType<SampleObject>();
 
         //act
         var generated = this.ExampleGenerator.GenerateExample(schema);
@@ -114,6 +114,13 @@ public class JsonSchemaExampleGeneratorTests
     {
         this.ServiceProvider.Dispose();
         GC.SuppressFinalize(this);
+    }
+
+    class SampleObject
+    {
+
+
+
     }
 
 }

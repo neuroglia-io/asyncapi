@@ -11,13 +11,15 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+using Neuroglia.AsyncApi.v3;
+
 namespace Neuroglia.AsyncApi.UnitTests.Cases.Core;
 
 public class AsyncApiDocumentSerializationTests
 {
 
     [Fact]
-    public void SerializeAndDeserialize_AsyncApiDocument_Should_Work()
+    public void SerializeAndDeserialize_AsyncApiDocument_v2_Should_Work()
     {
         //arrange
         var document = AsyncApiDocumentFactory.CreateV2();
@@ -30,8 +32,26 @@ public class AsyncApiDocumentSerializationTests
         var yamlDeserialized = YamlSerializer.Default.Deserialize<V2AsyncApiDocument>(yaml);
 
         //assert
-        jsonDeserialized.Should().Be(document);
-        yamlDeserialized.Should().Be(document);
+        jsonDeserialized.Should().BeEquivalentTo(document);
+        yamlDeserialized.Should().BeEquivalentTo(document);
+    }
+
+    [Fact]
+    public void SerializeAndDeserialize_AsyncApiDocument_v3_Should_Work()
+    {
+        //arrange
+        var document = AsyncApiDocumentFactory.CreateV3();
+
+        //act
+        var json = JsonSerializer.Default.SerializeToText(document);
+        var jsonDeserialized = JsonSerializer.Default.Deserialize<V3AsyncApiDocument>(json);
+
+        var yaml = YamlSerializer.Default.SerializeToText(document);
+        var yamlDeserialized = YamlSerializer.Default.Deserialize<V3AsyncApiDocument>(yaml);
+
+        //assert
+        jsonDeserialized.Should().BeEquivalentTo(document);
+        yamlDeserialized.Should().BeEquivalentTo(document);
     }
 
 }
