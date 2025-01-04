@@ -16,15 +16,15 @@ namespace Neuroglia.AsyncApi.Client.Services;
 /// <summary>
 /// Represents the default implementation of the <see cref="ISchemaHandlerProvider"/> interface
 /// </summary>
-/// <param name="schemaHandlers">An <see cref="IEnumerable{T}"/> containing all registered <see cref="ISchemaHandler"/>s</param>
-public class SchemaHandlerProvider(IEnumerable<ISchemaHandler> schemaHandlers)
+/// <param name="handlers">An <see cref="IEnumerable{T}"/> containing all registered <see cref="ISchemaHandler"/>s</param>
+public class SchemaHandlerProvider(IEnumerable<ISchemaHandler> handlers)
     : ISchemaHandlerProvider
 {
 
     /// <summary>
     /// Gets an <see cref="IEnumerable{T}"/> containing all registered <see cref="ISchemaHandler"/>s
     /// </summary>
-    protected IEnumerable<ISchemaHandler> Handlers { get; } = schemaHandlers;
+    protected IEnumerable<ISchemaHandler> Handlers { get; } = handlers;
 
     /// <inheritdoc/>
     public virtual ISchemaHandler? GetHandler(string format)

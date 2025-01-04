@@ -14,11 +14,64 @@
 namespace Neuroglia.AsyncApi.Client;
 
 /// <summary>
-/// Represents the result of an AsyncAPI operation
+/// Represents the base class for all <see cref="IAsyncApiOperationResult"/> implementations
 /// </summary>
-public class AsyncApiOperationResult
+public abstract class AsyncApiOperationResult
+    : IAsyncApiOperationResult
 {
 
+    bool _disposed;
 
+    /// <inheritdoc/>
+    public abstract bool IsSuccessful { get; }
+
+    /// <inheritdoc/>
+    public abstract Stream? PayloadStream { get; }
+
+    /// <summary>
+    /// Disposes of the <see cref="AsyncApiOperationResult"/>
+    /// </summary>
+    /// <param name="disposing">A boolean indicating whether or not the <see cref="AsyncApiOperationResult"/> is beings disposed of</param>
+    protected virtual void Dispose(bool disposing)
+    {
+        if (!_disposed)
+        {
+            if (disposing)
+            {
+                if (PayloadStream != null) PayloadStream.Dispose();
+            }
+            _disposed = true;
+        }
+    }
+
+    /// <inheritdoc/>
+    public void Dispose()
+    {
+        Dispose(disposing: true);
+        GC.SuppressFinalize(this);
+    }
+
+    /// <summary>
+    /// Disposes of the <see cref="AsyncApiOperationResult"/>
+    /// </summary>
+    /// <param name="disposing">A boolean indicating whether or not the <see cref="AsyncApiOperationResult"/> is beings disposed of</param>
+    public virtual async ValueTask DisposeAsync(bool disposing)
+    {
+        if (!_disposed)
+        {
+            if (disposing)
+            {
+                if (PayloadStream != null) await PayloadStream.DisposeAsync().ConfigureAwait(false);
+            }
+            _disposed = true;
+        }
+    }
+
+    /// <inheritdoc/>
+    public async ValueTask DisposeAsync()
+    {
+        await DisposeAsync(disposing: true);
+        GC.SuppressFinalize(this);
+    }
 
 }

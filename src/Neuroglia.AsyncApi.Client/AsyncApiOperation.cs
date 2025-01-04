@@ -19,15 +19,16 @@ namespace Neuroglia.AsyncApi.Client;
 /// <summary>
 /// Represents an AsyncAPI operation
 /// </summary>
-/// <param name="action">The action to perform</param>
+/// <param name="Action">The action to perform</param>
 /// <param name="Host">The hostname or IP address used to send the message.</param>
 /// <param name="Path">The path or endpoint used by the protocol.</param>
 /// <param name="Channel">The channel key.</param>
 /// <param name="Payload">The data to be sent as the message payload.</param>
 /// <param name="Headers">The headers for the message.</param>
+/// <param name="ContentType">The message's content type.</param>
 /// <param name="CorrelationId">The message's correlation id, if any.</param>
 /// <param name="ServerBinding">The definition specifying protocol-level settings at the server level.</param>
 /// <param name="ChannelBinding">The definition specifying protocol-level settings at the channel level.</param>
 /// <param name="OperationBinding">The definition specifying protocol-level settings at the operation level.</param>
 /// <param name="MessageBinding">The definition specifying protocol-level settings at the message level.</param>
-public record AsyncApiOperation(V3OperationAction action, string Host, string? Path, string? Channel, object? Payload, object? Headers, string? CorrelationId, IServerBindingDefinition? ServerBinding, IChannelBindingDefinition? ChannelBinding, IOperationBindingDefinition? OperationBinding, IMessageBindingDefinition? MessageBinding);
+public record AsyncApiOperation(V3OperationAction Action, string Host, string? Path, string? Channel, object? Payload, object? Headers, string ContentType, string? CorrelationId, IServerBindingDefinition? ServerBinding, IChannelBindingDefinition? ChannelBinding, IOperationBindingDefinition? OperationBinding, IMessageBindingDefinition? MessageBinding);

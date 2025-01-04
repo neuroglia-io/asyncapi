@@ -57,7 +57,7 @@ public class V3AsyncApiClient(ILogger<V3AsyncApiClient> logger, IRuntimeExpressi
     protected V3AsyncApiDocument Document { get; } = document;
 
     /// <inheritdoc/>
-    public virtual async Task<AsyncApiOperationResult> SendAsync(AsyncApiOutboundMessage message, CancellationToken cancellationToken = default)
+    public virtual async Task<IAsyncApiOperationResult> SendAsync(AsyncApiOutboundMessage message, CancellationToken cancellationToken = default)
     {
         ArgumentNullException.ThrowIfNull(message);
         if (!this.Document.Operations.TryGetValue(message.Operation, out var operationDefinition) || operationDefinition == null)
@@ -74,6 +74,7 @@ public class V3AsyncApiClient(ILogger<V3AsyncApiClient> logger, IRuntimeExpressi
         var host = StringFormatter.NamedFormat(serverDefinition.Host, serverVariables);
         var path = string.IsNullOrWhiteSpace(serverDefinition.PathName) ? null : StringFormatter.NamedFormat(serverDefinition.PathName, serverVariables);
         var messageDefinition = await this.ResolveMessageDefinitionAsync(channelName, channelDefinition, operationDefinition, message, cancellationToken).ConfigureAwait(false);
+        var contentType = messageDefinition.ContentType ?? Document.DefaultContentType;
         var correlationId = string.Empty;
         if (messageDefinition.CorrelationId != null)
         {
@@ -89,7 +90,7 @@ public class V3AsyncApiClient(ILogger<V3AsyncApiClient> logger, IRuntimeExpressi
         var messageBindings = messageDefinition.Bindings == null ? null : messageDefinition.Bindings.IsReference ? Document.DereferenceMessageBinding(messageDefinition.Bindings.Reference!) : messageDefinition.Bindings;
         var messageBinding = messageBindings?.AsEnumerable().FirstOrDefault(b => b.Protocols.Contains(serverDefinition.Protocol));
         var protocolHandler = this.ProtocolHandlerProvider.GetHandlerFor(serverDefinition.Protocol, serverDefinition.ProtocolVersion);
-        return await protocolHandler.HandleAsync(new(operationDefinition.Action, host, path, channelAddress, message.Payload, message.Headers, correlationId, serverBinding, channelBinding, operationBinding, messageBinding), cancellationToken).ConfigureAwait(false);
+        return await protocolHandler.HandleAsync(new(operationDefinition.Action, host, path, channelAddress, message.Payload, message.Headers, contentType, correlationId, serverBinding, channelBinding, operationBinding, messageBinding), cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>

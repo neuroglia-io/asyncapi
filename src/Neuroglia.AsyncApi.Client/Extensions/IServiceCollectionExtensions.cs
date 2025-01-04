@@ -13,7 +13,7 @@
 
 using Microsoft.Extensions.DependencyInjection;
 using Neuroglia.AsyncApi.Client.Services;
-using Neuroglia.AsyncApi.v3;
+using Neuroglia.Serialization;
 
 namespace Neuroglia.AsyncApi.Client;
 
@@ -30,11 +30,16 @@ public static class IServiceCollectionExtensions
     /// <returns>The configured <see cref="IServiceCollection"/></returns>
     public static IServiceCollection AddAsyncApiClient(this IServiceCollection services)
     {
+        services.AddLogging();
+        services.AddXmlSerializer();
+        services.AddHttpClient();
         services.AddTransient<IRuntimeExpressionEvaluator, RuntimeExpressionEvaluator>();
         services.AddTransient<ISchemaHandlerProvider, SchemaHandlerProvider>();
         services.AddTransient<ISchemaHandler, AvroSchemaHandler>();
         services.AddTransient<ISchemaHandler, JsonSchemaHandler>();
         services.AddTransient<ISchemaHandler, XmlSchemaHandler>();
+        services.AddTransient<IProtocolHandlerProvider, ProtocolHandlerProvider>();
+        services.AddTransient<IProtocolHandler, HttpProtocolHandler>();
         services.AddTransient<IAsyncApiClientFactory, AsyncApiClientFactory>();
         return services;
     }

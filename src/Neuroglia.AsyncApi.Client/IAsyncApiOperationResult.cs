@@ -11,21 +11,23 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-namespace Neuroglia.AsyncApi.Client.Services;
+namespace Neuroglia.AsyncApi.Client;
 
 /// <summary>
-/// Defines the fundamentals of a service used to interact with an application described using an <see cref="IAsyncApiDocument"/>
+/// Defines the fundamentals of an object used to describe the result of an AsyncAPI operation
 /// </summary>
-public interface IAsyncApiClient
+public interface IAsyncApiOperationResult
     : IDisposable, IAsyncDisposable
-{
+{ 
 
     /// <summary>
-    /// Sends the specified <see cref="AsyncApiOutboundMessage"/>
+    /// Gets a boolean indicating whether or not the operation was successful
     /// </summary>
-    /// <param name="message">The <see cref="AsyncApiOutboundMessage"/> to send</param>
-    /// <param name="cancellationToken">A <see cref="CancellationToken"/></param>
-    /// <returns>An object that describes the result of the operation</returns>
-    Task<IAsyncApiOperationResult> SendAsync(AsyncApiOutboundMessage message, CancellationToken cancellationToken = default);
+    bool IsSuccessful { get; }
+
+    /// <summary>
+    /// Gets a <see cref="Stream"/> that provides access to the payload, if any, returned by the operation 
+    /// </summary>
+    Stream? PayloadStream { get; }
 
 }

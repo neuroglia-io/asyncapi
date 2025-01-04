@@ -30,7 +30,9 @@
 
   <ItemGroup>
 	<PackageReference Include="Apache.Avro" Version="1.12.0" />
-    <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="9.0.0" />
+	<PackageReference Include="Microsoft.Extensions.Http" Version="9.0.0" />
+	<PackageReference Include="Microsoft.Extensions.Logging" Version="9.0.0" />
+	<PackageReference Include="Neuroglia.Serialization.Xml" Version="4.18.1" />
     <PackageReference Include="System.Linq.Async" Version="6.0.1" />
   </ItemGroup>
 

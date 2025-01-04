@@ -43,38 +43,74 @@ public class ClientTests
         var serverId = "http-server";
         var channelId = "cloud-events";
         var operationId = "publishCloudEvent";
-        var environmentVariable = "environment";
+        var messageId = "cloudEvent";
+        var stringSchema = new JsonSchemaBuilder().Type(SchemaValueType.String).Build();
+        var objectSchema = new JsonSchemaBuilder().Type(SchemaValueType.Object).AdditionalProperties(true).Build();
         var document = DocumentBuilder
             .UsingAsyncApiV3()
             .WithTitle("Test HTTP API")
             .WithVersion("1.0.0")
             .WithServer(serverId, server => server
-                .WithHost("http://fake-host.com")
-                .WithPathName("/{broker}/{environment}")
+                .WithHost("https://httpbin.org")
                 .WithProtocol(AsyncApiProtocol.Http)
-                 .WithVariable("broker", variable => variable
-                    .WithDefaultValue("test"))
-                .WithVariable(environmentVariable, variable => variable
-                    .WithEnumValues("development", "staging", "production"))
                 .WithBinding(new HttpServerBindingDefinition()))
             .WithChannel(channelId, channel => channel
+                .WithAddress("/post")
                 .WithServer($"#/servers/{serverId}")
+                .WithMessage(messageId, message => message
+                    .WithContentType(CloudEventContentType.Json)
+                    .WithPayloadSchema(schemaDefinition => schemaDefinition
+                        .WithJsonSchema(schema => schema
+                            .Type(SchemaValueType.Object)
+                            .Properties(new Dictionary<string, JsonSchema>()
+                            {
+                                { CloudEventAttributes.SpecVersion, stringSchema },
+                                { CloudEventAttributes.Id, stringSchema },
+                                { CloudEventAttributes.Time, stringSchema },
+                                { CloudEventAttributes.Source, stringSchema },
+                                { CloudEventAttributes.Type, stringSchema },
+                                { CloudEventAttributes.Subject, stringSchema },
+                                { CloudEventAttributes.DataSchema, stringSchema },
+                                { CloudEventAttributes.DataContentType, stringSchema },
+                                { CloudEventAttributes.Data, objectSchema },
+                            })
+                            .Required(CloudEventAttributes.GetRequiredAttributes())
+                            .AdditionalProperties(true)))
+                    .WithBinding(new HttpMessageBindingDefinition()))
                 .WithBinding(new HttpChannelBindingDefinition()))
             .WithOperation(operationId, operation => operation
                 .WithAction(v3.V3OperationAction.Receive)
                 .WithChannel($"#/channels/{channelId}")
-                .WithBinding(new HttpOperationBindingDefinition()))
+                .WithMessage($"#/channels/{channelId}/messages/{messageId}")
+                .WithBinding(new HttpOperationBindingDefinition()
+                {
+                    Method = Bindings.Http.HttpMethod.POST
+                }))
             .Build();
         await using var client = ClientFactory.CreateFor(document);
 
         //act
-        await using var message = new AsyncApiOutboundMessage(operationId);
-        message.ServerVariables[environmentVariable] = "development";
+        var e = new CloudEvent()
+        {
+            Id = Guid.NewGuid().ToString(),
+            SpecVersion = CloudEventSpecVersion.V1.Version,
+            Source = new("https://unit-tests.v3.asyncapi.neuroglia.io"),
+            Type = "io.neuroglia.asyncapi.v3.test.v1",
+            DataContentType = MediaTypeNames.Application.Json,
+            Data = new
+            {
+                Greetings = "Hello, World!"
+            }
+        };
+        await using var message = new AsyncApiOutboundMessage(operationId)
+        {
+            Payload = e
+        };
 
-        await client.SendAsync(message);
+        await using var result = await client.SendAsync(message);
 
         //assert
-
+        result.IsSuccessful.Should().BeTrue();
     }
 
     void IDisposable.Dispose()

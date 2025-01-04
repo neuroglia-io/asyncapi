@@ -20,11 +20,19 @@ public interface IProtocolHandler
 {
 
     /// <summary>
+    /// Determines whether or not the <see cref="IProtocolHandler"/> supports the specified protocol
+    /// </summary>
+    /// <param name="protocol">The protocol to check</param>
+    /// <param name="protocolVersion">The version, if any, of the protocol to check</param>
+    /// <returns>A boolean indicating whether or not the <see cref="IProtocolHandler"/> supports the specified protocol</returns>
+    bool Supports(string protocol, string? protocolVersion);
+
+    /// <summary>
     /// Handles the specified <see cref="AsyncApiOperation"/>
     /// </summary>
     /// <param name="operation">The <see cref="AsyncApiOperation"/> to handle</param>
     /// <param name="cancellationToken">A <see cref="CancellationToken"/></param>
     /// <returns>An object that describes the result of the operation</returns>
-    Task<AsyncApiOperationResult> HandleAsync(AsyncApiOperation operation, CancellationToken cancellationToken = default);
+    Task<IAsyncApiOperationResult> HandleAsync(AsyncApiOperation operation, CancellationToken cancellationToken = default);
 
 }
