@@ -42,7 +42,7 @@ public class RuntimeExpressionEvaluator(IJsonSerializer jsonSerializer)
         };
         var jsonSource = JsonSerializer.SerializeToElement(source ?? new { });
         var jsonPointer = JsonPointer.Parse(parsedExpression.Fragment);
-        if (!jsonSource.HasValue) return null;
+        if (!jsonSource.HasValue) return Task.FromResult((string?)null);
         var jsonResult = jsonPointer.Evaluate(jsonSource.Value);
         return Task.FromResult(jsonResult.HasValue ? JsonSerializer.Deserialize<string?>(jsonResult.Value.ToString()) : null);
     }

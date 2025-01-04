@@ -11,13 +11,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-namespace StreetLightsApi.Server.Messages;
-
-/// <summary>
-/// Represents a task to do
-/// </summary>
-/// <param name="Name">The name of the task to do</param>
-public record TodoItem(string Name);
+namespace StreetLightsApi.Messages;
 
 /// <summary>
 /// Represents the common headers of messages exchanged by the StreetLights API

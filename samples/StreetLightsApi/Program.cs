@@ -13,7 +13,7 @@
 
 using Json.Schema.Generation;
 using Neuroglia.AsyncApi.Bindings.Mqtt;
-using StreetLightsApi.Messages;
+using StreetLightsApi.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
