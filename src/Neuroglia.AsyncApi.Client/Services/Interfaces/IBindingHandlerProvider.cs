@@ -11,18 +11,20 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-namespace Neuroglia.AsyncApi.Client;
+namespace Neuroglia.AsyncApi.Client.Services;
 
 /// <summary>
-/// Defines the fundamentals of an object used to describe the result of an AsyncAPI operation
+/// Defines the fundamentals of a service used to provide <see cref="IBindingHandler"/>s
 /// </summary>
-public interface IAsyncApiOperationResult
-    : IDisposable, IAsyncDisposable
-{ 
+public interface IBindingHandlerProvider
+{
 
     /// <summary>
-    /// Gets a boolean indicating whether or not the operation was successful
+    /// Gets the <see cref="IBindingHandler"/> for the specified protocol
     /// </summary>
-    bool IsSuccessful { get; }
+    /// <param name="protocol">The protocol to get the handler for</param>
+    /// <param name="protocolVersion">The version of the protocol to get the handler for</param>
+    /// <returns>The <see cref="IBindingHandler"/> for the specified protocol</returns>
+    IBindingHandler GetHandlerFor(string protocol, string? protocolVersion = null);
 
 }

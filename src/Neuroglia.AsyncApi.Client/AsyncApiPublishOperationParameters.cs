@@ -14,26 +14,23 @@
 namespace Neuroglia.AsyncApi.Client;
 
 /// <summary>
-/// Enumerates all supported schema formats
+/// Represents the parameters used to configure an AsyncAPI publish operation
 /// </summary>
-public static class SchemaFormat
+/// <param name="operation">The unique identifier of the operation to perform</param>
+/// <param name="server">The identifier, if any, used to specify the target server for the operation to perform</param>
+/// <param name="protocol">The protocol to use, if any, to perform the operation</param>
+public class AsyncApiPublishOperationParameters(string operation, string? server = null, string? protocol = null)
+    : AsyncApiOperationParameters(operation, server, protocol)
 {
 
     /// <summary>
-    /// Gets the format for AsyncAPI schemas
+    /// Gets/sets the message's payload, if any
     /// </summary>
-    public const string AsyncApi = "application/vnd.aai.asyncapi+json";
+    public virtual object? Payload { get; init; }
+
     /// <summary>
-    /// Gets the format for Avro Schemas
+    /// Gets/sets the message's headers, if any
     /// </summary>
-    public const string Avro = "application/avro";
-    /// <summary>
-    /// Gets the format for JSON Schemas
-    /// </summary>
-    public const string Json = "application/schema+json";
-    /// <summary>
-    /// Gets the format for XML Schemas
-    /// </summary>
-    public const string Xml = "application/xml";
+    public virtual object? Headers { get; init; }
 
 }

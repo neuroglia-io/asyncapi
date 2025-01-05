@@ -14,20 +14,20 @@
 namespace Neuroglia.AsyncApi.Client.Services;
 
 /// <summary>
-/// Represents the default implementation of the <see cref="IProtocolHandlerProvider"/> interface
+/// Represents the default implementation of the <see cref="IBindingHandlerProvider"/> interface
 /// </summary>
-/// <param name="handlers">An <see cref="IEnumerable{T}"/> containing all registered <see cref="IProtocolHandler"/>s</param>
-public class ProtocolHandlerProvider(IEnumerable<IProtocolHandler> handlers)
-    : IProtocolHandlerProvider
+/// <param name="handlers">An <see cref="IEnumerable{T}"/> containing all registered <see cref="IBindingHandler"/>s</param>
+public class ProtocolHandlerProvider(IEnumerable<IBindingHandler> handlers)
+    : IBindingHandlerProvider
 {
 
     /// <summary>
-    /// Gets an <see cref="IEnumerable{T}"/> containing all registered <see cref="IProtocolHandler"/>s
+    /// Gets an <see cref="IEnumerable{T}"/> containing all registered <see cref="IBindingHandler"/>s
     /// </summary>
-    protected IEnumerable<IProtocolHandler> Handlers { get; } = handlers;
+    protected IEnumerable<IBindingHandler> Handlers { get; } = handlers;
 
     /// <inheritdoc/>
-    public virtual IProtocolHandler GetHandlerFor(string protocol, string? protocolVersion = null)
+    public virtual IBindingHandler GetHandlerFor(string protocol, string? protocolVersion = null)
     {
         ArgumentException.ThrowIfNullOrWhiteSpace(protocol);
         return this.Handlers.FirstOrDefault(h => h.Supports(protocol, protocolVersion)) ?? throw new NullReferenceException($"Failed to find an handler for the specified protocol '{(string.IsNullOrWhiteSpace(protocolVersion) ? protocol : $"{protocol} version {protocolVersion}")}'");

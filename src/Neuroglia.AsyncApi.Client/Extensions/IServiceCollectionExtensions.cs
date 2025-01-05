@@ -12,8 +12,6 @@
 // limitations under the License.
 
 using Microsoft.Extensions.DependencyInjection;
-using Neuroglia.AsyncApi.Client.Services;
-using Neuroglia.Serialization;
 
 namespace Neuroglia.AsyncApi.Client;
 
@@ -27,19 +25,20 @@ public static class IServiceCollectionExtensions
     /// Adds and configures the services used to interact with applications described by <see cref="IAsyncApiDocument"/>s
     /// </summary>
     /// <param name="services">The extended <see cref="IServiceCollection"/></param>
+    /// <param name="setup">An <see cref="Action{T}"/> used to configure the <see cref="IAsyncApiClient"/></param>
     /// <returns>The configured <see cref="IServiceCollection"/></returns>
-    public static IServiceCollection AddAsyncApiClient(this IServiceCollection services)
+    public static IServiceCollection AddAsyncApiClient(this IServiceCollection services, Action<IAsyncApiClientOptionsBuilder>? setup = null)
     {
+        var builder = new AsyncApiClientConfigurationBuilder(services);
+        setup?.Invoke(builder);
         services.AddLogging();
         services.AddXmlSerializer();
-        services.AddHttpClient();
         services.AddTransient<IRuntimeExpressionEvaluator, RuntimeExpressionEvaluator>();
         services.AddTransient<ISchemaHandlerProvider, SchemaHandlerProvider>();
         services.AddTransient<ISchemaHandler, AvroSchemaHandler>();
         services.AddTransient<ISchemaHandler, JsonSchemaHandler>();
         services.AddTransient<ISchemaHandler, XmlSchemaHandler>();
-        services.AddTransient<IProtocolHandlerProvider, ProtocolHandlerProvider>();
-        services.AddTransient<IProtocolHandler, HttpProtocolHandler>();
+        services.AddTransient<IBindingHandlerProvider, ProtocolHandlerProvider>();
         services.AddTransient<IAsyncApiClientFactory, AsyncApiClientFactory>();
         return services;
     }

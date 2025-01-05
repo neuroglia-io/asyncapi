@@ -12,23 +12,19 @@
 // limitations under the License.
 
 using Neuroglia.AsyncApi.Bindings;
-using Neuroglia.AsyncApi.v3;
 
 namespace Neuroglia.AsyncApi.Client;
 
 /// <summary>
-/// Represents an AsyncAPI operation
+/// Represents the context of an AsyncAPI subscribe operation
 /// </summary>
-/// <param name="Action">The action to perform</param>
-/// <param name="Host">The hostname or IP address used to send the message.</param>
+/// <param name="Document">The <see cref="V3AsyncApiDocument"/> that defines the operation</param>
+/// <param name="Host">The hostname or IP address used to receive messages from</param>
 /// <param name="Path">The path or endpoint used by the protocol.</param>
 /// <param name="Channel">The channel key.</param>
-/// <param name="Payload">The data to be sent as the message payload.</param>
-/// <param name="Headers">The headers for the message.</param>
-/// <param name="ContentType">The message's content type.</param>
-/// <param name="CorrelationId">The message's correlation id, if any.</param>
+/// <param name="DefaultContentType">The default content type of consumed messages.</param>
+/// <param name="Messages">An <see cref="IEnumerable{T}"/> containing the definitions of all messages that can be consumed.</param>
 /// <param name="ServerBinding">The definition specifying protocol-level settings at the server level.</param>
 /// <param name="ChannelBinding">The definition specifying protocol-level settings at the channel level.</param>
 /// <param name="OperationBinding">The definition specifying protocol-level settings at the operation level.</param>
-/// <param name="MessageBinding">The definition specifying protocol-level settings at the message level.</param>
-public record AsyncApiOperation(V3OperationAction Action, string Host, string? Path, string? Channel, object? Payload, object? Headers, string ContentType, string? CorrelationId, IServerBindingDefinition? ServerBinding, IChannelBindingDefinition? ChannelBinding, IOperationBindingDefinition? OperationBinding, IMessageBindingDefinition? MessageBinding);
+public record AsyncApiSubscribeOperationContext(V3AsyncApiDocument Document, string Host, string? Path, string? Channel, string DefaultContentType, IEnumerable<V3MessageDefinition> Messages, IServerBindingDefinition? ServerBinding, IChannelBindingDefinition? ChannelBinding, IOperationBindingDefinition? OperationBinding);

@@ -11,18 +11,13 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-namespace Neuroglia.AsyncApi.Client;
-
-/// <summary>
-/// Defines the fundamentals of an object used to describe the result of an AsyncAPI operation
-/// </summary>
-public interface IAsyncApiOperationResult
-    : IDisposable, IAsyncDisposable
-{ 
-
-    /// <summary>
-    /// Gets a boolean indicating whether or not the operation was successful
-    /// </summary>
-    bool IsSuccessful { get; }
-
-}
+global using Microsoft.Extensions.Logging;
+global using Microsoft.Extensions.Options;
+global using Neuroglia.AsyncApi.Bindings.Http;
+global using Neuroglia.AsyncApi.Client.Bindings.Http;
+global using Neuroglia.AsyncApi.Client.Bindings.Http.Configuration;
+global using Neuroglia.AsyncApi.Client.Configuration;
+global using Neuroglia.AsyncApi.Client.Services;
+global using Neuroglia.Serialization;
+global using System.Net;
+global using System.Net.Http.Headers;

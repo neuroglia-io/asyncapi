@@ -12,7 +12,6 @@
 // limitations under the License.
 
 using Json.Pointer;
-using Neuroglia.Serialization;
 
 namespace Neuroglia.AsyncApi.Client.Services;
 
@@ -44,7 +43,7 @@ public class RuntimeExpressionEvaluator(IJsonSerializer jsonSerializer)
         var jsonPointer = JsonPointer.Parse(parsedExpression.Fragment);
         if (!jsonSource.HasValue) return Task.FromResult((string?)null);
         var jsonResult = jsonPointer.Evaluate(jsonSource.Value);
-        return Task.FromResult(jsonResult.HasValue ? JsonSerializer.Deserialize<string?>(jsonResult.Value.ToString()) : null);
+        return Task.FromResult(jsonResult.HasValue ? JsonSerializer.Deserialize<object?>(jsonResult.Value.ToString())?.ToString() : null);
     }
 
 }

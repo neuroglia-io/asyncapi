@@ -11,18 +11,14 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-namespace Neuroglia.AsyncApi.Client;
+namespace Neuroglia.AsyncApi.Client.Configuration;
 
 /// <summary>
-/// Defines the fundamentals of an object used to describe the result of an AsyncAPI operation
+/// Represents the base class of all options used to configure <see cref="IBindingHandler"/>s
 /// </summary>
-public interface IAsyncApiOperationResult
-    : IDisposable, IAsyncDisposable
-{ 
+public abstract class BindingHandlerOptions
+{
 
-    /// <summary>
-    /// Gets a boolean indicating whether or not the operation was successful
-    /// </summary>
-    bool IsSuccessful { get; }
+
 
 }

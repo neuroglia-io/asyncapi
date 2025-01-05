@@ -14,15 +14,13 @@
 namespace Neuroglia.AsyncApi.Client;
 
 /// <summary>
-/// Defines the fundamentals of an object used to describe the result of an AsyncAPI operation
+/// Represents the base class for all <see cref="IAsyncApiSubscribeOperationResult"/> implementations
 /// </summary>
-public interface IAsyncApiOperationResult
-    : IDisposable, IAsyncDisposable
-{ 
+public abstract class AsyncApiSubscribeOperationResult
+    : AsyncApiOperationResult, IAsyncApiSubscribeOperationResult
+{
 
-    /// <summary>
-    /// Gets a boolean indicating whether or not the operation was successful
-    /// </summary>
-    bool IsSuccessful { get; }
+    /// <inheritdoc/>
+    public abstract IObservable<IAsyncApiMessage>? Messages { get; }
 
 }

@@ -11,20 +11,18 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-namespace Neuroglia.AsyncApi.Client.Services;
+namespace Neuroglia.AsyncApi.Client;
 
 /// <summary>
-/// Defines the fundamentals of a service used to provide <see cref="IProtocolHandler"/>s
+/// Represents the parameters used to configure an AsyncAPI subscribe operation
 /// </summary>
-public interface IProtocolHandlerProvider
-{
+/// <param name="operation">The unique identifier of the operation to perform</param>
+/// <param name="server">The identifier, if any, used to specify the target server for the operation to perform</param>
+/// <param name="protocol">The protocol to use, if any, to perform the operation</param>
+public class AsyncApiSubscribeOperationParameters(string operation, string? server = null, string? protocol = null)
+    : AsyncApiOperationParameters(operation, server, protocol)
+{ 
 
-    /// <summary>
-    /// Gets the <see cref="IProtocolHandler"/> for the specified protocol
-    /// </summary>
-    /// <param name="protocol">The protocol to get the handler for</param>
-    /// <param name="protocolVersion">The version of the protocol to get the handler for</param>
-    /// <returns>The <see cref="IProtocolHandler"/> for the specified protocol</returns>
-    IProtocolHandler GetHandlerFor(string protocol, string? protocolVersion = null);
+
 
 }

@@ -12,7 +12,6 @@
 // limitations under the License.
 
 using Json.Schema;
-using Neuroglia.Serialization;
 using System.Net;
 
 namespace Neuroglia.AsyncApi.Client.Services;

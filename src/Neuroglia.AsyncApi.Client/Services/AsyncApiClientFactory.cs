@@ -12,7 +12,6 @@
 // limitations under the License.
 
 using Microsoft.Extensions.DependencyInjection;
-using Neuroglia.AsyncApi.v3;
 
 namespace Neuroglia.AsyncApi.Client.Services;
 
@@ -34,7 +33,7 @@ public class AsyncApiClientFactory(IServiceProvider serviceProvider)
     {
         return document switch
         {
-            V3AsyncApiDocument v3Document => ActivatorUtilities.CreateInstance<V3AsyncApiClient>(ServiceProvider, v3Document),
+            V3AsyncApiDocument v3Document => ActivatorUtilities.CreateInstance<AsyncApiClient>(ServiceProvider, v3Document),
             _ => throw new NotSupportedException($"The specified AsyncAPI document type '{document.GetType()}' is not supported")
         };
     }

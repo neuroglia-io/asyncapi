@@ -14,15 +14,12 @@
 namespace Neuroglia.AsyncApi.Client;
 
 /// <summary>
-/// Defines the fundamentals of an object used to describe the result of an AsyncAPI operation
+/// Defines the fundamentals of an object used to describe the result of an AsyncAPI publish operation
 /// </summary>
-public interface IAsyncApiOperationResult
-    : IDisposable, IAsyncDisposable
-{ 
+public interface IAsyncApiPublishOperationResult
+    : IAsyncApiOperationResult
+{
 
-    /// <summary>
-    /// Gets a boolean indicating whether or not the operation was successful
-    /// </summary>
-    bool IsSuccessful { get; }
+
 
 }

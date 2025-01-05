@@ -13,31 +13,21 @@
 
 using Neuroglia.AsyncApi.Bindings.Http;
 using Neuroglia.AsyncApi.Client;
-using Neuroglia.AsyncApi.Client.Services;
-using Neuroglia.AsyncApi.FluentBuilders;
+using Neuroglia.AsyncApi.Client.Bindings;
 
-namespace Neuroglia.AsyncApi.UnitTests.Cases.Client;
+namespace Neuroglia.AsyncApi.UnitTests.Cases.Client.Bindings;
 
-public class ClientTests
-    : IDisposable
+public class HttpBindingHandlerTests
+    : BindingHandlerTestsBase
 {
-
-    public ClientTests()
+    public HttpBindingHandlerTests()
+        : base(builder => builder.AddHttpBindingHandler())
     {
-        var services = new ServiceCollection();
-        services.AddAsyncApi();
-        services.AddAsyncApiClient();
-        ServiceProvider = services.BuildServiceProvider();
+
     }
 
-    ServiceProvider ServiceProvider;
-
-    IAsyncApiDocumentBuilder DocumentBuilder => ServiceProvider.GetRequiredService<IAsyncApiDocumentBuilder>();
-
-    IAsyncApiClientFactory ClientFactory => ServiceProvider.GetRequiredService<IAsyncApiClientFactory>();
-
     [Fact]
-    public async Task Send_HTTP_Message_Should_Work()
+    public async Task Publish_Should_Work()
     {
         //arrange
         var serverId = "http-server";
@@ -84,7 +74,7 @@ public class ClientTests
                 .WithMessage($"#/channels/{channelId}/messages/{messageId}")
                 .WithBinding(new HttpOperationBindingDefinition()
                 {
-                    Method = Bindings.Http.HttpMethod.POST
+                    Method = AsyncApi.Bindings.Http.HttpMethod.POST
                 }))
             .Build();
         await using var client = ClientFactory.CreateFor(document);
@@ -102,21 +92,69 @@ public class ClientTests
                 Greetings = "Hello, World!"
             }
         };
-        await using var message = new AsyncApiOutboundMessage(operationId)
+        var parameters = new AsyncApiPublishOperationParameters(operationId)
         {
             Payload = e
         };
-
-        await using var result = await client.SendAsync(message);
+        await using var result = await client.PublishAsync(parameters);
 
         //assert
         result.IsSuccessful.Should().BeTrue();
     }
 
-    void IDisposable.Dispose()
+    [Fact]
+    public async Task Subscribe_Should_Work()
     {
-        ServiceProvider.Dispose();
-        GC.SuppressFinalize(this);
+        //arrange
+        var serverId = "http-server";
+        var channelId = "cloud-events";
+        var operationId = "subscribeToSSE";
+        var messageId = "sse";
+        var stringSchema = new JsonSchemaBuilder().Type(SchemaValueType.String).Build();
+        var objectSchema = new JsonSchemaBuilder().Type(SchemaValueType.Object).AdditionalProperties(true).Build();
+        var document = DocumentBuilder
+            .UsingAsyncApiV3()
+            .WithTitle("Test HTTP API")
+            .WithVersion("1.0.0")
+            .WithServer(serverId, server => server
+                .WithHost("https://httpbun.com")
+                .WithProtocol(AsyncApiProtocol.Http)
+                .WithBinding(new HttpServerBindingDefinition()))
+            .WithChannel(channelId, channel => channel
+                .WithAddress("/sse")
+                .WithServer($"#/servers/{serverId}")
+                .WithMessage(messageId, message => message
+                    .WithContentType(CloudEventContentType.Json)
+                    .WithPayloadSchema(schemaDefinition => schemaDefinition
+                        .WithJsonSchema(schema => schema
+                            .Type(SchemaValueType.String)))
+                    .WithCorrelationId(correlationId => correlationId
+                        .WithLocation("$message.header#/id"))
+                    .WithBinding(new HttpMessageBindingDefinition()))
+                .WithBinding(new HttpChannelBindingDefinition()))
+            .WithOperation(operationId, operation => operation
+                .WithAction(v3.V3OperationAction.Send)
+                .WithChannel($"#/channels/{channelId}")
+                .WithMessage($"#/channels/{channelId}/messages/{messageId}")
+                .WithBinding(new HttpOperationBindingDefinition()
+                {
+                    Method = AsyncApi.Bindings.Http.HttpMethod.GET
+                }))
+            .Build();
+        await using var client = ClientFactory.CreateFor(document);
+
+        //act
+        var parameters = new AsyncApiSubscribeOperationParameters(operationId);
+        await using var result = await client.SubscribeAsync(parameters);
+        var messages = new List<IAsyncApiMessage>();
+        var subscription = result.Messages?.Subscribe(messages.Add);
+        await Task.Delay(3500);
+        subscription?.Dispose();
+
+        //assert
+        result.IsSuccessful.Should().BeTrue();
+        result.Messages.Should().NotBeNull();
+        messages.Should().HaveCountGreaterThan(3);
     }
 
 }

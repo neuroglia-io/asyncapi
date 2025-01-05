@@ -21,11 +21,19 @@ public interface IAsyncApiClient
 {
 
     /// <summary>
-    /// Sends the specified <see cref="AsyncApiOutboundMessage"/>
+    /// Performs a publish operation
     /// </summary>
-    /// <param name="message">The <see cref="AsyncApiOutboundMessage"/> to send</param>
+    /// <param name="parameters">The <see cref="AsyncApiPublishOperationParameters"/> of the operation to perform</param>
     /// <param name="cancellationToken">A <see cref="CancellationToken"/></param>
     /// <returns>An object that describes the result of the operation</returns>
-    Task<IAsyncApiOperationResult> SendAsync(AsyncApiOutboundMessage message, CancellationToken cancellationToken = default);
+    Task<IAsyncApiPublishOperationResult> PublishAsync(AsyncApiPublishOperationParameters parameters, CancellationToken cancellationToken = default);
+
+    /// <summary>
+    /// Performs a subscribe operation
+    /// </summary>
+    /// <param name="parameters">The <see cref="AsyncApiSubscribeOperationParameters"/> of the operation to perform</param>
+    /// <param name="cancellationToken">A <see cref="CancellationToken"/></param>
+    /// <returns>An object that describes the result of the operation</returns>
+    Task<IAsyncApiSubscribeOperationResult> SubscribeAsync(AsyncApiSubscribeOperationParameters parameters, CancellationToken cancellationToken = default);
 
 }

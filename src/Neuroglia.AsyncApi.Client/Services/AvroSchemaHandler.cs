@@ -14,8 +14,6 @@
 using Avro;
 using Avro.Generic;
 using Avro.IO;
-using Neuroglia;
-using Neuroglia.Serialization;
 using System.Net;
 
 namespace Neuroglia.AsyncApi.Client.Services;

@@ -11,10 +11,9 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using Neuroglia.Serialization;
 using System.Net;
-using System.Xml.Schema;
 using System.Xml;
+using System.Xml.Schema;
 
 namespace Neuroglia.AsyncApi.Client.Services;
 

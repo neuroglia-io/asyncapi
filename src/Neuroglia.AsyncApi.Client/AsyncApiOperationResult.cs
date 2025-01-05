@@ -25,9 +25,6 @@ public abstract class AsyncApiOperationResult
     /// <inheritdoc/>
     public abstract bool IsSuccessful { get; }
 
-    /// <inheritdoc/>
-    public abstract Stream? PayloadStream { get; }
-
     /// <summary>
     /// Disposes of the <see cref="AsyncApiOperationResult"/>
     /// </summary>
@@ -38,7 +35,7 @@ public abstract class AsyncApiOperationResult
         {
             if (disposing)
             {
-                if (PayloadStream != null) PayloadStream.Dispose();
+                
             }
             _disposed = true;
         }
@@ -55,16 +52,17 @@ public abstract class AsyncApiOperationResult
     /// Disposes of the <see cref="AsyncApiOperationResult"/>
     /// </summary>
     /// <param name="disposing">A boolean indicating whether or not the <see cref="AsyncApiOperationResult"/> is beings disposed of</param>
-    public virtual async ValueTask DisposeAsync(bool disposing)
+    protected virtual ValueTask DisposeAsync(bool disposing)
     {
         if (!_disposed)
         {
             if (disposing)
             {
-                if (PayloadStream != null) await PayloadStream.DisposeAsync().ConfigureAwait(false);
+                
             }
             _disposed = true;
         }
+        return ValueTask.CompletedTask;
     }
 
     /// <inheritdoc/>
