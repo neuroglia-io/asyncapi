@@ -62,13 +62,13 @@ internal static class AsyncApiDocumentFactory
                            {
                                 ClientId = Guid.NewGuid().ToString(),
                                 CleanSession = true,
-                                KeepAlive = true,
+                                KeepAlive = 3,
                                 LastWill = new()
                                 {
                                     Message = "Fake Message",
                                     Retain = true,
                                     Topic = "Fake Topic",
-                                    QoS = MqttQoSLevel.ExactlyOne
+                                    QoS = MqttQualityOfServiceLevel.ExactlyOne
 
                                 },
                                 BindingVersion = "latest"

@@ -43,7 +43,7 @@ public record MqttServerBindingDefinition
     /// Gets/sets an interval in seconds of the longest period of time the broker and the client can endure without sending a message.
     /// </summary>
     [DataMember(Order = 4, Name = "keepAlive"), JsonPropertyOrder(4), JsonPropertyName("keepAlive"), YamlMember(Order = 4, Alias = "keepAlive")]
-    public virtual bool KeepAlive { get; set; }
+    public virtual int? KeepAlive { get; set; }
 
     /// <summary>
     /// Gets/sets the version of this binding. Defaults to 'latest'.

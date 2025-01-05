@@ -106,7 +106,7 @@ public class HttpBindingHandler(IServiceProvider serviceProvider, ILogger<HttpBi
             uri += $"?{query}";
         }
         using var request = new HttpRequestMessage(method, uri);
-        var response = await HttpClient.SendAsync(request, cancellationToken).ConfigureAwait(false);
+        var response = await HttpClient.SendAsync(request, HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
         IObservable<IAsyncApiMessage>? messages = null;
         if (response.IsSuccessStatusCode)
         {

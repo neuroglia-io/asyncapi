@@ -25,7 +25,7 @@ public class MqttOperationBindingAttribute(string name, string version = "latest
     /// <summary>
     /// Gets/sets an integer that defines the Quality of Service (QoS) levels for the message flow between client and server. Its value MUST be either 0 (At most once delivery), 1 (At least once delivery), or 2 (Exactly once delivery).
     /// </summary>
-    public virtual MqttQoSLevel QoS { get; init; }
+    public virtual MqttQualityOfServiceLevel QoS { get; init; }
 
     /// <summary>
     /// Gets/sets a boolean indicating whether the broker the broker should retain the message or not.

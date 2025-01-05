@@ -30,7 +30,7 @@ public record MqttLastWillDefinition
     /// Gets/sets an integer that defines how hard the broker/client will try to ensure that the Last Will and Testament message is received. Its value MUST be either 0, 1 or 2.
     /// </summary>
     [DataMember(Order = 2, Name = "qos"), JsonPropertyOrder(2), JsonPropertyName("qos"), YamlMember(Order = 2, Alias = "qos")]
-    public virtual MqttQoSLevel QoS { get; set; }
+    public virtual MqttQualityOfServiceLevel? QoS { get; set; }
 
     /// <summary>
     /// Gets/sets the Last Will message

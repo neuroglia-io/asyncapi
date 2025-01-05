@@ -11,9 +11,6 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using Neuroglia.Serialization.Json.Converters;
-using System.ComponentModel;
-
 namespace Neuroglia.AsyncApi.Bindings.Mqtt;
 
 /// <summary>
@@ -21,21 +18,21 @@ namespace Neuroglia.AsyncApi.Bindings.Mqtt;
 /// </summary>
 [JsonConverter(typeof(StringEnumConverter))]
 [TypeConverter(typeof(EnumMemberTypeConverter))]
-public enum MqttQoSLevel
+public enum MqttQualityOfServiceLevel
 {
     /// <summary>
     /// Indicates that messages should be sent at most once
     /// </summary>
     [EnumMember(Value = "AtMostOne")]
-    AtMostOne = 0,
+    AtMostOne = 0x00,
     /// <summary>
     /// Indicates that messages should be sent at least once
     /// </summary>
     [EnumMember(Value = "AtLeastOne")]
-    AtLeastOne = 1,
+    AtLeastOne = 0x01,
     /// <summary>
     /// Indicates that MQTT messages should be sent exactly once
     /// </summary>
     [EnumMember(Value = "ExactlyOne")]
-    ExactlyOne = 2
+    ExactlyOne = 0x02
 }

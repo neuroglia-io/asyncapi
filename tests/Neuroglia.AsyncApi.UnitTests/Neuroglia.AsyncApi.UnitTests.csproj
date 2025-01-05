@@ -26,6 +26,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\src\Neuroglia.AsyncApi.Client.Bindings.Http\Neuroglia.AsyncApi.Client.Bindings.Http.csproj" />
+    <ProjectReference Include="..\..\src\Neuroglia.AsyncApi.Client.Bindings.Mqtt\Neuroglia.AsyncApi.Client.Bindings.Mqtt.csproj" />
     <ProjectReference Include="..\..\src\Neuroglia.AsyncApi.CloudEvents\Neuroglia.AsyncApi.CloudEvents.csproj" />
     <ProjectReference Include="..\..\src\Neuroglia.AsyncApi.DependencyInjectionExtensions\Neuroglia.AsyncApi.DependencyInjectionExtensions.csproj" />
     <ProjectReference Include="..\..\src\Neuroglia.AsyncApi.Generation\Neuroglia.AsyncApi.Generation.csproj" />
