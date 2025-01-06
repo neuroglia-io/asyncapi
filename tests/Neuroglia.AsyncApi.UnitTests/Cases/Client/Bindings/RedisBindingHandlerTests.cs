@@ -11,19 +11,19 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using MQTTnet;
-using Neuroglia.AsyncApi.Bindings.Mqtt;
+using Neuroglia.AsyncApi.Bindings.Redis;
 using Neuroglia.AsyncApi.Client;
 using Neuroglia.AsyncApi.Client.Bindings;
-using System.Text;
+using Neuroglia.AsyncApi.UnitTests.Containers;
+using StackExchange.Redis;
 
 namespace Neuroglia.AsyncApi.UnitTests.Cases.Client.Bindings;
 
-public class MqttBindingHandlerTests
+public class RedisBindingHandlerTests
     : BindingHandlerTestsBase
 {
-    public MqttBindingHandlerTests()
-        : base(builder => builder.AddMqttBindingHandler())
+    public RedisBindingHandlerTests()
+        : base(builder => builder.AddRedisBindingHandler(), ConfigureServices)
     {
 
     }
@@ -32,7 +32,7 @@ public class MqttBindingHandlerTests
     public async Task Publish_Should_Work()
     {
         //arrange
-        var serverId = "mqtt-server";
+        var serverId = "redis-server";
         var channelId = "cloud-events";
         var operationId = "publishCloudEvent";
         var messageId = "cloudEvent";
@@ -40,12 +40,12 @@ public class MqttBindingHandlerTests
         var objectSchema = new JsonSchemaBuilder().Type(SchemaValueType.Object).AdditionalProperties(true).Build();
         var document = DocumentBuilder
             .UsingAsyncApiV3()
-            .WithTitle("Test MQTT API")
+            .WithTitle("Test Redis API")
             .WithVersion("1.0.0")
             .WithServer(serverId, server => server
-                .WithHost("test.mosquitto.org")
-                .WithProtocol(AsyncApiProtocol.Mqtt)
-                .WithBinding(new MqttServerBindingDefinition()))
+                .WithHost($"localhost:{ServiceProvider.GetRequiredKeyedService<DotNet.Testcontainers.Containers.IContainer>("redis").GetMappedPublicPort(RedisContainerBuilder.PublicPort)}")
+                .WithProtocol(AsyncApiProtocol.Redis)
+                .WithBinding(new RedisServerBindingDefinition()))
             .WithChannel(channelId, channel => channel
                 .WithAddress("cloud-event")
                 .WithServer($"#/servers/{serverId}")
@@ -68,13 +68,13 @@ public class MqttBindingHandlerTests
                             })
                             .Required(CloudEventAttributes.GetRequiredAttributes())
                             .AdditionalProperties(true)))
-                    .WithBinding(new MqttMessageBindingDefinition()))
-                .WithBinding(new MqttChannelBindingDefinition()))
+                    .WithBinding(new RedisMessageBindingDefinition()))
+                .WithBinding(new RedisChannelBindingDefinition()))
             .WithOperation(operationId, operation => operation
                 .WithAction(v3.V3OperationAction.Receive)
                 .WithChannel($"#/channels/{channelId}")
                 .WithMessage($"#/channels/{channelId}/messages/{messageId}")
-                .WithBinding(new MqttOperationBindingDefinition()))
+                .WithBinding(new RedisOperationBindingDefinition()))
             .Build();
         await using var client = ClientFactory.CreateFor(document);
 
@@ -105,8 +105,8 @@ public class MqttBindingHandlerTests
     public async Task Subscribe_Should_Work()
     {
         //arrange
-        var serverId = "mqtt-server";
-        var serverAddress = "test.mosquitto.org";
+        var serverId = "redis-server";
+        var serverAddress = $"localhost:{ServiceProvider.GetRequiredKeyedService<DotNet.Testcontainers.Containers.IContainer>("redis").GetMappedPublicPort(RedisContainerBuilder.PublicPort)}";
         var channelId = "cloud-events";
         var channelAddress = "cloud-event";
         var operationId = "subscribeToCloudEvents";
@@ -115,12 +115,12 @@ public class MqttBindingHandlerTests
         var objectSchema = new JsonSchemaBuilder().Type(SchemaValueType.Object).AdditionalProperties(true).Build();
         var document = DocumentBuilder
             .UsingAsyncApiV3()
-            .WithTitle("Test MQTT API")
+            .WithTitle("Test Redis API")
             .WithVersion("1.0.0")
             .WithServer(serverId, server => server
                 .WithHost(serverAddress)
-                .WithProtocol(AsyncApiProtocol.Mqtt)
-                .WithBinding(new MqttServerBindingDefinition()))
+                .WithProtocol(AsyncApiProtocol.Redis)
+                .WithBinding(new RedisServerBindingDefinition()))
             .WithChannel(channelId, channel => channel
                 .WithAddress(channelAddress)
                 .WithServer($"#/servers/{serverId}")
@@ -143,13 +143,13 @@ public class MqttBindingHandlerTests
                             })
                             .Required(CloudEventAttributes.GetRequiredAttributes())
                             .AdditionalProperties(true)))
-                    .WithBinding(new MqttMessageBindingDefinition()))
-                .WithBinding(new MqttChannelBindingDefinition()))
+                    .WithBinding(new RedisMessageBindingDefinition()))
+                .WithBinding(new RedisChannelBindingDefinition()))
             .WithOperation(operationId, operation => operation
                 .WithAction(v3.V3OperationAction.Send)
                 .WithChannel($"#/channels/{channelId}")
                 .WithMessage($"#/channels/{channelId}/messages/{messageId}")
-                .WithBinding(new MqttOperationBindingDefinition()))
+                .WithBinding(new RedisOperationBindingDefinition()))
             .Build();
         await using var client = ClientFactory.CreateFor(document);
 
@@ -157,7 +157,7 @@ public class MqttBindingHandlerTests
         var parameters = new AsyncApiSubscribeOperationParameters(operationId);
         await using var result = await client.SubscribeAsync(parameters);
         var messageCount = 10;
-        var messagesToSend = new List<MqttApplicationMessage>();
+        var messagesToSend = new List<string>();
         for (var i = 0; i < messageCount; i++)
         {
             var e = new CloudEvent()
@@ -174,22 +174,14 @@ public class MqttBindingHandlerTests
                 }
             };
             var json = JsonSerializer.Default.SerializeToText(e);
-            var payload = Encoding.UTF8.GetBytes(json);
-            var message = new MqttApplicationMessageBuilder()
-                .WithTopic(channelAddress)
-                .WithContentType(MediaTypeNames.Application.Json)
-                .WithPayload(payload)
-                .WithPayloadFormatIndicator(MQTTnet.Protocol.MqttPayloadFormatIndicator.CharacterData)
-                .Build();
-            messagesToSend.Add(message);
+            messagesToSend.Add(json);
         }
         var messagesReceived = new List<IAsyncApiMessage>();
         var subscription = result.Messages?.Subscribe(messagesReceived.Add);
-        var mqttClientFactory = new MqttClientFactory();
-        using var mqttClient = mqttClientFactory.CreateMqttClient();
-        var options = new MqttClientOptionsBuilder().WithTcpServer(serverAddress).Build();
-        await mqttClient.ConnectAsync(options);
-        foreach (var message in messagesToSend) await mqttClient.PublishAsync(message);
+        using var connection = await ConnectionMultiplexer.ConnectAsync(serverAddress);
+        var database = connection.GetDatabase();
+        var channel = new RedisChannel(channelAddress, RedisChannel.PatternMode.Auto);
+        foreach (var message in messagesToSend) await database.PublishAsync(channel, message);
         await Task.Delay(3500);
         subscription?.Dispose();
 
@@ -197,6 +189,13 @@ public class MqttBindingHandlerTests
         result.IsSuccessful.Should().BeTrue();
         result.Messages.Should().NotBeNull();
         messagesReceived.Should().HaveSameCount(messagesToSend);
+    }
+
+    static void ConfigureServices(IServiceCollection services)
+    {
+        services.AddKeyedSingleton("redis", RedisContainerBuilder.Build());
+        services.AddSingleton(provider => provider.GetRequiredKeyedService<DotNet.Testcontainers.Containers.IContainer>("redis"));
+        services.AddHostedService<ContainerBootstrapper>();
     }
 
 }

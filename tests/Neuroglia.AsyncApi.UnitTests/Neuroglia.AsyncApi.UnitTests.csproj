@@ -13,6 +13,7 @@
     <PackageReference Include="FluentAssertions" Version="7.0.0" />
     <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="9.0.0" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.12.0" />
+	<PackageReference Include="Testcontainers" Version="4.1.0" />
     <PackageReference Include="xunit" Version="2.9.2" />
     <PackageReference Include="xunit.runner.visualstudio" Version="3.0.0">
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
@@ -25,8 +26,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\src\Neuroglia.AsyncApi.Client.Bindings.Http\Neuroglia.AsyncApi.Client.Bindings.Http.csproj" />
-    <ProjectReference Include="..\..\src\Neuroglia.AsyncApi.Client.Bindings.Mqtt\Neuroglia.AsyncApi.Client.Bindings.Mqtt.csproj" />
+    <ProjectReference Include="..\..\src\Neuroglia.AsyncApi.Client.Bindings.All\Neuroglia.AsyncApi.Client.Bindings.All.csproj" />
     <ProjectReference Include="..\..\src\Neuroglia.AsyncApi.CloudEvents\Neuroglia.AsyncApi.CloudEvents.csproj" />
     <ProjectReference Include="..\..\src\Neuroglia.AsyncApi.DependencyInjectionExtensions\Neuroglia.AsyncApi.DependencyInjectionExtensions.csproj" />
     <ProjectReference Include="..\..\src\Neuroglia.AsyncApi.Generation\Neuroglia.AsyncApi.Generation.csproj" />

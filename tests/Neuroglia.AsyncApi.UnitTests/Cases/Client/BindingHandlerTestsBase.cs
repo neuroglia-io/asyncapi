@@ -11,6 +11,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+using Microsoft.Extensions.Hosting;
 using Neuroglia.AsyncApi.Client;
 using Neuroglia.AsyncApi.Client.Configuration;
 using Neuroglia.AsyncApi.Client.Services;
@@ -19,14 +20,15 @@ using Neuroglia.AsyncApi.FluentBuilders;
 namespace Neuroglia.AsyncApi.UnitTests.Cases.Client;
 
 public abstract class BindingHandlerTestsBase
-    : IDisposable
+    : IAsyncLifetime
 {
 
-    public BindingHandlerTestsBase(Action<IAsyncApiClientOptionsBuilder> setup)
+    public BindingHandlerTestsBase(Action<IAsyncApiClientOptionsBuilder> setup, Action<IServiceCollection>? serviceConfiguration = null)
     {
         var services = new ServiceCollection();
         services.AddAsyncApi();
         services.AddAsyncApiClient(setup);
+        serviceConfiguration?.Invoke(services);
         ServiceProvider = services.BuildServiceProvider();
     }
 
@@ -36,10 +38,14 @@ public abstract class BindingHandlerTestsBase
 
     protected IAsyncApiClientFactory ClientFactory => ServiceProvider.GetRequiredService<IAsyncApiClientFactory>();
 
-    void IDisposable.Dispose()
+    public async Task InitializeAsync()
     {
-        ServiceProvider.Dispose();
-        GC.SuppressFinalize(this);
+        foreach (var hostedService in ServiceProvider.GetServices<IHostedService>()) await hostedService.StartAsync(CancellationToken.None);
+    }
+
+    public async Task DisposeAsync()
+    {
+        await ServiceProvider.DisposeAsync();
     }
 
 }
