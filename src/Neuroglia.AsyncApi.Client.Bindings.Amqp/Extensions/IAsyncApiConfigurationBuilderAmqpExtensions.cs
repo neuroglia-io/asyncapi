@@ -11,29 +11,24 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using Neuroglia.AsyncApi.Client.Configuration;
-
 namespace Neuroglia.AsyncApi.Client.Bindings;
 
 /// <summary>
 /// Defines extensions for <see cref="IAsyncApiClientOptionsBuilder"/>s
 /// </summary>
-public static class IAsyncApiClientOptionsBuilderExtensions
+public static class IAsyncApiConfigurationBuilderAmqpExtensions
 {
 
     /// <summary>
-    /// Adds and configures the handlers for all default AsyncAPI bindings
+    /// Adds and configures an <see cref="IBindingHandler"/> used to handle Amqp operations
     /// </summary>
-    /// <param name="builder">The <see cref="IAsyncApiClientOptionsBuilder"/> to configure</param>
+    /// <param name="builder">The extended <see cref="IAsyncApiClientOptionsBuilder"/></param>
+    /// <param name="setup">An <see cref="Action{T}"/>, if any, used to setup the <see cref="IBindingHandler"/>'s options</param>
     /// <returns>The configured <see cref="IAsyncApiClientOptionsBuilder"/></returns>
-    public static IAsyncApiClientOptionsBuilder AddAllBindingHandlers(this IAsyncApiClientOptionsBuilder builder)
+    public static IAsyncApiClientOptionsBuilder AddAmqpBindingHandler(this IAsyncApiClientOptionsBuilder builder, Action<AmqpBindingHandlerOptions>? setup = null)
     {
-        builder.AddAmqpBindingHandler();
-        builder.AddHttpBindingHandler();
-        builder.AddKafkaBindingHandler();
-        builder.AddMqttBindingHandler();
-        builder.AddNatsBindingHandler();
-        builder.AddRedisBindingHandler();
+        setup ??= _ => { };
+        builder.AddBindingHandler<AmqpBindingHandler, AmqpBindingHandlerOptions>(setup);
         return builder;
     }
 

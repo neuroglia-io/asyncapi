@@ -25,7 +25,7 @@ public record AmqpChannelBindingDefinition
     /// Gets/sets AMQP channel's type
     /// </summary>
     [DataMember(Order = 1, Name = "is"), JsonPropertyOrder(1), JsonPropertyName("is"), YamlMember(Order = 1, Alias = "is")]
-    public virtual AmqpChannelType Type { get; set; }
+    public virtual AmqpChannelType? Type { get; set; }
 
     /// <summary>
     /// Gets/sets the object used to configure the AMQP exchange, when <see cref="Type"/> is set to <see cref="AmqpChannelType.RoutingKey"/>

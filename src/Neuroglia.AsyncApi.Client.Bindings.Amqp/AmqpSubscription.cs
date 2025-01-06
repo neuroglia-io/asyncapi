@@ -11,45 +11,49 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using Confluent.Kafka;
 using Neuroglia.AsyncApi.v3;
+using RabbitMQ.Client;
+using RabbitMQ.Client.Events;
+using System.Reactive.Linq;
 using System.Reactive.Subjects;
-using System.Text;
-using YamlDotNet.Core.Tokens;
 
-namespace Neuroglia.AsyncApi.Client.Bindings.Kafka;
+namespace Neuroglia.AsyncApi.Client.Bindings.Amqp;
 
 /// <summary>
-/// Represents a subscription to a Kafka channel, used to stream <see cref="IAsyncApiMessage"/>s
+/// Represents a subscription to a Amqp channel, used to stream <see cref="IAsyncApiMessage"/>s
 /// </summary>
-public class KafkaSubscription
-        : IObservable<IAsyncApiMessage>, IDisposable, IAsyncDisposable
+public class AmqpSubscription
+    : IObservable<IAsyncApiMessage>, IDisposable, IAsyncDisposable
 {
 
     bool _disposed;
 
     /// <summary>
-    /// Initializes a new <see cref="KafkaSubscription"/>
+    /// Initializes a new <see cref="AmqpSubscription"/>
     /// </summary>
     /// <param name="logger">The service used to perform logging</param>
-    /// <param name="consumer">The service used to consume Kafka messages</param>
+    /// <param name="connection">The current AMQP connection</param>
+    /// <param name="channel">The current AMQP channel</param>
+    /// <param name="consumer">The service used to consume AMQP messages</param>
     /// <param name="messageContentType">The content type of consumed messages</param>
     /// <param name="runtimeExpressionEvaluator">The service used to evaluate runtime expressions</param>
     /// <param name="schemaHandlerProvider">The service used to provide <see cref="ISchemaHandler"/>s</param>
     /// <param name="serializerProvider">The service used to provide <see cref="ISerializer"/>s</param>
     /// <param name="document">The <see cref="V3AsyncApiDocument"/> that defines the operation for which to consume MQTT messages</param>
     /// <param name="messageDefinitions">An <see cref="IEnumerable{T}"/> containing the definitions of all messages that can potentially be consumed</param>
-    public KafkaSubscription(ILogger<KafkaSubscription> logger, IConsumer<Ignore, byte[]> consumer, string messageContentType, IRuntimeExpressionEvaluator runtimeExpressionEvaluator, ISchemaHandlerProvider schemaHandlerProvider, ISerializerProvider serializerProvider, V3AsyncApiDocument document, IEnumerable<V3MessageDefinition> messageDefinitions)
-    { 
+    public AmqpSubscription(ILogger<AmqpSubscription> logger, IConnection connection, IChannel channel, IAsyncBasicConsumer consumer, string messageContentType, IRuntimeExpressionEvaluator runtimeExpressionEvaluator, ISchemaHandlerProvider schemaHandlerProvider, ISerializerProvider serializerProvider, V3AsyncApiDocument document, IEnumerable<V3MessageDefinition> messageDefinitions)
+    {
         Logger = logger;
+        Connection = connection;
+        Channel = channel;
         Consumer = consumer;
+        if (consumer is AsyncEventingBasicConsumer asyncEventingBasicConsumer) asyncEventingBasicConsumer.ReceivedAsync += OnAmqpMessageAsync;
         MessageContentType = messageContentType;
         RuntimeExpressionEvaluator = runtimeExpressionEvaluator;
         SchemaHandlerProvider = schemaHandlerProvider;
         SerializerProvider = serializerProvider;
         Document = document;
         MessageDefinitions = messageDefinitions;
-        _ = Task.Run(ReadAsync);
     }
 
     /// <summary>
@@ -58,9 +62,19 @@ public class KafkaSubscription
     protected ILogger Logger { get; }
 
     /// <summary>
-    /// Gets the service used to consume Kafka messages
+    /// Gets the current AMQP connection
     /// </summary>
-    protected IConsumer<Ignore, byte[]> Consumer { get; }
+    protected IConnection Connection { get; }
+
+    /// <summary>
+    /// Gets the current AMQP channel
+    /// </summary>
+    protected IChannel Channel { get; }
+
+    /// <summary>
+    /// Gets the service used to consume AMQP messages
+    /// </summary>
+    protected IAsyncBasicConsumer Consumer { get; }
 
     /// <summary>
     /// Gets the content type of consumed messages
@@ -93,7 +107,7 @@ public class KafkaSubscription
     protected IEnumerable<V3MessageDefinition> MessageDefinitions { get; }
 
     /// <summary>
-    /// Gets the <see cref="KafkaSubscription"/>'s <see cref="System.Threading.CancellationTokenSource"/>
+    /// Gets the <see cref="AmqpSubscription"/>'s <see cref="System.Threading.CancellationTokenSource"/>
     /// </summary>
     protected CancellationTokenSource CancellationTokenSource { get; } = new();
 
@@ -106,37 +120,34 @@ public class KafkaSubscription
     public virtual IDisposable Subscribe(IObserver<IAsyncApiMessage> observer) => Subject.Subscribe(observer);
 
     /// <summary>
-    /// Reads <see cref="IAsyncApiMessage"/>s from the underlying <see cref="Stream"/>
+    /// Handles the consumption of an AMQP message
     /// </summary>
+    /// <param name="sender">The sender of the message</param>
+    /// <param name="e">The <see cref="BasicDeliverEventArgs"/> that wraps the consumed AMQP message</param>
     /// <returns>A new awaitable <see cref="Task"/></returns>
-    protected virtual async Task ReadAsync()
+    protected virtual async Task OnAmqpMessageAsync(object sender, BasicDeliverEventArgs e)
     {
-        while (!CancellationTokenSource.IsCancellationRequested)
+        try
         {
-            try
+            var buffer = e.Body.ToArray();
+            using var stream = new MemoryStream(buffer);
+            var contentType = e.BasicProperties.ContentType ?? MessageContentType;
+            var serializer = SerializerProvider.GetSerializersFor(contentType).FirstOrDefault() ?? throw new NullReferenceException($"Failed to find a serializer for the specified content type '{contentType}'");
+            var payload = serializer.Deserialize<object>(stream);
+            var headers = e.BasicProperties.Headers;
+            var messageDefinition = await MessageDefinitions.ToAsyncEnumerable().SingleOrDefaultAwaitAsync(async m => await MessageMatchesAsync(payload, headers, m, CancellationTokenSource.Token).ConfigureAwait(false), CancellationTokenSource.Token).ConfigureAwait(false) ?? throw new NullReferenceException("Failed to resolve the message definition for the specified operation. Make sure the message matches one and only one of the message definitions configured for the specified operation");
+            var correlationId = string.Empty;
+            if (messageDefinition.CorrelationId != null)
             {
-                var consumeResult = Consumer.Consume(CancellationTokenSource.Token);
-                if (consumeResult == null) continue;
-                var buffer = consumeResult.Message.Value;
-                if (buffer == null) return;
-                using var stream = new MemoryStream(buffer);
-                var serializer = SerializerProvider.GetSerializersFor(MessageContentType).FirstOrDefault() ?? throw new NullReferenceException($"Failed to find a serializer for the specified content type '{MessageContentType}'");
-                var payload = serializer.Deserialize<object>(stream);
-                var headers = consumeResult.Message.Headers?.ToDictionary(kvp => kvp.Key, kvp => serializer.Deserialize<object>(kvp.GetValueBytes()));
-                var messageDefinition = await MessageDefinitions.ToAsyncEnumerable().SingleOrDefaultAwaitAsync(async m => await MessageMatchesAsync(payload, headers, m, CancellationTokenSource.Token).ConfigureAwait(false), CancellationTokenSource.Token).ConfigureAwait(false) ?? throw new NullReferenceException("Failed to resolve the message definition for the specified operation. Make sure the message matches one and only one of the message definitions configured for the specified operation");
-                var correlationId = string.Empty;
-                if (messageDefinition.CorrelationId != null)
-                {
-                    var correlationIdDefinition = messageDefinition.CorrelationId.IsReference ? Document.DereferenceCorrelationId(messageDefinition.CorrelationId.Reference!) : messageDefinition.CorrelationId;
-                    correlationId = await RuntimeExpressionEvaluator.EvaluateAsync(correlationIdDefinition.Location, payload, headers, CancellationTokenSource.Token).ConfigureAwait(false);
-                }
-                var message = new AsyncApiMessage(MessageContentType, payload, headers, correlationId);
-                Subject.OnNext(message);
+                var correlationIdDefinition = messageDefinition.CorrelationId.IsReference ? Document.DereferenceCorrelationId(messageDefinition.CorrelationId.Reference!) : messageDefinition.CorrelationId;
+                correlationId = await RuntimeExpressionEvaluator.EvaluateAsync(correlationIdDefinition.Location, payload, headers, CancellationTokenSource.Token).ConfigureAwait(false);
             }
-            catch (Exception ex)
-            {
-                Logger.LogError("An error occurred while consuming a Kafka message: {ex}", ex);
-            }
+            var message = new AsyncApiMessage(contentType, payload, headers, correlationId);
+            Subject.OnNext(message);
+        }
+        catch (Exception ex)
+        {
+            Logger.LogError("An error occurred while consuming a NATS message: {ex}", ex);
         }
     }
 
@@ -185,9 +196,9 @@ public class KafkaSubscription
     }
 
     /// <summary>
-    /// Disposes of the <see cref="KafkaSubscription"/>
+    /// Disposes of the <see cref="AmqpSubscription"/>
     /// </summary>
-    /// <param name="disposing">A boolean indicating whether or not the <see cref="KafkaSubscription"/> is being disposed of</param>
+    /// <param name="disposing">A boolean indicating whether or not the <see cref="AmqpSubscription"/> is being disposed of</param>
     protected virtual void Dispose(bool disposing)
     {
         if (!_disposed)
@@ -195,7 +206,8 @@ public class KafkaSubscription
             if (disposing)
             {
                 CancellationTokenSource.Dispose();
-                Consumer.Dispose();
+                Channel.Dispose();
+                Connection.Dispose();
                 Subject.Dispose();
             }
             _disposed = true;
@@ -210,22 +222,22 @@ public class KafkaSubscription
     }
 
     /// <summary>
-    /// Disposes of the <see cref="KafkaSubscription"/>
+    /// Disposes of the <see cref="AmqpSubscription"/>
     /// </summary>
-    /// <param name="disposing">A boolean indicating whether or not the <see cref="KafkaSubscription"/> is being disposed of</param>
-    protected virtual ValueTask DisposeAsync(bool disposing)
+    /// <param name="disposing">A boolean indicating whether or not the <see cref="AmqpSubscription"/> is being disposed of</param>
+    protected virtual async ValueTask DisposeAsync(bool disposing)
     {
         if (!_disposed)
         {
             if (disposing)
             {
                 CancellationTokenSource.Dispose();
-                Consumer.Dispose();
+                await Channel.DisposeAsync().ConfigureAwait(false);
+                await Connection.DisposeAsync().ConfigureAwait(false);
                 Subject.Dispose();
             }
             _disposed = true;
         }
-        return ValueTask.CompletedTask;
     }
 
     /// <inheritdoc/>

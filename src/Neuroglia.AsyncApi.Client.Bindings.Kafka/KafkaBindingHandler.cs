@@ -14,7 +14,6 @@
 using Confluent.Kafka;
 using Json.Schema;
 using Microsoft.Extensions.DependencyInjection;
-using System.Text;
 
 namespace Neuroglia.AsyncApi.Client.Bindings.Kafka;
 
@@ -113,14 +112,16 @@ public class KafkaBindingHandler(IServiceProvider serviceProvider, ILogger<Kafka
             var serverBinding = context.ServerBinding as KafkaServerBindingDefinition;
             var channelBinding = context.ChannelBinding as KafkaChannelBindingDefinition;
             var operationBinding = context.OperationBinding as KafkaOperationBindingDefinition;
-            var groupId = operationBinding?.GroupId?.GetKeyword<DefaultKeyword>()?.Value ?? operationBinding?.GroupId?.GetKeyword<EnumKeyword>()?.Values?[0];
-            var clientId = operationBinding?.ClientId?.GetKeyword<DefaultKeyword>()?.Value ?? operationBinding?.ClientId?.GetKeyword<EnumKeyword>()?.Values?[0];
+            var groupIdJson = operationBinding?.GroupId?.GetKeyword<DefaultKeyword>()?.Value ?? operationBinding?.GroupId?.GetKeyword<EnumKeyword>()?.Values?[0];
+            var groupId = groupIdJson == null ? "default" : JsonSerializer.Deserialize<string>(groupIdJson);
+            var clientIdJson = operationBinding?.ClientId?.GetKeyword<DefaultKeyword>()?.Value ?? operationBinding?.ClientId?.GetKeyword<EnumKeyword>()?.Values?[0];
+            var clientId = clientIdJson == null ? "rdkafka" : JsonSerializer.Deserialize<string>(clientIdJson);
             var topic = channelBinding?.Topic ?? context.Channel!;
             var consumerConfig = new ConsumerConfig
             {
                 BootstrapServers = $"{context.Host}{context.Path}",
-                GroupId = groupId == null ? null : JsonSerializer.Deserialize<string>(groupId),
-                ClientId = clientId == null ? null : JsonSerializer.Deserialize<string>(clientId)
+                GroupId = groupId,
+                ClientId = clientId
             };
             var consumer = new ConsumerBuilder<Ignore, byte[]>(consumerConfig).Build();
             consumer.Subscribe(topic);
