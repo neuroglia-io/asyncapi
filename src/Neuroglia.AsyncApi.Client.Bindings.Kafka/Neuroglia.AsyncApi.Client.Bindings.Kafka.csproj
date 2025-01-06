@@ -10,7 +10,7 @@
     <Authors>Neuroglia SRL</Authors>
     <RepositoryUrl>https://github.com/neuroglia-io/asyncapi</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
-    <PackageTags>neuroglia asyncapi async api client binding nats</PackageTags>
+    <PackageTags>neuroglia asyncapi async api client binding kafka</PackageTags>
     <Version>3.0.1</Version>
     <NeutralLanguage>en</NeutralLanguage>
 	<PackageLicenseExpression>Apache-2.0</PackageLicenseExpression>
@@ -28,8 +28,8 @@
     </None>
   </ItemGroup>
 
-  <ItemGroup>
-    <PackageReference Include="NATS.Net" Version="2.5.5" />
+  <ItemGroup>    <PackageReference Include="Confluent.Kafka" Version="2.6.1" />
+
     <PackageReference Include="System.Reactive" Version="6.0.1" />
   </ItemGroup>
 	

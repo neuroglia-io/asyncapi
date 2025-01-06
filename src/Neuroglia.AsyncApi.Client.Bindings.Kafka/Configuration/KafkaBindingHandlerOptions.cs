@@ -11,23 +11,15 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-namespace Neuroglia.AsyncApi.Bindings.Amqp;
+namespace Neuroglia.AsyncApi.Client.Bindings.Kafka.Configuration;
 
 /// <summary>
-/// Enumerates all supported AMQP channel types
+/// Represents the options used to configure a <see cref="KafkaBindingHandler"/>
 /// </summary>
-[JsonConverter(typeof(StringEnumConverter))]
-[TypeConverter(typeof(EnumMemberTypeConverter))]
-public enum AmqpChannelType
+public class KafkaBindingHandlerOptions
+    : BindingHandlerOptions
 {
-    /// <summary>
-    /// Indicates a routing key based AMQP channel
-    /// </summary>
-    [EnumMember(Value = "routingKey")]
-    RoutingKey = 1,
-    /// <summary>
-    /// Indicates a queue based AMQP channel
-    /// </summary>
-    [EnumMember(Value = "queue")]
-    Queue = 2
+
+
+
 }

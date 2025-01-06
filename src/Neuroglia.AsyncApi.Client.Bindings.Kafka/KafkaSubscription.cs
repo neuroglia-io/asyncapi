@@ -11,38 +11,38 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using NATS.Client.Core;
+using Confluent.Kafka;
 using Neuroglia.AsyncApi.v3;
 using System.Reactive.Subjects;
+using System.Text;
+using YamlDotNet.Core.Tokens;
 
-namespace Neuroglia.AsyncApi.Client.Bindings.Nats;
+namespace Neuroglia.AsyncApi.Client.Bindings.Kafka;
 
 /// <summary>
-/// Represents a subscription to a Nats channel, used to stream <see cref="IAsyncApiMessage"/>s
+/// Represents a subscription to a Kafka channel, used to stream <see cref="IAsyncApiMessage"/>s
 /// </summary>
-public class NatsSubscription
-    : IObservable<IAsyncApiMessage>, IDisposable, IAsyncDisposable
+public class KafkaSubscription
+        : IObservable<IAsyncApiMessage>, IDisposable, IAsyncDisposable
 {
 
     bool _disposed;
 
     /// <summary>
-    /// Initializes a new <see cref="NatsSubscription"/>
+    /// Initializes a new <see cref="KafkaSubscription"/>
     /// </summary>
     /// <param name="logger">The service used to perform logging</param>
-    /// <param name="client">The <see cref="INatsClient"/> used to interact with the Nats server</param>
-    /// <param name="stream">An <see cref="IAsyncEnumerable{T}"/> used to stream NATS messages</param>
+    /// <param name="consumer">The service used to consume Kafka messages</param>
     /// <param name="messageContentType">The content type of consumed messages</param>
     /// <param name="runtimeExpressionEvaluator">The service used to evaluate runtime expressions</param>
     /// <param name="schemaHandlerProvider">The service used to provide <see cref="ISchemaHandler"/>s</param>
     /// <param name="serializerProvider">The service used to provide <see cref="ISerializer"/>s</param>
     /// <param name="document">The <see cref="V3AsyncApiDocument"/> that defines the operation for which to consume MQTT messages</param>
     /// <param name="messageDefinitions">An <see cref="IEnumerable{T}"/> containing the definitions of all messages that can potentially be consumed</param>
-    public NatsSubscription(ILogger<NatsSubscription> logger, INatsClient client, IAsyncEnumerable<NatsMsg<byte[]>> stream, string messageContentType, IRuntimeExpressionEvaluator runtimeExpressionEvaluator, ISchemaHandlerProvider schemaHandlerProvider, ISerializerProvider serializerProvider, V3AsyncApiDocument document, IEnumerable<V3MessageDefinition> messageDefinitions)
-    {
+    public KafkaSubscription(ILogger<KafkaSubscription> logger, IConsumer<Ignore, byte[]> consumer, string messageContentType, IRuntimeExpressionEvaluator runtimeExpressionEvaluator, ISchemaHandlerProvider schemaHandlerProvider, ISerializerProvider serializerProvider, V3AsyncApiDocument document, IEnumerable<V3MessageDefinition> messageDefinitions)
+    { 
         Logger = logger;
-        Client = client;
-        Stream = stream;
+        Consumer = consumer;
         MessageContentType = messageContentType;
         RuntimeExpressionEvaluator = runtimeExpressionEvaluator;
         SchemaHandlerProvider = schemaHandlerProvider;
@@ -58,14 +58,9 @@ public class NatsSubscription
     protected ILogger Logger { get; }
 
     /// <summary>
-    /// Gets the <see cref="INatsClient"/> used to interact with the Nats server
+    /// Gets the service used to consume Kafka messages
     /// </summary>
-    protected INatsClient Client { get; }
-
-    /// <summary>
-    /// Gets an <see cref="IAsyncEnumerable{T}"/> used to stream NATS messages
-    /// </summary>
-    protected IAsyncEnumerable<NatsMsg<byte[]>> Stream { get; }
+    protected IConsumer<Ignore, byte[]> Consumer { get; }
 
     /// <summary>
     /// Gets the content type of consumed messages
@@ -98,7 +93,7 @@ public class NatsSubscription
     protected IEnumerable<V3MessageDefinition> MessageDefinitions { get; }
 
     /// <summary>
-    /// Gets the <see cref="NatsSubscription"/>'s <see cref="System.Threading.CancellationTokenSource"/>
+    /// Gets the <see cref="KafkaSubscription"/>'s <see cref="System.Threading.CancellationTokenSource"/>
     /// </summary>
     protected CancellationTokenSource CancellationTokenSource { get; } = new();
 
@@ -116,16 +111,18 @@ public class NatsSubscription
     /// <returns>A new awaitable <see cref="Task"/></returns>
     protected virtual async Task ReadAsync()
     {
-        await foreach(var natsMessage in Stream.WithCancellation(CancellationTokenSource.Token))
+        while (!CancellationTokenSource.IsCancellationRequested)
         {
             try
             {
-                var buffer = natsMessage.Data;
-                if (buffer == null) continue;
-                using var stream = new MemoryStream([.. buffer]);
+                var consumeResult = Consumer.Consume(CancellationTokenSource.Token);
+                if (consumeResult == null) continue;
+                var buffer = consumeResult.Message.Value;
+                if (buffer == null) return;
+                using var stream = new MemoryStream(buffer);
                 var serializer = SerializerProvider.GetSerializersFor(MessageContentType).FirstOrDefault() ?? throw new NullReferenceException($"Failed to find a serializer for the specified content type '{MessageContentType}'");
                 var payload = serializer.Deserialize<object>(stream);
-                var headers = natsMessage.Headers?.ToDictionary(kvp => kvp.Key, kvp => string.Join(',', (string?)kvp.Value));
+                var headers = consumeResult.Message.Headers?.ToDictionary(kvp => kvp.Key, kvp => serializer.Deserialize<object>(kvp.GetValueBytes()));
                 var messageDefinition = await MessageDefinitions.ToAsyncEnumerable().SingleOrDefaultAwaitAsync(async m => await MessageMatchesAsync(payload, headers, m, CancellationTokenSource.Token).ConfigureAwait(false), CancellationTokenSource.Token).ConfigureAwait(false) ?? throw new NullReferenceException("Failed to resolve the message definition for the specified operation. Make sure the message matches one and only one of the message definitions configured for the specified operation"); ;
                 var correlationId = string.Empty;
                 if (messageDefinition.CorrelationId != null)
@@ -138,7 +135,7 @@ public class NatsSubscription
             }
             catch (Exception ex)
             {
-                Logger.LogError("An error occurred while consuming a NATS message: {ex}", ex);
+                Logger.LogError("An error occurred while consuming a Kafka message: {ex}", ex);
             }
         }
     }
@@ -188,9 +185,9 @@ public class NatsSubscription
     }
 
     /// <summary>
-    /// Disposes of the <see cref="NatsSubscription"/>
+    /// Disposes of the <see cref="KafkaSubscription"/>
     /// </summary>
-    /// <param name="disposing">A boolean indicating whether or not the <see cref="NatsSubscription"/> is being disposed of</param>
+    /// <param name="disposing">A boolean indicating whether or not the <see cref="KafkaSubscription"/> is being disposed of</param>
     protected virtual void Dispose(bool disposing)
     {
         if (!_disposed)
@@ -198,9 +195,7 @@ public class NatsSubscription
             if (disposing)
             {
                 CancellationTokenSource.Dispose();
-#pragma warning disable CA2012 // Use ValueTasks correctly
-                Client.DisposeAsync().GetAwaiter().GetResult();
-#pragma warning restore CA2012 // Use ValueTasks correctly
+                Consumer.Dispose();
                 Subject.Dispose();
             }
             _disposed = true;
@@ -215,21 +210,22 @@ public class NatsSubscription
     }
 
     /// <summary>
-    /// Disposes of the <see cref="NatsSubscription"/>
+    /// Disposes of the <see cref="KafkaSubscription"/>
     /// </summary>
-    /// <param name="disposing">A boolean indicating whether or not the <see cref="NatsSubscription"/> is being disposed of</param>
-    protected virtual async ValueTask DisposeAsync(bool disposing)
+    /// <param name="disposing">A boolean indicating whether or not the <see cref="KafkaSubscription"/> is being disposed of</param>
+    protected virtual ValueTask DisposeAsync(bool disposing)
     {
         if (!_disposed)
         {
             if (disposing)
             {
                 CancellationTokenSource.Dispose();
-                await Client.DisposeAsync().ConfigureAwait(false);
+                Consumer.Dispose();
                 Subject.Dispose();
             }
             _disposed = true;
         }
+        return ValueTask.CompletedTask;
     }
 
     /// <inheritdoc/>

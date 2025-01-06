@@ -11,23 +11,26 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-namespace Neuroglia.AsyncApi.Bindings.Amqp;
+using DotNet.Testcontainers.Builders;
+using DotNet.Testcontainers.Containers;
 
-/// <summary>
-/// Enumerates all supported AMQP channel types
-/// </summary>
-[JsonConverter(typeof(StringEnumConverter))]
-[TypeConverter(typeof(EnumMemberTypeConverter))]
-public enum AmqpChannelType
+namespace Neuroglia.AsyncApi.UnitTests.Containers;
+
+public static class KafkaContainerBuilder
 {
-    /// <summary>
-    /// Indicates a routing key based AMQP channel
-    /// </summary>
-    [EnumMember(Value = "routingKey")]
-    RoutingKey = 1,
-    /// <summary>
-    /// Indicates a queue based AMQP channel
-    /// </summary>
-    [EnumMember(Value = "queue")]
-    Queue = 2
+
+    public const int PublicPort = 9092;
+
+    public static IContainer Build()
+    {
+        return new ContainerBuilder()
+            .WithName($"kafka-{Guid.NewGuid():N}")
+            .WithImage("confluentinc/confluent-local")
+            .WithPortBinding(PublicPort, PublicPort)
+            .WithWaitStrategy(Wait
+                .ForUnixContainer()
+                .UntilMessageIsLogged(".* Kafka Server started .*"))
+            .Build();
+    }
+
 }

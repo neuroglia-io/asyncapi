@@ -11,23 +11,11 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-namespace Neuroglia.AsyncApi.Bindings.Amqp;
-
-/// <summary>
-/// Enumerates all supported AMQP channel types
-/// </summary>
-[JsonConverter(typeof(StringEnumConverter))]
-[TypeConverter(typeof(EnumMemberTypeConverter))]
-public enum AmqpChannelType
-{
-    /// <summary>
-    /// Indicates a routing key based AMQP channel
-    /// </summary>
-    [EnumMember(Value = "routingKey")]
-    RoutingKey = 1,
-    /// <summary>
-    /// Indicates a queue based AMQP channel
-    /// </summary>
-    [EnumMember(Value = "queue")]
-    Queue = 2
-}
+global using Microsoft.Extensions.Logging;
+global using Microsoft.Extensions.Options;
+global using Neuroglia.AsyncApi.Bindings.Kafka;
+global using Neuroglia.AsyncApi.Client.Bindings.Kafka;
+global using Neuroglia.AsyncApi.Client.Bindings.Kafka.Configuration;
+global using Neuroglia.AsyncApi.Client.Configuration;
+global using Neuroglia.AsyncApi.Client.Services;
+global using Neuroglia.Serialization;
