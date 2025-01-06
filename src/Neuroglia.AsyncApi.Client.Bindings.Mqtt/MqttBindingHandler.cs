@@ -81,6 +81,7 @@ public class MqttBindingHandler(IServiceProvider serviceProvider, ILogger<MqttBi
             .WithContentType(contentType)
             .WithPayloadFormatIndicator(messageBinding?.PayloadFormatIndicator == 0 ? MQTTnet.Protocol.MqttPayloadFormatIndicator.Unspecified : MQTTnet.Protocol.MqttPayloadFormatIndicator.CharacterData)
             .WithRetainFlag(operationBinding?.Retain ?? false);
+        if (context.Headers != null) foreach(var header in context.Headers.ToDictionary()!) messageBuilder.WithUserProperty(header.Key, header.Value.ToString());
         //if (messageBinding?.CorrelationData != null) messageBuilder.WithCorrelationData(); //todo: implement
         if (!string.IsNullOrWhiteSpace(messageBinding?.ResponseTopic)) messageBuilder.WithResponseTopic(messageBinding.ResponseTopic);
         var message = messageBuilder.Build();

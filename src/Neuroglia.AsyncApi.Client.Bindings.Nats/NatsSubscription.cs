@@ -12,44 +12,45 @@
 // limitations under the License.
 
 using MQTTnet;
+using NATS.Client.Core;
 using Neuroglia.AsyncApi.v3;
-using Neuroglia.Serialization;
-using System.Buffers;
-using System.Reactive.Linq;
 using System.Reactive.Subjects;
-using System.Reflection.Metadata;
 
-namespace Neuroglia.AsyncApi.Client.Bindings.Mqtt;
+namespace Neuroglia.AsyncApi.Client.Bindings.Nats;
 
 /// <summary>
-/// Represents a subscription to an MQTT topic
+/// Represents a subscription to a Nats channel, used to stream <see cref="IAsyncApiMessage"/>s
 /// </summary>
-public class MqttSubscription
-    : IObservable<IAsyncApiMessage>, IAsyncDisposable
+public class NatsSubscription
+    : IObservable<IAsyncApiMessage>, IDisposable, IAsyncDisposable
 {
 
     bool _disposed;
 
     /// <summary>
-    /// Initializes a new <see cref="MqttSubscription"/>
+    /// Initializes a new <see cref="NatsSubscription"/>
     /// </summary>
     /// <param name="logger">The service used to perform logging</param>
-    /// <param name="mqttClient">The <see cref="IMqttClient"/> used to consume <see cref="IAsyncApiMessage"/>s</param>
+    /// <param name="client">The <see cref="INatsClient"/> used to interact with the Nats server</param>
+    /// <param name="stream">An <see cref="IAsyncEnumerable{T}"/> used to stream NATS messages</param>
+    /// <param name="messageContentType">The content type of consumed messages</param>
     /// <param name="runtimeExpressionEvaluator">The service used to evaluate runtime expressions</param>
     /// <param name="schemaHandlerProvider">The service used to provide <see cref="ISchemaHandler"/>s</param>
     /// <param name="serializerProvider">The service used to provide <see cref="ISerializer"/>s</param>
     /// <param name="document">The <see cref="V3AsyncApiDocument"/> that defines the operation for which to consume MQTT messages</param>
     /// <param name="messageDefinitions">An <see cref="IEnumerable{T}"/> containing the definitions of all messages that can potentially be consumed</param>
-    public MqttSubscription(ILogger<MqttSubscription> logger, IMqttClient mqttClient, IRuntimeExpressionEvaluator runtimeExpressionEvaluator, ISchemaHandlerProvider schemaHandlerProvider, ISerializerProvider serializerProvider, V3AsyncApiDocument document, IEnumerable<V3MessageDefinition> messageDefinitions)
+    public NatsSubscription(ILogger<NatsSubscription> logger, INatsClient client, IAsyncEnumerable<NatsMsg<byte[]>> stream, string messageContentType, IRuntimeExpressionEvaluator runtimeExpressionEvaluator, ISchemaHandlerProvider schemaHandlerProvider, ISerializerProvider serializerProvider, V3AsyncApiDocument document, IEnumerable<V3MessageDefinition> messageDefinitions)
     {
         Logger = logger;
-        MqttClient = mqttClient;
-        MqttClient.ApplicationMessageReceivedAsync += OnMessageReceivedAsync;
+        Client = client;
+        Stream = stream;
+        MessageContentType = messageContentType;
         RuntimeExpressionEvaluator = runtimeExpressionEvaluator;
         SchemaHandlerProvider = schemaHandlerProvider;
         SerializerProvider = serializerProvider;
         Document = document;
         MessageDefinitions = messageDefinitions;
+        _ = Task.Run(ReadAsync);
     }
 
     /// <summary>
@@ -58,9 +59,19 @@ public class MqttSubscription
     protected ILogger Logger { get; }
 
     /// <summary>
-    /// Gets the <see cref="IMqttClient"/> used to consume <see cref="IAsyncApiMessage"/>s
+    /// Gets the <see cref="INatsClient"/> used to interact with the Nats server
     /// </summary>
-    protected IMqttClient MqttClient { get; }
+    protected INatsClient Client { get; }
+
+    /// <summary>
+    /// Gets an <see cref="IAsyncEnumerable{T}"/> used to stream NATS messages
+    /// </summary>
+    protected IAsyncEnumerable<NatsMsg<byte[]>> Stream { get; }
+
+    /// <summary>
+    /// Gets the content type of consumed messages
+    /// </summary>
+    protected string MessageContentType { get; }
 
     /// <summary>
     /// Gets the service used to evaluate runtime expressions
@@ -88,7 +99,7 @@ public class MqttSubscription
     protected IEnumerable<V3MessageDefinition> MessageDefinitions { get; }
 
     /// <summary>
-    /// Gets the <see cref="MqttSubscription"/>'s <see cref="System.Threading.CancellationTokenSource"/>
+    /// Gets the <see cref="NatsSubscription"/>'s <see cref="System.Threading.CancellationTokenSource"/>
     /// </summary>
     protected CancellationTokenSource CancellationTokenSource { get; } = new();
 
@@ -101,33 +112,35 @@ public class MqttSubscription
     public virtual IDisposable Subscribe(IObserver<IAsyncApiMessage> observer) => Subject.Subscribe(observer);
 
     /// <summary>
-    /// Handles the consumption of an MQTT message
+    /// Reads <see cref="IAsyncApiMessage"/>s from the underlying <see cref="Stream"/>
     /// </summary>
-    /// <param name="e">The <see cref="MqttApplicationMessageReceivedEventArgs"/> that describes the consumed MQTT message</param>
     /// <returns>A new awaitable <see cref="Task"/></returns>
-    protected virtual async Task OnMessageReceivedAsync(MqttApplicationMessageReceivedEventArgs e)
+    protected virtual async Task ReadAsync()
     {
-        try
+        await foreach(var natsMessage in Stream.WithCancellation(CancellationTokenSource.Token))
         {
-            var buffer = e.ApplicationMessage.Payload;
-            using var stream = new MemoryStream(buffer.ToArray());
-            var serializer = SerializerProvider.GetSerializersFor(e.ApplicationMessage.ContentType).FirstOrDefault() ?? throw new NullReferenceException($"Failed to find a serializer for the specified content type '{e.ApplicationMessage.ContentType}'");
-            var payload = serializer.Deserialize<object>(stream);
-            var headers = e.ApplicationMessage.UserProperties?.ToDictionary(kvp => kvp.Name, kvp => kvp.Value);
-            var messageDefinition = await MessageDefinitions.ToAsyncEnumerable().SingleOrDefaultAwaitAsync(async m => await MessageMatchesAsync(payload, headers, m, CancellationTokenSource.Token).ConfigureAwait(false), CancellationTokenSource.Token).ConfigureAwait(false) ?? throw new NullReferenceException("Failed to resolve the message definition for the specified operation. Make sure the message matches one and only one of the message definitions configured for the specified operation"); ;
-            var correlationId = string.Empty;
-            if (messageDefinition.CorrelationId != null)
+            try
             {
-                var correlationIdDefinition = messageDefinition.CorrelationId.IsReference ? Document.DereferenceCorrelationId(messageDefinition.CorrelationId.Reference!) : messageDefinition.CorrelationId;
-                correlationId = await RuntimeExpressionEvaluator.EvaluateAsync(correlationIdDefinition.Location, payload, headers, CancellationTokenSource.Token).ConfigureAwait(false);
+                var buffer = natsMessage.Data;
+                if (buffer == null) continue;
+                using var stream = new MemoryStream([.. buffer]);
+                var serializer = SerializerProvider.GetSerializersFor(MessageContentType).FirstOrDefault() ?? throw new NullReferenceException($"Failed to find a serializer for the specified content type '{MessageContentType}'");
+                var payload = serializer.Deserialize<object>(stream);
+                var headers = natsMessage.Headers?.ToDictionary(kvp => kvp.Key, kvp => string.Join(',', (string?)kvp.Value));
+                var messageDefinition = await MessageDefinitions.ToAsyncEnumerable().SingleOrDefaultAwaitAsync(async m => await MessageMatchesAsync(payload, headers, m, CancellationTokenSource.Token).ConfigureAwait(false), CancellationTokenSource.Token).ConfigureAwait(false) ?? throw new NullReferenceException("Failed to resolve the message definition for the specified operation. Make sure the message matches one and only one of the message definitions configured for the specified operation"); ;
+                var correlationId = string.Empty;
+                if (messageDefinition.CorrelationId != null)
+                {
+                    var correlationIdDefinition = messageDefinition.CorrelationId.IsReference ? Document.DereferenceCorrelationId(messageDefinition.CorrelationId.Reference!) : messageDefinition.CorrelationId;
+                    correlationId = await RuntimeExpressionEvaluator.EvaluateAsync(correlationIdDefinition.Location, payload, headers, CancellationTokenSource.Token).ConfigureAwait(false);
+                }
+                var message = new AsyncApiMessage(MessageContentType, payload, headers, correlationId);
+                Subject.OnNext(message);
             }
-            var message = new AsyncApiMessage(e.ApplicationMessage.ContentType, payload, headers, correlationId);
-            Subject.OnNext(message);
-            await e.AcknowledgeAsync(CancellationTokenSource.Token).ConfigureAwait(false);
-        }
-        catch(Exception ex)
-        {
-            Logger.LogError("An error occurred while consuming an MQTT message: {ex}", ex);
+            catch (Exception ex)
+            {
+                Logger.LogError("An error occurred while consuming a NATS message: {ex}", ex);
+            }
         }
     }
 
@@ -176,9 +189,36 @@ public class MqttSubscription
     }
 
     /// <summary>
-    /// Disposes of the <see cref="MqttSubscription"/>
+    /// Disposes of the <see cref="NatsSubscription"/>
     /// </summary>
-    /// <param name="disposing">A boolean indicating whether or not the <see cref="MqttSubscription"/> is being disposed of</param>
+    /// <param name="disposing">A boolean indicating whether or not the <see cref="NatsSubscription"/> is being disposed of</param>
+    protected virtual void Dispose(bool disposing)
+    {
+        if (!_disposed)
+        {
+            if (disposing)
+            {
+                CancellationTokenSource.Dispose();
+#pragma warning disable CA2012 // Use ValueTasks correctly
+                Client.DisposeAsync().GetAwaiter().GetResult();
+#pragma warning restore CA2012 // Use ValueTasks correctly
+                Subject.Dispose();
+            }
+            _disposed = true;
+        }
+    }
+
+    /// <inheritdoc/>
+    public void Dispose()
+    {
+        Dispose(disposing: true);
+        GC.SuppressFinalize(this);
+    }
+
+    /// <summary>
+    /// Disposes of the <see cref="NatsSubscription"/>
+    /// </summary>
+    /// <param name="disposing">A boolean indicating whether or not the <see cref="NatsSubscription"/> is being disposed of</param>
     protected virtual async ValueTask DisposeAsync(bool disposing)
     {
         if (!_disposed)
@@ -186,9 +226,7 @@ public class MqttSubscription
             if (disposing)
             {
                 CancellationTokenSource.Dispose();
-                MqttClient.ApplicationMessageReceivedAsync -= OnMessageReceivedAsync;
-                await MqttClient.DisconnectAsync().ConfigureAwait(false);
-                MqttClient.Dispose();
+                await Client.DisposeAsync().ConfigureAwait(false);
                 Subject.Dispose();
             }
             _disposed = true;

@@ -63,6 +63,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Neuroglia.AsyncApi.Client.B
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Neuroglia.AsyncApi.Client.Bindings.Redis", "src\Neuroglia.AsyncApi.Client.Bindings.Redis\Neuroglia.AsyncApi.Client.Bindings.Redis.csproj", "{D7665DAF-42CD-47E7-8A77-52C82B696D9B}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Neuroglia.AsyncApi.Client.Bindings.Nats", "src\Neuroglia.AsyncApi.Client.Bindings.Nats\Neuroglia.AsyncApi.Client.Bindings.Nats.csproj", "{DCADC636-53BA-408A-A870-CC07FD63A3F3}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -133,6 +135,10 @@ Global
 		{D7665DAF-42CD-47E7-8A77-52C82B696D9B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D7665DAF-42CD-47E7-8A77-52C82B696D9B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D7665DAF-42CD-47E7-8A77-52C82B696D9B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DCADC636-53BA-408A-A870-CC07FD63A3F3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DCADC636-53BA-408A-A870-CC07FD63A3F3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DCADC636-53BA-408A-A870-CC07FD63A3F3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DCADC636-53BA-408A-A870-CC07FD63A3F3}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -156,6 +162,7 @@ Global
 		{1F3D40FA-19B3-4608-8594-9383CD9400FB} = {4B933DF9-CD24-44B1-AF64-0D5E75B9AB45}
 		{8FD99A95-410A-4E38-AC7C-938894053E87} = {4B933DF9-CD24-44B1-AF64-0D5E75B9AB45}
 		{D7665DAF-42CD-47E7-8A77-52C82B696D9B} = {4B933DF9-CD24-44B1-AF64-0D5E75B9AB45}
+		{DCADC636-53BA-408A-A870-CC07FD63A3F3} = {4B933DF9-CD24-44B1-AF64-0D5E75B9AB45}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {DC433DEB-01E5-4328-B0BB-6FFFE8C7363F}

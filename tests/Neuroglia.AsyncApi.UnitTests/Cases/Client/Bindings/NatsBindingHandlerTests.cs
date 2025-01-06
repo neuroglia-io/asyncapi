@@ -11,19 +11,21 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using Neuroglia.AsyncApi.Bindings.Redis;
+using Microsoft.Extensions.Primitives;
+using NATS.Client.Core;
+using NATS.Net;
+using Neuroglia.AsyncApi.Bindings.Nats;
 using Neuroglia.AsyncApi.Client;
 using Neuroglia.AsyncApi.Client.Bindings;
 using Neuroglia.AsyncApi.UnitTests.Containers;
-using StackExchange.Redis;
 
 namespace Neuroglia.AsyncApi.UnitTests.Cases.Client.Bindings;
 
-public class RedisBindingHandlerTests
+public class NatsBindingHandlerTests
     : BindingHandlerTestsBase
 {
-    public RedisBindingHandlerTests()
-        : base(builder => builder.AddRedisBindingHandler(), ConfigureServices)
+    public NatsBindingHandlerTests()
+        : base(builder => builder.AddNatsBindingHandler(), ConfigureServices)
     {
 
     }
@@ -32,7 +34,7 @@ public class RedisBindingHandlerTests
     public async Task Publish_Should_Work()
     {
         //arrange
-        var serverId = "redis-server";
+        var serverId = "nats-server";
         var channelId = "cloud-events";
         var operationId = "publishCloudEvent";
         var messageId = "cloudEvent";
@@ -40,12 +42,12 @@ public class RedisBindingHandlerTests
         var objectSchema = new JsonSchemaBuilder().Type(SchemaValueType.Object).AdditionalProperties(true).Build();
         var document = DocumentBuilder
             .UsingAsyncApiV3()
-            .WithTitle("Test Redis API")
+            .WithTitle("Test Nats API")
             .WithVersion("1.0.0")
             .WithServer(serverId, server => server
-                .WithHost($"localhost:{ServiceProvider.GetRequiredKeyedService<DotNet.Testcontainers.Containers.IContainer>("redis").GetMappedPublicPort(RedisContainerBuilder.PublicPort)}")
-                .WithProtocol(AsyncApiProtocol.Redis)
-                .WithBinding(new RedisServerBindingDefinition()))
+                .WithHost($"localhost:{ServiceProvider.GetRequiredKeyedService<DotNet.Testcontainers.Containers.IContainer>("nats").GetMappedPublicPort(NatsContainerBuilder.PublicPort)}")
+                .WithProtocol(AsyncApiProtocol.Nats)
+                .WithBinding(new NatsServerBindingDefinition()))
             .WithChannel(channelId, channel => channel
                 .WithAddress("cloud-event")
                 .WithServer($"#/servers/{serverId}")
@@ -68,13 +70,13 @@ public class RedisBindingHandlerTests
                             })
                             .Required(CloudEventAttributes.GetRequiredAttributes())
                             .AdditionalProperties(true)))
-                    .WithBinding(new RedisMessageBindingDefinition()))
-                .WithBinding(new RedisChannelBindingDefinition()))
+                    .WithBinding(new NatsMessageBindingDefinition()))
+                .WithBinding(new NatsChannelBindingDefinition()))
             .WithOperation(operationId, operation => operation
                 .WithAction(v3.V3OperationAction.Receive)
                 .WithChannel($"#/channels/{channelId}")
                 .WithMessage($"#/channels/{channelId}/messages/{messageId}")
-                .WithBinding(new RedisOperationBindingDefinition()))
+                .WithBinding(new NatsOperationBindingDefinition()))
             .Build();
         await using var client = ClientFactory.CreateFor(document);
 
@@ -105,8 +107,8 @@ public class RedisBindingHandlerTests
     public async Task Subscribe_Should_Work()
     {
         //arrange
-        var serverId = "redis-server";
-        var serverAddress = $"localhost:{ServiceProvider.GetRequiredKeyedService<DotNet.Testcontainers.Containers.IContainer>("redis").GetMappedPublicPort(RedisContainerBuilder.PublicPort)}";
+        var serverId = "nats-server";
+        var serverAddress = $"localhost:{ServiceProvider.GetRequiredKeyedService<DotNet.Testcontainers.Containers.IContainer>("nats").GetMappedPublicPort(NatsContainerBuilder.PublicPort)}";
         var channelId = "cloud-events";
         var channelAddress = "cloud-event";
         var operationId = "subscribeToCloudEvents";
@@ -115,12 +117,12 @@ public class RedisBindingHandlerTests
         var objectSchema = new JsonSchemaBuilder().Type(SchemaValueType.Object).AdditionalProperties(true).Build();
         var document = DocumentBuilder
             .UsingAsyncApiV3()
-            .WithTitle("Test Redis API")
+            .WithTitle("Test Nats API")
             .WithVersion("1.0.0")
             .WithServer(serverId, server => server
                 .WithHost(serverAddress)
-                .WithProtocol(AsyncApiProtocol.Redis)
-                .WithBinding(new RedisServerBindingDefinition()))
+                .WithProtocol(AsyncApiProtocol.Nats)
+                .WithBinding(new NatsServerBindingDefinition()))
             .WithChannel(channelId, channel => channel
                 .WithAddress(channelAddress)
                 .WithServer($"#/servers/{serverId}")
@@ -143,13 +145,13 @@ public class RedisBindingHandlerTests
                             })
                             .Required(CloudEventAttributes.GetRequiredAttributes())
                             .AdditionalProperties(true)))
-                    .WithBinding(new RedisMessageBindingDefinition()))
-                .WithBinding(new RedisChannelBindingDefinition()))
+                    .WithBinding(new NatsMessageBindingDefinition()))
+                .WithBinding(new NatsChannelBindingDefinition()))
             .WithOperation(operationId, operation => operation
                 .WithAction(v3.V3OperationAction.Send)
                 .WithChannel($"#/channels/{channelId}")
                 .WithMessage($"#/channels/{channelId}/messages/{messageId}")
-                .WithBinding(new RedisOperationBindingDefinition()))
+                .WithBinding(new NatsOperationBindingDefinition()))
             .Build();
         await using var client = ClientFactory.CreateFor(document);
 
@@ -157,7 +159,7 @@ public class RedisBindingHandlerTests
         var parameters = new AsyncApiSubscribeOperationParameters(operationId);
         await using var result = await client.SubscribeAsync(parameters);
         var messageCount = 10;
-        var messagesToSend = new List<string>();
+        var messagesToSend = new List<Tuple<byte[], NatsHeaders>>();
         for (var i = 0; i < messageCount; i++)
         {
             var e = new CloudEvent()
@@ -173,15 +175,19 @@ public class RedisBindingHandlerTests
                     Greetings = "Hello, World!"
                 }
             };
-            var json = JsonSerializer.Default.SerializeToText(e);
-            messagesToSend.Add(json);
+            var payload = JsonSerializer.Default.SerializeToByteArray(e)!;
+            var headers = new NatsHeaders
+            {
+                { "Header1", new StringValues("value1") },
+                { "Header2", new StringValues("value2") },
+                { "Header3", new StringValues("value3") }
+            };
+            messagesToSend.Add(new(payload, headers));
         }
         var messagesReceived = new List<IAsyncApiMessage>();
         var subscription = result.Messages?.Subscribe(messagesReceived.Add);
-        using var connection = await ConnectionMultiplexer.ConnectAsync(serverAddress);
-        var database = connection.GetDatabase();
-        var channel = new RedisChannel(channelAddress, RedisChannel.PatternMode.Auto);
-        foreach (var message in messagesToSend) await database.PublishAsync(channel, message);
+        await using var nats = new NatsClient(serverAddress);
+        foreach (var message in messagesToSend) await nats.PublishAsync(channelAddress, message.Item1, message.Item2);
         await Task.Delay(3500);
         subscription?.Dispose();
 
@@ -193,8 +199,8 @@ public class RedisBindingHandlerTests
 
     static void ConfigureServices(IServiceCollection services)
     {
-        services.AddKeyedSingleton("redis", RedisContainerBuilder.Build());
-        services.AddSingleton(provider => provider.GetRequiredKeyedService<DotNet.Testcontainers.Containers.IContainer>("redis"));
+        services.AddKeyedSingleton("nats", NatsContainerBuilder.Build());
+        services.AddSingleton(provider => provider.GetRequiredKeyedService<DotNet.Testcontainers.Containers.IContainer>("nats"));
         services.AddHostedService<ContainerBootstrapper>();
     }
 

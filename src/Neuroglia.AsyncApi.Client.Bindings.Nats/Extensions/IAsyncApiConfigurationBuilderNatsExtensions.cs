@@ -11,27 +11,24 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using Neuroglia.AsyncApi.Client.Configuration;
-
 namespace Neuroglia.AsyncApi.Client.Bindings;
 
 /// <summary>
 /// Defines extensions for <see cref="IAsyncApiClientOptionsBuilder"/>s
 /// </summary>
-public static class IAsyncApiClientOptionsBuilderExtensions
+public static class IAsyncApiConfigurationBuilderNatsExtensions
 {
 
     /// <summary>
-    /// Adds and configures the handlers for all default AsyncAPI bindings
+    /// Adds and configures an <see cref="IBindingHandler"/> used to handle Nats operations
     /// </summary>
-    /// <param name="builder">The <see cref="IAsyncApiClientOptionsBuilder"/> to configure</param>
+    /// <param name="builder">The extended <see cref="IAsyncApiClientOptionsBuilder"/></param>
+    /// <param name="setup">An <see cref="Action{T}"/>, if any, used to setup the <see cref="IBindingHandler"/>'s options</param>
     /// <returns>The configured <see cref="IAsyncApiClientOptionsBuilder"/></returns>
-    public static IAsyncApiClientOptionsBuilder AddAllBindingHandlers(this IAsyncApiClientOptionsBuilder builder)
+    public static IAsyncApiClientOptionsBuilder AddNatsBindingHandler(this IAsyncApiClientOptionsBuilder builder, Action<NatsBindingHandlerOptions>? setup = null)
     {
-        builder.AddHttpBindingHandler();
-        builder.AddMqttBindingHandler();
-        builder.AddNatsBindingHandler();
-        builder.AddRedisBindingHandler();
+        setup ??= _ => { };
+        builder.AddBindingHandler<NatsBindingHandler, NatsBindingHandlerOptions>(setup);
         return builder;
     }
 
