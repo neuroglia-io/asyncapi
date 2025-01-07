@@ -11,39 +11,41 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+using DotPulsar.Abstractions;
+using DotPulsar.Extensions;
 using Neuroglia.AsyncApi.v3;
-using System.Net.WebSockets;
+using System.Buffers;
 using System.Reactive.Linq;
 using System.Reactive.Subjects;
 
-namespace Neuroglia.AsyncApi.Client.Bindings.WebSocket;
+namespace Neuroglia.AsyncApi.Client.Bindings.Pulsar;
 
 /// <summary>
-/// Represents a subscription to a WebSocket channel, used to stream <see cref="IAsyncApiMessage"/>s
+/// Represents a subscription to a Pulsar channel, used to stream <see cref="IAsyncApiMessage"/>s
 /// </summary>
-public class WebSocketSubscription
+public class PulsarSubscription
     : IObservable<IAsyncApiMessage>, IDisposable, IAsyncDisposable
 {
-
-    const int ReceiveBufferSize = 1024;
 
     bool _disposed;
 
     /// <summary>
-    /// Initializes a new <see cref="WebSocketSubscription"/>
+    /// Initializes a new <see cref="PulsarSubscription"/>
     /// </summary>
     /// <param name="logger">The service used to perform logging</param>
-    /// <param name="webSocket">The current <see cref="ClientWebSocket"/></param>
+    /// <param name="client">The <see cref="IPulsarClient"/> used to interact with the Pulsar server</param>
+    /// <param name="consumer">The service used to consume Pulsar messages</param>
     /// <param name="messageContentType">The content type of consumed messages</param>
     /// <param name="runtimeExpressionEvaluator">The service used to evaluate runtime expressions</param>
     /// <param name="schemaHandlerProvider">The service used to provide <see cref="ISchemaHandler"/>s</param>
     /// <param name="serializerProvider">The service used to provide <see cref="ISerializer"/>s</param>
     /// <param name="document">The <see cref="V3AsyncApiDocument"/> that defines the operation for which to consume MQTT messages</param>
     /// <param name="messageDefinitions">An <see cref="IEnumerable{T}"/> containing the definitions of all messages that can potentially be consumed</param>
-    public WebSocketSubscription(ILogger<WebSocketSubscription> logger, ClientWebSocket webSocket, string messageContentType, IRuntimeExpressionEvaluator runtimeExpressionEvaluator, ISchemaHandlerProvider schemaHandlerProvider, ISerializerProvider serializerProvider, V3AsyncApiDocument document, IEnumerable<V3MessageDefinition> messageDefinitions)
+    public PulsarSubscription(ILogger<PulsarSubscription> logger, IPulsarClient client, IConsumer<ReadOnlySequence<byte>> consumer, string messageContentType, IRuntimeExpressionEvaluator runtimeExpressionEvaluator, ISchemaHandlerProvider schemaHandlerProvider, ISerializerProvider serializerProvider, V3AsyncApiDocument document, IEnumerable<V3MessageDefinition> messageDefinitions)
     {
         Logger = logger;
-        WebSocket = webSocket;
+        Client = client;
+        Consumer = consumer;
         MessageContentType = messageContentType;
         RuntimeExpressionEvaluator = runtimeExpressionEvaluator;
         SchemaHandlerProvider = schemaHandlerProvider;
@@ -59,9 +61,14 @@ public class WebSocketSubscription
     protected ILogger Logger { get; }
 
     /// <summary>
-    /// Gets the current <see cref="ClientWebSocket"/>
+    /// Gets the <see cref="IPulsarClient"/> used to interact with the Pulsar server
     /// </summary>
-    protected ClientWebSocket WebSocket { get; }
+    protected IPulsarClient Client { get; }
+
+    /// <summary>
+    /// Gets the service used to consume Pulsar messages
+    /// </summary>
+    protected IConsumer<ReadOnlySequence<byte>> Consumer { get; }
 
     /// <summary>
     /// Gets the content type of consumed messages
@@ -94,7 +101,7 @@ public class WebSocketSubscription
     protected IEnumerable<V3MessageDefinition> MessageDefinitions { get; }
 
     /// <summary>
-    /// Gets the <see cref="WebSocketSubscription"/>'s <see cref="System.Threading.CancellationTokenSource"/>
+    /// Gets the <see cref="PulsarSubscription"/>'s <see cref="System.Threading.CancellationTokenSource"/>
     /// </summary>
     protected CancellationTokenSource CancellationTokenSource { get; } = new();
 
@@ -107,35 +114,19 @@ public class WebSocketSubscription
     public virtual IDisposable Subscribe(IObserver<IAsyncApiMessage> observer) => Subject.Subscribe(observer);
 
     /// <summary>
-    /// Reads messages from the WebSocket
+    /// Reads Pulsar messages
     /// </summary>
     /// <returns>A new awaitable <see cref="Task"/></returns>
     protected virtual async Task ReadAsync()
     {
-        while(!CancellationTokenSource.IsCancellationRequested && WebSocket.State == WebSocketState.Open)
+        await foreach(var pulsarMessage in Consumer.Messages(CancellationTokenSource.Token))
         {
             try
             {
-                var buffer = new byte[ReceiveBufferSize];
-                using var stream = new MemoryStream();
-                WebSocketReceiveResult receiveResult;
-                do
-                {
-                    var segment = new ArraySegment<byte>(buffer);
-                    receiveResult = await WebSocket.ReceiveAsync(segment, CancellationTokenSource.Token).ConfigureAwait(false);
-                    if (receiveResult.CloseStatus.HasValue && receiveResult.CloseStatus != WebSocketCloseStatus.Empty)
-                    {
-                        Logger.LogInformation("WebSocket connection closed by server with status '{closeStatus}': {closeStatusDescription}", receiveResult.CloseStatus, receiveResult.CloseStatusDescription ?? "unknown");
-                        return;
-                    }
-                    await stream.WriteAsync(buffer.AsMemory(0, receiveResult.Count), CancellationTokenSource.Token).ConfigureAwait(false);
-                }
-                while (!receiveResult.EndOfMessage);
-                await stream.FlushAsync(CancellationTokenSource.Token).ConfigureAwait(false);
-                stream.Position = 0;
+                using var stream = new MemoryStream(pulsarMessage.Data.ToArray());
                 var serializer = SerializerProvider.GetSerializersFor(MessageContentType).FirstOrDefault() ?? throw new NullReferenceException($"Failed to find a serializer for the specified content type '{MessageContentType}'");
                 var payload = serializer.Deserialize<object>(stream);
-                var headers = (object?)null;
+                var headers = pulsarMessage.Properties;
                 var messageDefinition = await MessageDefinitions.ToAsyncEnumerable().SingleOrDefaultAwaitAsync(async m => await MessageMatchesAsync(payload, headers, m, CancellationTokenSource.Token).ConfigureAwait(false), CancellationTokenSource.Token).ConfigureAwait(false) ?? throw new NullReferenceException("Failed to resolve the message definition for the specified operation. Make sure the message matches one and only one of the message definitions configured for the specified operation");
                 var correlationId = string.Empty;
                 if (messageDefinition.CorrelationId != null)
@@ -145,15 +136,15 @@ public class WebSocketSubscription
                 }
                 var message = new AsyncApiMessage(MessageContentType, payload, headers, correlationId);
                 Subject.OnNext(message);
+                await Consumer.Acknowledge(pulsarMessage, CancellationTokenSource.Token).ConfigureAwait(false);
             }
-            catch (WebSocketException ex) when (ex.WebSocketErrorCode == WebSocketError.ConnectionClosedPrematurely) 
+            catch (ObjectDisposedException)
             {
-                Logger.LogWarning("The WebSocket connection has been closed by the remote server");
                 return;
             }
             catch (Exception ex)
             {
-                Logger.LogError("An error occurred while consuming a Redis message: {ex}", ex);
+                Logger.LogError("An error occurred while consuming a Pulsar message: {ex}", ex);
             }
         }
     }
@@ -203,9 +194,9 @@ public class WebSocketSubscription
     }
 
     /// <summary>
-    /// Disposes of the <see cref="WebSocketSubscription"/>
+    /// Disposes of the <see cref="PulsarSubscription"/>
     /// </summary>
-    /// <param name="disposing">A boolean indicating whether or not the <see cref="WebSocketSubscription"/> is being disposed of</param>
+    /// <param name="disposing">A boolean indicating whether or not the <see cref="PulsarSubscription"/> is being disposed of</param>
     protected virtual void Dispose(bool disposing)
     {
         if (!_disposed)
@@ -213,7 +204,10 @@ public class WebSocketSubscription
             if (disposing)
             {
                 CancellationTokenSource.Dispose();
-                WebSocket.Dispose();
+#pragma warning disable CA2012 // Use ValueTasks correctly
+                Consumer.DisposeAsync().GetAwaiter().GetResult();
+                Client.DisposeAsync().GetAwaiter().GetResult();
+#pragma warning restore CA2012 // Use ValueTasks correctly
                 Subject.Dispose();
             }
             _disposed = true;
@@ -228,22 +222,22 @@ public class WebSocketSubscription
     }
 
     /// <summary>
-    /// Disposes of the <see cref="WebSocketSubscription"/>
+    /// Disposes of the <see cref="PulsarSubscription"/>
     /// </summary>
-    /// <param name="disposing">A boolean indicating whether or not the <see cref="WebSocketSubscription"/> is being disposed of</param>
-    protected virtual ValueTask DisposeAsync(bool disposing)
+    /// <param name="disposing">A boolean indicating whether or not the <see cref="PulsarSubscription"/> is being disposed of</param>
+    protected virtual async ValueTask DisposeAsync(bool disposing)
     {
         if (!_disposed)
         {
             if (disposing)
             {
                 CancellationTokenSource.Dispose();
-                WebSocket.Dispose();
+                await Consumer.DisposeAsync().ConfigureAwait(false);
+                await Client.DisposeAsync().ConfigureAwait(false);
                 Subject.Dispose();
             }
             _disposed = true;
         }
-        return ValueTask.CompletedTask;
     }
 
     /// <inheritdoc/>

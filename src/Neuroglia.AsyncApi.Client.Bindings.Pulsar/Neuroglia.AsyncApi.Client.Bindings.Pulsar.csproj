@@ -1,6 +1,6 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
- <PropertyGroup>
+   <PropertyGroup>
     <TargetFramework>net9.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
@@ -10,7 +10,7 @@
     <Authors>Neuroglia SRL</Authors>
     <RepositoryUrl>https://github.com/neuroglia-io/asyncapi</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
-    <PackageTags>neuroglia asyncapi async api client binding all</PackageTags>
+    <PackageTags>neuroglia asyncapi async api client binding pulsar</PackageTags>
     <Version>3.0.1</Version>
     <NeutralLanguage>en</NeutralLanguage>
 	<PackageLicenseExpression>Apache-2.0</PackageLicenseExpression>
@@ -29,15 +29,12 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Neuroglia.AsyncApi.Client.Bindings.Amqp\Neuroglia.AsyncApi.Client.Bindings.Amqp.csproj" />
-    <ProjectReference Include="..\Neuroglia.AsyncApi.Client.Bindings.Http\Neuroglia.AsyncApi.Client.Bindings.Http.csproj" />
-    <ProjectReference Include="..\Neuroglia.AsyncApi.Client.Bindings.Kafka\Neuroglia.AsyncApi.Client.Bindings.Kafka.csproj" />
-    <ProjectReference Include="..\Neuroglia.AsyncApi.Client.Bindings.Mqtt\Neuroglia.AsyncApi.Client.Bindings.Mqtt.csproj" />
-    <ProjectReference Include="..\Neuroglia.AsyncApi.Client.Bindings.Nats\Neuroglia.AsyncApi.Client.Bindings.Nats.csproj" />
-    <ProjectReference Include="..\Neuroglia.AsyncApi.Client.Bindings.Pulsar\Neuroglia.AsyncApi.Client.Bindings.Pulsar.csproj" />
-    <ProjectReference Include="..\Neuroglia.AsyncApi.Client.Bindings.Redis\Neuroglia.AsyncApi.Client.Bindings.Redis.csproj" />
-    <ProjectReference Include="..\Neuroglia.AsyncApi.Client.Bindings.WebSocket\Neuroglia.AsyncApi.Client.Bindings.WebSocket.csproj" />
+    <PackageReference Include="DotPulsar" Version="3.6.0" />
+    <PackageReference Include="System.Reactive" Version="6.0.1" />
   </ItemGroup>
-
+	
+  <ItemGroup>
+    <ProjectReference Include="..\Neuroglia.AsyncApi.Client\Neuroglia.AsyncApi.Client.csproj" />
+  </ItemGroup>
 
 </Project>
