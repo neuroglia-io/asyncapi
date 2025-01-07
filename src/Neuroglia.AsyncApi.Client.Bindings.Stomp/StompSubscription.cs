@@ -12,51 +12,47 @@
 // limitations under the License.
 
 using Neuroglia.AsyncApi.v3;
-using SolaceSystems.Solclient.Messaging;
+using Stomp.Net;
 using System.Reactive.Linq;
 using System.Reactive.Subjects;
 
-namespace Neuroglia.AsyncApi.Client.Bindings.Solace;
+namespace Neuroglia.AsyncApi.Client.Bindings.Stomp;
 
 /// <summary>
-/// Represents a subscription to a Solace channel, used to stream <see cref="IAsyncApiMessage"/>s
+/// Represents a subscription to a Stomp channel, used to stream <see cref="IAsyncApiMessage"/>s
 /// </summary>
-public class SolaceSubscription
+public class StompSubscription
     : IObservable<IAsyncApiMessage>, IDisposable, IAsyncDisposable
 {
 
     bool _disposed;
 
     /// <summary>
-    /// Initializes a new <see cref="SolaceSubscription"/>
+    /// Initializes a new <see cref="StompSubscription"/>
     /// </summary>
     /// <param name="logger">The service used to perform logging</param>
-    /// <param name="context">The current <see cref="IContext"/></param>
+    /// <param name="connection">The current <see cref="IConnection"/></param>
     /// <param name="session">The current <see cref="ISession"/></param>
-    /// <param name="queue">The current <see cref="IQueue"/></param>
+    /// <param name="consumer">The service used to consume Stomp messages</param>
     /// <param name="messageContentType">The content type of consumed messages</param>
     /// <param name="runtimeExpressionEvaluator">The service used to evaluate runtime expressions</param>
     /// <param name="schemaHandlerProvider">The service used to provide <see cref="ISchemaHandler"/>s</param>
     /// <param name="serializerProvider">The service used to provide <see cref="ISerializer"/>s</param>
     /// <param name="document">The <see cref="V3AsyncApiDocument"/> that defines the operation for which to consume MQTT messages</param>
     /// <param name="messageDefinitions">An <see cref="IEnumerable{T}"/> containing the definitions of all messages that can potentially be consumed</param>
-    public SolaceSubscription(ILogger<SolaceSubscription> logger, IContext context, ISession session, IQueue queue, string messageContentType, IRuntimeExpressionEvaluator runtimeExpressionEvaluator, ISchemaHandlerProvider schemaHandlerProvider, ISerializerProvider serializerProvider, V3AsyncApiDocument document, IEnumerable<V3MessageDefinition> messageDefinitions)
+    public StompSubscription(ILogger<StompSubscription> logger, IConnection connection, ISession session, IMessageConsumer consumer, string messageContentType, IRuntimeExpressionEvaluator runtimeExpressionEvaluator, ISchemaHandlerProvider schemaHandlerProvider, ISerializerProvider serializerProvider, V3AsyncApiDocument document, IEnumerable<V3MessageDefinition> messageDefinitions)
     {
         Logger = logger;
-        Context = context;
+        Connection = connection;
         Session = session;
-        Queue = queue;
+        Consumer = consumer;
+        Consumer.Listener += async message => await OnMessageAsync(message);
         MessageContentType = messageContentType;
         RuntimeExpressionEvaluator = runtimeExpressionEvaluator;
         SchemaHandlerProvider = schemaHandlerProvider;
         SerializerProvider = serializerProvider;
         Document = document;
         MessageDefinitions = messageDefinitions;
-        Flow = Session.CreateFlow(new FlowProperties()
-        {
-            AckMode = MessageAckMode.ClientAck
-        }, Queue, null, OnMessageAsync, null);
-        Flow.Start();
     }
 
     /// <summary>
@@ -65,9 +61,9 @@ public class SolaceSubscription
     protected ILogger Logger { get; }
 
     /// <summary>
-    /// Gets the current <see cref="IContext"/>
+    /// Gets the current <see cref="IConnection"/>
     /// </summary>
-    protected IContext Context { get; }
+    protected IConnection Connection { get; }
 
     /// <summary>
     /// Gets the current <see cref="ISession"/>
@@ -75,14 +71,9 @@ public class SolaceSubscription
     protected ISession Session { get; }
 
     /// <summary>
-    /// Gets the current <see cref="IQueue"/>
+    /// Gets the service used to consume Stomp messages
     /// </summary>
-    protected IQueue Queue { get; }
-
-    /// <summary>
-    /// Gets the current <see cref="IFlow"/>
-    /// </summary>
-    protected IFlow Flow { get; }
+    protected IMessageConsumer Consumer { get; }
 
     /// <summary>
     /// Gets the content type of consumed messages
@@ -115,7 +106,7 @@ public class SolaceSubscription
     protected IEnumerable<V3MessageDefinition> MessageDefinitions { get; }
 
     /// <summary>
-    /// Gets the <see cref="SolaceSubscription"/>'s <see cref="System.Threading.CancellationTokenSource"/>
+    /// Gets the <see cref="StompSubscription"/>'s <see cref="System.Threading.CancellationTokenSource"/>
     /// </summary>
     protected CancellationTokenSource CancellationTokenSource { get; } = new();
 
@@ -128,18 +119,16 @@ public class SolaceSubscription
     public virtual IDisposable Subscribe(IObserver<IAsyncApiMessage> observer) => Subject.Subscribe(observer);
 
     /// <summary>
-    /// Handles the consumption of a Solace message
+    /// Handles the consumption of a Stomp message
     /// </summary>
-    /// <param name="sender">The event's sender</param>
-    /// <param name="e">The object that wraps the message to consume</param>
-    protected virtual async void OnMessageAsync(object? sender, MessageEventArgs e)
+    /// <param name="stompMessage">The Stomp message to consume</param>
+    protected virtual async Task OnMessageAsync(IBytesMessage stompMessage)
     {
         try
         {
-            var contentType = e.Message.HttpContentType ?? MessageContentType;
-            var serializer = SerializerProvider.GetSerializersFor(contentType).FirstOrDefault() ?? throw new NullReferenceException($"Failed to find a serializer for the specified content type '{contentType}'");
-            var payload = serializer.Deserialize<object>(e.Message.BinaryAttachment);
-            var headers = e.Message.UserData == null ? null : serializer.Deserialize<object>(e.Message.UserData);
+            var serializer = SerializerProvider.GetSerializersFor(MessageContentType).FirstOrDefault() ?? throw new NullReferenceException($"Failed to find a serializer for the specified content type '{MessageContentType}'");
+            var payload = serializer.Deserialize<object>(stompMessage.Content);
+            var headers = stompMessage.Headers;
             var messageDefinition = await MessageDefinitions.ToAsyncEnumerable().SingleOrDefaultAwaitAsync(async m => await MessageMatchesAsync(payload, headers, m, CancellationTokenSource.Token).ConfigureAwait(false), CancellationTokenSource.Token).ConfigureAwait(false) ?? throw new NullReferenceException("Failed to resolve the message definition for the specified operation. Make sure the message matches one and only one of the message definitions configured for the specified operation");
             var correlationId = string.Empty;
             if (messageDefinition.CorrelationId != null)
@@ -147,12 +136,13 @@ public class SolaceSubscription
                 var correlationIdDefinition = messageDefinition.CorrelationId.IsReference ? Document.DereferenceCorrelationId(messageDefinition.CorrelationId.Reference!) : messageDefinition.CorrelationId;
                 correlationId = await RuntimeExpressionEvaluator.EvaluateAsync(correlationIdDefinition.Location, payload, headers, CancellationTokenSource.Token).ConfigureAwait(false);
             }
-            var message = new AsyncApiMessage(contentType, payload, headers, correlationId);
+            var message = new AsyncApiMessage(MessageContentType, payload, headers, correlationId);
             Subject.OnNext(message);
+            stompMessage.Acknowledge();
         }
         catch (Exception ex)
         {
-            Logger.LogError("An error occurred while consuming a Solace message: {ex}", ex);
+            Logger.LogError("An error occurred while consuming a Stomp message: {ex}", ex);
         }
     }
 
@@ -201,9 +191,9 @@ public class SolaceSubscription
     }
 
     /// <summary>
-    /// Disposes of the <see cref="SolaceSubscription"/>
+    /// Disposes of the <see cref="StompSubscription"/>
     /// </summary>
-    /// <param name="disposing">A boolean indicating whether or not the <see cref="SolaceSubscription"/> is being disposed of</param>
+    /// <param name="disposing">A boolean indicating whether or not the <see cref="StompSubscription"/> is being disposed of</param>
     protected virtual void Dispose(bool disposing)
     {
         if (!_disposed)
@@ -211,11 +201,9 @@ public class SolaceSubscription
             if (disposing)
             {
                 CancellationTokenSource.Dispose();
-                Flow.Stop();
-                Flow.Dispose();
-                Queue.Dispose();
+                Consumer.Dispose();
                 Session.Dispose();
-                Context.Dispose();
+                Connection.Dispose();
                 Subject.Dispose();
             }
             _disposed = true;
@@ -230,9 +218,9 @@ public class SolaceSubscription
     }
 
     /// <summary>
-    /// Disposes of the <see cref="SolaceSubscription"/>
+    /// Disposes of the <see cref="StompSubscription"/>
     /// </summary>
-    /// <param name="disposing">A boolean indicating whether or not the <see cref="SolaceSubscription"/> is being disposed of</param>
+    /// <param name="disposing">A boolean indicating whether or not the <see cref="StompSubscription"/> is being disposed of</param>
     protected virtual ValueTask DisposeAsync(bool disposing)
     {
         if (!_disposed)
@@ -240,11 +228,9 @@ public class SolaceSubscription
             if (disposing)
             {
                 CancellationTokenSource.Dispose();
-                Flow.Stop();
-                Flow.Dispose();
-                Queue.Dispose();
+                Consumer.Dispose();
                 Session.Dispose();
-                Context.Dispose();
+                Connection.Dispose();
                 Subject.Dispose();
             }
             _disposed = true;

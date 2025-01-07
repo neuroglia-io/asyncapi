@@ -11,33 +11,24 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using Neuroglia.AsyncApi.Client.Configuration;
-
 namespace Neuroglia.AsyncApi.Client.Bindings;
 
 /// <summary>
 /// Defines extensions for <see cref="IAsyncApiClientOptionsBuilder"/>s
 /// </summary>
-public static class IAsyncApiClientOptionsBuilderExtensions
+public static class IAsyncApiConfigurationBuilderStompExtensions
 {
 
     /// <summary>
-    /// Adds and configures the handlers for all default AsyncAPI bindings
+    /// Adds and configures an <see cref="IBindingHandler"/> used to handle Stomp operations
     /// </summary>
-    /// <param name="builder">The <see cref="IAsyncApiClientOptionsBuilder"/> to configure</param>
+    /// <param name="builder">The extended <see cref="IAsyncApiClientOptionsBuilder"/></param>
+    /// <param name="setup">An <see cref="Action{T}"/>, if any, used to setup the <see cref="IBindingHandler"/>'s options</param>
     /// <returns>The configured <see cref="IAsyncApiClientOptionsBuilder"/></returns>
-    public static IAsyncApiClientOptionsBuilder AddAllBindingHandlers(this IAsyncApiClientOptionsBuilder builder)
+    public static IAsyncApiClientOptionsBuilder AddStompBindingHandler(this IAsyncApiClientOptionsBuilder builder, Action<StompBindingHandlerOptions>? setup = null)
     {
-        builder.AddAmqpBindingHandler();
-        builder.AddHttpBindingHandler();
-        builder.AddKafkaBindingHandler();
-        builder.AddMqttBindingHandler();
-        builder.AddNatsBindingHandler();
-        builder.AddPulsarBindingHandler();
-        builder.AddRedisBindingHandler();
-        builder.AddSolaceBindingHandler();
-        builder.AddStompBindingHandler();
-        builder.AddWebSocketBindingHandler();
+        setup ??= _ => { };
+        builder.AddBindingHandler<StompBindingHandler, StompBindingHandlerOptions>(setup);
         return builder;
     }
 

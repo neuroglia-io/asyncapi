@@ -11,29 +11,29 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using Neuroglia.AsyncApi.Bindings.Solace;
+using Neuroglia.AsyncApi.Bindings.Stomp;
 using Neuroglia.AsyncApi.Client;
 using Neuroglia.AsyncApi.Client.Bindings;
 using Neuroglia.AsyncApi.UnitTests.Containers;
-using SolaceSystems.Solclient.Messaging;
+using Stomp.Net;
 
 namespace Neuroglia.AsyncApi.UnitTests.Cases.Client.Bindings;
 
-public class SolaceBindingHandlerTests
+public class StompBindingHandlerTests
     : BindingHandlerTestsBase
 {
 
-    public SolaceBindingHandlerTests()
-        : base(builder => builder.AddSolaceBindingHandler(), ConfigureServices)
+    public StompBindingHandlerTests()
+        : base(builder => builder.AddStompBindingHandler(), ConfigureServices)
     {
 
     }
 
-    [Fact(Skip = "Failed to run the Solace test container")]
+    [Fact]
     public async Task Publish_Should_Work()
     {
         //arrange
-        var serverId = "solace-server";
+        var serverId = "stomp-server";
         var channelId = "cloud-events";
         var operationId = "publishCloudEvent";
         var messageId = "cloudEvent";
@@ -41,12 +41,12 @@ public class SolaceBindingHandlerTests
         var objectSchema = new JsonSchemaBuilder().Type(SchemaValueType.Object).AdditionalProperties(true).Build();
         var document = DocumentBuilder
             .UsingAsyncApiV3()
-            .WithTitle("Test Solace API")
+            .WithTitle("Test Stomp API")
             .WithVersion("1.0.0")
             .WithServer(serverId, server => server
-                .WithHost($"solace://localhost:{ServiceProvider.GetRequiredKeyedService<DotNet.Testcontainers.Containers.IContainer>("solace").GetMappedPublicPort(SolaceContainerBuilder.PublicPort)}")
-                .WithProtocol(AsyncApiProtocol.Solace)
-                .WithBinding(new SolaceServerBindingDefinition()))
+                .WithHost($"tcp://localhost:{ServiceProvider.GetRequiredKeyedService<DotNet.Testcontainers.Containers.IContainer>("stomp").GetMappedPublicPort(StompContainerBuilder.PublicPort)}")
+                .WithProtocol(AsyncApiProtocol.Stomp)
+                .WithBinding(new StompServerBindingDefinition()))
             .WithChannel(channelId, channel => channel
                 .WithAddress("cloud-event")
                 .WithServer($"#/servers/{serverId}")
@@ -69,13 +69,13 @@ public class SolaceBindingHandlerTests
                             })
                             .Required(CloudEventAttributes.GetRequiredAttributes())
                             .AdditionalProperties(true)))
-                    .WithBinding(new SolaceMessageBindingDefinition()))
-                .WithBinding(new SolaceChannelBindingDefinition()))
+                    .WithBinding(new StompMessageBindingDefinition()))
+                .WithBinding(new StompChannelBindingDefinition()))
             .WithOperation(operationId, operation => operation
                 .WithAction(v3.V3OperationAction.Receive)
                 .WithChannel($"#/channels/{channelId}")
                 .WithMessage($"#/channels/{channelId}/messages/{messageId}")
-                .WithBinding(new SolaceOperationBindingDefinition()))
+                .WithBinding(new StompOperationBindingDefinition()))
             .Build();
         await using var client = ClientFactory.CreateFor(document);
 
@@ -102,12 +102,12 @@ public class SolaceBindingHandlerTests
         result.IsSuccessful.Should().BeTrue();
     }
 
-    [Fact(Skip = "Failed to run the Solace test container")]
+    [Fact]
     public async Task Subscribe_Should_Work()
     {
         //arrange
-        var serverId = "solace-server";
-        var serverAddress = $"solace://localhost:{ServiceProvider.GetRequiredKeyedService<DotNet.Testcontainers.Containers.IContainer>("solace").GetMappedPublicPort(SolaceContainerBuilder.PublicPort)}";
+        var serverId = "stomp-server";
+        var serverAddress = $"tcp://localhost:{ServiceProvider.GetRequiredKeyedService<DotNet.Testcontainers.Containers.IContainer>("stomp").GetMappedPublicPort(StompContainerBuilder.PublicPort)}";
         var channelId = "cloud-events";
         var channelAddress = "cloud-event";
         var operationId = "subscribeToCloudEvents";
@@ -116,12 +116,12 @@ public class SolaceBindingHandlerTests
         var objectSchema = new JsonSchemaBuilder().Type(SchemaValueType.Object).AdditionalProperties(true).Build();
         var document = DocumentBuilder
             .UsingAsyncApiV3()
-            .WithTitle("Test Solace API")
+            .WithTitle("Test Stomp API")
             .WithVersion("1.0.0")
             .WithServer(serverId, server => server
                 .WithHost(serverAddress)
-                .WithProtocol(AsyncApiProtocol.Solace)
-                .WithBinding(new SolaceServerBindingDefinition()))
+                .WithProtocol(AsyncApiProtocol.Stomp)
+                .WithBinding(new StompServerBindingDefinition()))
             .WithChannel(channelId, channel => channel
                 .WithAddress(channelAddress)
                 .WithServer($"#/servers/{serverId}")
@@ -144,13 +144,13 @@ public class SolaceBindingHandlerTests
                             })
                             .Required(CloudEventAttributes.GetRequiredAttributes())
                             .AdditionalProperties(true)))
-                    .WithBinding(new SolaceMessageBindingDefinition()))
-                .WithBinding(new SolaceChannelBindingDefinition()))
+                    .WithBinding(new StompMessageBindingDefinition()))
+                .WithBinding(new StompChannelBindingDefinition()))
             .WithOperation(operationId, operation => operation
                 .WithAction(v3.V3OperationAction.Send)
                 .WithChannel($"#/channels/{channelId}")
                 .WithMessage($"#/channels/{channelId}/messages/{messageId}")
-                .WithBinding(new SolaceOperationBindingDefinition()))
+                .WithBinding(new StompOperationBindingDefinition()))
             .Build();
         await using var client = ClientFactory.CreateFor(document);
 
@@ -185,24 +185,19 @@ public class SolaceBindingHandlerTests
         }
         var messagesReceived = new List<IAsyncApiMessage>();
         var subscription = result.Messages?.Subscribe(messagesReceived.Add);
-        var contextFactoryProperties = new ContextFactoryProperties();
-        ContextFactory.Instance.Init(contextFactoryProperties);
-        var contextProperties = new ContextProperties();
-        using var context = ContextFactory.Instance.CreateContext(contextProperties, null);
-        var sessionProperties = new SessionProperties()
+        var connectionSettings = new StompConnectionSettings()
         {
-            Host = serverAddress
+            UserName = "guest",
+            Password = "guest",
+            HostHeaderOverride = "/"
         };
-        using var session = context.CreateSession(sessionProperties, null, null);
-        session.Connect();
-        using var queue = ContextFactory.Instance.CreateQueue(channelAddress);
-        var endpointProperties = new EndpointProperties()
-        {
-            Permission = EndpointProperties.EndpointPermission.Consume,
-            AccessType = EndpointProperties.EndpointAccessType.Exclusive
-        };
-        session.Provision(queue, endpointProperties, ProvisionFlag.IgnoreErrorIfEndpointAlreadyExists | ProvisionFlag.WaitForConfirm, null);
-        foreach (var message in messagesToSend) SendMessage(session, queue, message.Item1, message.Item2);
+        var connectionFactory = new ConnectionFactory(serverAddress, connectionSettings);
+        using var connection = connectionFactory.CreateConnection();
+        connection.Start();
+        using var session = connection.CreateSession(AcknowledgementMode.IndividualAcknowledge);
+        var queue = session.GetQueue(channelAddress);
+        using var producer = session.CreateProducer(queue);
+        foreach (var message in messagesToSend) SendMessage(session, producer, message.Item1, message.Item2);
         await Task.Delay(3500);
         subscription?.Dispose();
 
@@ -212,20 +207,17 @@ public class SolaceBindingHandlerTests
         messagesReceived.Should().NotBeEmpty();
     }
 
-    static void SendMessage(ISession session, IQueue queue, byte[] payload, Dictionary<string, object> headers)
+    static void SendMessage(ISession session, IMessageProducer producer, byte[] payload, Dictionary<string, object> headers)
     {
-        using var message = ContextFactory.Instance.CreateMessage();
-        message.Destination = queue;
-        message.HttpContentType = MediaTypeNames.Application.Json;
-        message.BinaryAttachment = payload;
-        message.UserData = JsonSerializer.Default.SerializeToByteArray(headers);
-        session.Send(message);
+        var message = session.CreateBytesMessage(payload);
+        foreach (var header in headers) message.Headers[header.Key] = header.Value.ToString();
+        producer.Send(message);
     }
 
     static void ConfigureServices(IServiceCollection services)
     {
-        services.AddKeyedSingleton("solace", SolaceContainerBuilder.Build());
-        services.AddSingleton(provider => provider.GetRequiredKeyedService<DotNet.Testcontainers.Containers.IContainer>("solace"));
+        services.AddKeyedSingleton("stomp", StompContainerBuilder.Build());
+        services.AddSingleton(provider => provider.GetRequiredKeyedService<DotNet.Testcontainers.Containers.IContainer>("stomp"));
         services.AddHostedService<ContainerBootstrapper>();
     }
 
