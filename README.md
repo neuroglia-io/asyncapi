@@ -1,4 +1,4 @@
-# Neuroglia AsyncAPI
+﻿# Neuroglia AsyncAPI
 
 ## Contents
 
@@ -28,6 +28,7 @@
     - [Generate documents explicitly](#generate-documents-explicitly)
     - [Generate documents implicitly](#generate-documents-implicitly)
     - [Use the AsyncAPI UI](#use-the-asyncapi-ui)
+    - [Interact with AsyncAPI applications](#interact-with-asyncapi-applications)
   + [Samples](#samples)
     - [Streetlights API - Server](#streetlights-api---server)
 
@@ -38,14 +39,26 @@ A .NET used to visualize and interact with [AsyncAPI](https://www.asyncapi.com/d
 
 | Name | Description | Latest Release | Spec version |
 |:------|:------------|:--------------:|:------------:|
-| [Neuroglia.AsyncApi.Core](https://www.nuget.org/packages/Neuroglia.AsyncApi.Core) | Contains `AsyncAPI` models and core services such as fluent builders, validators, reader, writer and code-first generator | [3.0.0](https://github.com/neuroglia-io/asyncapi/releases/tag/v3.0.0) | [v3.0.0](https://www.asyncapi.com/docs/reference/specification/v3.0.0) |
-| [Neuroglia.AsyncApi.Validation](https://www.nuget.org/packages/Neuroglia.AsyncApi.Validation) | Contains services to validate `AsyncAPI` documents | [3.0.0](https://github.com/neuroglia-io/asyncapi/releases/tag/v3.0.0) | [v3.0.0](https://www.asyncapi.com/docs/reference/specification/v3.0.0) |
-| [Neuroglia.AsyncApi.IO](https://www.nuget.org/packages/Neuroglia.AsyncApi.IO) | Contains services to read and write `AsyncAPI` documents | [3.0.0](https://github.com/neuroglia-io/asyncapi/releases/tag/v3.0.0) | [v3.0.0](https://www.asyncapi.com/docs/reference/specification/v3.0.0) |
-| [Neuroglia.AsyncApi.Generation](https://www.nuget.org/packages/Neuroglia.AsyncApi.Generation) | Contains extensions and services for code-first generation of `AsyncAPI` documents | [3.0.0](https://github.com/neuroglia-io/asyncapi/releases/tag/v3.0.0) | [v3.0.0](https://www.asyncapi.com/docs/reference/specification/v3.0.0) |
-| [Neuroglia.AsyncApi.CloudEvents](https://www.nuget.org/packages/Neuroglia.AsyncApi.CloudEvents) | Contains fluent extensions to build Cloud Event messages | [3.0.0](https://github.com/neuroglia-io/asyncapi/releases/tag/v3.0.0) | [v3.0.0](https://www.asyncapi.com/docs/reference/specification/v3.0.0) |
-| [Neuroglia.AsyncApi.ServiceDependencyExtensions](https://www.nuget.org/packages/Neuroglia.AsyncApi.ServiceDependencyExtensions) | Contains extensions to configure and register `AsyncAPI` services using dependency injection | [3.0.0](https://github.com/neuroglia-io/asyncapi/releases/tag/v3.0.0) | [v3.0.0](https://www.asyncapi.com/docs/reference/specification/v3.0.0) |
-| [Neuroglia.AsyncApi.AspNetCore](https://www.nuget.org/packages/Neuroglia.AsyncApi.AspNetCore) | Contains an `ASP.NET` middleware used to serve `AsyncAPI` documents | [3.0.0](https://github.com/neuroglia-io/asyncapi/releases/tag/v3.0.0) | [v3.0.0](https://www.asyncapi.com/docs/reference/specification/v3.0.0) |
-| [Neuroglia.AsyncApi.AspNetCore.UI](https://www.nuget.org/packages/Neuroglia.AsyncApi.AspNetCore.UI) | Contains the Razor Pages based UI for exploring `AsyncAPI` documents | [3.0.0](https://github.com/neuroglia-io/asyncapi/releases/tag/v3.0.0) | [v3.0.0](https://www.asyncapi.com/docs/reference/specification/v3.0.0) |
+| [Neuroglia.AsyncApi.Core](https://www.nuget.org/packages/Neuroglia.AsyncApi.Core) | Contains `AsyncAPI` models and core services such as fluent builders, validators, reader, writer and code-first generator | [3.0.1](https://github.com/neuroglia-io/asyncapi/releases/tag/v3.0.1) | [v3.0.0](https://www.asyncapi.com/docs/reference/specification/v3.0.0) |
+| [Neuroglia.AsyncApi.Validation](https://www.nuget.org/packages/Neuroglia.AsyncApi.Validation) | Contains services to validate `AsyncAPI` documents | [3.0.1](https://github.com/neuroglia-io/asyncapi/releases/tag/v3.0.1) | [v3.0.0](https://www.asyncapi.com/docs/reference/specification/v3.0.0) |
+| [Neuroglia.AsyncApi.IO](https://www.nuget.org/packages/Neuroglia.AsyncApi.IO) | Contains services to read and write `AsyncAPI` documents | [3.0.1](https://github.com/neuroglia-io/asyncapi/releases/tag/v3.0.1) | [v3.0.0](https://www.asyncapi.com/docs/reference/specification/v3.0.0) |
+| [Neuroglia.AsyncApi.Generation](https://www.nuget.org/packages/Neuroglia.AsyncApi.Generation) | Contains extensions and services for code-first generation of `AsyncAPI` documents | [3.0.1](https://github.com/neuroglia-io/asyncapi/releases/tag/v3.0.1) | [v3.0.0](https://www.asyncapi.com/docs/reference/specification/v3.0.0) |
+| [Neuroglia.AsyncApi.CloudEvents](https://www.nuget.org/packages/Neuroglia.AsyncApi.CloudEvents) | Contains fluent extensions to build Cloud Event messages | [3.0.1](https://github.com/neuroglia-io/asyncapi/releases/tag/v3.0.1) | [v3.0.0](https://www.asyncapi.com/docs/reference/specification/v3.0.0) |
+| [Neuroglia.AsyncApi.ServiceDependencyExtensions](https://www.nuget.org/packages/Neuroglia.AsyncApi.ServiceDependencyExtensions) | Contains extensions to configure and register `AsyncAPI` services using dependency injection | [3.0.1](https://github.com/neuroglia-io/asyncapi/releases/tag/v3.0.1) | [v3.0.0](https://www.asyncapi.com/docs/reference/specification/v3.0.0) |
+| [Neuroglia.AsyncApi.AspNetCore](https://www.nuget.org/packages/Neuroglia.AsyncApi.AspNetCore) | Contains an `ASP.NET` middleware used to serve `AsyncAPI` documents | [3.0.1](https://github.com/neuroglia-io/asyncapi/releases/tag/v3.0.1) | [v3.0.0](https://www.asyncapi.com/docs/reference/specification/v3.0.0) |
+| [Neuroglia.AsyncApi.AspNetCore.UI](https://www.nuget.org/packages/Neuroglia.AsyncApi.AspNetCore.UI) | Contains the Razor Pages based UI for exploring `AsyncAPI` documents | [3.0.1](https://github.com/neuroglia-io/asyncapi/releases/tag/v3.0.1) | [v3.0.0](https://www.asyncapi.com/docs/reference/specification/v3.0.0) |
+| [Neuroglia.AsyncApi.Client](https://www.nuget.org/packages/Neuroglia.AsyncApi.Client) | Contains client services to interact with `AsyncAPI` applications | [3.0.1](https://github.com/neuroglia-io/asyncapi/releases/tag/v3.0.1) | [v3.0.0](https://www.asyncapi.com/docs/reference/specification/v3.0.0) |
+| [Neuroglia.AsyncApi.Client.Bindings.All](https://www.nuget.org/packages/Neuroglia.AsyncApi.Client.Bindings.All) | References all binding handlers, for convenience | [3.0.1](https://github.com/neuroglia-io/asyncapi/releases/tag/v3.0.1) | [v3.0.0](https://www.asyncapi.com/docs/reference/specification/v3.0.0) |
+| [Neuroglia.AsyncApi.Client.Bindings.Amqp](https://www.nuget.org/packages/Neuroglia.AsyncApi.Client.Bindings.Amqp) | Contains the `AMQP` binding handler | [3.0.1](https://github.com/neuroglia-io/asyncapi/releases/tag/v3.0.1) | [v3.0.0](https://www.asyncapi.com/docs/reference/specification/v3.0.0) |
+| [Neuroglia.AsyncApi.Client.Bindings.Http](https://www.nuget.org/packages/Neuroglia.AsyncApi.Client.Bindings.Http) | Contains the `HTTP` binding handler | [3.0.1](https://github.com/neuroglia-io/asyncapi/releases/tag/v3.0.1) | [v3.0.0](https://www.asyncapi.com/docs/reference/specification/v3.0.0) |
+| [Neuroglia.AsyncApi.Client.Bindings.Kafka](https://www.nuget.org/packages/Neuroglia.AsyncApi.Client.Bindings.Kafka) | Contains the `Kafka` binding handler | [3.0.1](https://github.com/neuroglia-io/asyncapi/releases/tag/v3.0.1) | [v3.0.0](https://www.asyncapi.com/docs/reference/specification/v3.0.0) |
+| [Neuroglia.AsyncApi.Client.Bindings.Mqtt](https://www.nuget.org/packages/Neuroglia.AsyncApi.Client.Bindings.Mqtt) | Contains the `MQTT` binding handler | [3.0.1](https://github.com/neuroglia-io/asyncapi/releases/tag/v3.0.1) | [v3.0.0](https://www.asyncapi.com/docs/reference/specification/v3.0.0) |
+| [Neuroglia.AsyncApi.Client.Bindings.Nats](https://www.nuget.org/packages/Neuroglia.AsyncApi.Client.Bindings.Nats) | Contains the `NATS` binding handler | [3.0.1](https://github.com/neuroglia-io/asyncapi/releases/tag/v3.0.1) | [v3.0.0](https://www.asyncapi.com/docs/reference/specification/v3.0.0) |
+| [Neuroglia.AsyncApi.Client.Bindings.Pulsar](https://www.nuget.org/packages/Neuroglia.AsyncApi.Client.Bindings.Pulsar) | Contains the `Pulsar` binding handler | [3.0.1](https://github.com/neuroglia-io/asyncapi/releases/tag/v3.0.1) | [v3.0.0](https://www.asyncapi.com/docs/reference/specification/v3.0.0) |
+| [Neuroglia.AsyncApi.Client.Bindings.Redis](https://www.nuget.org/packages/Neuroglia.AsyncApi.Client.Bindings.Redis) | Contains the `Redis` binding handler | [3.0.1](https://github.com/neuroglia-io/asyncapi/releases/tag/v3.0.1) | [v3.0.0](https://www.asyncapi.com/docs/reference/specification/v3.0.0) |
+| [Neuroglia.AsyncApi.Client.Bindings.Solace](https://www.nuget.org/packages/Neuroglia.AsyncApi.Client.Bindings.Solace) | Contains the `Solace` binding handler | [3.0.1](https://github.com/neuroglia-io/asyncapi/releases/tag/v3.0.1) | [v3.0.0](https://www.asyncapi.com/docs/reference/specification/v3.0.0) |
+| [Neuroglia.AsyncApi.Client.Bindings.Stomp](https://www.nuget.org/packages/Neuroglia.AsyncApi.Client.Bindings.Stomp) | Contains the `Stomp` binding handler | [3.0.1](https://github.com/neuroglia-io/asyncapi/releases/tag/v3.0.1) | [v3.0.0](https://www.asyncapi.com/docs/reference/specification/v3.0.0) |
+| [Neuroglia.AsyncApi.Client.Bindings.WebSocket](https://www.nuget.org/packages/Neuroglia.AsyncApi.Client.Bindings.WebSocket) | Contains the `WebSocket` binding handler | [3.0.1](https://github.com/neuroglia-io/asyncapi/releases/tag/v3.0.1) | [v3.0.0](https://www.asyncapi.com/docs/reference/specification/v3.0.0) |
 
 ## Installation
 
@@ -95,6 +108,11 @@ dotnet add package Neuroglia.AsyncApi.AspNetCore
 dotnet add package Neuroglia.AsyncApi.AspNetCore.UI
 ```
 *Attention, please note that projects serving the UI MUST use the `Microsoft.NET.Sdk.Web`*
+
+#### AsyncAPI client
+```bash
+dotnet add package Neuroglia.AsyncApi.Client
+```
 
 ## Usage
 
@@ -342,7 +360,7 @@ services.AddAsyncApiGeneration(builder =>
         }));
 ```
 
-### Using the AsyncAPI UI
+### Use the AsyncAPI UI
 
 #### 1. Configure services
 
@@ -389,6 +407,100 @@ services.AddHttpClient();
 Launch your application, then navigate to `/asyncapi`. You should see something like this:
 
 ![AsyncAPI UI - Screenshot](/assets/img/ui.png)
+
+### Interact with AsyncAPI applications
+
+#### Supported bindings
+
+- ✅ AMQP
+- ✅ AMQP1
+- ❌ AnypointMQ
+- ❌ GooglePubSub
+- ✅ HTTP/HTTPS
+- ❌ IBMMQ
+- ❌ JMS
+- ✅ Kafka
+- ❌ Mercure
+- ✅ MQTT
+- ✅ MQTT5
+- ✅ NATS
+- ✅ Pulsar
+- ✅ Redis
+- ❌ SNS
+- ✅ Solace
+- ❌ SQS
+- ✅ Stomp
+- ✅ WS/WSS
+
+⚠️ **Warning:** Security requirements have not yet been implemented.
+
+*We welcome community contributions to help implement and improve additional binding handlers!*
+
+#### Configuring an AsyncAPI Client:
+
+Configure an AsyncAPI client with all binding handlers:
+
+```csharp
+services.AddAsyncApiClient(options => options.AddAllBindingHandlers());
+```
+
+Configure an AsyncAPI client using specific binding handlers:
+
+```csharp
+services.AddAsyncApiClient(options => 
+{
+  options.AddHttpBindingHandler();
+  options.AddWebSocketBindingHandler();
+});
+```
+
+These configurations ensure that your application is set up to handle various communication protocols as defined in your AsyncAPI document.
+
+#### Creating an AsyncAPI Client:
+
+Once the services are configured, you can create an AsyncAPI client using the client factory:
+
+```csharp
+var clientFactory = ServiceProvider.GetRequiredService<IAsyncApiClientFactory>();
+await using var client = clientFactory.CreateFor(asyncApiDocument);
+```
+
+Replace `asyncApiDocument` with your loaded AsyncAPI document instance.
+
+#### Publishing a message:
+
+To publish a message using the AsyncAPI client, construct the operation parameters with your payload and headers, then call PublishAsync:
+
+```csharp
+var parameters = new AsyncApiPublishOperationParameters("Greet")
+{
+  Payload = new 
+  { 
+    Greeting = "Hello, World!" 
+  },
+  Headers = new
+  {
+    SomeHeader = "SomeHeaderValue"
+  }
+};
+await using var result = await client.PublishAsync(parameters);
+```
+
+This example publishes a message to the operation named "Greet" with a payload and headers. Adjust the operation name, payload, and headers as needed for your application.
+
+#### Subscribing to messages:
+
+To subscribe and react to messages from an AsyncAPI operation:
+
+```csharp
+await using var result = await client.SubscribeAsync(new AsyncApiSubscribeOperationParameters("Greet"));
+result.Messages?.Subscribe(message => 
+{
+    Console.WriteLine(message.Payload?.Greeting);
+});
+```
+
+This code subscribes to the "Greet" operation and prints the "Greeting" property of each received message's payload. Modify the operation name and message handling logic based on your specific use case.
 
 ## Samples
 

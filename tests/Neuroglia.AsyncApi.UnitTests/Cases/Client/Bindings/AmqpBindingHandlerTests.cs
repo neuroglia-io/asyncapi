@@ -16,8 +16,6 @@ using Neuroglia.AsyncApi.Client;
 using Neuroglia.AsyncApi.Client.Bindings;
 using Neuroglia.AsyncApi.UnitTests.Containers;
 using RabbitMQ.Client;
-using System.Security.Authentication.ExtendedProtection;
-using System.Threading;
 
 namespace Neuroglia.AsyncApi.UnitTests.Cases.Client.Bindings;
 
