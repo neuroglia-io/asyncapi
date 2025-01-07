@@ -11,23 +11,21 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-namespace Neuroglia.AsyncApi.Bindings.Solace;
+using SolaceSystems.Solclient.Messaging;
+
+namespace Neuroglia.AsyncApi.Client.Bindings.Solace;
 
 /// <summary>
-/// Enumerates all supported Solace delivery modes
+/// Represents an <see cref="Exception"/> thrown whenever an <see cref="ISession"/> has failed to publish a message
 /// </summary>
-[JsonConverter(typeof(StringEnumConverter))]
-[TypeConverter(typeof(EnumMemberTypeConverter))]
-public enum SolaceDeliveryMode
+/// <param name="returnCode">The code returned by the publish attempt</param>
+public class SolaceMessagePublishingException(ReturnCode returnCode)
+    : Exception($"Message publishing failed with return code: {returnCode}")
 {
+
     /// <summary>
-    /// Indicates the persistent delivery mode
+    /// Gets the code returned by the publish attempt
     /// </summary>
-    [EnumMember(Value = "persistent")]
-    Persistent = 0,
-    /// <summary>
-    /// Indicates a direct delivery mode
-    /// </summary>
-    [EnumMember(Value = "direct")]
-    Direct = 1
+    public ReturnCode ReturnCode { get; } = returnCode;
+
 }

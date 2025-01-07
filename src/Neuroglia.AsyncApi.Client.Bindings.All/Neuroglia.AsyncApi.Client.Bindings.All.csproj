@@ -36,6 +36,7 @@
     <ProjectReference Include="..\Neuroglia.AsyncApi.Client.Bindings.Nats\Neuroglia.AsyncApi.Client.Bindings.Nats.csproj" />
     <ProjectReference Include="..\Neuroglia.AsyncApi.Client.Bindings.Pulsar\Neuroglia.AsyncApi.Client.Bindings.Pulsar.csproj" />
     <ProjectReference Include="..\Neuroglia.AsyncApi.Client.Bindings.Redis\Neuroglia.AsyncApi.Client.Bindings.Redis.csproj" />
+    <ProjectReference Include="..\Neuroglia.AsyncApi.Client.Bindings.Solace\Neuroglia.AsyncApi.Client.Bindings.Solace.csproj" />
     <ProjectReference Include="..\Neuroglia.AsyncApi.Client.Bindings.WebSocket\Neuroglia.AsyncApi.Client.Bindings.WebSocket.csproj" />
   </ItemGroup>
 

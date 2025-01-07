@@ -11,23 +11,15 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-namespace Neuroglia.AsyncApi.Bindings.Solace;
+namespace Neuroglia.AsyncApi.Client.Bindings.Solace.Configuration;
 
 /// <summary>
-/// Enumerates all supported Solace delivery modes
+/// Represents the options used to configure a <see cref="SolaceBindingHandler"/>
 /// </summary>
-[JsonConverter(typeof(StringEnumConverter))]
-[TypeConverter(typeof(EnumMemberTypeConverter))]
-public enum SolaceDeliveryMode
+public class SolaceBindingHandlerOptions
+    : BindingHandlerOptions
 {
-    /// <summary>
-    /// Indicates the persistent delivery mode
-    /// </summary>
-    [EnumMember(Value = "persistent")]
-    Persistent = 0,
-    /// <summary>
-    /// Indicates a direct delivery mode
-    /// </summary>
-    [EnumMember(Value = "direct")]
-    Direct = 1
+
+
+
 }

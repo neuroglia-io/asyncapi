@@ -11,23 +11,21 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-namespace Neuroglia.AsyncApi.Bindings.Solace;
+namespace Neuroglia.AsyncApi.Client.Bindings.Solace;
 
 /// <summary>
-/// Enumerates all supported Solace delivery modes
+/// Represents an object used to describe the result of a Solace publish operation
 /// </summary>
-[JsonConverter(typeof(StringEnumConverter))]
-[TypeConverter(typeof(EnumMemberTypeConverter))]
-public enum SolaceDeliveryMode
+public class SolacePublishOperationResult
+    : AsyncApiPublishOperationResult
 {
+
     /// <summary>
-    /// Indicates the persistent delivery mode
+    /// Gets/sets the <see cref="System.Exception"/>, if any, that occurred during publishing
     /// </summary>
-    [EnumMember(Value = "persistent")]
-    Persistent = 0,
-    /// <summary>
-    /// Indicates a direct delivery mode
-    /// </summary>
-    [EnumMember(Value = "direct")]
-    Direct = 1
+    public virtual Exception? Exception { get; init; }
+
+    /// <inheritdoc/>
+    public override bool IsSuccessful => Exception == null;
+
 }

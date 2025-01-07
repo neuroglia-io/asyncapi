@@ -50,7 +50,7 @@ public record SolaceDestinationDefinition
     /// Gets/sets the destination's delivery mode.
     /// </summary>
     [DataMember(Order = 3, Name = "deliveryMode"), JsonPropertyOrder(3), JsonPropertyName("deliveryMode"), YamlMember(Order = 3, Alias = "deliveryMode")]
-    public virtual SolaceDeliveryMode DeliveryMode { get; set; }
+    public virtual SolaceDeliveryMode? DeliveryMode { get; set; }
 
     /// <summary>
     /// Gets/sets an object used to configure the destination's queue, in case the destination type has been set to 'queue'.
