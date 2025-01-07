@@ -24,7 +24,9 @@ public class V3ParameterValidator
     public V3ParameterValidator(V3AsyncApiDocument? document = null)
         : base(document)
     {
-        
+        this.RuleFor(p => p.Location)
+            .Must(x => RuntimeExpression.TryParse(x!, out var expression) && expression != null)
+            .When(p => !p.IsReference && !string.IsNullOrWhiteSpace(p.Location));
     }
 
 }

@@ -26,7 +26,10 @@ public class V3CorrelationIdValidator
     {
         this.RuleFor(c => c.Location)
             .NotEmpty()
-            .When(o => !o.IsReference);
+            .When(c => !c.IsReference);
+        this.RuleFor(c => c.Location)
+            .Must(x => RuntimeExpression.TryParse(x!, out var expression) && expression != null)
+            .When(c => !c.IsReference);
     }
 
 }

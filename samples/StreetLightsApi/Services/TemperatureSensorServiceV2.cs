@@ -12,24 +12,40 @@
 // limitations under the License.
 
 using Neuroglia.AsyncApi.v2;
+using System.Net;
 
-namespace StreetLightsApi.Server.Services;
+namespace StreetLightsApi.Services;
 
+/// <summary>
+/// Represents a sample service used to monitor temperature
+/// </summary>
+/// <param name="logger">The service used to perform logging</param>
+/// <param name="serializer">The service used to serialize/deserialize data to/from JSON</param>
 [Neuroglia.AsyncApi.v2.AsyncApi("Temperature Sensor API", "2.0.0", Description = "The Temperature Sensor API allows you to get remotely notified about temperature changes captured by sensors.", LicenseName = "Apache 2.0", LicenseUrl = "https://www.apache.org/licenses/LICENSE-2.0")]
 public class TemperatureSensorServiceV2(ILogger<TemperatureSensorServiceV1> logger, IJsonSerializer serializer)
     : BackgroundService
 {
 
+    /// <summary>
+    /// Gets the service used to perform logging
+    /// </summary>
     protected ILogger Logger { get; } = logger;
 
+    /// <summary>
+    /// Gets the service used to serialize/deserialize data to/from JSON
+    /// </summary>
     protected IJsonSerializer Serializer { get; } = serializer;
 
+    /// <summary>
+    /// Gets the service used to interact with the remote MQTT server
+    /// </summary>
     protected IMqttClient MqttClient { get; private set; } = null!;
 
+    /// <inheritdoc/>
     protected override async Task ExecuteAsync(CancellationToken stoppingToken)
     {
         this.MqttClient = new MqttFactory().CreateMqttClient();
-        var options = new MqttClientOptions() { ChannelOptions = new MqttClientTcpOptions() { Server = "test.mosquitto.org" } };
+        var options = new MqttClientOptions() { ChannelOptions = new MqttClientTcpOptions() { RemoteEndpoint = new DnsEndPoint("test.mosquitto.org", 1883) } };
         await this.MqttClient.ConnectAsync(options, stoppingToken);
         stoppingToken.Register(async () => await this.MqttClient.DisconnectAsync());
         this.MqttClient.ApplicationMessageReceivedAsync += (async message =>
@@ -41,6 +57,12 @@ public class TemperatureSensorServiceV2(ILogger<TemperatureSensorServiceV1> logg
         await this.MqttClient.SubscribeAsync("OnTemperatureChanged", cancellationToken: stoppingToken).ConfigureAwait(false);
     }
 
+    /// <summary>
+    /// Handles events notifying about temperature changes
+    /// </summary>
+    /// <param name="degrees">The actual temperatures, in degree Celsius</param>
+    /// <param name="timestamp">The date and time at which the measurement was made</param>
+    /// <returns>A new awaitable <see cref="Task"/></returns>
     [Tag("temperature", "A tag for temperature-related operations"), Tag("sensor", "A tag for sensor-related operations")]
     [Channel("temperature/changed"), SubscribeOperation(OperationId = "OnTemperatureChanged", Summary = "Inform about temperature changes captured by sensors")]
     protected async Task OnTemperatureChanged([Range(-100,100)]decimal degrees, DateTime timestamp)

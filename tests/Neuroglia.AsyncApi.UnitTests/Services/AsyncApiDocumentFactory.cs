@@ -62,13 +62,13 @@ internal static class AsyncApiDocumentFactory
                            {
                                 ClientId = Guid.NewGuid().ToString(),
                                 CleanSession = true,
-                                KeepAlive = true,
+                                KeepAlive = 3,
                                 LastWill = new()
                                 {
                                     Message = "Fake Message",
                                     Retain = true,
                                     Topic = "Fake Topic",
-                                    QoS = MqttQoSLevel.ExactlyOne
+                                    QoS = MqttQualityOfServiceLevel.ExactlyOne
 
                                 },
                                 BindingVersion = "latest"
@@ -99,7 +99,6 @@ internal static class AsyncApiDocumentFactory
                             {
                                 //todo
                             },
-                            Traits = [],
                             ExternalDocs = new()
                             {
                                 Url = new("https://fake.contact.com"),
@@ -127,8 +126,7 @@ internal static class AsyncApiDocumentFactory
                         Bindings = new()
                         {
                             //todo
-                        },
-                        Parameters = []
+                        }
                     }
                 }
             },
@@ -304,7 +302,7 @@ internal static class AsyncApiDocumentFactory
                         [
                             new()
                             {
-                                Reference = "#/components/messages/lightMeasured"
+                                Reference = "#/channels/lightingMeasured/messages/lightMeasured"
                             }
                         ]
                     }

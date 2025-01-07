@@ -70,17 +70,12 @@ public class OperationAttribute(string name, V3OperationAction action, string ch
     public string[]? Tags { get; set; }
 
     /// <summary>
-    /// Gets/sets a reference to the operation's <see cref="V3MessageDefinition"/>. Ignored if either <see cref="MessagePayloadType"/> or <see cref="HeadersPayloadType"/> have been set.
-    /// </summary>
-    public string? Message { get; init; }
-
-    /// <summary>
-    /// Gets/sets the type of the <see cref="V3OperationDefinition"/>'s message payload. Ignored if <see cref="Message"/> has been set.
+    /// Gets/sets the type of the <see cref="V3OperationDefinition"/>'s message payload
     /// </summary>
     public Type? MessagePayloadType { get; init; }
 
     /// <summary>
-    /// Gets/sets the type of the <see cref="V3OperationDefinition"/>'s message headers. Ignored if <see cref="Message"/> has been set.
+    /// Gets/sets the type of the <see cref="V3OperationDefinition"/>'s message headers
     /// </summary>
     public Type? HeadersPayloadType { get; init; }
 

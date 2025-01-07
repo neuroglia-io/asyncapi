@@ -40,7 +40,7 @@ public class MqttServerBindingAttribute(string name, string version = "latest")
     /// <summary>
     /// Gets/sets an integer that defines how hard the broker/client will try to ensure that the Last Will and Testament message is received. Its value MUST be either 0, 1 or 2.
     /// </summary>
-    public virtual MqttQoSLevel? LastWillQoS { get; set; }
+    public virtual MqttQualityOfServiceLevel? LastWillQoS { get; set; }
 
     /// <summary>
     /// Gets/sets the Last Will message
@@ -55,7 +55,7 @@ public class MqttServerBindingAttribute(string name, string version = "latest")
     /// <summary>
     /// Gets/sets an interval in seconds of the longest period of time the broker and the client can endure without sending a message.
     /// </summary>
-    public virtual bool KeepAlive { get; set; }
+    public virtual int? KeepAlive { get; set; }
 
     /// <inheritdoc/>
     public override MqttServerBindingDefinition Build()
@@ -71,7 +71,7 @@ public class MqttServerBindingAttribute(string name, string version = "latest")
         {
             Topic = this.LastWillTopic,
             Message = this.LastWillMessage,
-            QoS = LastWillQoS ?? MqttQoSLevel.AtMostOne,
+            QoS = LastWillQoS ?? MqttQualityOfServiceLevel.AtMostOne,
             Retain = LastWillRetain ?? false
         };
         return binding;

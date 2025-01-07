@@ -22,22 +22,22 @@ public record SolaceServerBindingDefinition
 {
 
     /// <summary>
-    /// Gets/sets the version of this binding.
-    /// </summary>
-    [DataMember(Order = 1, Name = "bindingVersion"), JsonPropertyOrder(1), JsonPropertyName("bindingVersion"), YamlMember(Order = 1, Alias = "bindingVersion")]
-    public virtual string BindingVersion { get; set; } = "0.4.0";
-
-    /// <summary>
     /// Gets/sets the Virtual Private Network name on the Solace broker.
     /// </summary>
     [Required]
-    [DataMember(Order = 2, Name = "msgVpn"), JsonPropertyOrder(2), JsonPropertyName("msgVpn"), YamlMember(Order = 2, Alias = "msgVpn")]
-    public virtual string MsgVpn { get; set; } = null!;
+    [DataMember(Order = 1, Name = "msgVpn"), JsonPropertyOrder(1), JsonPropertyName("msgVpn"), YamlMember(Order = 1, Alias = "msgVpn")]
+    public virtual string MessageVpn { get; set; } = null!;
 
     /// <summary>
     /// Gets/sets a unique client name to use to register to the appliance. If specified, it must be a valid Topic name, and a maximum of 160 bytes in length when encoded as UTF-8.
     /// </summary>
-    [DataMember(Order = 3, Name = "clientName"), JsonPropertyOrder(3), JsonPropertyName("clientName"), YamlMember(Order = 3, Alias = "clientName")]
+    [DataMember(Order = 2, Name = "clientName"), JsonPropertyOrder(2), JsonPropertyName("clientName"), YamlMember(Order = 2, Alias = "clientName")]
     public virtual string? ClientName { get; set; }
+
+    /// <summary>
+    /// Gets/sets the version of this binding.
+    /// </summary>
+    [DataMember(Order = 3, Name = "bindingVersion"), JsonPropertyOrder(3), JsonPropertyName("bindingVersion"), YamlMember(Order = 3, Alias = "bindingVersion")]
+    public virtual string BindingVersion { get; set; } = "0.4.0";
 
 }

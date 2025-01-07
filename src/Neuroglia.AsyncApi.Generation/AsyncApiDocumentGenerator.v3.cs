@@ -44,12 +44,8 @@ public partial class AsyncApiDocumentGenerator
         var serverVariables = type.GetCustomAttributes<ServerVariableAttribute>();
         foreach (var server in type.GetCustomAttributes<ServerAttribute>()) await this.GenerateV3ServerForAsync(document, server, serverVariables.Where(c => c.Server == server.Name), options, cancellationToken);
         var channelParameters = type.GetCustomAttributes<ChannelParameterAttribute>();
-        foreach (var channel in type.GetCustomAttributes<v3.ChannelAttribute>()) await this.GenerateV3ChannelForAsync(document, channel, channelParameters.Where(c => c.Channel == channel.Name), options, cancellationToken);
-        foreach (var method in type.GetMethods(BindingFlags.Default | BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.FlattenHierarchy).Where(m => m.GetCustomAttribute<v3.OperationAttribute>() != null))
-        {
-            var operation = method.GetCustomAttribute<v3.OperationAttribute>()!;
-            await this.GenerateV3OperationForAsync(document, operation, method, options, cancellationToken);
-        }
+        var operationMethods = type.GetMethods(BindingFlags.Default | BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.FlattenHierarchy).Where(m => m.GetCustomAttribute<v3.OperationAttribute>() != null);
+        foreach (var channel in type.GetCustomAttributes<v3.ChannelAttribute>()) await this.GenerateV3ChannelForAsync(document, channel, channelParameters.Where(c => c.Channel == channel.Name), operationMethods.Where(o => o.GetCustomAttribute<v3.OperationAttribute>()!.Channel.Split('/', StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries).Last() == channel.Name), options, cancellationToken);
         foreach (var bindingAttribute in type.GetCustomAttributes().OfType<IBindingAttribute>())
         {
             var binding = bindingAttribute.Build();
@@ -157,16 +153,19 @@ public partial class AsyncApiDocumentGenerator
     /// <param name="document">The <see cref="IV3AsyncApiDocumentBuilder"/> to configure</param>
     /// <param name="channelAttribute">The attribute used to describe the <see cref="V3ChannelDefinition"/> to build</param>
     /// <param name="channelParameterAttributes">An <see cref="IEnumerable{T}"/> containing the <see cref="ChannelParameterAttribute"/>s that apply to the <see cref="V3ChannelDefinition"/> to build</param>
+    /// <param name="operationMethods">An <see cref="IEnumerable{T}"/> containing the operation methods that belongs to the <see cref="V3ChannelDefinition"/> to build</param>
     /// <param name="options">The <see cref="AsyncApiDocumentGenerationOptions"/> to use</param>
     /// <param name="cancellationToken">A <see cref="CancellationToken"/></param>
     /// <returns>A new awaitable <see cref="Task"/></returns>
-    protected virtual Task GenerateV3ChannelForAsync(IV3AsyncApiDocumentBuilder document, v3.ChannelAttribute channelAttribute, IEnumerable<ChannelParameterAttribute>? channelParameterAttributes, AsyncApiDocumentGenerationOptions options, CancellationToken cancellationToken = default)
+    protected virtual async Task GenerateV3ChannelForAsync(IV3AsyncApiDocumentBuilder document, v3.ChannelAttribute channelAttribute, IEnumerable<ChannelParameterAttribute>? channelParameterAttributes, IEnumerable<MethodInfo> operationMethods, AsyncApiDocumentGenerationOptions options, CancellationToken cancellationToken = default)
     {
         ArgumentNullException.ThrowIfNull(document);
         ArgumentNullException.ThrowIfNull(channelAttribute);
         ArgumentNullException.ThrowIfNull(options);
+        IV3ChannelDefinitionBuilder channelBuilder = null!;
         document.WithChannel(channelAttribute.Name, channel =>
         {
+            channelBuilder = channel;
             channel
                 .WithAddress(channelAttribute.Address)
                 .WithTitle(channelAttribute.Title)
@@ -216,21 +215,29 @@ public partial class AsyncApiDocumentGenerator
                 }
             }
         });
-        return Task.CompletedTask;
+        foreach (var method in operationMethods)
+        {
+            var operation = method.GetCustomAttribute<v3.OperationAttribute>()!;
+            await this.GenerateV3OperationForAsync(document, channelAttribute.Name, channelBuilder, operation, method, options, cancellationToken);
+        }
     }
 
     /// <summary>
     /// Builds a new <see cref="V3OperationDefinition"/>
     /// </summary>
     /// <param name="document">The <see cref="IV3AsyncApiDocumentBuilder"/> to configure</param>
+    /// <param name="channelName">The name of the <see cref="V3ChannelDefinition"/> the <see cref="V3OperationDefinition"/> to build belongs to</param>
+    /// <param name="channel">The <see cref="IV3ChannelDefinitionBuilder"/> used to configure the <see cref="V3ChannelDefinition"/> the <see cref="V3OperationDefinition"/> to build belongs to</param>
     /// <param name="operationAttribute">The attribute used to describe the <see cref="V3OperationDefinition"/> to configure</param>
     /// <param name="operationMethod">The <see cref="V3OperationDefinition"/>s <see cref="MethodInfo"/>s</param>
     /// <param name="options">The <see cref="AsyncApiDocumentGenerationOptions"/> to use</param>
     /// <param name="cancellationToken">A <see cref="CancellationToken"/></param>
     /// <returns>A new awaitable <see cref="Task"/></returns>
-    protected virtual Task GenerateV3OperationForAsync(IV3AsyncApiDocumentBuilder document, v3.OperationAttribute operationAttribute, MethodInfo operationMethod, AsyncApiDocumentGenerationOptions options, CancellationToken cancellationToken = default)
+    protected virtual Task GenerateV3OperationForAsync(IV3AsyncApiDocumentBuilder document, string channelName, IV3ChannelDefinitionBuilder channel, v3.OperationAttribute operationAttribute, MethodInfo operationMethod, AsyncApiDocumentGenerationOptions options, CancellationToken cancellationToken = default)
     {
         ArgumentNullException.ThrowIfNull(document);
+        ArgumentException.ThrowIfNullOrWhiteSpace(channelName);
+        ArgumentNullException.ThrowIfNull(channel);
         ArgumentNullException.ThrowIfNull(operationAttribute);
         ArgumentNullException.ThrowIfNull(operationMethod);
         ArgumentNullException.ThrowIfNull(options);
@@ -238,7 +245,7 @@ public partial class AsyncApiDocumentGenerator
         var requestMessagePayloadType = operationAttribute.MessagePayloadType;
         var requestMessageAttribute = operationMethod.GetCustomAttribute<v3.MessageAttribute>() ?? requestMessagePayloadType?.GetCustomAttribute<v3.MessageAttribute>();
         var requestMessagePayloadSchema = (JsonSchema?)null;
-        var requestMessageHeadersSchema = operationAttribute.HeadersPayloadType == null ? null : new JsonSchemaBuilder().FromType(operationAttribute.HeadersPayloadType, Data.Schemas.Json.JsonSchemaGeneratorConfiguration.Default);
+        var requestMessageHeadersSchema = operationAttribute.HeadersPayloadType == null ? null : new JsonSchemaBuilder().FromType(operationAttribute.HeadersPayloadType, JsonSchemaGeneratorConfiguration.Default);
         if (requestMessageAttribute == null)
         {
             if (requestMessagePayloadType == null)
@@ -246,7 +253,7 @@ public partial class AsyncApiDocumentGenerator
                 if (operationParameters.Count == 1)
                 {
                     requestMessagePayloadType = operationParameters[0].ParameterType;
-                    requestMessagePayloadSchema = new JsonSchemaBuilder().FromType(requestMessagePayloadType, Data.Schemas.Json.JsonSchemaGeneratorConfiguration.Default);
+                    requestMessagePayloadSchema = new JsonSchemaBuilder().FromType(requestMessagePayloadType, JsonSchemaGeneratorConfiguration.Default);
                 }
                 else
                 {
@@ -257,7 +264,7 @@ public partial class AsyncApiDocumentGenerator
                     foreach (var parameter in operationParameters)
                     {
                         if (parameter.TryGetCustomAttribute<ExcludeAttribute>(out _)) continue;
-                        var parameterSchema = schemaBuilder.FromType(parameter.ParameterType, Data.Schemas.Json.JsonSchemaGeneratorConfiguration.Default);
+                        var parameterSchema = schemaBuilder.FromType(parameter.ParameterType, JsonSchemaGeneratorConfiguration.Default);
                         messageSchemaProperties.Add(parameter.Name!, parameterSchema);
                         if (parameter.TryGetCustomAttribute<RequiredAttribute>(out _) || !parameter.ParameterType.IsNullable() || parameter.DefaultValue == DBNull.Value) requiredProperties.Add(parameter.Name!);
                     }
@@ -268,12 +275,58 @@ public partial class AsyncApiDocumentGenerator
             }
             else
             {
-                requestMessagePayloadSchema = new JsonSchemaBuilder().FromType(requestMessagePayloadType, Data.Schemas.Json.JsonSchemaGeneratorConfiguration.Default).Build();
+                requestMessagePayloadSchema = new JsonSchemaBuilder().FromType(requestMessagePayloadType, JsonSchemaGeneratorConfiguration.Default).Build();
             }
         }
         var requestMessageName = $"{operationAttribute.Name}Request";
         var replyMessageName = $"{operationAttribute.Name}Reply";
-        var requestMessageReference = operationAttribute.Message ?? $"#/components/messages/{requestMessageName}";
+        var requestMessageReference = $"#/channels/{channelName}/messages/{requestMessageName}";
+        channel.WithMessage(requestMessageName, message =>
+        {
+            message
+                .WithName(requestMessageAttribute?.Name)
+                .WithTitle(requestMessageAttribute?.Title)
+                .WithDescription(requestMessageAttribute?.Description)
+                .WithSummary(requestMessageAttribute?.Summary)
+                .WithDescription(requestMessageAttribute?.Description);
+            if (!string.IsNullOrEmpty(requestMessageAttribute?.Bindings))
+            {
+                message.WithBindings(bindings => bindings.Use(requestMessageAttribute.Bindings));
+            }
+            if (!string.IsNullOrWhiteSpace(requestMessageAttribute?.PayloadSchema))
+            {
+                message.WithPayloadSchema(schema => schema.Use(requestMessageAttribute.PayloadSchema));
+            }
+            else if (requestMessagePayloadSchema != null)
+            {
+                message
+                    .WithPayloadSchema(schema => schema
+                        .WithFormat("application/schema+json")
+                        .WithSchema(requestMessagePayloadSchema));
+            }
+            if (!string.IsNullOrWhiteSpace(requestMessageAttribute?.HeadersSchema))
+            {
+                message.WithHeadersSchema(schema => schema.Use(requestMessageAttribute.HeadersSchema));
+            }
+            else if (requestMessageHeadersSchema != null)
+            {
+                message
+                    .WithHeadersSchema(schema => schema
+                        .WithFormat("application/schema+json")
+                        .WithSchema(requestMessageHeadersSchema));
+            }
+            if (requestMessageAttribute?.ExternalDocumentationUrl != null)
+            {
+                message.WithExternalDocumentation(doc => doc.WithUrl(requestMessageAttribute.ExternalDocumentationUrl));
+            }
+            if (requestMessageAttribute?.Tags != null)
+            {
+                foreach (var tagReference in requestMessageAttribute.Tags)
+                {
+                    message.WithTag(tag => tag.Use(tagReference));
+                }
+            }
+        });
         document.WithOperation(operationAttribute.Name, operation => 
         {
             operation
@@ -306,55 +359,6 @@ public partial class AsyncApiDocumentGenerator
                     .WithDescription(tagAttribute.Description));
             }
         });
-        if (string.IsNullOrWhiteSpace(operationAttribute.Message))
-        {
-            document.WithMessageComponent(requestMessageName, message =>
-            {
-                message
-                    .WithName(requestMessageAttribute?.Name)
-                    .WithTitle(requestMessageAttribute?.Title)
-                    .WithDescription(requestMessageAttribute?.Description)
-                    .WithSummary(requestMessageAttribute?.Summary)
-                    .WithDescription(requestMessageAttribute?.Description);
-                if (!string.IsNullOrEmpty(requestMessageAttribute?.Bindings))
-                {
-                    message.WithBindings(bindings => bindings.Use(requestMessageAttribute.Bindings));
-                }
-                if (!string.IsNullOrWhiteSpace(requestMessageAttribute?.PayloadSchema))
-                {
-                    message.WithPayloadSchema(schema => schema.Use(requestMessageAttribute.PayloadSchema));
-                }
-                else if (requestMessagePayloadSchema != null)
-                {
-                    message
-                        .WithPayloadSchema(schema => schema
-                            .WithFormat("application/schema+json")
-                            .WithSchema(requestMessagePayloadSchema));
-                }
-                if (!string.IsNullOrWhiteSpace(requestMessageAttribute?.HeadersSchema))
-                {
-                    message.WithHeadersSchema(schema => schema.Use(requestMessageAttribute.HeadersSchema));
-                }
-                else if (requestMessageHeadersSchema != null)
-                {
-                    message
-                        .WithHeadersSchema(schema => schema
-                            .WithFormat("application/schema+json")
-                            .WithSchema(requestMessageHeadersSchema));
-                }
-                if (requestMessageAttribute?.ExternalDocumentationUrl != null)
-                {
-                    message.WithExternalDocumentation(doc => doc.WithUrl(requestMessageAttribute.ExternalDocumentationUrl));
-                }
-                if (requestMessageAttribute?.Tags != null)
-                {
-                    foreach (var tagReference in requestMessageAttribute.Tags)
-                    {
-                        message.WithTag(tag => tag.Use(tagReference));
-                    }
-                }
-            });
-        }
         return Task.CompletedTask;
     }
 

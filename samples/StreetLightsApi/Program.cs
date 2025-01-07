@@ -13,7 +13,7 @@
 
 using Json.Schema.Generation;
 using Neuroglia.AsyncApi.Bindings.Mqtt;
-using StreetLightsApi.Messages;
+using StreetLightsApi.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -92,14 +92,16 @@ builder.Services.AddAsyncApiGeneration(builder =>
                     .WithDescription("This channel is used to exchange messages about lightning measurements.")
                     .WithServer("#/components/servers/http")
                     .WithBindings(bindings => bindings
-                        .Use("#/components/channelBindings/http")))
+                        .Use("#/components/channelBindings/http"))
+                    .WithMessage("addStreetLightRequest", message => message
+                        .Use("#/components/messages/addStreetLightRequest")))
                 .WithOperationComponent("addStreetLight", operation => operation
                     .WithAction(Neuroglia.AsyncApi.v3.V3OperationAction.Receive)
                     .WithChannel("#/components/channels/lightingMeasuredHTTP")
                     .WithDescription("Adds a new **streetlight** to the API.")
                     .WithTrait(trait => trait
                         .Use("#/components/operationTraits/commonBindings"))
-                    .WithMessage("#/components/messages/addStreetLightRequest")
+                    .WithMessage("#/channels/lightingMeasuredHTTP/messages/addStreetLightRequest")
                     .WithBindings(bindings => bindings
                         .Use("#/components/operationBindings/http")))
                 .WithMessageComponent("addStreetLightRequest", message => message
@@ -237,18 +239,20 @@ builder.Services.AddAsyncApiDocument(document => document
     .WithChannel("events", channel => channel
         .WithServer("#/servers/StreetLightsApi")
         .WithDescription("The endpoint used to publish and subscribe to cloud events")
-        .WithBinding(new HttpChannelBindingDefinition()))
+        .WithBinding(new HttpChannelBindingDefinition())
+        .WithMessage("lightMeasuredEvent", message => message
+            .Use("#/components/messages/lightMeasuredEvent")))
     .WithOperation("observeCloudEvents", operation => operation
         .WithAction(Neuroglia.AsyncApi.v3.V3OperationAction.Send)
         .WithChannel("#/channels/events")
         .WithTitle("ObserveCloudEvents")
         .WithDescription("Observes cloud events published by the StreetLightsApi")
-        .WithBinding(new HttpOperationBindingDefinition() 
-        { 
-            Method = Neuroglia.AsyncApi.Bindings.Http.HttpMethod.POST, 
-            Type = HttpBindingOperationType.Response 
+        .WithBinding(new HttpOperationBindingDefinition()
+        {
+            Method = Neuroglia.AsyncApi.Bindings.Http.HttpMethod.POST,
+            Type = HttpBindingOperationType.Response
         })
-        .WithMessage("#/components/messages/lightMeasuredEvent"))
+        .WithMessage("#/channels/events/messages/lightMeasuredEvent"))
     .WithMessageComponent("lightMeasuredEvent", message => message
         .WithName("LightMeasuredEvent")
         .WithDescription("The event fired whenever the luminosity of a light has been measured")

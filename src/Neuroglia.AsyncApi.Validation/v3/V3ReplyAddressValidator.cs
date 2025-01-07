@@ -26,7 +26,10 @@ public class V3ReplyAddressValidator
     {
         this.RuleFor(ra => ra.Location)
             .NotEmpty()
-            .When(r => !r.IsReference);
+            .When(ra => !ra.IsReference);
+        this.RuleFor(ra => ra.Location)
+            .Must(x => RuntimeExpression.TryParse(x!, out var expression) && expression != null)
+            .When(ra => !ra.IsReference);
     }
 
 }

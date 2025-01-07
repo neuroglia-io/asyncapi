@@ -37,7 +37,7 @@ public class SolaceServerBindingAttribute(string name, string msgVpn, string ver
     public override SolaceServerBindingDefinition Build() => new()
     {
         BindingVersion = this.Version,
-        MsgVpn = this.MsgVpn,
+        MessageVpn = this.MsgVpn,
         ClientName = this.ClientName
     };
 

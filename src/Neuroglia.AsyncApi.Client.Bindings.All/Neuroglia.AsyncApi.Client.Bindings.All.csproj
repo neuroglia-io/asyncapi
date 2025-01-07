@@ -1,0 +1,45 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+ <PropertyGroup>
+    <TargetFramework>net9.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+	<GenerateDocumentationFile>True</GenerateDocumentationFile>
+	<Company>Neuroglia SRL</Company>
+    <Copyright>Copyright © 2023-Present Neuroglia SRL. All rights reserved.</Copyright>
+    <Authors>Neuroglia SRL</Authors>
+    <RepositoryUrl>https://github.com/neuroglia-io/asyncapi</RepositoryUrl>
+    <RepositoryType>git</RepositoryType>
+    <PackageTags>neuroglia asyncapi async api client binding all</PackageTags>
+    <Version>3.0.1</Version>
+    <NeutralLanguage>en</NeutralLanguage>
+	<PackageLicenseExpression>Apache-2.0</PackageLicenseExpression>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
+    <PackageIcon>logo_white_on_blue_256.png</PackageIcon>
+    <IsPackable>true</IsPackable>
+	<DebugType>embedded</DebugType>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Include="..\..\assets\img\logo_white_on_blue_256.png">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </None>
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Neuroglia.AsyncApi.Client.Bindings.Amqp\Neuroglia.AsyncApi.Client.Bindings.Amqp.csproj" />
+    <ProjectReference Include="..\Neuroglia.AsyncApi.Client.Bindings.Http\Neuroglia.AsyncApi.Client.Bindings.Http.csproj" />
+    <ProjectReference Include="..\Neuroglia.AsyncApi.Client.Bindings.Kafka\Neuroglia.AsyncApi.Client.Bindings.Kafka.csproj" />
+    <ProjectReference Include="..\Neuroglia.AsyncApi.Client.Bindings.Mqtt\Neuroglia.AsyncApi.Client.Bindings.Mqtt.csproj" />
+    <ProjectReference Include="..\Neuroglia.AsyncApi.Client.Bindings.Nats\Neuroglia.AsyncApi.Client.Bindings.Nats.csproj" />
+    <ProjectReference Include="..\Neuroglia.AsyncApi.Client.Bindings.Pulsar\Neuroglia.AsyncApi.Client.Bindings.Pulsar.csproj" />
+    <ProjectReference Include="..\Neuroglia.AsyncApi.Client.Bindings.Redis\Neuroglia.AsyncApi.Client.Bindings.Redis.csproj" />
+    <ProjectReference Include="..\Neuroglia.AsyncApi.Client.Bindings.Solace\Neuroglia.AsyncApi.Client.Bindings.Solace.csproj" />
+    <ProjectReference Include="..\Neuroglia.AsyncApi.Client.Bindings.Stomp\Neuroglia.AsyncApi.Client.Bindings.Stomp.csproj" />
+    <ProjectReference Include="..\Neuroglia.AsyncApi.Client.Bindings.WebSocket\Neuroglia.AsyncApi.Client.Bindings.WebSocket.csproj" />
+  </ItemGroup>
+
+
+</Project>

@@ -27,7 +27,7 @@
             }
             var constValue = property.Value.GetConst();
             var format = property.Value.GetFormat();
-            var pattern = property.Value.GetPattern();
+            var pattern = property.Value.GetPatternValue();
             var enumValue = property.Value.GetEnum();
             var description = property.Value.GetDescription();
             <div class="mb-3">
@@ -53,7 +53,7 @@
                         }
                         @if (format != null)
                         {
-                            <span class="badge border border-secondary text-secondary" data-bs-toggle="tooltip" data-bs-placement="bottom" title="The value must be formated using the '@(format.Key)' JSON Schema format." role="button">format</span>
+                            <span class="badge border border-secondary text-secondary" data-bs-toggle="tooltip" data-bs-placement="bottom" title="The value must be formatted using the '@(format.Key)' JSON Schema format." role="button">format</span>
                         }
                         @if (pattern != null)
                         {

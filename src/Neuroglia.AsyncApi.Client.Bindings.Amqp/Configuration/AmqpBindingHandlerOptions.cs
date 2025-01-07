@@ -11,24 +11,15 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-namespace StreetLightsApi.Server.Messages;
+namespace Neuroglia.AsyncApi.Client.Bindings.Amqp.Configuration;
 
 /// <summary>
-/// Represents a task to do
+/// Represents the options used to configure a <see cref="AmqpBindingHandler"/>
 /// </summary>
-/// <param name="Name">The name of the task to do</param>
-public record TodoItem(string Name);
-
-/// <summary>
-/// Represents the common headers of messages exchanged by the StreetLights API
-/// </summary>
-public record CommonHeaders
+public class AmqpBindingHandlerOptions
+    : BindingHandlerOptions
 {
 
-    /// <summary>
-    /// Gets/sets the value of the header that the application's ETag
-    /// </summary>
-    [Json.Schema.Generation.Required, Json.Schema.Generation.MinLength(1)]
-    public required string ETag { get; init; }
+
 
 }

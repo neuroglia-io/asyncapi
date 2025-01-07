@@ -34,7 +34,7 @@ public record V3ChannelDefinition
     /// Gets/sets a map of the messages that will be sent to this channel by any application at any time. Every message sent to this channel MUST be valid against one, and only one, of the message objects defined in this map.
     /// </summary>
     [DataMember(Order = 2, Name = "messages"), JsonPropertyOrder(2), JsonPropertyName("messages"), YamlMember(Order = 2, Alias = "messages", ScalarStyle = ScalarStyle.SingleQuoted)]
-    public virtual EquatableDictionary<string, V3MessageDefinition>? Messages { get; set; }
+    public virtual EquatableDictionary<string, V3MessageDefinition> Messages { get; set; } = [];
 
     /// <summary>
     /// Gets/sets a human-friendly title for the channel.

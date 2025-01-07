@@ -11,9 +11,6 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using Neuroglia.Serialization.Json.Converters;
-using System.ComponentModel;
-
 namespace Neuroglia.AsyncApi.Bindings.Solace;
 
 /// <summary>

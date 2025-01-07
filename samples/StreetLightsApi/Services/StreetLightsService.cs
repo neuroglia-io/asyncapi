@@ -14,8 +14,9 @@
 using Neuroglia.AsyncApi.Bindings.Mqtt;
 using Neuroglia.AsyncApi.v2;
 using Neuroglia.AsyncApi.v3;
+using System.Net;
 
-namespace StreetLightsApi.Server.Services;
+namespace StreetLightsApi.Services;
 
 /// <summary>
 /// Represents the Smartylighting Streetlights API, which allows to remotely manage the city lights
@@ -53,7 +54,7 @@ public class StreetLightsService(ILogger<StreetLightsService> logger, IJsonSeria
     protected override async Task ExecuteAsync(CancellationToken stoppingToken)
     {
         this.MqttClient = new MqttFactory().CreateMqttClient();
-        var options = new MqttClientOptions() { ChannelOptions = new MqttClientTcpOptions() { Server = "test.mosquitto.org" } };
+        var options = new MqttClientOptions() { ChannelOptions = new MqttClientTcpOptions() { RemoteEndpoint = new DnsEndPoint("test.mosquitto.org", 1883) } };
         await this.MqttClient.ConnectAsync(options, stoppingToken).ConfigureAwait(false);
         stoppingToken.Register(async () => await this.MqttClient.DisconnectAsync().ConfigureAwait(false));
         this.MqttClient.ApplicationMessageReceivedAsync += (async message =>

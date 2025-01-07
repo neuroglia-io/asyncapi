@@ -11,8 +11,6 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using Json.Schema;
-using Neuroglia.AsyncApi.Bindings;
 using Neuroglia.AsyncApi.Bindings.Http;
 
 namespace Neuroglia.AsyncApi.Bindings.WebSockets;

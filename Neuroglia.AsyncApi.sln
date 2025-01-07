@@ -52,10 +52,30 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "assets", "assets", "{C50B254B-1890-463B-B889-C3986AF64804}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "img", "img", "{C5D2623D-841D-48E9-935C-EF4EF985C292}"
-	ProjectSection(SolutionItems) = preProject
-		assets\img\logo_white_on_blue_256.png = assets\img\logo_white_on_blue_256.png
-		assets\img\ui.png = assets\img\ui.png
-	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Neuroglia.AsyncApi.Client", "src\Neuroglia.AsyncApi.Client\Neuroglia.AsyncApi.Client.csproj", "{67252049-D725-41DE-9AEC-6C162C829D3B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Neuroglia.AsyncApi.Client.Bindings.Http", "src\Neuroglia.AsyncApi.Client.Bindings.Http\Neuroglia.AsyncApi.Client.Bindings.Http.csproj", "{9A64D2AE-E0B8-4EE6-879B-10F74DCAD543}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Neuroglia.AsyncApi.Client.Bindings.Mqtt", "src\Neuroglia.AsyncApi.Client.Bindings.Mqtt\Neuroglia.AsyncApi.Client.Bindings.Mqtt.csproj", "{1F3D40FA-19B3-4608-8594-9383CD9400FB}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Neuroglia.AsyncApi.Client.Bindings.All", "src\Neuroglia.AsyncApi.Client.Bindings.All\Neuroglia.AsyncApi.Client.Bindings.All.csproj", "{8FD99A95-410A-4E38-AC7C-938894053E87}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Neuroglia.AsyncApi.Client.Bindings.Redis", "src\Neuroglia.AsyncApi.Client.Bindings.Redis\Neuroglia.AsyncApi.Client.Bindings.Redis.csproj", "{D7665DAF-42CD-47E7-8A77-52C82B696D9B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Neuroglia.AsyncApi.Client.Bindings.Nats", "src\Neuroglia.AsyncApi.Client.Bindings.Nats\Neuroglia.AsyncApi.Client.Bindings.Nats.csproj", "{DCADC636-53BA-408A-A870-CC07FD63A3F3}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Neuroglia.AsyncApi.Client.Bindings.Kafka", "src\Neuroglia.AsyncApi.Client.Bindings.Kafka\Neuroglia.AsyncApi.Client.Bindings.Kafka.csproj", "{84AAE014-BD45-4B6F-96CE-01E364B802EB}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Neuroglia.AsyncApi.Client.Bindings.Amqp", "src\Neuroglia.AsyncApi.Client.Bindings.Amqp\Neuroglia.AsyncApi.Client.Bindings.Amqp.csproj", "{40A5544D-723E-4329-98A6-E512EC367F62}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Neuroglia.AsyncApi.Client.Bindings.WebSocket", "src\Neuroglia.AsyncApi.Client.Bindings.WebSocket\Neuroglia.AsyncApi.Client.Bindings.WebSocket.csproj", "{5DD964ED-665C-490A-B498-70FD9249FC62}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Neuroglia.AsyncApi.Client.Bindings.Pulsar", "src\Neuroglia.AsyncApi.Client.Bindings.Pulsar\Neuroglia.AsyncApi.Client.Bindings.Pulsar.csproj", "{FDE484DC-57FE-457E-BE71-184B7A74516F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Neuroglia.AsyncApi.Client.Bindings.Solace", "src\Neuroglia.AsyncApi.Client.Bindings.Solace\Neuroglia.AsyncApi.Client.Bindings.Solace.csproj", "{EC39BF64-56CB-4080-9C84-988F70E601D8}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Neuroglia.AsyncApi.Client.Bindings.Stomp", "src\Neuroglia.AsyncApi.Client.Bindings.Stomp\Neuroglia.AsyncApi.Client.Bindings.Stomp.csproj", "{5CC985FA-4EC3-4BC3-A2FF-1377B248BBA6}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -107,6 +127,54 @@ Global
 		{9FF8A714-BFBF-4A09-87E4-57CEF088BFA7}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9FF8A714-BFBF-4A09-87E4-57CEF088BFA7}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9FF8A714-BFBF-4A09-87E4-57CEF088BFA7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{67252049-D725-41DE-9AEC-6C162C829D3B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{67252049-D725-41DE-9AEC-6C162C829D3B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{67252049-D725-41DE-9AEC-6C162C829D3B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{67252049-D725-41DE-9AEC-6C162C829D3B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9A64D2AE-E0B8-4EE6-879B-10F74DCAD543}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9A64D2AE-E0B8-4EE6-879B-10F74DCAD543}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9A64D2AE-E0B8-4EE6-879B-10F74DCAD543}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9A64D2AE-E0B8-4EE6-879B-10F74DCAD543}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1F3D40FA-19B3-4608-8594-9383CD9400FB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1F3D40FA-19B3-4608-8594-9383CD9400FB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1F3D40FA-19B3-4608-8594-9383CD9400FB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1F3D40FA-19B3-4608-8594-9383CD9400FB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8FD99A95-410A-4E38-AC7C-938894053E87}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8FD99A95-410A-4E38-AC7C-938894053E87}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8FD99A95-410A-4E38-AC7C-938894053E87}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8FD99A95-410A-4E38-AC7C-938894053E87}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D7665DAF-42CD-47E7-8A77-52C82B696D9B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D7665DAF-42CD-47E7-8A77-52C82B696D9B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D7665DAF-42CD-47E7-8A77-52C82B696D9B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D7665DAF-42CD-47E7-8A77-52C82B696D9B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DCADC636-53BA-408A-A870-CC07FD63A3F3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DCADC636-53BA-408A-A870-CC07FD63A3F3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DCADC636-53BA-408A-A870-CC07FD63A3F3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DCADC636-53BA-408A-A870-CC07FD63A3F3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{84AAE014-BD45-4B6F-96CE-01E364B802EB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{84AAE014-BD45-4B6F-96CE-01E364B802EB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{84AAE014-BD45-4B6F-96CE-01E364B802EB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{84AAE014-BD45-4B6F-96CE-01E364B802EB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{40A5544D-723E-4329-98A6-E512EC367F62}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{40A5544D-723E-4329-98A6-E512EC367F62}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{40A5544D-723E-4329-98A6-E512EC367F62}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{40A5544D-723E-4329-98A6-E512EC367F62}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5DD964ED-665C-490A-B498-70FD9249FC62}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5DD964ED-665C-490A-B498-70FD9249FC62}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5DD964ED-665C-490A-B498-70FD9249FC62}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5DD964ED-665C-490A-B498-70FD9249FC62}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FDE484DC-57FE-457E-BE71-184B7A74516F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FDE484DC-57FE-457E-BE71-184B7A74516F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FDE484DC-57FE-457E-BE71-184B7A74516F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FDE484DC-57FE-457E-BE71-184B7A74516F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EC39BF64-56CB-4080-9C84-988F70E601D8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EC39BF64-56CB-4080-9C84-988F70E601D8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EC39BF64-56CB-4080-9C84-988F70E601D8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EC39BF64-56CB-4080-9C84-988F70E601D8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5CC985FA-4EC3-4BC3-A2FF-1377B248BBA6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5CC985FA-4EC3-4BC3-A2FF-1377B248BBA6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5CC985FA-4EC3-4BC3-A2FF-1377B248BBA6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5CC985FA-4EC3-4BC3-A2FF-1377B248BBA6}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -125,6 +193,18 @@ Global
 		{9FF8A714-BFBF-4A09-87E4-57CEF088BFA7} = {4B933DF9-CD24-44B1-AF64-0D5E75B9AB45}
 		{1FB272DF-4FE6-4417-B927-98DD5A821EC0} = {4A936028-09D1-4ACD-8383-5B496DAB2E16}
 		{C5D2623D-841D-48E9-935C-EF4EF985C292} = {C50B254B-1890-463B-B889-C3986AF64804}
+		{67252049-D725-41DE-9AEC-6C162C829D3B} = {4B933DF9-CD24-44B1-AF64-0D5E75B9AB45}
+		{9A64D2AE-E0B8-4EE6-879B-10F74DCAD543} = {4B933DF9-CD24-44B1-AF64-0D5E75B9AB45}
+		{1F3D40FA-19B3-4608-8594-9383CD9400FB} = {4B933DF9-CD24-44B1-AF64-0D5E75B9AB45}
+		{8FD99A95-410A-4E38-AC7C-938894053E87} = {4B933DF9-CD24-44B1-AF64-0D5E75B9AB45}
+		{D7665DAF-42CD-47E7-8A77-52C82B696D9B} = {4B933DF9-CD24-44B1-AF64-0D5E75B9AB45}
+		{DCADC636-53BA-408A-A870-CC07FD63A3F3} = {4B933DF9-CD24-44B1-AF64-0D5E75B9AB45}
+		{84AAE014-BD45-4B6F-96CE-01E364B802EB} = {4B933DF9-CD24-44B1-AF64-0D5E75B9AB45}
+		{40A5544D-723E-4329-98A6-E512EC367F62} = {4B933DF9-CD24-44B1-AF64-0D5E75B9AB45}
+		{5DD964ED-665C-490A-B498-70FD9249FC62} = {4B933DF9-CD24-44B1-AF64-0D5E75B9AB45}
+		{FDE484DC-57FE-457E-BE71-184B7A74516F} = {4B933DF9-CD24-44B1-AF64-0D5E75B9AB45}
+		{EC39BF64-56CB-4080-9C84-988F70E601D8} = {4B933DF9-CD24-44B1-AF64-0D5E75B9AB45}
+		{5CC985FA-4EC3-4BC3-A2FF-1377B248BBA6} = {4B933DF9-CD24-44B1-AF64-0D5E75B9AB45}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {DC433DEB-01E5-4328-B0BB-6FFFE8C7363F}

@@ -11,31 +11,26 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using Neuroglia.Serialization.Json.Converters;
-using System.ComponentModel;
-
-namespace Neuroglia.AsyncApi.Bindings.Mqtt;
+namespace Neuroglia.AsyncApi.Client.Bindings.Redis;
 
 /// <summary>
-/// Enumerates all supported MQTT Quality of Service types
+/// Represents an object used to describe the result of a Redis publish operation
 /// </summary>
-[JsonConverter(typeof(StringEnumConverter))]
-[TypeConverter(typeof(EnumMemberTypeConverter))]
-public enum MqttQoSLevel
+public class RedisPublishOperationResult
+    : AsyncApiPublishOperationResult
 {
+
     /// <summary>
-    /// Indicates that messages should be sent at most once
+    /// Gets the number of clients that received the message on the destination server
     /// </summary>
-    [EnumMember(Value = "AtMostOne")]
-    AtMostOne = 0,
+    public virtual long Clients { get; init; }
+
     /// <summary>
-    /// Indicates that messages should be sent at least once
+    /// Gets/sets the <see cref="System.Exception"/>, if any, that occurred during publishing
     /// </summary>
-    [EnumMember(Value = "AtLeastOne")]
-    AtLeastOne = 1,
-    /// <summary>
-    /// Indicates that MQTT messages should be sent exactly once
-    /// </summary>
-    [EnumMember(Value = "ExactlyOne")]
-    ExactlyOne = 2
+    public virtual Exception? Exception { get; init; }
+
+    /// <inheritdoc/>
+    public override bool IsSuccessful => Exception == null;
+
 }

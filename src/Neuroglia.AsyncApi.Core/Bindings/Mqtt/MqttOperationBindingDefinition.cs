@@ -27,7 +27,7 @@ public record MqttOperationBindingDefinition
     /// Gets/sets an integer that defines the Quality of Service (QoS) levels for the message flow between client and server. Its value MUST be either 0 (At most once delivery), 1 (At least once delivery), or 2 (Exactly once delivery).
     /// </summary>
     [DataMember(Order = 1, Name = "qos"), JsonPropertyOrder(1), JsonPropertyName("qos"), YamlMember(Order = 1, Alias = "qos")]
-    public virtual MqttQoSLevel QoS { get; set; }
+    public virtual MqttQualityOfServiceLevel? QoS { get; set; }
 
     /// <summary>
     /// Gets/sets a boolean indicating whether the broker the broker should retain the message or not.

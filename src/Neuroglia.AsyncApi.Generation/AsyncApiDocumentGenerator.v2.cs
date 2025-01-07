@@ -112,7 +112,7 @@ public partial class AsyncApiDocumentGenerator
             if (parameters.Length == 1 || parameters.Length == 2 && parameters[1].ParameterType == typeof(CancellationToken))
             {
                 messageType = parameters.First().ParameterType;
-                messageSchema = new JsonSchemaBuilder().FromType(parameters.First().ParameterType, Data.Schemas.Json.JsonSchemaGeneratorConfiguration.Default);
+                messageSchema = new JsonSchemaBuilder().FromType(parameters.First().ParameterType, JsonSchemaGeneratorConfiguration.Default);
             }
             else
             {
@@ -123,7 +123,7 @@ public partial class AsyncApiDocumentGenerator
                 foreach (var parameter in parameters)
                 {
                     if (parameter.TryGetCustomAttribute<ExcludeAttribute>(out _)) continue;
-                    var parameterSchema = messageSchemaBuilder.FromType(parameter.ParameterType, Data.Schemas.Json.JsonSchemaGeneratorConfiguration.Default);
+                    var parameterSchema = messageSchemaBuilder.FromType(parameter.ParameterType, JsonSchemaGeneratorConfiguration.Default);
                     messageSchemaProperties.Add(parameter.Name!, parameterSchema);
                     if (parameter.TryGetCustomAttribute<RequiredAttribute>(out _) || !parameter.ParameterType.IsNullable() || parameter.DefaultValue == DBNull.Value) requiredProperties.Add(parameter.Name!);
                 }
@@ -132,7 +132,7 @@ public partial class AsyncApiDocumentGenerator
                 messageSchema = messageSchemaBuilder.Build();
             }
         }
-        else messageSchema = new JsonSchemaBuilder().FromType(messageType, Data.Schemas.Json.JsonSchemaGeneratorConfiguration.Default);
+        else messageSchema = new JsonSchemaBuilder().FromType(messageType, JsonSchemaGeneratorConfiguration.Default);
         messageBuilder.WithPayloadSchema(messageSchema);
         var message = operationMethod.GetCustomAttribute<v2.MessageAttribute>();
         message ??= messageType?.GetCustomAttribute<v2.MessageAttribute>();

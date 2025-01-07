@@ -24,27 +24,30 @@ public class V3ChannelValidator
     public V3ChannelValidator(V3AsyncApiDocument? document = null)
         : base(document)
     {
-        this.RuleFor(s => s.Address)
+        this.RuleFor(c => c.Address)
             .NotEmpty()
-            .When(s => !s.IsReference);
-        this.RuleFor(s => s.Servers)
-            .NotEmpty()
-            .When(s => !s.IsReference);
-        this.RuleForEach(s => s.Servers)
+            .When(c => !c.IsReference);
+        this.RuleForEach(c => c.Servers)
             .SetValidator(new V3ReferenceValidator<V3ServerDefinition>(document))
-            .When(s => !s.IsReference);
-        this.RuleForEach(s => s.Parameters!.Values)
+            .When(c => !c.IsReference);
+        this.RuleForEach(c => c.Parameters!.Values)
             .SetValidator(new V3ParameterValidator(document))
-            .When(s => !s.IsReference && s.Parameters != null);
-        this.RuleForEach(s => s.Tags)
+            .When(c => !c.IsReference && c.Parameters != null);
+        this.RuleForEach(c => c.Messages)
+            .NotEmpty()
+            .When(c => !c.IsReference);
+        this.RuleForEach(c => c.Messages.Values)
+            .SetValidator(new V3MessageValidator(document))
+            .When(c => !c.IsReference);
+        this.RuleForEach(c => c.Tags)
             .SetValidator(new V3TagValidator(document))
-            .When(s => !s.IsReference);
-        this.RuleFor(s => s.ExternalDocs!)
+            .When(c => !c.IsReference);
+        this.RuleFor(c => c.ExternalDocs!)
             .SetValidator(new V3ExternalDocumentationValidator(document))
-            .When(s => !s.IsReference);
-        this.RuleFor(s => s.Bindings!)
-           .SetValidator(new V3ChannelBindingCollectionValidator(document))
-           .When(s => !s.IsReference);
+            .When(c => !c.IsReference);
+        this.RuleFor(c => c.Bindings!)
+            .SetValidator(new V3ChannelBindingCollectionValidator(document))
+            .When(c => !c.IsReference);
     }
 
 }
