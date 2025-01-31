@@ -40,31 +40,29 @@ public class NewlineDelimitedJsonMessageStream(ILogger<ServerSentEventMessageStr
                 using var streamReader = new StreamReader(Stream);
                 while (!streamReader.EndOfStream)
                 {
-                    try
+                    var json = (await streamReader.ReadLineAsync(CancellationTokenSource.Token).ConfigureAwait(false))?.Trim();
+                    if (string.IsNullOrWhiteSpace(json)) continue;
+                    object? payload;
+                    object? headers = null;
+                    payload = JsonSerializer.Deserialize<object>(json);
+                    var messageDefinition = await MessageDefinitions.ToAsyncEnumerable().SingleOrDefaultAwaitAsync(async m => await MessageMatchesAsync(payload, headers, m, CancellationTokenSource.Token).ConfigureAwait(false), CancellationTokenSource.Token).ConfigureAwait(false) ?? throw new NullReferenceException("Failed to resolve the message definition for the specified operation. Make sure the message matches one and only one of the message definitions configured for the specified operation");
+                    var correlationId = string.Empty;
+                    if (messageDefinition.CorrelationId != null)
                     {
-                        var json = (await streamReader.ReadLineAsync(CancellationTokenSource.Token).ConfigureAwait(false))?.Trim();
-                        if (string.IsNullOrWhiteSpace(json)) continue;
-                        object? payload;
-                        object? headers = null;
-                        payload = JsonSerializer.Deserialize<object>(json);
-                        var messageDefinition = await MessageDefinitions.ToAsyncEnumerable().SingleOrDefaultAwaitAsync(async m => await MessageMatchesAsync(payload, headers, m, CancellationTokenSource.Token).ConfigureAwait(false), CancellationTokenSource.Token).ConfigureAwait(false) ?? throw new NullReferenceException("Failed to resolve the message definition for the specified operation. Make sure the message matches one and only one of the message definitions configured for the specified operation");
-                        var correlationId = string.Empty;
-                        if (messageDefinition.CorrelationId != null)
-                        {
-                            var correlationIdDefinition = messageDefinition.CorrelationId.IsReference ? Document.DereferenceCorrelationId(messageDefinition.CorrelationId.Reference!) : messageDefinition.CorrelationId;
-                            correlationId = await RuntimeExpressionEvaluator.EvaluateAsync(correlationIdDefinition.Location, payload, headers, CancellationTokenSource.Token).ConfigureAwait(false);
-                        }
-                        var message = new AsyncApiMessage(MediaTypeNames.Application.Json, payload, headers, correlationId);
-                        Subject.OnNext(message);
+                        var correlationIdDefinition = messageDefinition.CorrelationId.IsReference ? Document.DereferenceCorrelationId(messageDefinition.CorrelationId.Reference!) : messageDefinition.CorrelationId;
+                        correlationId = await RuntimeExpressionEvaluator.EvaluateAsync(correlationIdDefinition.Location, payload, headers, CancellationTokenSource.Token).ConfigureAwait(false);
                     }
-                    catch (Exception ex)
-                    {
-                        Logger.LogError("An error occurred while reading a NDJSON line: {ex}", ex);
-                    }
+                    var message = new AsyncApiMessage(MediaTypeNames.Application.Json, payload, headers, correlationId);
+                    Subject.OnNext(message);
                 }
+                Subject.OnCompleted();
             }
         }
         catch (Exception ex) when (ex is TaskCanceledException or OperationCanceledException) { }
+        catch (Exception ex)
+        {
+            Subject.OnError(ex);
+        }
     }
 
 }

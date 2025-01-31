@@ -48,8 +48,13 @@ public class ChunkedJsonMessageStream(ILogger<ServerSentEventMessageStream> logg
                 var message = new AsyncApiMessage(MediaTypeNames.Application.Json, payload, headers, correlationId);
                 Subject.OnNext(message);
             }
+            Subject.OnCompleted();
         }
         catch (Exception ex) when (ex is TaskCanceledException or OperationCanceledException) { }
+        catch (Exception ex)
+        {
+            Subject.OnError(ex);
+        }
     }
 
 }

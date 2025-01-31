@@ -42,49 +42,47 @@ public class ServerSentEventMessageStream(ILogger<ServerSentEventMessageStream> 
                 var headers = new Dictionary<string, string>();
                 while (!streamReader.EndOfStream)
                 {
+                    var sseLine = (await streamReader.ReadLineAsync(CancellationTokenSource.Token).ConfigureAwait(false))?.Trim();
+                    if (string.IsNullOrWhiteSpace(sseLine)) 
+                    {
+                        headers = [];
+                        continue;
+                    }
+                    if (!sseLine.StartsWith("data: "))
+                    {
+                        var key = sseLine.Split(':', StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries)[0];
+                        var value = sseLine[(key.Length + 1)..].Trim();
+                        headers[key] = value;
+                        continue;
+                    }
+                    var json = sseLine["data: ".Length..].Trim();
+                    object? payload;
                     try
                     {
-                        var sseLine = (await streamReader.ReadLineAsync(CancellationTokenSource.Token).ConfigureAwait(false))?.Trim();
-                        if (string.IsNullOrWhiteSpace(sseLine)) 
-                        {
-                            headers = [];
-                            continue;
-                        }
-                        if (!sseLine.StartsWith("data: "))
-                        {
-                            var key = sseLine.Split(':', StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries)[0];
-                            var value = sseLine[(key.Length + 1)..].Trim();
-                            headers[key] = value;
-                            continue;
-                        }
-                        var json = sseLine["data: ".Length..].Trim();
-                        object? payload;
-                        try
-                        {
-                            payload = JsonSerializer.Deserialize<object>(json);
-                        }
-                        catch
-                        {
-                            payload = JsonSerializer.Deserialize<object>(@$"""json""");
-                        }
-                        var messageDefinition = await MessageDefinitions.ToAsyncEnumerable().SingleOrDefaultAwaitAsync(async m => await MessageMatchesAsync(payload, headers, m, CancellationTokenSource.Token).ConfigureAwait(false), CancellationTokenSource.Token).ConfigureAwait(false) ?? throw new NullReferenceException("Failed to resolve the message definition for the specified operation. Make sure the message matches one and only one of the message definitions configured for the specified operation");
-                        var correlationId = string.Empty;
-                        if (messageDefinition.CorrelationId != null)
-                        {
-                            var correlationIdDefinition = messageDefinition.CorrelationId.IsReference ? Document.DereferenceCorrelationId(messageDefinition.CorrelationId.Reference!) : messageDefinition.CorrelationId;
-                            correlationId = await RuntimeExpressionEvaluator.EvaluateAsync(correlationIdDefinition.Location, payload, headers, CancellationTokenSource.Token).ConfigureAwait(false);
-                        }
-                        var message = new AsyncApiMessage(MediaTypeNames.Application.Json, payload, headers, correlationId);
-                        Subject.OnNext(message);
+                        payload = JsonSerializer.Deserialize<object>(json);
                     }
-                    catch(Exception ex)
+                    catch
                     {
-                        Logger.LogError("An error occurred while reading a Server Sent Event (SSE): {ex}", ex);
+                        payload = JsonSerializer.Deserialize<object>(@$"""json""");
                     }
+                    var messageDefinition = await MessageDefinitions.ToAsyncEnumerable().SingleOrDefaultAwaitAsync(async m => await MessageMatchesAsync(payload, headers, m, CancellationTokenSource.Token).ConfigureAwait(false), CancellationTokenSource.Token).ConfigureAwait(false) ?? throw new NullReferenceException("Failed to resolve the message definition for the specified operation. Make sure the message matches one and only one of the message definitions configured for the specified operation");
+                    var correlationId = string.Empty;
+                    if (messageDefinition.CorrelationId != null)
+                    {
+                        var correlationIdDefinition = messageDefinition.CorrelationId.IsReference ? Document.DereferenceCorrelationId(messageDefinition.CorrelationId.Reference!) : messageDefinition.CorrelationId;
+                        correlationId = await RuntimeExpressionEvaluator.EvaluateAsync(correlationIdDefinition.Location, payload, headers, CancellationTokenSource.Token).ConfigureAwait(false);
+                    }
+                    var message = new AsyncApiMessage(MediaTypeNames.Application.Json, payload, headers, correlationId);
+                    Subject.OnNext(message);
                 }
+                Subject.OnCompleted();
             }
         }
         catch (Exception ex) when (ex is TaskCanceledException or OperationCanceledException) { }
+        catch(Exception ex)
+        {
+            Subject.OnError(ex);
+        }
     }
 
 }
