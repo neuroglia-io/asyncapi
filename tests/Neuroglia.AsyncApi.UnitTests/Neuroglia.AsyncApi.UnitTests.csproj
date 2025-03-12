@@ -33,4 +33,10 @@
     <ProjectReference Include="..\..\src\Neuroglia.AsyncApi.IO\Neuroglia.AsyncApi.IO.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Update="Assets\mqtt\mosquitto.conf">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
 </Project>

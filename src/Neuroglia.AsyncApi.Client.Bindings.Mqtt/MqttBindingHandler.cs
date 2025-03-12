@@ -57,7 +57,10 @@ public class MqttBindingHandler(IServiceProvider serviceProvider, ILogger<MqttBi
         var serverBinding = context.ChannelBinding as MqttServerBindingDefinition;
         var operationBinding = context.OperationBinding as MqttOperationBindingDefinition;
         var messageBinding = context.MessageBinding as MqttMessageBindingDefinition;
-        var clientOptionsBuilder = new MqttClientOptionsBuilder().WithTcpServer(context.Host);
+        var hostComponents = context.Host.Split(':');
+        var host = hostComponents[0];
+        var port = hostComponents.Length == 2 ? int.Parse(hostComponents[1]) : (int?)null;
+        var clientOptionsBuilder = new MqttClientOptionsBuilder().WithTcpServer(host, port);
         if (!string.IsNullOrWhiteSpace(serverBinding?.ClientId)) clientOptionsBuilder.WithClientId(serverBinding.ClientId);
         if (serverBinding?.CleanSession == true) clientOptionsBuilder.WithCleanSession();
         if (serverBinding?.KeepAlive.HasValue == true) clientOptionsBuilder.WithKeepAlivePeriod(TimeSpan.FromSeconds(serverBinding.KeepAlive.Value));
@@ -99,7 +102,10 @@ public class MqttBindingHandler(IServiceProvider serviceProvider, ILogger<MqttBi
         var mqttClientFactory = new MqttClientFactory();
         var mqttClient = mqttClientFactory.CreateMqttClient();
         var subscription = ActivatorUtilities.CreateInstance<MqttSubscription>(ServiceProvider, mqttClient, context.Document, context.Messages);
-        var clientOptionsBuilder = new MqttClientOptionsBuilder().WithTcpServer(context.Host);
+        var hostComponents = context.Host.Split(':');
+        var host = hostComponents[0];
+        var port = hostComponents.Length == 2 ? int.Parse(hostComponents[1]) : (int?)null;
+        var clientOptionsBuilder = new MqttClientOptionsBuilder().WithTcpServer(host, port);
         if (!string.IsNullOrWhiteSpace(serverBinding?.ClientId)) clientOptionsBuilder.WithClientId(serverBinding.ClientId);
         if (serverBinding?.CleanSession == true) clientOptionsBuilder.WithCleanSession();
         if (serverBinding?.KeepAlive.HasValue == true) clientOptionsBuilder.WithKeepAlivePeriod(TimeSpan.FromSeconds(serverBinding.KeepAlive.Value));
