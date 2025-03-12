@@ -96,7 +96,7 @@ public class PulsarBindingHandler(IServiceProvider serviceProvider, ILogger<Puls
             var client = clientBuilder.Build();
             var consumerBuilder = client.NewConsumer().Topic(context.Channel!).SubscriptionName(DefaultSubscriptionName);
             var consumer = consumerBuilder.Create();
-            await consumer.OnStateChangeTo(ConsumerState.Active, cancellationToken).ConfigureAwait(false);
+            await consumer.OnStateChangeTo(ConsumerState.Active, TimeSpan.FromSeconds(3), cancellationToken).ConfigureAwait(false);
             var subscription = ActivatorUtilities.CreateInstance<PulsarSubscription>(ServiceProvider, context.Document, context.Messages, consumer, client, context.DefaultContentType);
             return new PulsarSubscribeOperationResult(subscription);
         }

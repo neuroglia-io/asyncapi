@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
  <PropertyGroup>
-    <TargetFramework>net9.0</TargetFramework>
+    <TargetFrameworks>net8.0;net9.0</TargetFrameworks>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
 	<GenerateDocumentationFile>True</GenerateDocumentationFile>
@@ -11,7 +11,7 @@
     <RepositoryUrl>https://github.com/neuroglia-io/asyncapi</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
     <PackageTags>neuroglia asyncapi async api client binding redis</PackageTags>
-    <Version>3.0.2</Version>
+    <Version>3.0.3</Version>
     <NeutralLanguage>en</NeutralLanguage>
 	<PackageLicenseExpression>Apache-2.0</PackageLicenseExpression>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
@@ -29,7 +29,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="StackExchange.Redis" Version="2.8.24" />
+    <PackageReference Include="StackExchange.Redis" Version="2.8.31" />
     <PackageReference Include="System.Reactive" Version="6.0.1" />
   </ItemGroup>
 	
