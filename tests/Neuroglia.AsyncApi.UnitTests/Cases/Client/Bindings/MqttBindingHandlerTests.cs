@@ -15,6 +15,7 @@ using MQTTnet;
 using Neuroglia.AsyncApi.Bindings.Mqtt;
 using Neuroglia.AsyncApi.Client;
 using Neuroglia.AsyncApi.Client.Bindings;
+using Neuroglia.AsyncApi.UnitTests.Containers;
 using System.Text;
 
 namespace Neuroglia.AsyncApi.UnitTests.Cases.Client.Bindings;
@@ -23,10 +24,12 @@ public class MqttBindingHandlerTests
     : BindingHandlerTestsBase
 {
     public MqttBindingHandlerTests()
-        : base(builder => builder.AddMqttBindingHandler())
+        : base(builder => builder.AddMqttBindingHandler(), ConfigureServices)
     {
 
     }
+
+    string MqttServerAddress => $"localhost:{ServiceProvider.GetRequiredKeyedService<DotNet.Testcontainers.Containers.IContainer>("mqtt").GetMappedPublicPort(MqttContainerBuilder.PublicPort)}";
 
     [Fact]
     public async Task Publish_Should_Work()
@@ -43,7 +46,7 @@ public class MqttBindingHandlerTests
             .WithTitle("Test MQTT API")
             .WithVersion("1.0.0")
             .WithServer(serverId, server => server
-                .WithHost("test.mosquitto.org")
+                .WithHost(MqttServerAddress)
                 .WithProtocol(AsyncApiProtocol.Mqtt)
                 .WithBinding(new MqttServerBindingDefinition()))
             .WithChannel(channelId, channel => channel
@@ -106,7 +109,10 @@ public class MqttBindingHandlerTests
     {
         //arrange
         var serverId = "mqtt-server";
-        var serverAddress = "test.mosquitto.org";
+        var serverAddress = MqttServerAddress;
+        var serverAddressComponents = serverAddress.Split(':');
+        var serverHost = serverAddressComponents[0];
+        var serverPort = int.Parse(serverAddressComponents[1]);
         var channelId = "cloud-events";
         var channelAddress = "cloud-event";
         var operationId = "subscribeToCloudEvents";
@@ -194,7 +200,7 @@ public class MqttBindingHandlerTests
         var subscription = result.Messages?.Subscribe(messagesReceived.Add);
         var mqttClientFactory = new MqttClientFactory();
         using var mqttClient = mqttClientFactory.CreateMqttClient();
-        var options = new MqttClientOptionsBuilder().WithTcpServer(serverAddress).Build();
+        var options = new MqttClientOptionsBuilder().WithTcpServer(serverHost, serverPort).Build();
         await mqttClient.ConnectAsync(options);
         foreach (var message in messagesToSend) await mqttClient.PublishAsync(message);
         await Task.Delay(3500);
@@ -204,6 +210,13 @@ public class MqttBindingHandlerTests
         result.IsSuccessful.Should().BeTrue();
         result.Messages.Should().NotBeNull();
         messagesReceived.Should().NotBeEmpty();
+    }
+
+    static void ConfigureServices(IServiceCollection services)
+    {
+        services.AddKeyedSingleton("mqtt", MqttContainerBuilder.Build());
+        services.AddSingleton(provider => provider.GetRequiredKeyedService<DotNet.Testcontainers.Containers.IContainer>("mqtt"));
+        services.AddHostedService<ContainerBootstrapper>();
     }
 
 }
