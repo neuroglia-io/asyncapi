@@ -11,8 +11,6 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using Neuroglia.Data.Schemas.Json;
-
 namespace Neuroglia.AsyncApi.Generation;
 
 public partial class AsyncApiDocumentGenerator
@@ -21,15 +19,16 @@ public partial class AsyncApiDocumentGenerator
     /// <summary>
     /// Generates a new <see cref="V2AsyncApiDocument"/> for the specified type
     /// </summary>
-    /// <param name="type">The type to generate a code-first <see cref="V2AsyncApiDocument"/> for</param>
+    /// <param name="types">An <see cref="IEnumerable{T}"/> containing the types to generate a code-first <see cref="V2AsyncApiDocument"/> for</param>
     /// <param name="options">The <see cref="AsyncApiDocumentGenerationOptions"/> to use</param>
     /// <param name="cancellationToken">A <see cref="CancellationToken"/></param>
     /// <returns>A new <see cref="V2AsyncApiDocument"/></returns>
-    protected virtual async Task<V2AsyncApiDocument> GenerateV2DocumentForAsync(Type type, AsyncApiDocumentGenerationOptions options, CancellationToken cancellationToken = default)
+    protected virtual async Task<V2AsyncApiDocument> GenerateV2DocumentForAsync(IEnumerable<Type> types, AsyncApiDocumentGenerationOptions options, CancellationToken cancellationToken = default)
     {
-        ArgumentNullException.ThrowIfNull(type);
+        ArgumentNullException.ThrowIfNull(types);
+        ArgumentOutOfRangeException.ThrowIfLessThan(types.Count(), 1);
         ArgumentNullException.ThrowIfNull(options);
-        var asyncApi = type.GetCustomAttribute<v2.AsyncApiAttribute>() ?? throw new ArgumentException($"The specified type '{type.Name}' is not marked with the {nameof(v2.AsyncApiAttribute)}", nameof(type));
+        var asyncApi = types.First().GetCustomAttribute<v2.AsyncApiAttribute>() ?? throw new ArgumentException($"The specified type '{types.First().Name}' is not marked with the {nameof(v2.AsyncApiAttribute)}", nameof(types));
         var builder = ServiceProvider.GetRequiredService<IV2AsyncApiDocumentBuilder>();
         options.V2BuilderSetup?.Invoke(builder);
         builder
@@ -40,13 +39,16 @@ public partial class AsyncApiDocumentGenerator
         if (!string.IsNullOrWhiteSpace(asyncApi.LicenseName) && !string.IsNullOrWhiteSpace(asyncApi.LicenseUrl)) builder.WithLicense(asyncApi.LicenseName, new Uri(asyncApi.LicenseUrl, UriKind.RelativeOrAbsolute));
         if (!string.IsNullOrWhiteSpace(asyncApi.TermsOfServiceUrl)) builder.WithTermsOfService(new Uri(asyncApi.TermsOfServiceUrl, UriKind.RelativeOrAbsolute));
         if (!string.IsNullOrWhiteSpace(asyncApi.ContactName)) builder.WithContact(asyncApi.ContactName, string.IsNullOrWhiteSpace(asyncApi.ContactUrl) ? null : new Uri(asyncApi.ContactUrl, UriKind.RelativeOrAbsolute), asyncApi.ContactEmail);
-        foreach (var operationsPerChannel in type.GetMethods(BindingFlags.Default | BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.FlattenHierarchy)
-            .Where(m => m.GetCustomAttribute<v2.OperationAttribute>() != null && m.GetCustomAttribute<v2.ChannelAttribute>() != null)
-            .GroupBy(m => m.GetCustomAttribute<v2.ChannelAttribute>()!.Name))
+        foreach(var type in types)
         {
-            var channel = operationsPerChannel.First().GetCustomAttribute<v2.ChannelAttribute>()!;
-            await this.ConfigureV2ChannelForAsync(builder, channel, [.. operationsPerChannel], options, cancellationToken).ConfigureAwait(false);
-        }
+            foreach (var operationsPerChannel in type.GetMethods(BindingFlags.Default | BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.FlattenHierarchy)
+                .Where(m => m.GetCustomAttribute<v2.OperationAttribute>() != null && m.GetCustomAttribute<v2.ChannelAttribute>() != null)
+                .GroupBy(m => m.GetCustomAttribute<v2.ChannelAttribute>()!.Name))
+            {
+                var channel = operationsPerChannel.First().GetCustomAttribute<v2.ChannelAttribute>()!;
+                await this.ConfigureV2ChannelForAsync(builder, channel, [.. operationsPerChannel], options, cancellationToken).ConfigureAwait(false);
+            }
+        }  
         return builder.Build();
     }
 
