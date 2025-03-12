@@ -21,32 +21,41 @@ public partial class AsyncApiDocumentGenerator
     /// <summary>
     /// Generates a new <see cref="V3AsyncApiDocument"/> for the specified type
     /// </summary>
-    /// <param name="type">The type to generate a code-first <see cref="V3AsyncApiDocument"/> for</param>
+    /// <param name="types">An <see cref="IEnumerable{T}"/> containing the types to generate a code-first <see cref="V3AsyncApiDocument"/> for</param>
     /// <param name="options">The <see cref="AsyncApiDocumentGenerationOptions"/> to use</param>
     /// <param name="cancellationToken">A <see cref="CancellationToken"/></param>
     /// <returns>A new <see cref="V3AsyncApiDocument"/></returns>
-    protected virtual async Task<V3AsyncApiDocument> GenerateV3DocumentForAsync(Type type, AsyncApiDocumentGenerationOptions options, CancellationToken cancellationToken = default)
+    protected virtual async Task<V3AsyncApiDocument> GenerateV3DocumentForAsync(IEnumerable<Type> types, AsyncApiDocumentGenerationOptions options, CancellationToken cancellationToken = default)
     {
-        ArgumentNullException.ThrowIfNull(type);
+        ArgumentNullException.ThrowIfNull(types);
+        ArgumentOutOfRangeException.ThrowIfLessThan(types.Count(), 1);
         ArgumentNullException.ThrowIfNull(options);
-        var asyncApiAttribute = type.GetCustomAttribute<v3.AsyncApiAttribute>() ?? throw new ArgumentException($"The specified type '{type.Name}' is not marked with the {nameof(v3.AsyncApiAttribute)}", nameof(type));
+        var asyncApiAttributes = types.Select(t => t.GetCustomAttribute<v3.AsyncApiAttribute>()!);
         var document = this.ServiceProvider.GetRequiredService<IV3AsyncApiDocumentBuilder>();
         options.V3BuilderSetup?.Invoke(document);
         document
-            .WithId(asyncApiAttribute.Id!)
-            .WithTitle(asyncApiAttribute.Title)
-            .WithVersion(asyncApiAttribute.Version);
-        if (!string.IsNullOrWhiteSpace(asyncApiAttribute.Description)) document.WithDescription(asyncApiAttribute.Description);
-        if (!string.IsNullOrWhiteSpace(asyncApiAttribute.LicenseName) && !string.IsNullOrWhiteSpace(asyncApiAttribute.LicenseUrl)) document.WithLicense(asyncApiAttribute.LicenseName, new Uri(asyncApiAttribute.LicenseUrl, UriKind.RelativeOrAbsolute));
-        if (!string.IsNullOrWhiteSpace(asyncApiAttribute.TermsOfServiceUrl)) document.WithTermsOfService(new Uri(asyncApiAttribute.TermsOfServiceUrl, UriKind.RelativeOrAbsolute));
-        if (!string.IsNullOrWhiteSpace(asyncApiAttribute.ContactName)) document.WithContact(asyncApiAttribute.ContactName, string.IsNullOrWhiteSpace(asyncApiAttribute.ContactUrl) ? null : new Uri(asyncApiAttribute.ContactUrl, UriKind.RelativeOrAbsolute), asyncApiAttribute.ContactEmail);
-        if (asyncApiAttribute.Tags != null) foreach (var tagReference in asyncApiAttribute.Tags) document.WithTag(tag => tag.Use(tagReference));
-        var serverVariables = type.GetCustomAttributes<ServerVariableAttribute>();
-        foreach (var server in type.GetCustomAttributes<ServerAttribute>()) await this.GenerateV3ServerForAsync(document, server, serverVariables.Where(c => c.Server == server.Name), options, cancellationToken);
-        var channelParameters = type.GetCustomAttributes<ChannelParameterAttribute>();
-        var operationMethods = type.GetMethods(BindingFlags.Default | BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.FlattenHierarchy).Where(m => m.GetCustomAttribute<v3.OperationAttribute>() != null);
-        foreach (var channel in type.GetCustomAttributes<v3.ChannelAttribute>()) await this.GenerateV3ChannelForAsync(document, channel, channelParameters.Where(c => c.Channel == channel.Name), operationMethods.Where(o => o.GetCustomAttribute<v3.OperationAttribute>()!.Channel.Split('/', StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries).Last() == channel.Name), options, cancellationToken);
-        foreach (var bindingAttribute in type.GetCustomAttributes().OfType<IBindingAttribute>())
+            .WithId(asyncApiAttributes.First()!.Id!)
+            .WithTitle(asyncApiAttributes.First()!.Title)
+            .WithVersion(asyncApiAttributes.First()!.Version);
+        var description = asyncApiAttributes.Select(a => a.Description).FirstOrDefault(d => !string.IsNullOrWhiteSpace(d));
+        var licenseName = asyncApiAttributes.Select(a => a.LicenseName).FirstOrDefault(l => !string.IsNullOrWhiteSpace(l));
+        var licenseUrl = asyncApiAttributes.Select(a => a.LicenseUrl).FirstOrDefault(l => !string.IsNullOrWhiteSpace(l));
+        var termsOfServiceUrl = asyncApiAttributes.Select(a => a.TermsOfServiceUrl).FirstOrDefault(t => !string.IsNullOrWhiteSpace(t));
+        var contactName = asyncApiAttributes.Select(a => a.ContactName).FirstOrDefault(c => !string.IsNullOrWhiteSpace(c));
+        var contactUrl = asyncApiAttributes.Select(a => a.ContactUrl).FirstOrDefault(c => !string.IsNullOrWhiteSpace(c));
+        var contactEmail = asyncApiAttributes.Select(a => a.ContactEmail).FirstOrDefault(c => !string.IsNullOrWhiteSpace(c));
+        var tags = asyncApiAttributes.Where(a => a.Tags != null).SelectMany(a => a.Tags!);
+        if (!string.IsNullOrWhiteSpace(description)) document.WithDescription(description);
+        if (!string.IsNullOrWhiteSpace(licenseName) && !string.IsNullOrWhiteSpace(licenseUrl)) document.WithLicense(licenseName, new Uri(licenseUrl, UriKind.RelativeOrAbsolute));
+        if (!string.IsNullOrWhiteSpace(termsOfServiceUrl)) document.WithTermsOfService(new Uri(termsOfServiceUrl, UriKind.RelativeOrAbsolute));
+        if (!string.IsNullOrWhiteSpace(contactName)) document.WithContact(contactName, string.IsNullOrWhiteSpace(contactUrl) ? null : new Uri(contactUrl, UriKind.RelativeOrAbsolute), contactEmail);
+        if (tags != null && tags.Any()) foreach (var tagReference in tags) document.WithTag(tag => tag.Use(tagReference));
+        var serverVariables = types.SelectMany(t => t.GetCustomAttributes<ServerVariableAttribute>());
+        foreach (var server in types.SelectMany(t => t.GetCustomAttributes<ServerAttribute>())) await this.GenerateV3ServerForAsync(document, server, serverVariables.Where(c => c.Server == server.Name), options, cancellationToken);
+        var channelParameters = types.SelectMany(t => t.GetCustomAttributes<ChannelParameterAttribute>());
+        var operationMethods = types.SelectMany(t => t.GetMethods(BindingFlags.Default | BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.FlattenHierarchy).Where(m => m.GetCustomAttribute<v3.OperationAttribute>() != null));
+        foreach (var channel in types.SelectMany(t => t.GetCustomAttributes<v3.ChannelAttribute>())) await this.GenerateV3ChannelForAsync(document, channel, channelParameters.Where(c => c.Channel == channel.Name), operationMethods.Where(o => o.GetCustomAttribute<v3.OperationAttribute>()!.Channel.Split('/', StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries).Last() == channel.Name), options, cancellationToken);
+        foreach (var bindingAttribute in types.SelectMany(t => t.GetCustomAttributes()).OfType<IBindingAttribute>())
         {
             var binding = bindingAttribute.Build();
             switch (binding)

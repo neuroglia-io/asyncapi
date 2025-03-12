@@ -28,7 +28,7 @@ public class KafkaBindingHandlerTests
 
     }
 
-    [Fact]
+    [Fact(Skip = "Kafka is near impossible to test with predictable consumption delays, and requires a static port number, which may cause Docker conflicts when used in multiple tests concurrently")]
     public async Task Publish_Should_Work()
     {
         //arrange

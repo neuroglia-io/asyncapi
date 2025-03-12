@@ -43,8 +43,16 @@ public partial class AsyncApiDocumentGenerator(IServiceProvider serviceProvider,
         var v2ApiTypes = types.Where(t => t.GetCustomAttribute<v2.AsyncApiAttribute>() != null);
         var v3ApiTypes = types.Where(t => t.GetCustomAttribute<v3.AsyncApiAttribute>() != null);
         var documents = new List<IAsyncApiDocument>(types.Count());
-        foreach (var type in v2ApiTypes) documents.Add(await this.GenerateV2DocumentForAsync(type, options, cancellationToken).ConfigureAwait(false));
-        foreach (var type in v3ApiTypes) documents.Add(await this.GenerateV3DocumentForAsync(type, options, cancellationToken).ConfigureAwait(false));
+        foreach (var typeGroup in v2ApiTypes.GroupBy(t =>
+        {
+            var attribute = t.GetCustomAttribute<v2.AsyncApiAttribute>()!;
+            return $"{attribute.Title}:{attribute.Version}";
+        })) documents.Add(await this.GenerateV2DocumentForAsync(typeGroup, options, cancellationToken).ConfigureAwait(false));
+        foreach(var typeGroup in v3ApiTypes.GroupBy(t =>
+        {
+            var attribute = t.GetCustomAttribute<v3.AsyncApiAttribute>()!;
+            return $"{attribute.Title}:{attribute.Version}";
+        })) documents.Add(await this.GenerateV3DocumentForAsync(typeGroup, options, cancellationToken).ConfigureAwait(false));
         return documents;
     }
 
