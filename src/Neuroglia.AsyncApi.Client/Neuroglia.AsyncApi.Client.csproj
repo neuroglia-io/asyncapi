@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>net9.0</TargetFramework>
+    <TargetFrameworks>net8.0;net9.0</TargetFrameworks>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
 	<GenerateDocumentationFile>True</GenerateDocumentationFile>
@@ -11,7 +11,7 @@
     <RepositoryUrl>https://github.com/neuroglia-io/asyncapi</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
     <PackageTags>neuroglia asyncapi async api client</PackageTags>
-    <Version>3.0.2</Version>
+    <Version>3.0.3</Version>
     <NeutralLanguage>en</NeutralLanguage>
 	<PackageLicenseExpression>Apache-2.0</PackageLicenseExpression>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
@@ -30,9 +30,9 @@
 
   <ItemGroup>
 	<PackageReference Include="Apache.Avro" Version="1.12.0" />
-	<PackageReference Include="Microsoft.Extensions.Http" Version="9.0.0" />
-	<PackageReference Include="Microsoft.Extensions.Logging" Version="9.0.0" />
-	<PackageReference Include="Neuroglia.Serialization.Xml" Version="4.18.1" />
+	<PackageReference Include="Microsoft.Extensions.Http" Version="9.0.3" />
+	<PackageReference Include="Microsoft.Extensions.Logging" Version="9.0.3" />
+	<PackageReference Include="Neuroglia.Serialization.Xml" Version="4.20.0" />
     <PackageReference Include="System.Linq.Async" Version="6.0.1" />
   </ItemGroup>
 

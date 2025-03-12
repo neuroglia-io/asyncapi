@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>net9.0</TargetFramework>
+    <TargetFrameworks>net8.0;net9.0</TargetFrameworks>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
 	<GenerateDocumentationFile>True</GenerateDocumentationFile>
@@ -11,7 +11,7 @@
     <RepositoryUrl>https://github.com/neuroglia-io/asyncapi</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
     <PackageTags>neuroglia asyncapi async api fluent builders</PackageTags>
-    <Version>3.0.2</Version>
+    <Version>3.0.3</Version>
     <NeutralLanguage>en</NeutralLanguage>
 	<PackageLicenseExpression>Apache-2.0</PackageLicenseExpression>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
@@ -31,8 +31,8 @@
   <ItemGroup>
     <PackageReference Include="FluentValidation" Version="11.11.0" />
     <PackageReference Include="JsonSchema.Net.Generation" Version="4.6.0" />
-    <PackageReference Include="Neuroglia.Data.Schemas.Json" Version="4.18.1" />
-    <PackageReference Include="Neuroglia.Serialization.YamlDotNet" Version="4.18.1" />
+    <PackageReference Include="Neuroglia.Data.Schemas.Json" Version="4.20.0" />
+    <PackageReference Include="Neuroglia.Serialization.YamlDotNet" Version="4.20.0" />
     <PackageReference Include="SemanticVersion" Version="2.1.0" />
   </ItemGroup>
 

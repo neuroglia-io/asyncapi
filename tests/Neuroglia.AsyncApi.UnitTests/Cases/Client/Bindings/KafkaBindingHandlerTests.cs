@@ -16,7 +16,6 @@ using Neuroglia.AsyncApi.Bindings.Kafka;
 using Neuroglia.AsyncApi.Client;
 using Neuroglia.AsyncApi.Client.Bindings;
 using Neuroglia.AsyncApi.UnitTests.Containers;
-using System.Text;
 
 namespace Neuroglia.AsyncApi.UnitTests.Cases.Client.Bindings;
 
