@@ -1,4 +1,4 @@
-// Copyright © 2021-Present Neuroglia SRL. All rights reserved.
+// Copyright ï¿½ 2021-Present Neuroglia SRL. All rights reserved.
 //
 // Licensed under the Apache License, Version 2.0 (the "License"),
 // you may not use this file except in compliance with the License.
@@ -260,7 +260,7 @@ builder.Services.AddAsyncApiDocument(document => document
         .WithTrait(trait => trait
             .Use("#/components/messageTraits/cloud-event"))
         .WithPayloadSchema(schema => schema
-            .WithFormat("application/schema+json")
+            .WithFormat("application/vnd.aai.asyncapi+json;version=3.0.0")
             .WithSchema(lightMeasuredEventSchema))
         .WithCorrelationId(setup => setup
             .WithLocation("$message.payload#/subject"))
@@ -273,7 +273,7 @@ builder.Services.AddAsyncApiDocument(document => document
         .WithTrait(trait => trait
             .Use("#/components/messageTraits/cloud-event"))
         .WithPayloadSchema(schema => schema
-            .WithFormat("application/schema+json")
+            .WithFormat("application/vnd.aai.asyncapi+json;version=3.0.0")
             .WithSchema(movementDetectedEventSchema))
         .WithCorrelationId(setup => setup
             .WithLocation("$message.payload#/subject"))

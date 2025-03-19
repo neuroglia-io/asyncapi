@@ -30,7 +30,7 @@ public static class SchemaFormat
     /// <summary>
     /// Gets the format for JSON Schemas
     /// </summary>
-    public const string Json = "application/schema+json";
+    public const string Json = "application/vnd.aai.asyncapi+json;version=3.0.0";
     /// <summary>
     /// Gets the format for XML Schemas
     /// </summary>
