@@ -50,7 +50,7 @@ public class V3SchemaDefinitionBuilder(IServiceProvider serviceProvider, IEnumer
         ArgumentNullException.ThrowIfNull(setup);
         var builder = new JsonSchemaBuilder();
         setup(builder);
-        Schema.SchemaFormat = "application/schema+json";
+        Schema.SchemaFormat = "application/vnd.aai.asyncapi+json;version=3.0.0";
         Schema.Schema = builder.Build();
     }
 

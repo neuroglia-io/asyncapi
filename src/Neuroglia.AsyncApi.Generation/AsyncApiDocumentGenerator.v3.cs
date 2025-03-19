@@ -310,7 +310,7 @@ public partial class AsyncApiDocumentGenerator
             {
                 message
                     .WithPayloadSchema(schema => schema
-                        .WithFormat("application/schema+json")
+                        .WithFormat("application/vnd.aai.asyncapi+json;version=3.0.0")
                         .WithSchema(requestMessagePayloadSchema));
             }
             if (!string.IsNullOrWhiteSpace(requestMessageAttribute?.HeadersSchema))
@@ -321,7 +321,7 @@ public partial class AsyncApiDocumentGenerator
             {
                 message
                     .WithHeadersSchema(schema => schema
-                        .WithFormat("application/schema+json")
+                        .WithFormat("application/vnd.aai.asyncapi+json;version=3.0.0")
                         .WithSchema(requestMessageHeadersSchema));
             }
             if (requestMessageAttribute?.ExternalDocumentationUrl != null)
